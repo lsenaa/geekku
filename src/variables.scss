@@ -1,5 +1,9 @@
 $main-color: #6D885D;
+$sub-color: #C6D695;
+$body-color: #FFFAF4;
 
 :export {
   maincolor: $main-color;
+  subcolor: $sub-color;
+  bodycolor: $body-color;
 }

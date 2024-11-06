@@ -1,0 +1,14 @@
+@import '../../variables.scss';
+
+.container {
+  background-color: $body-color;
+}
+
+.banner {
+  width: 100%;
+  height: 617px;
+  background-image: url(../../assets/images/mainBanner.png);
+  background-position: center;
+  
+  
+}

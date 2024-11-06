@@ -1,0 +1,43 @@
+@import '../../variables.scss';
+
+.footer_container {
+  width: 100%;
+  background-color: $main-color;
+  text-align: center;
+  color: white;
+  padding: 60px 0;
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:first-child {
+      margin-bottom: 20px;
+    }
+
+    &:last-of-type {
+      margin-top: 8px;
+    }
+  
+    li {
+      font-size: 12px;
+      padding: 0 8px;
+      border-right: 1px solid $sub-color;
+      
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  p {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+}

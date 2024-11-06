@@ -1,0 +1,15 @@
+:export {
+  maincolor: #6D885D;
+  bodycolor: #FFFAF4;
+}
+
+.container {
+  background-color: #FFFAF4;
+}
+
+.banner {
+  width: 100%;
+  height: 617px;
+  background-image: url(../../assets/images/mainBanner.png);
+  background-position: center;
+}
