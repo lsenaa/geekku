@@ -1,20 +1,46 @@
+import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
-import './Header.scss';
+import styles from './Header.module.scss';
+import { useState } from 'react';
 
 const Header = () => {
+  const [write, setWrite] = useState(false);
+
   return (
-    <header className='Container'>
+    <header className={styles.Container}>
       <img src={logo} alt="헤더로고" />
-      <nav className='navWrapper'>
+      <nav className={styles.navWrapper}>
         <ul>
-          <li>매물검색</li>
-          <li>집꾸하기</li>
-          <li>방꾸하기</li>
-          <li>한번에꾸하기</li>
-          <li>집들이</li>
+          <li>
+            <Link to={"/"}>매물검색</Link>
+          </li>
+          <li>
+            <Link to={"/"}>집꾸하기</Link>
+          </li>
+          <li>
+            <Link to={"/"}>방꾸하기</Link>
+          </li>
+          <li>
+            <Link to={"/"}>한번에꾸하기</Link>
+          </li>
+          <li>
+            <Link to={"/"}>집들이</Link>
+          </li>
         </ul>
       </nav>
-      <button className='btn'>로그인 | 회원가입</button>
+      <button className={styles.btn}>로그인 | 회원가입</button>
+      
+      {/* 글쓰기 버튼 */}
+      {/* <button className={styles.btn} onClick={() => setWrite(!write)}>글쓰기</button>
+      {write && 
+        <ul className={styles.writeWrapper}>
+          <li><Link to={"/"}>집꾸 신청하기</Link></li>
+          <li><Link to={"/"}>방꾸 신청하기</Link></li>
+          <li><Link to={"/"}>한번에 꾸하기 신청하기</Link></li>
+          <li><Link to={"/"}>집들이 글쓰기</Link></li>
+          <li><Link to={"/"}>인테리어 후기 작성하기</Link></li>
+        </ul>
+      } */}
     </header>
   );
 }

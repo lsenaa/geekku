@@ -1,8 +1,8 @@
-import './Footer.scss';
+import styles from './Footer.module.scss';
 
 const Footer = () => {
   return (
-    <div className='footer_container'>
+    <div className={styles.container}>
       <ul>
         <li>회사소개</li>
         <li>이용약관</li>

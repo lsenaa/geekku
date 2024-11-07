@@ -1,0 +1,16 @@
+:export {
+  maincolor: #6D885D;
+  subcolor: #C6D695;
+  bodycolor: #FFFAF4;
+  subfont: "Santokki";
+}
+
+.btn {
+  background-color: #6D885D;
+  border: none;
+  border-radius: 10px;
+  width: 130px;
+  padding: 12px 0;
+  font-size: 16px;
+  color: white;
+}
