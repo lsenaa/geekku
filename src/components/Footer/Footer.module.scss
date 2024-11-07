@@ -3,9 +3,12 @@
 .container {
   width: 100%;
   background-color: $main-color;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
-  padding: 60px 0;
+  height: 200px;
 
   ul {
     display: flex;

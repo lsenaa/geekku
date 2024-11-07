@@ -8,11 +8,13 @@ const Header = () => {
 
   return (
     <header className={styles.Container}>
-      <img src={logo} alt="헤더로고" />
+      <Link to={"/"}>
+        <img src={logo} alt="헤더로고" />
+      </Link>
       <nav className={styles.navWrapper}>
         <ul>
           <li>
-            <Link to={"/"}>매물검색</Link>
+            <Link to={"/estateSearch"}>매물검색</Link>
           </li>
           <li>
             <Link to={"/"}>집꾸하기</Link>

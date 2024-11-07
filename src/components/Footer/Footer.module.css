@@ -2,14 +2,18 @@
   maincolor: #6D885D;
   subcolor: #C6D695;
   bodycolor: #FFFAF4;
+  subfont: "Santokki";
 }
 
 .container {
   width: 100%;
   background-color: #6D885D;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
-  padding: 60px 0;
+  height: 200px;
 }
 .container ul {
   display: flex;

@@ -3,13 +3,15 @@ import { IoSearch } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import esateImg01 from "../../assets/images/estate01.png";
+import esateImg02 from "../../assets/images/estate02.png";
+import esateImg03 from "../../assets/images/estate03.png";
 import { Link } from 'react-router-dom';
 
 const Main = () => {
   const estateData = [
-    {type: "전원주택", price: "월세 300/33", location: "충청남도 태안군", size: "109㎡ (30평)", title: "시골 빈집 전원주택"},
-    {type: "아파트", price: "월세 500/43", location: "경상북도 예천군", size: "109㎡ (30평)", title: "깔끔하게 리모델링한 아파트"},
-    {type: "시골농가주택", price: "월세 100/33", location: "충청북도 단양군", size: "109㎡ (30평)", title: "리모델링한 시골농가주택"},
+    {type: "전원주택", price: "월세 300/33", location: "충청남도 태안군", size: "109㎡ (30평)", title: "시골 빈집 전원주택", image: esateImg01},
+    {type: "아파트", price: "월세 500/43", location: "경상북도 예천군", size: "109㎡ (30평)", title: "깔끔하게 리모델링한 아파트", image: esateImg02},
+    {type: "시골농가주택", price: "월세 100/33", location: "충청북도 단양군", size: "109㎡ (30평)", title: "리모델링한 시골농가주택", image: esateImg03},
   ]
 
   return (
@@ -18,7 +20,7 @@ const Main = () => {
         <h1>지방을 꾸미자</h1>
         <div className={styles.searchWrapper}>
           <IoSearch size={24}/>
-          <input type="text" defaultValue="매물 지역을 검색해주세요." />
+          <input type="text" placeholder="매물 지역을 검색해주세요." />
         </div>
       </div>
       
@@ -36,7 +38,7 @@ const Main = () => {
             <li key={i}>
               <Link to={"/"}>
                 <div className={styles.imgWrapper}>
-                  <img src={esateImg01} alt="집꾸 리스트 이미지" />
+                  <img src={estate.image} alt="집꾸 리스트 이미지" />
                 </div>
                 <div className={styles.textWrapper}>
                   <p className={styles.type}>{estate.type}</p>
