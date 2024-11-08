@@ -1,5 +1,35 @@
 $main-color: #6D885D;
+$sub-color: #C6D695;
+$body-color: #FFFAF4;
+$sub-font: "Santokki";
+
+@mixin ellipse {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+@mixin flexrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@mixin border {
+  border: 1px solid $main-color;
+  border-radius: 10px;
+}
+
+@mixin imgSize {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 :export {
   maincolor: $main-color;
+  subcolor: $sub-color;
+  bodycolor: $body-color;
+  subfont: $sub-font;
 }

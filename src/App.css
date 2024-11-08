@@ -1,3 +1,26 @@
-.A { 
-    background-color: #fffaf4;
+.appContainer {
+  background-color: #fffaf4;
 }
+
+.ant-modal .ant-modal-content {
+  background-color: #fffaf4;
+  font-family: "Noto Sans KR";
+}
+
+.slick-slider
+{
+    width: 1200px;
+}
+.slick-slide {
+    width:30%;
+    padding: 23px;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 40px;
+    color: #6D885D;
+}
+.slick-prev {
+    left: -40px;
+}
+
