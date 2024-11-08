@@ -1,0 +1,35 @@
+@import '../../variables.scss';
+
+.Container {
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+}
+
+.navWrapper {
+  display: flex;
+  justify-content: space-between;
+
+  ul {
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    li {
+      font-family: "Santokki";
+      font-size: 24px;
+      padding: 0 20px;
+    }
+  }
+}
+
+.btn {
+  background-color: $main-color;
+  font-family: "Santokki";
+  border: none;
+  border-radius: 10px;
+  width: 130px;
+  padding: 12px 0;
+  color: white;
+}
