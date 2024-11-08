@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import InteriorMain from './components/Interior/InteriorMain/Main';
+import CompanyList from './components/Interior/companyList/Main';
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/interiorMain" element={<InteriorMain/>} />
+        <Route path="/companyMain" element={<CompanyList/>} />
       </Routes>
       <Footer />
     </>

@@ -1,6 +1,7 @@
 .card {
     border: 1.5px solid #6D885D;
     border-radius: 10px;
+    /* width: 400px; */
 }
 .interiorAll {
     display: flex;

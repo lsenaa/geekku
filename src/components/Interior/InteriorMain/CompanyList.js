@@ -20,63 +20,63 @@ const CompanyList = () => {
     <div className="slider-container">
       <Slider {...settings}>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
           </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
           </>
         </div>
         <div className="card">
-          <img src={img} style={{width:"384px",height:"242px"}}/>
+          <img src={img} style={{width:"100%",height:"242px"}}/>
           <>
             <h4>코스타 인테리어</h4>
             <h5>전체시공/부분시공</h5>
