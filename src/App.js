@@ -6,6 +6,9 @@ import EstateSearch from './components/estate/estateSearch/EstateSearch';
 import InteriorMain from './components/Interior/InteriorMain/Main';
 import AllStopWrite from './components/Allstop/AllStopWirte';
 import MyInteriorMain from './components/MyInteriorPage/MyInteriorMain';
+import CommunityMain from './components/Community/CommunityMain/CommunityMain';
+import CommunityBoardWrite from './components/Community/CommunityWrite/CommunityBoardWrite';
+import CommunityBoardDetail from './components/Community/CommunityBoardDetail/CommunityBoardDetail';
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
         <Route path="/estateSearch" element={<EstateSearch />} />
         <Route path="/allStopWrite" element={<AllStopWrite />} />
         <Route path="/myInteriorPage" element={<MyInteriorMain />} />
+         <Route path="/CommunityMain" element={<CommunityMain/>} />
+        <Route path="/CommunityBoardWrite" element={<CommunityBoardWrite/>}/>
+        <Route path='/CommunityBoardDetail' element={<CommunityBoardDetail/>}/>
       </Routes>
       <Footer />
     </div>
