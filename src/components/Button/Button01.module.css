@@ -9,8 +9,13 @@
   background-color: #6D885D;
   border: none;
   border-radius: 10px;
-  width: 130px;
-  padding: 12px 0;
+  padding: 10px 0;
   font-size: 16px;
   color: white;
+}
+.btn.small {
+  width: 130px;
+}
+.btn.medium {
+  width: 160px;
 }

@@ -4,12 +4,30 @@
   padding: 20px;
 }
 
+.textWrapper {
+  width: 40%;
+  padding: 20px;
+  
+  p {
+    &:nth-child(3) {
+      margin-bottom: 16px;
+    }
+  }
+
+  .price {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px; 
+    margin-bottom: 16px;
+  }
+}
+
 .imgTextWrapper {
   @include flexrow;
 }
 
 .detailImgWrapper {
-  width: 50%;
+  width: 60%;
   height: 353px;
 
   img {
@@ -17,25 +35,43 @@
   }
 }
 
-.profileWrap {
+.profileWrapper {
   @include flexrow;
-  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 20px;
 }
 
 .profile {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 8px;
 
   p {
     margin-left: 8px;
   }
 }
 
-.customModal {
-  .ant-modal-content  {
-    background-color: #FFFAF4 !important;
-    @include border;
-  } 
+.btnWrapper {
+  @include flexrow;
+  justify-content: center;
+  margin-top: 20px;
+
+  img {
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  border-top: 1px solid $main-color;
+  border-bottom: 1px solid $main-color;
+
+  .title {
+    background-color: rgba(109, 136, 93, 30%);
+  }
 }
   
