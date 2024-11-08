@@ -1,4 +1,3 @@
-import { Table, Input, Button, Label, ListGroup, ListGroupItem } from 'reactstrap';
 import styles from './write.module.scss';
 
 const AllStopWrite = () => {
@@ -6,21 +5,18 @@ const AllStopWrite = () => {
         <div className={styles.containerbox}>
             <div className="title">한번에꾸미기 신청하기</div><br />
             <div>
-                <Table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                ㅇㅅㅇ
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                ㅇㅅㅇ
-                            </td>
-                        </tr>
-                    </tbody>
-
-                </Table>
+                <tbody>
+                    <tr>
+                        <td>
+                            ㅇㅅㅇ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ㅇㅅㅇ
+                        </td>
+                    </tr>
+                </tbody>
             </div>
         </div>
     )

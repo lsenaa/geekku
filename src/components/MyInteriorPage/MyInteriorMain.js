@@ -1,4 +1,3 @@
-import { Table, Input, Button, Label, ListGroup, ListGroupItem } from 'reactstrap';
 import styles from './common.module.scss';
 
 const MyInteriorMain = () => {
@@ -7,8 +6,6 @@ const MyInteriorMain = () => {
 업체 정보 관리
             <div className={styles.containerbox}>
                 <div className="title">내 업체 정보</div><br />
-
-                <Table>
                     <tbody>
                         <tr>
                             <td>
@@ -62,8 +59,6 @@ const MyInteriorMain = () => {
                                 소개글예시500자이내로작성</td>
                         </tr>
                     </tbody>
-
-                </Table>
             </div>
             <br/>
             <br/>

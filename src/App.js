@@ -9,6 +9,10 @@ import MyInteriorMain from './components/MyInteriorPage/MyInteriorMain';
 import CommunityMain from './components/Community/CommunityMain/CommunityMain';
 import CommunityBoardWrite from './components/Community/CommunityWrite/CommunityBoardWrite';
 import CommunityBoardDetail from './components/Community/CommunityBoardDetail/CommunityBoardDetail';
+import LoginPerson from './components/Login/LoginPerson';
+import { Route, Routes } from 'react-router';
+import CommunityList from './components/Community/CommunityMain/CommunityList';
+import CompanyList from './components/Interior/InteriorMain/CompanyList';
 
 function App() {
   return (
@@ -22,9 +26,11 @@ function App() {
         <Route path="/estateSearch" element={<EstateSearch />} />
         <Route path="/allStopWrite" element={<AllStopWrite />} />
         <Route path="/myInteriorPage" element={<MyInteriorMain />} />
-         <Route path="/CommunityMain" element={<CommunityMain/>} />
+        <Route path="/CommunityMain" element={<CommunityMain/>} />
+        <Route path="/CommunityList" element={<CommunityList/>} />
         <Route path="/CommunityBoardWrite" element={<CommunityBoardWrite/>}/>
         <Route path='/CommunityBoardDetail' element={<CommunityBoardDetail/>}/>
+        <Route path="/loginPerson" element={<LoginPerson />} />
       </Routes>
       <Footer />
     </div>
