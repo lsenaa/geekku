@@ -1,0 +1,49 @@
+:export {
+  maincolor: #6D885D;
+  subcolor: #C6D695;
+  bodycolor: #FFFAF4;
+  subfont: "Santokki";
+}
+
+.modalContainer {
+  padding: 20px;
+}
+
+.imgTextWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.detailImgWrapper {
+  width: 50%;
+  height: 353px;
+}
+.detailImgWrapper img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.profileWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+.profile p {
+  margin-left: 8px;
+}
+
+.customModal .ant-modal-content {
+  background-color: #FFFAF4 !important;
+  border: 1px solid #6D885D;
+  border-radius: 10px;
+}

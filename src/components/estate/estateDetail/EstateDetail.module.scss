@@ -1,0 +1,41 @@
+@import '../../../variables.scss';
+
+.modalContainer {
+  padding: 20px;
+}
+
+.imgTextWrapper {
+  @include flexrow;
+}
+
+.detailImgWrapper {
+  width: 50%;
+  height: 353px;
+
+  img {
+    @include imgSize;
+  }
+}
+
+.profileWrap {
+  @include flexrow;
+  justify-content: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+
+  p {
+    margin-left: 8px;
+  }
+}
+
+.customModal {
+  .ant-modal-content  {
+    background-color: #FFFAF4 !important;
+    @include border;
+  } 
+}
+  

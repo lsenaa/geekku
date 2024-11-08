@@ -1,0 +1,59 @@
+:export {
+  maincolor: #6D885D;
+  subcolor: #C6D695;
+  bodycolor: #FFFAF4;
+  subfont: "Santokki";
+}
+
+.container {
+  height: auto;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+}
+
+.topWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 30px 0;
+  padding-left: 35px;
+}
+
+.typeSelect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.typeSelect li {
+  margin-right: 24px;
+  font-family: "Santokki";
+  color: #A6A6A6;
+  cursor: pointer;
+}
+
+.searchWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.searchWrapper input {
+  border: 1px solid #6D885D;
+  border-radius: 10px;
+  outline: none;
+  padding: 8px 16px;
+}
+.searchWrapper button {
+  background-color: #6D885D;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 8px;
+  margin-left: 8px;
+}
+
+.bodyWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

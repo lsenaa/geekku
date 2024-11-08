@@ -3,7 +3,7 @@ import './App.css';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Main from './components/main/Main';
-import EstateSearch from './components/estate/EstateSearch';
+import EstateSearch from './components/estate/estateSearch/EstateSearch';
 
 function App() {
   return (
