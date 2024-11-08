@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import styles from './Header.module.scss';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [write, setWrite] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className={styles.Container}>
