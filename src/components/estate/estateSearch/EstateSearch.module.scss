@@ -1,4 +1,4 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .container {
   height: auto;
@@ -15,18 +15,53 @@
 
 .typeSelect {
   @include flexrow;
-  
+
   li {
     margin-right: 24px;
     font-family: $sub-font;
-    color: #A6A6A6;
+    color: #a6a6a6;
     cursor: pointer;
+    position: relative;
+
+    &:after {
+      display: block;
+      content: "";
+      width: 100%;
+      transform: scaleX(0);
+      transition: transform 250ms ease-in-out;
+    }
+    &:hover {
+      color: $main-color;
+      &:after {
+        content: "";
+        width: 100%;
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        border-top: 2px solid $main-color;
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .selected {
+    color: $main-color;
+
+    &:after {
+      content: "";
+      width: 100%;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      border-top: 2px solid $main-color;
+      transform: scaleX(1);
+    }
   }
 }
 
 .searchWrapper {
   @include flexrow;
-  
+
   input {
     @include border;
     outline: none;
@@ -45,4 +80,3 @@
 .bodyWrapper {
   @include flexrow;
 }
-

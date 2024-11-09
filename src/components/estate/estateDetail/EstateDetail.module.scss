@@ -32,7 +32,7 @@
   height: 353px;
 
   img {
-    // @include imgSize;
+    @include imgSize;
   }
 }
 
