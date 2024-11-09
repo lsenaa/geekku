@@ -2,25 +2,54 @@
   background-color: #fffaf4;
 }
 
+.slick-slider {
+  width: 1200px;
+}
+.slick-slide {
+  width: 30%;
+  padding: 23px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 40px;
+  color: #6d885d;
+}
+.slick-prev {
+  left: -40px;
+}
+
 .ant-modal .ant-modal-content {
   background-color: #fffaf4;
   font-family: "Noto Sans KR";
 }
 
-.slick-slider
-{
-    width: 1200px;
-}
-.slick-slide {
-    width:30%;
-    padding: 23px;
-}
+.ant-carousel {
+  width: 60%;
 
-.slick-prev:before, .slick-next:before {
-    font-size: 40px;
-    color: #6D885D;
-}
-.slick-prev {
-    left: -40px;
-}
+  .slick-slider {
+    width: 100%;
+  }
 
+  .slick-prev {
+    left: 22px;
+    opacity: 1;
+    &:before {
+      font-size: 30px;
+    }
+    &:after {
+      display: none;
+    }
+  }
+
+  .slick-next {
+    right: 36px;
+    opacity: 1;
+    &:before {
+      font-size: 30px;
+    }
+    &:after {
+      display: none;
+    }
+  }
+}

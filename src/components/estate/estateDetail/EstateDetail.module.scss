@@ -24,14 +24,15 @@
 
 .imgTextWrapper {
   @include flexrow;
+  width: 100%;
 }
 
 .detailImgWrapper {
-  width: 60%;
+  width: 100%;
   height: 353px;
 
   img {
-    @include imgSize;
+    // @include imgSize;
   }
 }
 

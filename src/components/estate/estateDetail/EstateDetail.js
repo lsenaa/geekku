@@ -5,6 +5,7 @@ import bookmarkTrueImg from "../../../assets/images/bookmarkTrue.png";
 import { FaUserCircle } from "react-icons/fa";
 import Button01 from "../../button/Button01";
 import { useState } from "react";
+import { Carousel } from "antd";
 
 const EstateDetail = () => {
   const [bookmark, setBookmark] = useState(false);
@@ -12,9 +13,17 @@ const EstateDetail = () => {
   return (
     <div className={styles.modalContainer}>
       <div className={styles.imgTextWrapper}>
-        <div className={styles.detailImgWrapper}>
-          <img src={detailImg} alt="매물상세 이미지" />
-        </div>
+        <Carousel arrows infinite={false} dots={false}>
+          <div className={styles.detailImgWrapper}>
+            <img src={detailImg} alt="매물상세 이미지" />
+          </div>
+          <div className={styles.detailImgWrapper}>
+            <img src={detailImg} alt="매물상세 이미지" />
+          </div>
+          <div className={styles.detailImgWrapper}>
+            <img src={detailImg} alt="매물상세 이미지" />
+          </div>
+        </Carousel>
         <div className={styles.textWrapper}>
           <p>시골농가주택</p>
           <p className={styles.price}>월세 300/33</p>

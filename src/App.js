@@ -1,4 +1,7 @@
 import "./App.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { Route, Routes } from "react-router";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import Main from "./components/main/Main";
@@ -10,7 +13,6 @@ import CommunityMain from "./components/Community/CommunityMain/CommunityMain";
 import CommunityBoardWrite from "./components/Community/CommunityWrite/CommunityBoardWrite";
 import CommunityBoardDetail from "./components/Community/CommunityBoardDetail/CommunityBoardDetail";
 import LoginPerson from "./components/Login/LoginPerson";
-import { Route, Routes } from "react-router";
 import CommunityList from "./components/Community/CommunityMain/CommunityList";
 import CompanyList from "./components/Interior/InteriorMain/CompanyList";
 
