@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
-import styles from './Header.module.scss';
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
+import styles from "./Header.module.scss";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -19,7 +19,7 @@ const Header = () => {
             <Link to={"/estateSearch"}>매물검색</Link>
           </li>
           <li>
-            <Link to={"/"}>집꾸하기</Link>
+            <Link to={"/houseMain"}>집꾸하기</Link>
           </li>
           <li>
             <Link to={"/"}>방꾸하기</Link>
@@ -33,7 +33,7 @@ const Header = () => {
         </ul>
       </nav>
       <button className={styles.btn}>로그인 | 회원가입</button>
-      
+
       {/* 글쓰기 버튼 */}
       {/* <button className={styles.btn} onClick={() => setWrite(!write)}>글쓰기</button>
       {write && 
@@ -47,6 +47,6 @@ const Header = () => {
       } */}
     </header>
   );
-}
+};
 
 export default Header;
