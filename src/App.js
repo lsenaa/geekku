@@ -17,6 +17,7 @@ import CommunityList from "./components/Community/CommunityMain/CommunityList";
 import CompanyList from "./components/Interior/InteriorMain/CompanyList";
 import EstateWrite from "./components/estate/estateWrite/EstateWrite";
 import HouseMain from "./components/house/HouseMain";
+import HouseWrite from "./components/house/houseWrite/HouseWrite";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/loginPerson" element={<LoginPerson />} />
         <Route path="/estateWrite" element={<EstateWrite />} />
         <Route path="/houseMain" element={<HouseMain />} />
+        <Route path="/houseWrite" element={<HouseWrite />} />
       </Routes>
       <Footer />
     </div>

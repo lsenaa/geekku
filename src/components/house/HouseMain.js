@@ -2,6 +2,7 @@ import styles from "./HouseMain.module.scss";
 import Button01 from "../button/Button01";
 import HouseList from "./houseList/HouseList";
 import { Pagination } from "antd";
+import { Link } from "react-router-dom";
 
 const HouseMain = () => {
   return (
@@ -21,7 +22,9 @@ const HouseMain = () => {
           />
           <button className={styles.searchBtn}>검색</button>
         </div>
-        <Button01 size="small">작성하기</Button01>
+        <Button01 size="small">
+          <Link to={"/houseWrite"}>작성하기</Link>
+        </Button01>
       </div>
       <HouseList />
       <Pagination defaultCurrent={1} total={50} />

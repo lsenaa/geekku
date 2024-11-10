@@ -9,7 +9,6 @@
 .topWrap {
   @include flexrow;
   justify-content: space-between;
-  padding: 0 55px;
   margin: 60px 0 40px 0;
 
   .searchWrap {
