@@ -1,13 +1,22 @@
 import styles from "./HouseDetailAnswerList.module.scss";
 import Button01 from "../../../button/Button01";
 import { FaUserCircle } from "react-icons/fa";
+import { useState } from "react";
+import { Modal } from "antd";
+import HouseDetailAnswerWrite from "./HouseDetailAnswerWrite";
 
 const HouseDetailAnswerList = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
         <h3>답변</h3>
-        <Button01 size="x-small" color="sub">
+        <Button01 size="x-small" color="sub" onClick={toggleModal}>
           작성하기
         </Button01>
       </div>
@@ -17,7 +26,7 @@ const HouseDetailAnswerList = () => {
           <div>
             <div className={styles.profile}>
               <FaUserCircle color="#6D885D" size={30} />
-              <p>홍길동</p>
+              <p>코스타 부동산</p>
               <p className={styles.createdAt}>2024-10-28</p>
               <button>삭제</button>
             </div>
@@ -49,6 +58,17 @@ const HouseDetailAnswerList = () => {
           </div>
         </li>
       </ul>
+      {isModalOpen && (
+        <Modal
+          open={isModalOpen}
+          onCancel={toggleModal}
+          width={857}
+          footer={null}
+          className={styles.customModal}
+        >
+          <HouseDetailAnswerWrite toggleModal={toggleModal} />
+        </Modal>
+      )}
     </div>
   );
 };

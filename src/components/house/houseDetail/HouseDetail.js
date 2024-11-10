@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import Button01 from "../../button/Button01";
 import HouseDetailAnswerList from "./houseDetailAnswer/HouseDetailAnswerList";
+import { Link } from "react-router-dom";
 
 const HouseDetail = () => {
   let { num } = useParams();
@@ -74,7 +75,9 @@ const HouseDetail = () => {
         </div>
       </section>
       <div className={styles.btnWrap}>
-        <Button01 size="small">목록으로</Button01>
+        <Button01 size="small">
+          <Link to={"/houseMain"}>목록으로</Link>
+        </Button01>
       </div>
       {/* 답변 리스트 */}
       <HouseDetailAnswerList />
