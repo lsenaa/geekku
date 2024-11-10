@@ -22,28 +22,24 @@ const EstateSearch = () => {
         <ul className={styles.typeSelect}>
           <li
             className={type === 0 ? styles.selected : undefined}
-            style={{ "--selected-index": type }}
             onClick={onClickType(0)}
           >
             시골농가주택
           </li>
           <li
             className={type === 1 ? styles.selected : undefined}
-            style={{ "--selected-index": type }}
             onClick={onClickType(1)}
           >
             전원주택
           </li>
           <li
             className={type === 2 ? styles.selected : undefined}
-            style={{ "--selected-index": type }}
             onClick={onClickType(2)}
           >
             아파트/빌라
           </li>
           <li
             className={type === 3 ? styles.selected : undefined}
-            style={{ "--selected-index": type }}
             onClick={onClickType(3)}
           >
             농장/토지

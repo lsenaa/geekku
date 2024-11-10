@@ -15,6 +15,7 @@ import CommunityBoardDetail from "./components/Community/CommunityBoardDetail/Co
 import LoginPerson from "./components/Login/LoginPerson";
 import CommunityList from "./components/Community/CommunityMain/CommunityList";
 import CompanyList from "./components/Interior/InteriorMain/CompanyList";
+import EstateWrite from "./components/estate/estateWrite/EstateWrite";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           element={<CommunityBoardDetail />}
         />
         <Route path="/loginPerson" element={<LoginPerson />} />
+        <Route path="/estateWrite" element={<EstateWrite />} />
       </Routes>
       <Footer />
     </div>

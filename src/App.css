@@ -53,3 +53,26 @@
     }
   }
 }
+
+.ant-picker {
+  width: 240px;
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.ant-picker:hover {
+  border: 1px solid #6d885d;
+  box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  outline: none;
+}
+.ant-picker:focus-within {
+  border: 1px solid #6d885d;
+  box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  outline: none;
+}
+.ant-picker-large .ant-picker-input > input {
+  font-size: 14px;
+  color: #757575;
+  text-align: left;
+  padding: 3px 0;
+}
