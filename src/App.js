@@ -18,6 +18,7 @@ import CompanyList from "./components/Interior/InteriorMain/CompanyList";
 import EstateWrite from "./components/estate/estateWrite/EstateWrite";
 import HouseMain from "./components/house/HouseMain";
 import HouseWrite from "./components/house/houseWrite/HouseWrite";
+import HouseDetail from "./components/house/houseDetail/HouseDetail";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/estateWrite" element={<EstateWrite />} />
         <Route path="/houseMain" element={<HouseMain />} />
         <Route path="/houseWrite" element={<HouseWrite />} />
+        <Route path="/houseDetail/:num" element={<HouseDetail />} />
       </Routes>
       <Footer />
     </div>
