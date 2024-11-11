@@ -1,6 +1,5 @@
-
-import './InteriorBar.css';
-import banner from '../../../assets/images/iBar.png'
+import "./InteriorBar.css";
+import banner from "../../../assets/images/iBar.png";
 
 const InteriorBar = () => {
     return(
@@ -11,7 +10,7 @@ const InteriorBar = () => {
             <button className="btn">방꾸하기</button>
         </div>
     </div>
-    )
-}
+  );
+};
 
 export default InteriorBar;
