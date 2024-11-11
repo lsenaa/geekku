@@ -1,10 +1,13 @@
-import navBar from "../navBar/navBar";
+import NavBar from "../navBar/NavBar";
+import List from "./List";
+
 
 const CompanyMain = () => {
     return(
-        <>
-            <navBar/>
-        </>
+        <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+            <NavBar/>
+            <List/>
+        </div>
     )
 }
 

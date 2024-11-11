@@ -15,7 +15,6 @@ import CompanyList from './components/Interior/InteriorMain/CompanyList';
 import MyInteriorModify from './components/MyInteriorPage/MyInteriorModify/MyInteriorModify';
 import OneStopDetail from './components/oneStop/oneStopDetail/oneStopDetail';
 import OneStopWrite from './components/oneStop/oneStopWrite/oneStopWrite';
-import { Component } from 'react';
 
 function App() {
   return (
@@ -24,8 +23,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/estateSearch" element={<EstateSearch />} />
-        <Route path="/interiorMain" element={<InteriorMain />} />
-        <Route path="/companyMain" element={<CompanyList />} />
+        <Route path="/interiorMain" element={<InteriorMain/>} />
+        <Route path="/companyMain" element={<CompanyList/>}/>
+        <Route path='/companyRegister' element={<CompanyRegister/>}/>
         <Route path="/estateSearch" element={<EstateSearch />} />
         <Route path="/oneStopWrite" element={<OneStopWrite />} />
         <Route path="/oneStopDetail" element={<OneStopDetail />} />

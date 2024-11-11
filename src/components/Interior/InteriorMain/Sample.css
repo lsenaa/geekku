@@ -18,21 +18,13 @@
     padding-left: 10px;
     padding-top: 10px;
 }
-#possible {
+#interiorName {
     color: #757575; 
-    margin-top: 8px;
+    margin-top: 15px;
+
 }
-#loc {
-    width: 60px;
-    height: 28px;
-    background-color: #6D885D;
-    pointer-events: none;
-    color: white;
-    border-radius: 20px;
-    border: none;
-    margin-left: 20px;
-}
-#companyTop {
+
+#sampleTop {
     font-family: "Santokki";
     color: #6D885D;
     font-size: 36px;
@@ -44,4 +36,7 @@
     color: #6D885D;
     margin-left: 1055px;
     font-weight: bold;
+}
+#sampleBottom {
+    margin-bottom: 180px;
 }
