@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .container {
   background-color: $body-color;
@@ -82,13 +82,13 @@
 }
 
 .more {
-  display: flex;
-  justify-content: flex-end;
   margin: 20px 0;
 
   a {
     color: $main-color;
     font-weight: bold;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
