@@ -23,6 +23,8 @@ import Login from './components/login/Login';
 import JoinPerson from './components/join/JoinPerson';
 import JoinCompany from './components/join/JoinCompany';
 import JoinInterior from './components/join/JoinInterior';
+import PersonInfo from './components/mypage/info/PersonInfo';
+import CompanyInfo from './components/mypage/info/CompanyInfo';
 
 function App() {
   return (
@@ -40,32 +42,35 @@ function App() {
         <Route path="/houseDetail/:num" element={<HouseDetail />} />
 
         {/* Interior */}
-        <Route path="/interiorMain" element={<InteriorMain/>} />
-        <Route path="/companyMain" element={<CompanyList/>} />
-        
+        <Route path="/interiorMain" element={<InteriorMain />} />
+        <Route path="/companyMain" element={<CompanyList />} />
+
         {/* Onestop */}
         <Route path="/oneStopWrite" element={<OneStopWrite />} />
         <Route path="/oneStopDetail" element={<OneStopDetail />} />
 
         {/* Communnity */}
-        <Route path="/communityMain" element={<CommunityMain/>} />
-        <Route path="/communityList" element={<CommunityList/>} />
-        <Route path="/communityBoardWrite" element={<CommunityBoardWrite/>}/>
-        <Route path='/communityBoardDetail' element={<CommunityBoardDetail/>}/>
+        <Route path="/communityMain" element={<CommunityMain />} />
+        <Route path="/communityList" element={<CommunityList />} />
+        <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
+        <Route path='/communityBoardDetail' element={<CommunityBoardDetail />} />
 
         {/* MyPage */}
         <Route path='/mypagePerson' element={<MypagePerson />} />
         <Route path="/mypageInterior" element={<MypageInteriorMain />} />
         <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+        <Route path='/personInfo' element={<PersonInfo />} />
+        <Route path='/companyInfo' element={<CompanyInfo/>}/>
 
         {/* Login */}
-        <Route path='/login' element={<Login/>}/>
+        <Route path='/login' element={<Login />} />
 
         {/* Join */}
-        <Route path='/joinPerson' element={<JoinPerson/>}/>
-        <Route path='/joinCompany' element={<JoinCompany/>}/>
-        <Route path='/joinInterior' element={<JoinInterior/>}/>
-        
+        <Route path='/joinPerson' element={<JoinPerson />} />
+        <Route path='/joinCompany' element={<JoinCompany />} />
+        <Route path='/joinInterior' element={<JoinInterior />} />
+
+
       </Routes>
       <Footer />
     </div>
