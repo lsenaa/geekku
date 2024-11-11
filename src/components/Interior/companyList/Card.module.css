@@ -1,0 +1,7 @@
+.test {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:"384px";
+    margin-bottom:"50px";
+}
