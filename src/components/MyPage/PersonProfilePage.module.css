@@ -1,0 +1,76 @@
+/* PersonProfilePage.module.css */
+
+.profilePage {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+  padding: 40px 0;
+  background-color: #FFFAF4;
+}
+
+.userInfoCard {
+  width: 283px;
+  height: 336px;
+  background-color: #FFFAF4;
+  border: 1px solid #6D885D;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.profileImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #6D885D;
+  margin: 0 auto 15px;
+}
+
+.username {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.userId,
+.userEmail {
+  font-size: 16px;
+  color: #333;
+}
+
+.separator {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #6D885D;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6D885D;
+}
+
+.houseListContainer {
+  flex-grow: 1;
+}
+
+.houseListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.houseListTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6D885D;
+}
+
+.houseListViewAll {
+  font-size: 16px;
+  color: #6D885D;
+  text-decoration: none;
+}

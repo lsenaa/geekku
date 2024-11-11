@@ -3,6 +3,7 @@ import logo from '../../assets/images/logo.png';
 import styles from './Header.module.scss';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import NotificationButton from '../Notification/NotificationButton';
 
 const Header = () => {
   const [write, setWrite] = useState(false);
@@ -28,12 +29,14 @@ const Header = () => {
             <Link to={"/"}>한번에꾸하기</Link>
           </li>
           <li>
-            <Link to={"/"}>집들이</Link>
-          </li>
+            <Link to={"/CommunityMain"}>집들이</Link>          </li>
         </ul>
       </nav>
+      {/* 알림 버튼 추가 위치 옮겨야 함*/}
+      <NotificationButton />
+
       <button className={styles.btn}>로그인 | 회원가입</button>
-      
+
       {/* 글쓰기 버튼 */}
       {/* <button className={styles.btn} onClick={() => setWrite(!write)}>글쓰기</button>
       {write && 

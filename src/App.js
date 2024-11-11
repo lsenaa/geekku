@@ -13,24 +13,37 @@ import LoginPerson from './components/Login/LoginPerson';
 import { Route, Routes } from 'react-router';
 import CommunityList from './components/Community/CommunityMain/CommunityList';
 import CompanyList from './components/Interior/InteriorMain/CompanyList';
+import PersonProfilePage from './components/MyPage/PersonProfilePage';
 
 function App() {
   return (
     <div className='appContainer'>
       <Header />
       <Routes>
+        {/* Estate */}
         <Route path="/" element={<Main />} />
         <Route path="/estateSearch" element={<EstateSearch />} />
+
+        {/* Interior */}
         <Route path="/interiorMain" element={<InteriorMain/>} />
         <Route path="/companyMain" element={<CompanyList/>} />
         <Route path="/estateSearch" element={<EstateSearch />} />
+
+        {/* AllStop */}
         <Route path="/allStopWrite" element={<AllStopWrite />} />
         <Route path="/myInteriorPage" element={<MyInteriorMain />} />
+
+        {/* Communnity */}
         <Route path="/CommunityMain" element={<CommunityMain/>} />
         <Route path="/CommunityList" element={<CommunityList/>} />
         <Route path="/CommunityBoardWrite" element={<CommunityBoardWrite/>}/>
         <Route path='/CommunityBoardDetail' element={<CommunityBoardDetail/>}/>
+
+        {/* Login */}
         <Route path="/loginPerson" element={<LoginPerson />} />
+
+        {/* MyPage */}
+        <Route path='/PersonProfilePage' element={<PersonProfilePage />} />
       </Routes>
       <Footer />
     </div>
