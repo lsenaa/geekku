@@ -1,13 +1,13 @@
 import React from 'react';
 import './oneStopDetail.css';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const oneStopDetail = () => {
-    const navigate = useNavigate(); // 함수 호출로 수정
+    // const navigate = useNavigate(); // 함수 호출로 수정
 
     const handleCommunityBoard = (event) => {
         event.preventDefault(); // 폼 제출 방지
-        navigate('/oneStopDetail');
+        // navigate('/oneStopDetail');
     };
 
     return (
