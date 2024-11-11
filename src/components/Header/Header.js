@@ -25,7 +25,7 @@ const Header = () => {
             <Link to={"/"}>방꾸하기</Link>
           </li>
           <li>
-            <Link to={"/"}>한번에꾸하기</Link>
+            <Link to={"/oneStopList"}>한번에꾸하기</Link>
           </li>
           <li>
             <Link to={"/"}>집들이</Link>
