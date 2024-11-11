@@ -1,0 +1,73 @@
+/* 필터 컨테이너 설정 */
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 1200px; 
+  margin: 0 auto; 
+  background-color: #FFFAF4;
+}
+
+/* 헤더 영역 */
+.filterHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* 제목 스타일 */
+.boardTitle {
+  font-size: 36px;
+  font-weight: bold;
+  color: #6D885D;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
+/* 총 개수 스타일 */
+.totalCount {
+  font-size: 14px;
+  color: #6D885D;
+}
+
+/* 필터 버튼 바 */
+.filterBar {
+  display: flex;
+  gap: 10px;
+  padding: 100px 0 86px 0;
+  background-color: #FFFAF4;
+}
+
+/* 필터 버튼 스타일 */
+.filterButton {
+  height: 45px;
+  width: 97px;
+  padding: 8px 12px;
+  background-color: #FFFAF4;
+  border: 1px solid #6D885D;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6D885D;
+  margin-top: 8px;
+}
+
+.filterButton:hover {
+  background-color: #c8dbbe;
+}
+
+/* 등록 버튼 스타일 */
+.registerButton {
+  padding: 10px 20px;
+  background-color: #6D885D;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto; 
+}
+
+.registerButton:hover {
+  background-color: #567d1b;
+}
