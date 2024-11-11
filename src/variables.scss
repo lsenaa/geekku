@@ -1,7 +1,20 @@
-$main-color: #6D885D;
-$sub-color: #C6D695;
-$body-color: #FFFAF4;
+$main-color: #6d885d;
+$sub-color: #c6d695;
+$body-color: #fffaf4;
 $sub-font: "Santokki";
+
+@mixin container {
+  width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  padding: 100px 0;
+
+  h2 {
+    font-size: 40px;
+    font-family: $sub-font;
+    text-align: center;
+  }
+}
 
 @mixin ellipse {
   text-overflow: ellipsis;

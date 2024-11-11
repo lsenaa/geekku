@@ -1,0 +1,68 @@
+@import "../../../../variables.scss";
+
+.container {
+  margin-top: 40px;
+
+  .topWrap {
+    @include flexrow;
+    justify-content: space-between;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.line {
+  background: $main-color;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+
+.profile {
+  @include flexrow;
+  margin-bottom: 16px;
+
+  p {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  .createdAt {
+    font-weight: normal;
+    color: #757575;
+    margin: 0 20px;
+  }
+
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 4px 12px;
+    color: #757575;
+  }
+}
+
+.phoneAddWrap {
+  .phone,
+  .address {
+    @include flexrow;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 14px;
+
+    &:first-child {
+      width: 60px;
+    }
+    &:last-of-type {
+      font-weight: normal;
+      color: #757575;
+    }
+  }
+}
+
+.editorContent {
+  margin-top: 16px;
+}

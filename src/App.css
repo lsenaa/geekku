@@ -2,25 +2,112 @@
   background-color: #fffaf4;
 }
 
+/* Slick-slider Custom styles */
+.slick-slider {
+  width: 1200px;
+}
+.slick-slide {
+  width: 30%;
+  padding: 23px;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 40px;
+    color: #6D885D;
+}
+.slick-prev {
+    left: -40px;
+}
+
+/* Antd modal Custom styles */
 .ant-modal .ant-modal-content {
   background-color: #fffaf4;
   font-family: "Noto Sans KR";
 }
 
-.slick-slider
-{
-    width: 1200px;
-}
-.slick-slide {
-    width:30%;
-    padding: 23px;
+/* Antd Carousel Custom styles */
+.ant-carousel {
+  width: 60%;
+
+  .slick-slider {
+    width: 100%;
+  }
+
+  .slick-prev {
+    left: 22px;
+    opacity: 1;
+    &:before {
+      font-size: 30px;
+    }
+    &:after {
+      display: none;
+    }
+  }
+
+  .slick-next {
+    right: 36px;
+    opacity: 1;
+    &:before {
+      font-size: 30px;
+    }
+    &:after {
+      display: none;
+    }
+  }
 }
 
-.slick-prev:before, .slick-next:before {
-    font-size: 35px !important;
-    color: #6D885D !important;
+/* Antd Datepicker Custom styles */
+.ant-picker {
+  width: 240px;
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  font-size: 14px;
 }
-.slick-prev {
-    left: -40px !important;
+.ant-picker:hover {
+  border: 1px solid #6d885d;
+  box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  outline: none;
+}
+.ant-picker:focus-within {
+  border: 1px solid #6d885d;
+  box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  outline: none;
+}
+.ant-picker-large .ant-picker-input > input {
+  font-size: 14px;
+  color: #757575;
+  text-align: left;
+  padding: 3px 0;
 }
 
+/* Pagination Custom styles */
+.ant-pagination {
+  justify-content: center;
+}
+.ant-pagination .ant-pagination-item:hover {
+  border-radius: 50%;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  border: 1px solid #6d885d;
+  border-radius: 50%;
+}
+
+.ant-pagination .ant-pagination-item-active:hover {
+  border: 1px solid #6d885d;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: #6d885d;
+}
+.ant-pagination .ant-pagination-item-active a:hover {
+  color: #6d885d;
+}
+
+.ant-pagination .ant-pagination-prev .ant-pagination-item-link {
+  border-radius: 50%;
+}
+
+.ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  border-radius: 50%;
+}
