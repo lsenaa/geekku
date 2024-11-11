@@ -1,4 +1,4 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .modalContainer {
   padding: 20px;
@@ -7,7 +7,7 @@
 .textWrapper {
   width: 40%;
   padding: 20px;
-  
+
   p {
     &:nth-child(3) {
       margin-bottom: 16px;
@@ -17,17 +17,18 @@
   .price {
     font-size: 24px;
     font-weight: bold;
-    margin-top: 20px; 
+    margin-top: 20px;
     margin-bottom: 16px;
   }
 }
 
 .imgTextWrapper {
   @include flexrow;
+  width: 100%;
 }
 
 .detailImgWrapper {
-  width: 60%;
+  width: 100%;
   height: 353px;
 
   img {
@@ -37,14 +38,13 @@
 
 .profileWrapper {
   @include flexrow;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .profile {
-  display: flex;
-  align-items: center;
   margin-right: 8px;
 
   p {
@@ -69,9 +69,28 @@
   margin: 20px 0;
   border-top: 1px solid $main-color;
   border-bottom: 1px solid $main-color;
+  table-layout: fixed;
+  font-size: 16px;
+
+  tr {
+    border-bottom: 1px solid $main-color;
+    width: 100%;
+  }
 
   .title {
     background-color: rgba(109, 136, 93, 30%);
+    width: 20%;
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .content {
+    width: 30%;
+    padding-left: 12px;
+    vertical-align: middle;
+  }
+  .longContent {
+    padding: 12px 0 12px 12px;
+    vertical-align: middle;
   }
 }
-  
