@@ -19,6 +19,7 @@ import OneStopWrite from './components/oneStop/oneStopWrite/oneStopWrite'
 import OneStopDetail from './components/oneStop/oneStopDetail/oneStopDetail'
 import MypageInteriorMain from './components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from './components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
+import Login from './components/login/Login';
 
 function App() {
   return (
@@ -53,6 +54,9 @@ function App() {
         <Route path='/mypagePerson' element={<MypagePerson />} />
         <Route path="/mypageInterior" element={<MypageInteriorMain />} />
         <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+
+        {/* Login */}
+        <Route path='/login' element={<Login/>}/>
         
       </Routes>
       <Footer />

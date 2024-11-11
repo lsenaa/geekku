@@ -1,0 +1,156 @@
+@import '../../variables.scss';
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px;
+    border-radius: 10px;
+
+    .logo {
+        width: 300px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+}
+
+.toggleContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 10px 0 10px 50px;
+}
+
+.toggleLabel {
+    font-size: 15px;
+    font-weight: 500;
+    color: $main-color;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.toggle {
+    width: 56px !important;
+    height: 30px !important;
+    background-color: $sub-color;
+    border: none;
+    position: relative;
+    cursor: pointer;
+
+    &:checked {
+        background-color: $main-color !important;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 22px;
+        height: 22px;
+        background-color: #E4CCEE;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    &:checked::after {
+        transform: translateX(27px);
+    }
+}
+
+.input {
+    width: 90%;
+    max-width: 530px;
+    padding: 12px;
+    margin: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.button {
+    width: 90%;
+    max-width: 530px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+
+    &:nth-of-type(1) {
+        background-color: $main-color;
+
+        &:hover {
+            background-color: #5a9e62;
+        }
+    }
+
+    &:nth-of-type(2) {
+        background-color: $sub-color;
+
+        &:hover {
+            background-color: #5a9e62;
+        }
+    }
+
+    &:nth-of-type(3) {
+        background-color: $body-color;
+        border: 1px solid $sub-color;
+        color: #ddd;
+
+        &:hover {
+            background-color: #5a9e62;
+        }
+    }
+}
+
+.divider1,
+.divider2 {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.divider1 a {
+    color: #6fae75;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #8c8c8c;
+    margin: 20px 0;
+    display: block;
+}
+
+.iconContainer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 5px;
+
+    .icon {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
