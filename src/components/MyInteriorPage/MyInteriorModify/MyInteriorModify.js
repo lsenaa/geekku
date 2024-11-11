@@ -2,7 +2,7 @@ import React from 'react';
 import './MyInteriorModify.css';
 import { useNavigate } from 'react-router';
 
-const CommunityBoardWrite = () => {
+const MyInteriorModify = () => {
     const navigate = useNavigate(); // 함수 호출로 수정
 
     const handleCommunityBoard = (event) => {
@@ -91,4 +91,4 @@ const CommunityBoardWrite = () => {
     );
 };
 
-export default CommunityBoardWrite;
+export default MyInteriorModify;

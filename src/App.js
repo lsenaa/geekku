@@ -13,6 +13,7 @@ import { Route, Routes } from 'react-router';
 import CommunityList from './components/Community/CommunityMain/CommunityList';
 import CompanyList from './components/Interior/companyList/Main';
 import CompanyRegister from './components/Interior/companyRegister/Register'
+import MyInteriorModify from './components/MyInteriorPage/MyInteriorModify/'
 
 function App() {
   return (
