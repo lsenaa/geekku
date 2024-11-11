@@ -3,14 +3,14 @@ import Footer from './components/layout/footer/Footer';
 import Header from './components/layout/header/Header';
 import Main from './components/main/Main';
 import EstateSearch from './components/estate/estateSearch/EstateSearch';
-import InteriorMain from './components/Interior/InteriorMain/Main';
+import InteriorMain from './components/interior/interiorMain/Main';
 import CommunityMain from './components/community/communityMain/CommunityMain';
 import CommunityBoardWrite from './components/community/communityWrite/CommunityBoardWrite';
 import CommunityBoardDetail from './components/community/communityBoardDetail/CommunityBoardDetail';
 import LoginPerson from './components/Login/LoginPerson';
 import { Route, Routes } from 'react-router';
 import CommunityList from './components/community/communityMain/CommunityList';
-import CompanyList from './components/Interior/companyList/Main';
+import CompanyList from './components/interior/companyList/Main';
 import MypagePerson from './components/mypage/person/mypagePersonMain/MypagePerson';
 import EstateWrite from './components/estate/estateWrite/EstateWrite'
 import HouseMain from './components/house/HouseMain'

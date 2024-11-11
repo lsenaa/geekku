@@ -12,8 +12,8 @@
 }
 
 .slick-prev:before, .slick-next:before {
-    font-size: 40px;
-    color: #6D885D;
+    font-size: 40px !important;
+    color: #6D885D !important;
 }
 .slick-prev {
     left: -40px;
