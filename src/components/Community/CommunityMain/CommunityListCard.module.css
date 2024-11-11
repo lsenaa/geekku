@@ -13,19 +13,19 @@
   transform: scale(1.02);
 }
 
-.card-image {
+.cardImage {
   width: 384px;
   height: 250px;
   object-fit: cover;
 }
 
-.card-title {
+.cardTitle {
   font-size: 18px;
   margin: 10px;
   text-align: center;
 }
 
-.card-footer {
+.cardFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,19 +37,19 @@
   align-items: center;
 }
 
-.profile-image {
+.profileImage {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   margin-right: 8px;
 }
 
-.profile-name {
+.profileName {
   font-size: 14px;
   color: #555;
 }
 
-.card-views {
+.cardViews {
   color: #555;
   font-size: 14px;
   margin: 0 10px 10px 10px;

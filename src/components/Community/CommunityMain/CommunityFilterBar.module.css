@@ -1,5 +1,5 @@
 /* 필터 컨테이너 설정 */
-.filter-container {
+.filterContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -9,14 +9,14 @@
 }
 
 /* 헤더 영역 */
-.filter-header {
+.filterHeader {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
 
 /* 제목 스타일 */
-.board-title {
+.boardTitle {
   font-size: 36px;
   font-weight: bold;
   color: #6D885D;
@@ -25,13 +25,13 @@
 }
 
 /* 총 개수 스타일 */
-.total-count {
+.totalCount {
   font-size: 14px;
   color: #6D885D;
 }
 
 /* 필터 버튼 바 */
-.filter-bar {
+.filterBar {
   display: flex;
   gap: 10px;
   padding: 100px 0 86px 0;
@@ -39,7 +39,7 @@
 }
 
 /* 필터 버튼 스타일 */
-.filter-button {
+.filterButton {
   height: 45px;
   width: 97px;
   padding: 8px 12px;
@@ -52,12 +52,12 @@
   margin-top: 8px;
 }
 
-.filter-button:hover {
+.filterButton:hover {
   background-color: #c8dbbe;
 }
 
 /* 등록 버튼 스타일 */
-.register-button {
+.registerButton {
   padding: 10px 20px;
   background-color: #6D885D;
   color: white;
@@ -68,6 +68,6 @@
   margin-left: auto; 
 }
 
-.register-button:hover {
+.registerButton:hover {
   background-color: #567d1b;
 }

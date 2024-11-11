@@ -5,37 +5,58 @@ import Main from './components/main/Main';
 import EstateSearch from './components/estate/estateSearch/EstateSearch';
 import InteriorMain from './components/Interior/interiorMain/Main';
 import MyInteriorMain from './components/MyInteriorPage/MyInteriorMain';
-import CommunityMain from './components/Community/CommunityMain/CommunityMain';
-import CommunityBoardWrite from './components/Community/CommunityWrite/CommunityBoardWrite';
-import CommunityBoardDetail from './components/Community/CommunityBoardDetail/CommunityBoardDetail';
+import CommunityMain from './components/community/communityMain/CommunityMain';
+import CommunityBoardWrite from './components/community/communityWrite/CommunityBoardWrite';
+import CommunityBoardDetail from './components/community/communityBoardDetail/CommunityBoardDetail';
 import LoginPerson from './components/Login/LoginPerson';
 import { Route, Routes } from 'react-router';
-import CommunityList from './components/Community/CommunityMain/CommunityList';
-import CompanyList from './components/Interior/companyList/Main';
-import CompanyRegister from './components/Interior/companyRegister/Register'
+import CommunityList from './components/community/communityMain/CommunityList';
+import CompanyList from './components/Interior/CommunityList/Main';
+import PersonProfilePage from './components/MyPage/PersonProfilePage';
+import EstateWrite from './components/estate/estateWrite/EstateWrite'
+import HouseMain from './components/house/houseMain'
+import HouseWrite from './components/house/houseWrite/HouseWrite'
+import HouseDetail from './components/house/houseDetail/HouseDetail'
+import MyInteriorModify from './components/MyInteriorPage/MyInteriorModify/MyInteriorModify'
 
 function App() {
   return (
     <div className="appContainer">
       <Header />
       <Routes>
+        {/* Estate */}
         <Route path="/" element={<Main />} />
         <Route path="/estateSearch" element={<EstateSearch />} />
-        <Route path="/interiorMain" element={<InteriorMain/>} />
-        <Route path="/companyMain" element={<CompanyList/>} />
-        <Route path="/estateSearch" element={<EstateSearch />} />
-        <Route path="/oneStopWrite" element={<OneStopWrite />} />
-        <Route path="/oneStopDetail" element={<OneStopDetail />} />
-        <Route path="/myInteriorPage" element={<MyInteriorMain />} />
-        <Route path="/CommunityMain" element={<CommunityMain/>} />
-        <Route path="/CommunityList" element={<CommunityList/>} />
-        <Route path="/CommunityBoardWrite" element={<CommunityBoardWrite/>}/>
-        <Route path='/CommunityBoardDetail' element={<CommunityBoardDetail/>}/>
-        <Route path="/loginPerson" element={<LoginPerson />} />
         <Route path="/estateWrite" element={<EstateWrite />} />
+
+        {/* House */}
         <Route path="/houseMain" element={<HouseMain />} />
         <Route path="/houseWrite" element={<HouseWrite />} />
         <Route path="/houseDetail/:num" element={<HouseDetail />} />
+
+        {/* Interior */}
+        <Route path="/interiorMain" element={<InteriorMain/>} />
+        <Route path="/companyMain" element={<CompanyList/>} />
+        <Route path="/estateSearch" element={<EstateSearch />} />
+        
+        {/* Onestop */}
+        <Route path="/oneStopWrite" element={<OneStopWrite />} />
+        <Route path="/oneStopDetail" element={<OneStopDetail />} />
+
+        {/* Communnity */}
+        <Route path="/communityMain" element={<CommunityMain/>} />
+        <Route path="/communityList" element={<CommunityList/>} />
+        <Route path="/communityBoardWrite" element={<CommunityBoardWrite/>}/>
+        <Route path='/communityBoardDetail' element={<CommunityBoardDetail/>}/>
+
+        {/* Login */}
+        <Route path="/loginPerson" element={<LoginPerson />} />
+
+        {/* MyPage */}
+        <Route path='/personProfilePage' element={<PersonProfilePage />} />
+        <Route path="/myInteriorPage" element={<MyInteriorMain />} />
+        <Route path="/myInteriorModify" element={<MyInteriorModify />} />
+        
       </Routes>
       <Footer />
     </div>

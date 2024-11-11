@@ -1,6 +1,6 @@
 import React from 'react';
 import CommunityListCard from './CommunityListCard';
-import './CommunityList.css';
+import styles from './CommunityList.module.css';
 
 import interiorImage from '../../../assets/images/InteriorExam.jpg';
 import personImage from '../../../assets/images/person.jpg';
@@ -19,8 +19,7 @@ const CommunityList = () => {
   ];
 
   return (
-    //카드 리스트 출력
-    <div className="post-list">
+    <div className={styles.postList}>
       {posts.map((post, index) => (
         <CommunityListCard
           key={index}
@@ -28,6 +27,7 @@ const CommunityList = () => {
           image={post.image}
           views={post.views}
           profile={post.profile}
+          className={styles.postCard} // Additional styling for each card
         />
       ))}
     </div>
