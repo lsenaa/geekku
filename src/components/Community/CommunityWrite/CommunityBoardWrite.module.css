@@ -1,14 +1,3 @@
-/* 전체 배경과 폰트 스타일 */
-body {
-  background-color: #FFFAF4;
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-.App {
-  padding: 20px;
-}
-
 /* 메인 컨테이너 스타일 */
 .communityWriteInfo {
   max-width: 1200px;

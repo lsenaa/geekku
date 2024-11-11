@@ -1,5 +1,5 @@
 import styles from "./HouseDetailAnswerList.module.scss";
-import Button01 from "../../../button/Button01";
+import Button01 from "../../../commons/button/Button01";
 import { FaUserCircle } from "react-icons/fa";
 import { useState } from "react";
 import { Modal } from "antd";

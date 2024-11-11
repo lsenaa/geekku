@@ -2,7 +2,7 @@ import styles from "./EstateWrite.module.scss";
 import { useState } from "react";
 import { DatePicker } from "antd";
 import { FiPlus } from "react-icons/fi";
-import Button01 from "../../button/Button01";
+import Button01 from "../../commons/button/Button01";
 import estateWriteImg from "../../../assets/images/estateWriteImg.png";
 import { Link } from "react-router-dom";
 

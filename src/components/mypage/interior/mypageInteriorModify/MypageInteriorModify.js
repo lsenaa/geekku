@@ -1,8 +1,8 @@
 import React from 'react';
-import './MyInteriorModify.css';
+import './MypageInteriorModify.module.css';
 import { useNavigate } from 'react-router';
 
-const CommunityBoardWrite = () => {
+const MypageInteriorModify = () => {
     const navigate = useNavigate(); // 함수 호출로 수정
 
     const handleCommunityBoard = (event) => {
@@ -91,4 +91,4 @@ const CommunityBoardWrite = () => {
     );
 };
 
-export default CommunityBoardWrite;
+export default MypageInteriorModify;

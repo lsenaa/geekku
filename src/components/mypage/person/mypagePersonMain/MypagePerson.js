@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import style from './PersonProfilePage.module.css';
-import userProfileImage from '../../assets/images/person.jpg';
-import PersonProfileCardList from './PersonProfileCardList';
+import style from './MypagePerson.module.css';
+import userProfileImage from '../../../../assets/images/person.jpg';
+import PersonProfileCardList from './MypagePersonCardList';
 
-const PersonProfilePage = () => {
+const MypagePerson = () => {
   // 카드 리스트 데이터
   const [houseCards, setHouseCards] = useState([
     { id: 1, likeCount: 535, title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 1' },
@@ -38,4 +38,4 @@ const PersonProfilePage = () => {
   );
 };
 
-export default PersonProfilePage;
+export default MypagePerson;

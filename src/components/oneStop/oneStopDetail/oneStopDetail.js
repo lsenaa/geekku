@@ -1,5 +1,5 @@
 import React from 'react';
-import './oneStopDetail.css';
+import './oneStopDetail.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const oneStopDetail = () => {

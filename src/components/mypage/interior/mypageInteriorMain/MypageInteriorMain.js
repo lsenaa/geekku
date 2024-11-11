@@ -1,6 +1,6 @@
-import styles from './MyInteriorMain.module.css';
+import styles from './MypageInteriorMain.module.css';
 
-const MyInteriorMain = () => {
+const MypageInteriorMain = () => {
     return (
         <div className={styles.mainbody}>
             <div className={styles.main}>업체 정보 관리</div>
@@ -70,4 +70,4 @@ const MyInteriorMain = () => {
         </div>
     )
 }
-export default MyInteriorMain;
+export default MypageInteriorMain;

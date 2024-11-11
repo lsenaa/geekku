@@ -84,6 +84,11 @@
 .ant-pagination {
   justify-content: center;
 }
+
+.ant-pagination .ant-pagination-item {
+  background-color: transparent;
+}
+
 .ant-pagination .ant-pagination-item:hover {
   border-radius: 50%;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './PersonProfileCard.module.css';
-import InteriorExam from '../../assets/images/InteriorExam.jpg';
+import styles from './MypagePersonCard.module.css';
+import InteriorExam from '../../../../assets/images/InteriorExam.jpg';
 
-const PersonProfileCard = ({ likeCount, title }) => {
+const MypagePersonCard = ({ likeCount, title }) => {
   return (
     <div className={styles.houseCard}>
       <img src={InteriorExam} alt="House" className={styles.houseImage} />
@@ -16,4 +16,4 @@ const PersonProfileCard = ({ likeCount, title }) => {
   );
 };
 
-export default PersonProfileCard;
+export default MypagePersonCard;
