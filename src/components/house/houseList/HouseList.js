@@ -1,4 +1,5 @@
 import styles from "./HouseList.module.scss";
+import { FaUserCircle } from "react-icons/fa";
 
 const HouseList = () => {
   return (
@@ -20,7 +21,12 @@ const HouseList = () => {
           <td colSpan="3">지방 빈 집 찾습니다.</td>
           <td colSpan="1">매매</td>
           <td colSpan="1">경남 사천</td>
-          <td colSpan="2">홍길동</td>
+          <td colSpan="2">
+            <span className={styles.writer}>
+              <FaUserCircle color="#6D885D" size={30} />
+              &nbsp;홍길동
+            </span>
+          </td>
           <td colSpan="2">2024-10-27</td>
           <td colSpan="1">32</td>
         </tr>
@@ -29,7 +35,12 @@ const HouseList = () => {
           <td colSpan="3">지방 빈 집 찾습니다.</td>
           <td colSpan="1">매매</td>
           <td colSpan="1">경남 사천</td>
-          <td colSpan="2">홍길동</td>
+          <td colSpan="2">
+            <span className={styles.writer}>
+              <FaUserCircle color="#6D885D" size={30} />
+              &nbsp;홍길동
+            </span>
+          </td>
           <td colSpan="2">2024-10-27</td>
           <td colSpan="1">32</td>
         </tr>
@@ -38,7 +49,12 @@ const HouseList = () => {
           <td colSpan="3">지방 빈 집 찾습니다.</td>
           <td colSpan="1">매매</td>
           <td colSpan="1">경남 사천</td>
-          <td colSpan="2">홍길동</td>
+          <td colSpan="2">
+            <span className={styles.writer}>
+              <FaUserCircle color="#6D885D" size={30} />
+              &nbsp;홍길동
+            </span>
+          </td>
           <td colSpan="2">2024-10-27</td>
           <td colSpan="1">32</td>
         </tr>
