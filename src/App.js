@@ -6,12 +6,12 @@ import EstateSearch from './components/estate/estateSearch/EstateSearch';
 import InteriorMain from './components/Interior/InteriorMain/Main';
 import AllStopWrite from './components/Allstop/AllStopWirte';
 import MyInteriorMain from './components/MyInteriorPage/MyInteriorMain';
-import CommunityMain from './components/Community/CommunityMain/CommunityMain';
-import CommunityBoardWrite from './components/Community/CommunityWrite/CommunityBoardWrite';
-import CommunityBoardDetail from './components/Community/CommunityBoardDetail/CommunityBoardDetail';
+import CommunityMain from './components/community/communityMain/CommunityMain';
+import CommunityBoardWrite from './components/community/communityWrite/CommunityBoardWrite';
+import CommunityBoardDetail from './components/community/communityBoardDetail/CommunityBoardDetail';
 import LoginPerson from './components/Login/LoginPerson';
 import { Route, Routes } from 'react-router';
-import CommunityList from './components/Community/CommunityMain/CommunityList';
+import CommunityList from './components/community/communityMain/CommunityList';
 import CompanyList from './components/Interior/InteriorMain/CompanyList';
 import PersonProfilePage from './components/MyPage/PersonProfilePage';
 
@@ -34,16 +34,16 @@ function App() {
         <Route path="/myInteriorPage" element={<MyInteriorMain />} />
 
         {/* Communnity */}
-        <Route path="/CommunityMain" element={<CommunityMain/>} />
-        <Route path="/CommunityList" element={<CommunityList/>} />
-        <Route path="/CommunityBoardWrite" element={<CommunityBoardWrite/>}/>
-        <Route path='/CommunityBoardDetail' element={<CommunityBoardDetail/>}/>
+        <Route path="/communityMain" element={<CommunityMain/>} />
+        <Route path="/communityList" element={<CommunityList/>} />
+        <Route path="/communityBoardWrite" element={<CommunityBoardWrite/>}/>
+        <Route path='/communityBoardDetail' element={<CommunityBoardDetail/>}/>
 
         {/* Login */}
         <Route path="/loginPerson" element={<LoginPerson />} />
 
         {/* MyPage */}
-        <Route path='/PersonProfilePage' element={<PersonProfilePage />} />
+        <Route path='/personProfilePage' element={<PersonProfilePage />} />
       </Routes>
       <Footer />
     </div>

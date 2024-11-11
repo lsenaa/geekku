@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Notification.css';
+import styles from './NotificationButton.module.css';
 
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,22 +20,22 @@ const NotificationButton = () => {
   };
 
   return (
-    <div className="notification-container">
-      <button className="notification-button" onClick={toggleNotification}>
+    <div className={styles.notificationContainer}>
+      <button className={styles.notificationButton} onClick={toggleNotification}>
         알림
       </button>
-      <div className={`notification-panel ${isOpen ? 'open' : 'close'}`}>
-        <div className="notification-header">
+      <div className={`${styles.notificationPanel} ${isOpen ? styles.open : styles.close}`}>
+        <div className={styles.notificationHeader}>
           <span>알림</span>
-          <div className="toggle-switch">
+          <div className={styles.toggleSwitch}>
             <input type="checkbox" id="switch" />
             <label htmlFor="switch"></label>
           </div>
         </div>
-        <ul className="notification-list">
+        <ul className={styles.notificationList}>
           {notifications.map((notification, index) => (
-            <li key={index} className="notification-item">
-              <span className="notification-dot">•</span> {notification}
+            <li key={index} className={styles.notificationItem}>
+              <span className={styles.notificationDot}>•</span> {notification}
             </li>
           ))}
         </ul>

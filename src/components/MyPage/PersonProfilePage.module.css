@@ -7,6 +7,7 @@
   gap: 40px;
   padding: 40px 0;
   background-color: #FFFAF4;
+  padding-bottom: 150px; /* 임시용 */
 }
 
 .userInfoCard {
@@ -21,8 +22,8 @@
 }
 
 .profileImage {
-  width: 80px;
-  height: 80px;
+  width: 117px;
+  height: 117px;
   border-radius: 50%;
   background-color: #6D885D;
   margin: 0 auto 15px;
@@ -32,12 +33,14 @@
   font-size: 20px;
   font-weight: bold;
   color: #333;
+  line-height: 1.5; 
 }
 
 .userId,
 .userEmail {
   font-size: 16px;
   color: #333;
+  line-height: 1.6; 
 }
 
 .separator {
@@ -50,6 +53,7 @@
   font-size: 18px;
   font-weight: bold;
   color: #6D885D;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .houseListContainer {

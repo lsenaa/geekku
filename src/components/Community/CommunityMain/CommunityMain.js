@@ -1,14 +1,15 @@
 import React from 'react';
 import CommunityFilterBar from './CommunityFilterBar';
 import CommunityList from './CommunityList';
+import styles from './CommunityMain.module.css';
 
 function CommunityMain() {
   return (
-    //커뮤니티 메인페이지
-    <div className="App">
+    <div className={styles.app}>
       <CommunityFilterBar />
       <CommunityList />
     </div>
   );
 }
+
 export default CommunityMain;

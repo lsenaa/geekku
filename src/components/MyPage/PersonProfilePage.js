@@ -29,8 +29,8 @@ const PersonProfilePage = () => {
       {/* 집들이 카드 리스트 */}
       <div className={style.houseListContainer}>
         <div className={style.houseListHeader}>
-          <h2 className={style.houseListTitle}>집들이</h2>
-          <a href="#" className={style.houseListViewAll}>전체 보기</a>
+          <h2 className={style.houseListTitle} style={{ fontFamily: 'Santokki' }}>집들이</h2>
+          <a href="#" className={style.houseListViewAll} style={{ fontFamily: 'Santokki' }}>전체 보기</a>
         </div>
         <PersonProfileCardList houseCards={houseCards} />
       </div>

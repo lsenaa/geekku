@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import './CommunityBoardDetail.css';
+import styles from './CommunityBoardDetail.module.css';
 import { useNavigate } from 'react-router';
 
 const CommunityBoardDetail = () => {
-    // 더미 데이터 예시
     const [post, setPost] = useState({
         title: '홈스타일링 전문가와 함께, 블랙 포인트로 세련되게 완성한 집',
         username: '코스타',
@@ -15,28 +14,8 @@ const CommunityBoardDetail = () => {
         budget: '3000만원',
         period: '1개월',
         scope: '세부공사 주방리모델링, 조명시공, 중문, 가벽&파티션, 슬라이딩 도어',
-        content: `
-            거실: 중심 공간에 블랙으로 시선을 모아보자!
-            거실은 집 안에서 가장 중요한 공간이기 때문에, 전체적인 분위기를 결정짓는 역할을 합니다. 
-            밝은 베이지 톤의 벽과 화이트 컬러 가구로 꾸며진 거실에 블랙 포인트를 주는 것이 이번 프로젝트의 핵심이었죠. 
-            가장 먼저, 커다란 블랙 프레임의 액자를 소파 위에 걸어 심플하면서도 시선을 사로잡는 포인트를 만들었습니다. 
-            또한, 블랙 메탈 소재의 사이드 테이블과 램프를 배치해 미니멀한 무드를 강화했습니다. 결과적으로, 
-            전체적으로 부드러운 톤의 공간이 블랙 포인트로 인해 더욱 균형 잡힌 느낌을 주게 되었습니다.
-            주방: 디테일에 집중한 세련된 변화
-            주방은 기능성도 중요하지만, 최근에는 미니멀하면서도 스타일리시
-            한 디자인이 많이 선호되고 있습니다. 이번 스타일링에서는 화이트 
-            상부장과 하부장을 유지하면서도, 손잡이를 모두 블랙으로 교체했
-            습니다. 작은 변화였지만, 그 디테일이 주는 세련미는 놀라웠습니다. 
-            추가적으로, 블랙 주방용품들을 함께 매치해 전체적인 통일성을 높
-            였습니다. 스테인리스보다는 블랙 색상의 전자제품을 배치함으로써
-            주방이 하나의 콘셉트로 완성된 느낌을 주었습니다.
-            침실: 아늑하면서도 모던한 감성을 더하다
-            침실은 편안함을 최우선으로 고려해야 하지만, 스타일을 포기할 수 없는 공간이기도 합니다. 
-            이번 프로젝트에서는 침실에 과감한 블랙 헤드보드를 선택하여 모던함을 더했습니다. 
-            여기에 블랙 벽걸이 조명과 작은 블랙 데코 소품을 배치해, 차분한 분위기 속에서도 모던한 감성을 잃지 않도록 했습니다. 
-            침대 옆에는 블랙 스탠드를 두어 조명을 통한 아늑함을 유지하면서도 공간의 중심을 잡아주었습니다.
-            `,
-        imageUrl: require('../../../assets/images/communityExam.png') // 로컬 이미지 경로 설정
+        content: `거실은 집 안에서 가장 중요한 공간이기 때문에...`,
+        imageUrl: require('../../../assets/images/communityExam.png')
     });
 
     const [comments, setComments] = useState([
@@ -67,68 +46,68 @@ const CommunityBoardDetail = () => {
     return (
         <div>
             {/* 상단 이미지 */}
-            <div className="post-image-container">
-                <img src={post.imageUrl} alt="상세 이미지" className="post-image" />
+            <div className={styles.postImageContainer}>
+                <img src={post.imageUrl} alt="상세 이미지" className={styles.postImage} />
             </div>
 
-            <div className="post-detail-container">
+            <div className={styles.postDetailContainer}>
                 {/* 게시글 헤더 */}
-                <div className="header">
-                    <button className="back-button" onClick={handleBackButton}>←</button>
-                    <div className="header-title">{post.title}</div>
+                <div className={styles.header}>
+                    <button className={styles.backButton} onClick={handleBackButton}>←</button>
+                    <div className={styles.headerTitle}>{post.title}</div>
                 </div>
 
                 {/* 유저 정보 섹션 */}
-                <div className="user-section">
-                    <div className="user-info">
-                        <div className="profile-icon"></div>
-                        <span className="username">{post.username}</span>
+                <div className={styles.userSection}>
+                    <div className={styles.userInfo}>
+                        <div className={styles.profileIcon}></div>
+                        <span className={styles.username}>{post.username}</span>
                     </div>
-                    <div className="actions">
-                        <button className="edit-button" onClick={handleWriteButton}>수정하기</button>
-                        {/* <span className="bookmark">북마크</span> */}
+                    <div className={styles.actions}>
+                        <button className={styles.editButton} onClick={handleWriteButton}>수정하기</button>
                     </div>
                 </div>
 
                 {/* 게시글 상세 정보 카드 */}
-                <div className="details-card">
-                    <div className="details-icons">
-                        <div className="icon-item">🏠 {post.type}</div>
-                        <div className="icon-item">📐 {post.size}</div>
-                        <div className="icon-item">✏️ {post.style}</div>
-                        <div className="icon-item">👫 {post.family}</div>
+                <div className={styles.detailsCard}>
+                    <div className={styles.detailsIcons}>
+                        <div className={styles.iconItem}>🏠 {post.type}</div>
+                        <div className={styles.iconItem}>📐 {post.size}</div>
+                        <div className={styles.iconItem}>✏️ {post.style}</div>
+                        <div className={styles.iconItem}>👫 {post.family}</div>
                     </div>
                     <hr />
-                    <div className="detail-content">지역: {post.location} | 스타일: {post.style} | 예산: {post.budget} | 기간: {post.period}</div>
-                    <div className="detail-content">시공 범위: {post.scope}</div>
+                    <div className={styles.detailContent}>지역: {post.location} | 스타일: {post.style} | 예산: {post.budget} | 기간: {post.period}</div>
+                    <div className={styles.detailContent}>시공 범위: {post.scope}</div>
                 </div>
 
                 {/* 게시글 내용 */}
-                <div className="post-content">
+                <div className={styles.postContent}>
                     <p>{post.content}</p>
                 </div>
 
                 {/* 댓글 섹션 */}
-                <div className="comments-section">
-                    <div className="comment">댓글</div>
-                    <div className="comment-input">
+                <div className={styles.commentsSection}>
+                    <div className={styles.comment}>댓글</div>
+                    <div className={styles.commentInput}>
                         <textarea
                             value={newComment}
                             onChange={handleCommentChange}
                             placeholder="댓글을 작성해주세요"
                             maxLength={500}
+                            className={styles.textArea}
                         />
-                        <button onClick={handleCommentSubmit} className="submit-button">작성하기</button>
+                        <button onClick={handleCommentSubmit} className={styles.submitButton}>작성하기</button>
                     </div>
-                    <div className="comment-output">
-                        <div className="comments-list">
+                    <div className={styles.commentOutput}>
+                        <div className={styles.commentsList}>
                             {comments.map(comment => (
-                                <div key={comment.id} className="comment-item">
-                                    <div className="comment-header" style={{marginBottom:"10px"}}>
-                                        <span className="comment-username">{comment.username}&nbsp;&nbsp;</span>
-                                        <span className="comment-date">{comment.date}</span>
+                                <div key={comment.id} className={styles.commentItem}>
+                                    <div className={styles.commentHeader} style={{marginBottom:"10px"}}>
+                                        <span className={styles.commentUsername}>{comment.username}&nbsp;&nbsp;</span>
+                                        <span className={styles.commentDate}>{comment.date}</span>
                                     </div>
-                                    <p className="comment-content">{comment.content}</p>
+                                    <p className={styles.commentContent}>{comment.content}</p>
                                 </div>
                             ))}
                         </div>

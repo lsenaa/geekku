@@ -1,5 +1,6 @@
 .houseCard {
   width: 278px;
+  height: 261px;
   background-color: #FFFAF4;
   border: 1px solid #6D885D;
   border-radius: 15px;
@@ -38,4 +39,5 @@
   font-size: 16px;
   font-weight: bold;
   color: #333;
+  line-height: 1.5; 
 }
