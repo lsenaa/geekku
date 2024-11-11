@@ -20,6 +20,9 @@ import OneStopDetail from './components/oneStop/oneStopDetail/oneStopDetail'
 import MypageInteriorMain from './components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from './components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
 import Login from './components/login/Login';
+import JoinPerson from './components/join/JoinPerson';
+import JoinCompany from './components/join/JoinCompany';
+import JoinInterior from './components/join/JoinInterior';
 
 function App() {
   return (
@@ -57,6 +60,11 @@ function App() {
 
         {/* Login */}
         <Route path='/login' element={<Login/>}/>
+
+        {/* Join */}
+        <Route path='/joinPerson' element={<JoinPerson/>}/>
+        <Route path='/joinCompany' element={<JoinCompany/>}/>
+        <Route path='/joinInterior' element={<JoinInterior/>}/>
         
       </Routes>
       <Footer />
