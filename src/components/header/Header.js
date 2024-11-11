@@ -3,7 +3,7 @@ import logo from "../../assets/images/logo.png";
 import styles from "./Header.module.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NotificationButton from '../Notification/NotificationButton';
+import NotificationButton from '../notification/NotificationButton';
 
 const Header = () => {
   const [write, setWrite] = useState(false);
