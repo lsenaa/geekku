@@ -4,7 +4,6 @@ import Header from './components/layout/header/Header';
 import Main from './components/main/Main';
 import EstateSearch from './components/estate/estateSearch/EstateSearch';
 import InteriorMain from './components/Interior/InteriorMain/Main';
-import MyInteriorMain from './components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import CommunityMain from './components/community/communityMain/CommunityMain';
 import CommunityBoardWrite from './components/community/communityWrite/CommunityBoardWrite';
 import CommunityBoardDetail from './components/community/communityBoardDetail/CommunityBoardDetail';
@@ -17,9 +16,10 @@ import EstateWrite from './components/estate/estateWrite/EstateWrite'
 import HouseMain from './components/house/HouseMain'
 import HouseWrite from './components/house/houseWrite/HouseWrite'
 import HouseDetail from './components/house/houseDetail/HouseDetail'
-import MyInteriorModify from './components/mypage/interior/mypageInteriorModify/MypageInteriorModify'
 import OneStopWrite from './components/oneStop/oneStopWrite/oneStopWrite'
 import OneStopDetail from './components/oneStop/oneStopDetail/oneStopDetail'
+import MypageInteriorMain from './components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
+import MypageInteriorModify from './components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
 
 function App() {
   return (
@@ -39,7 +39,6 @@ function App() {
         {/* Interior */}
         <Route path="/interiorMain" element={<InteriorMain/>} />
         <Route path="/companyMain" element={<CompanyList/>} />
-        <Route path="/estateSearch" element={<EstateSearch />} />
         
         {/* Onestop */}
         <Route path="/oneStopWrite" element={<OneStopWrite />} />
@@ -56,8 +55,8 @@ function App() {
 
         {/* MyPage */}
         <Route path='/mypagePerson' element={<MypagePerson />} />
-        <Route path="/myInteriorPage" element={<MyInteriorMain />} />
-        <Route path="/myInteriorModify" element={<MyInteriorModify />} />
+        <Route path="/mypageInterior" element={<MypageInteriorMain />} />
+        <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
         
       </Routes>
       <Footer />
