@@ -3,7 +3,7 @@ import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Main from './components/main/Main';
 import EstateSearch from './components/estate/estateSearch/EstateSearch';
-import InteriorMain from './components/Interior/InteriorMain/Main';
+import InteriorMain from './components/Interior/interiorMain/Main';
 import AllStopWrite from './components/Allstop/AllStopWirte';
 import MyInteriorMain from './components/MyInteriorPage/MyInteriorMain';
 import CommunityMain from './components/Community/CommunityMain/CommunityMain';
@@ -12,7 +12,9 @@ import CommunityBoardDetail from './components/Community/CommunityBoardDetail/Co
 import LoginPerson from './components/Login/LoginPerson';
 import { Route, Routes } from 'react-router';
 import CommunityList from './components/Community/CommunityMain/CommunityList';
-import CompanyList from './components/Interior/InteriorMain/CompanyList';
+import CompanyList from './components/Interior/companyList/Main';
+import CompanyRegister from './components/Interior/companyRegister/Register'
+
 
 function App() {
   return (
@@ -22,7 +24,8 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/estateSearch" element={<EstateSearch />} />
         <Route path="/interiorMain" element={<InteriorMain/>} />
-        <Route path="/companyMain" element={<CompanyList/>} />
+        <Route path="/companyMain" element={<CompanyList/>}/>
+        <Route path='/companyRegister' element={<CompanyRegister/>}/>
         <Route path="/estateSearch" element={<EstateSearch />} />
         <Route path="/allStopWrite" element={<AllStopWrite />} />
         <Route path="/myInteriorPage" element={<MyInteriorMain />} />
