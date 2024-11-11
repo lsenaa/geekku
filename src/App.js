@@ -5,6 +5,7 @@ import Header from './components/header/Header';
 import Main from './components/main/Main';
 import EstateSearch from './components/estate/estateSearch/EstateSearch';
 import InteriorMain from './components/Interior/InteriorMain/Main';
+import CompanyList from './components/Interior/CompanyList/Main';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/estateSearch" element={<EstateSearch />} />
          <Route path="/interiorMain" element={<InteriorMain/>} />
-        <Route path="/companyMain" element={<CompanyList/>} />
+         <Route path="/companyMain" element={<CompanyList/>}/>
         <Route path="/estateSearch" element={<EstateSearch />} />
       </Routes>
       <Footer />
