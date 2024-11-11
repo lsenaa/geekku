@@ -7,7 +7,6 @@ import InteriorMain from './components/interior/interiorMain/Main';
 import CommunityMain from './components/community/communityMain/CommunityMain';
 import CommunityBoardWrite from './components/community/communityWrite/CommunityBoardWrite';
 import CommunityBoardDetail from './components/community/communityBoardDetail/CommunityBoardDetail';
-import LoginPerson from './components/Login/LoginPerson';
 import { Route, Routes } from 'react-router';
 import CommunityList from './components/community/communityMain/CommunityList';
 import CompanyList from './components/interior/companyList/Main';
@@ -49,9 +48,6 @@ function App() {
         <Route path="/communityList" element={<CommunityList/>} />
         <Route path="/communityBoardWrite" element={<CommunityBoardWrite/>}/>
         <Route path='/communityBoardDetail' element={<CommunityBoardDetail/>}/>
-
-        {/* Login */}
-        <Route path="/loginPerson" element={<LoginPerson />} />
 
         {/* MyPage */}
         <Route path='/mypagePerson' element={<MypagePerson />} />
