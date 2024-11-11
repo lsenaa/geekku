@@ -22,7 +22,7 @@ const Header = () => {
             <Link to={"/houseMain"}>집꾸하기</Link>
           </li>
           <li>
-            <Link to={"/"}>방꾸하기</Link>
+            <Link to={"/InteriorMain"}>방꾸하기</Link>
           </li>
           <li>
             <Link to={"/"}>한번에꾸하기</Link>

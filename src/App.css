@@ -11,13 +11,12 @@
   padding: 23px;
 }
 
-.slick-prev:before,
-.slick-next:before {
-  font-size: 40px;
-  color: #6d885d;
+.slick-prev:before, .slick-next:before {
+    font-size: 40px;
+    color: #6D885D;
 }
 .slick-prev {
-  left: -40px;
+    left: -40px;
 }
 
 /* Antd modal Custom styles */

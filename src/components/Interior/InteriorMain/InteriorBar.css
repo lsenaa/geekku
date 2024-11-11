@@ -4,18 +4,19 @@
   background-color: gray;
 }
 .iBanner {
-  position: relative;
-}
-.bannerText {
-  width: 700px;
-  position: absolute;
-  top: 190px;
-  left: 1200px;
-  transform: translate(-50%, -50%);
-  color: black;
-  font-family: "santokki";
-  font-size: 20px;
-}
-#iText {
-  margin-bottom: 25px;
-}
+    position: relative;
+  }
+  .bannerText {
+    width: 700px;
+    position: absolute;
+    top: 190px;
+    left: 1200px;
+    transform: translate( -50%, -50% );
+    color: black;
+    font-family: "santokki";
+    font-size: 20px;
+  }
+  #iText {
+    margin-bottom: 25px;
+  }
+  
