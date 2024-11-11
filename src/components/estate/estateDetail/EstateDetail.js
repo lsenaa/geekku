@@ -47,44 +47,51 @@ const EstateDetail = () => {
       </div>
       {/* 상세 테이블 */}
       <table className={styles.table}>
-        <tr>
-          <td className={styles.title}>보증금/월세</td>
-          <td className={styles.content}>300/33(만원)</td>
-          <td className={styles.title}>관리비</td>
-          <td className={styles.content}>13만원</td>
-        </tr>
-        <tr>
-          <td className={styles.title}>층수(건물층)</td>
-          <td className={styles.content}>1층(1층)</td>
-          <td className={styles.title}>전용/공급면적</td>
-          <td className={styles.content}>103㎡/103㎡</td>
-        </tr>
-        <tr>
-          <td className={styles.title}>방 수</td>
-          <td className={styles.content}>2개</td>
-          <td className={styles.title}>욕실 수</td>
-          <td className={styles.content}>1개</td>
-        </tr>
-        <tr>
-          <td className={styles.title}>주차</td>
-          <td className={styles.content}>2대</td>
-          <td className={styles.title}>입주 가능일</td>
-          <td className={styles.content}>2024.10.22 (협의 가능)</td>
-        </tr>
-        <tr>
-          <td className={styles.title}>객실 시설</td>
-          <td className={styles.longContent} colSpan="3">
-            전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 전기밥솥, TV,
-            화장실(내부), 식탁, 옷걸이, 와이파이, 인터넷
-          </td>
-        </tr>
-        <tr>
-          <td className={styles.title}>상세 내용</td>
-          <td className={styles.longContent} colSpan="3">
-            최근 깔금하게 리모델링한 시골 농가주택입니다. 보증금 300에 월세 33
-            저렴하게 올라온 매물이니 연락주세요.
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <td className={styles.title}>보증금/월세</td>
+            <td className={styles.content}>300/33(만원)</td>
+            <td className={styles.title}>관리비</td>
+            <td className={styles.content}>13만원</td>
+          </tr>
+          <tr>
+            <td className={styles.title}>층수(건물층)</td>
+            <td className={styles.content}>1층(1층)</td>
+            <td className={styles.title}>전용/공급면적</td>
+            <td className={styles.content}>103㎡/103㎡</td>
+          </tr>
+          <tr>
+            <td className={styles.title}>방 수</td>
+            <td className={styles.content}>2개</td>
+            <td className={styles.title}>욕실 수</td>
+            <td className={styles.content}>1개</td>
+          </tr>
+          <tr>
+            <td className={styles.title}>주차</td>
+            <td className={styles.content}>2대</td>
+            <td className={styles.title}>입주 가능일</td>
+            <td className={styles.content}>2024.10.22 (협의 가능)</td>
+          </tr>
+          <tr>
+            <td className={styles.title}>객실 시설</td>
+            <td className={styles.longContent} colSpan="3">
+              전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 전기밥솥, TV,
+              화장실(내부), 식탁, 옷걸이, 와이파이, 인터넷
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.title}>상세 내용</td>
+            <td className={styles.longContent} colSpan="3">
+              최근 깔금하게 리모델링한 시골 농가주택입니다. 보증금 300에 월세 33
+              저렴하게 올라온 매물이니 연락주세요.최근 깔금하게 리모델링한 시골
+              농가주택입니다. 보증금 300에 월세 33 저렴하게 올라온 매물이니
+              연락주세요.최근 깔금하게 리모델링한 시골 농가주택입니다. 보증금
+              300에 월세 33 저렴하게 올라온 매물이니 연락주세요.최근 깔금하게
+              리모델링한 시골 농가주택입니다. 보증금 300에 월세 33 저렴하게
+              올라온 매물이니 연락주세요.
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );
