@@ -1,7 +1,7 @@
 import styles from "./HouseDetail.module.scss";
 import { useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import Button01 from "../../button/Button01";
+import Button01 from "../../commons/button/Button01";
 import HouseDetailAnswerList from "./houseDetailAnswer/HouseDetailAnswerList";
 import { Link } from "react-router-dom";
 

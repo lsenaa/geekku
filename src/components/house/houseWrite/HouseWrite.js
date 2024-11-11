@@ -1,7 +1,7 @@
 import styles from "./HouseWrite.module.scss";
 import { useState } from "react";
 import { DatePicker } from "antd";
-import Button01 from "../../button/Button01";
+import Button01 from "../../commons/button/Button01";
 import { Link } from "react-router-dom";
 
 const HouseWrite = () => {

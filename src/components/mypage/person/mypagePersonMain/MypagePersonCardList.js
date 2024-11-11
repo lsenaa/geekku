@@ -1,8 +1,8 @@
 import React from 'react';
-import PersonProfileCard from './PersonProfileCard';
-import styles from './PersonProfileCardList.module.css';
+import PersonProfileCard from './MypagePersonCard';
+import styles from './MypagePersonCardList.module.css';
 
-const PersonProfileCardList = ({ houseCards }) => {
+const MypagePersonCardList = ({ houseCards }) => {
   return (
     <div className={styles.houseList}>
       {houseCards && houseCards.map(card => (
@@ -12,4 +12,4 @@ const PersonProfileCardList = ({ houseCards }) => {
   );
 };
 
-export default PersonProfileCardList;
+export default MypagePersonCardList;

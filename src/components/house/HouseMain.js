@@ -1,5 +1,5 @@
 import styles from "./HouseMain.module.scss";
-import Button01 from "../button/Button01";
+import Button01 from "../commons/button/Button01";
 import HouseList from "./houseList/HouseList";
 import { Pagination } from "antd";
 import { Link } from "react-router-dom";

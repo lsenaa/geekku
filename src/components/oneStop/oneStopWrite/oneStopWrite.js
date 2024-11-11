@@ -1,5 +1,5 @@
 import React from 'react';
-import './oneStopWrite.css';
+import './oneStopWrite.module.css';
 import { useNavigate } from 'react-router';
 
 const OneStopWrite = () => {
