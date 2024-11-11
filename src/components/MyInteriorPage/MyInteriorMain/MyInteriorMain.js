@@ -1,4 +1,4 @@
-import styles from './common.module.css';
+import styles from './MyInteriorMain.module.css';
 
 const MyInteriorMain = () => {
     return (
