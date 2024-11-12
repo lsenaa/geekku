@@ -25,6 +25,8 @@ import SearchId from 'components/login/SearchId';
 import JoinPerson from 'components/join/JoinPerson';
 import JoinCompany from 'components/join/JoinCompany';
 import JoinInterior from 'components/join/JoinInterior';
+import SearchPwd from 'components/login/SearchPwd';
+import SearchPwdResult from 'components/login/SearchPwdResult';
 
 const Router = () => {
   return (
@@ -62,6 +64,8 @@ const Router = () => {
       {/* Login */}
       <Route path="/login" element={<Login />} />
       <Route path="/searchId" element={<SearchId />} />
+      <Route path="/searchPwd" element={<SearchPwd />} />
+      <Route path="/searchPwdResult" element={<SearchPwdResult />} />
 
       {/* Join */}
       <Route path="/joinPerson" element={<JoinPerson />} />
