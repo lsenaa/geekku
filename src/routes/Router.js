@@ -27,6 +27,7 @@ import MypagePersonOnestop from 'components/mypage/person/onestop/MypagePersonOn
 import BookmarkHouse from 'components/mypage/person/bookmark/house/BookmarkHouse';
 import BookmarkInterior from 'components/mypage/person/bookmark/interior/BookmarkInterior';
 import BookmarkCommunity from 'components/mypage/person/bookmark/community/BookmarkCommunity';
+import MypagePersonCommunity from 'components/mypage/person/community/MypagePersonCommunity';
 
 const Router = () => {
   return (
@@ -63,6 +64,7 @@ const Router = () => {
         <Route path="bookmark" element={<BookmarkHouse />} />
         <Route path="bookmarkInterior" element={<BookmarkInterior />} />
         <Route path="bookmarkCommunity" element={<BookmarkCommunity />} />
+        <Route path="community" element={<MypagePersonCommunity />} />
       </Route>
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
