@@ -21,10 +21,15 @@ const NotificationButton = () => {
 
   return (
     <div className={styles.notificationContainer}>
-      <button className={styles.notificationButton} onClick={toggleNotification}>
+      <button
+        className={styles.notificationButton}
+        onClick={toggleNotification}
+      >
         알림
       </button>
-      <div className={`${styles.notificationPanel} ${isOpen ? styles.open : styles.close}`}>
+      <div
+        className={`${styles.notificationPanel} ${isOpen ? styles.open : styles.close}`}
+      >
         <div className={styles.notificationHeader}>
           <span>알림</span>
           <div className={styles.toggleSwitch}>

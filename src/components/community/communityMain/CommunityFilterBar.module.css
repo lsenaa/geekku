@@ -3,9 +3,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 1200px; 
-  margin: 0 auto; 
-  background-color: #FFFAF4;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fffaf4;
 }
 
 /* 헤더 영역 */
@@ -19,7 +19,7 @@
 .boardTitle {
   font-size: 36px;
   font-weight: bold;
-  color: #6D885D;
+  color: #6d885d;
   margin-top: 10px;
   margin-right: 20px;
 }
@@ -27,7 +27,7 @@
 /* 총 개수 스타일 */
 .totalCount {
   font-size: 14px;
-  color: #6D885D;
+  color: #6d885d;
 }
 
 /* 필터 버튼 바 */
@@ -35,7 +35,7 @@
   display: flex;
   gap: 10px;
   padding: 100px 0 86px 0;
-  background-color: #FFFAF4;
+  background-color: #fffaf4;
 }
 
 /* 필터 버튼 스타일 */
@@ -43,12 +43,12 @@
   height: 45px;
   width: 97px;
   padding: 8px 12px;
-  background-color: #FFFAF4;
-  border: 1px solid #6D885D;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
   border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
-  color: #6D885D;
+  color: #6d885d;
   margin-top: 8px;
 }
 
@@ -59,13 +59,13 @@
 /* 등록 버튼 스타일 */
 .registerButton {
   padding: 10px 20px;
-  background-color: #6D885D;
+  background-color: #6d885d;
   color: white;
   border: none;
   border-radius: 10px;
   font-size: 16px;
   cursor: pointer;
-  margin-left: auto; 
+  margin-left: auto;
 }
 
 .registerButton:hover {

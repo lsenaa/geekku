@@ -1,8 +1,8 @@
-import styles from "./EstateSearch.module.scss";
-import { useState } from "react";
-import EstateList from "../estateList/EstateList";
-import EstateDetail from "../estateDetail/EstateDetail";
-import { Modal } from "antd";
+import styles from './EstateSearch.module.scss';
+import { useState } from 'react';
+import EstateList from '../estateList/EstateList';
+import EstateDetail from '../estateDetail/EstateDetail';
+import { Modal } from 'antd';
 
 const EstateSearch = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,10 +1,10 @@
-import styles from "./EstateWrite.module.scss";
-import { useState } from "react";
-import { DatePicker } from "antd";
-import { FiPlus } from "react-icons/fi";
-import Button01 from "../../commons/button/Button01";
-import estateWriteImg from "../../../assets/images/estateWriteImg.png";
-import { Link } from "react-router-dom";
+import styles from './EstateWrite.module.scss';
+import { useState } from 'react';
+import { DatePicker } from 'antd';
+import { FiPlus } from 'react-icons/fi';
+import Button01 from '../../commons/button/Button01';
+import estateWriteImg from '../../../assets/images/estateWriteImg.png';
+import { Link } from 'react-router-dom';
 
 const EstateWrite = () => {
   const [textCount, setTextCount] = useState(0);
@@ -199,7 +199,7 @@ const EstateWrite = () => {
           <input
             type="text"
             placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
-            style={{ width: "100%", textAlign: "left" }}
+            style={{ width: '100%', textAlign: 'left' }}
           />
         </div>
       </section>
@@ -208,7 +208,7 @@ const EstateWrite = () => {
         <hr className={styles.line} />
         <ul className={styles.alert}>
           <li>
-            사진은 필수 <span>최소 3장</span>(한 장당 최대 10MB),{" "}
+            사진은 필수 <span>최소 3장</span>(한 장당 최대 10MB),{' '}
             <span>최대 8장</span>까지 등록할 수 있습니다. (가로로 찍은 사진 권장
             - 가로 사이즈 최소 800px)
           </li>
@@ -271,7 +271,7 @@ const EstateWrite = () => {
             minLength="5"
             maxLength="40"
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
-            style={{ width: "100%", textAlign: "left" }}
+            style={{ width: '100%', textAlign: 'left' }}
           />
         </div>
         <div className={styles.item}>
@@ -291,7 +291,7 @@ const EstateWrite = () => {
             </p>
           </div>
         </div>
-        <ul className={styles.alert} style={{ margin: "0 0 0 150px" }}>
+        <ul className={styles.alert} style={{ margin: '0 0 0 150px' }}>
           <li>매물 정보와 관련없는 홍보성 정보는 입력할 수 없습니다.</li>
           <li>매물등록규정에 위반되는 금칙어는 입력할 수 없습니다.</li>
           <li>
@@ -303,7 +303,7 @@ const EstateWrite = () => {
       <div className={styles.btnWrap}>
         <Button01 size="small">등록하기</Button01>
         <Button01 color="sub" size="small">
-          <Link to={"/"}>취소하기</Link>
+          <Link to={'/'}>취소하기</Link>
         </Button01>
       </div>
     </div>

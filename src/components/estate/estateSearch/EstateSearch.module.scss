@@ -1,4 +1,4 @@
-@import "../../../variables.scss";
+@import '../../../variables.scss';
 
 .container {
   height: auto;
@@ -25,7 +25,7 @@
 
     &:after {
       display: block;
-      content: "";
+      content: '';
       width: 100%;
       transform: scaleX(0);
       transition: transform 250ms ease-in-out;
@@ -33,7 +33,7 @@
     &:hover {
       color: $main-color;
       &:after {
-        content: "";
+        content: '';
         width: 100%;
         position: absolute;
         bottom: -10px;
@@ -48,7 +48,7 @@
     color: $main-color;
 
     &:after {
-      content: "";
+      content: '';
       width: 100%;
       position: absolute;
       bottom: -10px;

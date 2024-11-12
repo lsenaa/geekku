@@ -1,5 +1,5 @@
-import styles from "./EstateList.module.scss";
-import listImg from "../../../assets/images/estateListImg.png";
+import styles from './EstateList.module.scss';
+import listImg from '../../../assets/images/estateListImg.png';
 
 const EstateList = ({ isModalOpen, setIsModalOpen }) => {
   return (

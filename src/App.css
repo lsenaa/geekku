@@ -11,49 +11,53 @@
   padding: 23px;
 }
 
-.slick-prev:before, .slick-next:before {
-    font-size: 40px !important;
-    color: #6D885D !important;
+.slick-slider .slick-prev::before,
+.slick-slider .slick-next::before {
+  font-size: 40px;
+  color: #6d885d;
 }
 .slick-prev {
-    left: -40px;
+  left: -40px;
 }
 
 /* Antd modal Custom styles */
 .ant-modal .ant-modal-content {
   background-color: #fffaf4;
-  font-family: "Noto Sans KR";
+  font-family: 'Noto Sans KR';
 }
 
 /* Antd Carousel Custom styles */
 .ant-carousel {
   width: 60%;
+}
 
-  .slick-slider {
-    width: 100%;
-  }
+.ant-carousel .slick-slider {
+  width: 100%;
+}
 
-  .slick-prev {
-    left: 22px;
-    opacity: 1;
-    &:before {
-      font-size: 30px;
-    }
-    &:after {
-      display: none;
-    }
-  }
+.ant-carousel .slick-slider .slick-prev {
+  left: 22px;
+  opacity: 1;
+}
 
-  .slick-next {
-    right: 36px;
-    opacity: 1;
-    &:before {
-      font-size: 30px;
-    }
-    &:after {
-      display: none;
-    }
-  }
+.ant-carousel .slick-slider .slick-prev::before {
+  font-size: 30px;
+}
+.ant-carousel .slick-slider .slick-prev::after {
+  display: none;
+}
+
+.ant-carousel .slick-slider .slick-next {
+  right: 36px;
+  opacity: 1;
+}
+
+.ant-carousel .slick-slider .slick-next::before {
+  font-size: 30px;
+}
+
+.ant-carousel .slick-slider .slick-next::after {
+  display: none;
 }
 
 /* Antd Datepicker Custom styles */

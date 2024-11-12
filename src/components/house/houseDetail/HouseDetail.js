@@ -1,9 +1,9 @@
-import styles from "./HouseDetail.module.scss";
-import { useParams } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
-import Button01 from "../../commons/button/Button01";
-import HouseDetailAnswerList from "./houseDetailAnswer/HouseDetailAnswerList";
-import { Link } from "react-router-dom";
+import styles from './HouseDetail.module.scss';
+import { useParams } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa';
+import Button01 from '../../commons/button/Button01';
+import HouseDetailAnswerList from './houseDetailAnswer/HouseDetailAnswerList';
+import { Link } from 'react-router-dom';
 
 const HouseDetail = () => {
   let { num } = useParams();
@@ -44,7 +44,7 @@ const HouseDetail = () => {
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p style={{ marginBottom: "8px" }}>전세가</p>
+            <p style={{ marginBottom: '8px' }}>전세가</p>
             <p>1,000만원</p>
           </div>
         </div>
@@ -76,7 +76,7 @@ const HouseDetail = () => {
       </section>
       <div className={styles.btnWrap}>
         <Button01 size="small">
-          <Link to={"/houseMain"}>목록으로</Link>
+          <Link to={'/houseMain'}>목록으로</Link>
         </Button01>
       </div>
       {/* 답변 리스트 */}
