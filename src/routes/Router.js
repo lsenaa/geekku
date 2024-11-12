@@ -19,6 +19,10 @@ import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
+import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
+import MypageLayout from 'components/layout/mypage/MypageLayout';
+import MypagePerson from 'components/mypage/person/MypagePersonMain';
+import MypagePersonReview from 'components/mypage/person/interior/MypagePersonReview';
 
 const Router = () => {
   return (
@@ -47,7 +51,11 @@ const Router = () => {
       <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
 
       {/* MyPage */}
-      <Route path="/mypagePerson" element={<MypagePersonMain />} />
+      <Route path="/mypageUser/*" element={<MypageLayout />}>
+        <Route index element={<MypagePersonMain />} />
+        <Route path="interior" element={<MypagePersonInterior />} />
+        <Route path="interiorReview" element={<MypagePersonReview />} />
+      </Route>
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
 

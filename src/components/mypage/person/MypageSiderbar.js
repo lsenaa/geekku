@@ -8,8 +8,8 @@ const MypageSiderbar = () => {
   const [selected, setSelected] = useState(location.pathname);
 
   const personMenu = [
-    { name: '집꾸하기', path: '/mypagePerson' },
-    { name: '방꾸하기', path: '#' },
+    { name: '집꾸하기', path: '/mypageUser' },
+    { name: '방꾸하기', path: '/mypageUser/interior' },
     { name: '한번에 꾸하기', path: '#' },
     { name: '북마크', path: '#' },
     { name: '집들이', path: '#' },
@@ -28,6 +28,7 @@ const MypageSiderbar = () => {
           <li
             key={index}
             className={selected === person.path ? styles.active : ''}
+            onClick={() => setSelected(person.path)}
           >
             <Link to={person.path}>{person.name}</Link>
           </li>
