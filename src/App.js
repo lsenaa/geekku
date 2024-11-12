@@ -25,6 +25,7 @@ import JoinCompany from './components/join/JoinCompany';
 import JoinInterior from './components/join/JoinInterior';
 import PersonInfo from './components/mypage/info/PersonInfo';
 import CompanyInfo from './components/mypage/info/CompanyInfo';
+import SearchId from './components/login/SearchId';
 
 function App() {
   return (
@@ -60,10 +61,11 @@ function App() {
         <Route path="/mypageInterior" element={<MypageInteriorMain />} />
         <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
         <Route path='/personInfo' element={<PersonInfo />} />
-        <Route path='/companyInfo' element={<CompanyInfo/>}/>
+        <Route path='/companyInfo' element={<CompanyInfo />} />
 
         {/* Login */}
         <Route path='/login' element={<Login />} />
+        <Route path='/searchId' element={<SearchId />} />
 
         {/* Join */}
         <Route path='/joinPerson' element={<JoinPerson />} />
