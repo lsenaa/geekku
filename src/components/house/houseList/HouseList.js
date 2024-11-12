@@ -3,7 +3,7 @@ import { FaUserCircle } from 'react-icons/fa';
 
 const HouseList = () => {
   return (
-    <table>
+    <table className={styles.customTable}>
       <thead>
         <tr>
           <th colSpan="1">번호</th>

@@ -18,6 +18,7 @@ import OneStopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
 import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
+import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 
 const Router = () => {
   return (
@@ -46,6 +47,7 @@ const Router = () => {
       <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
 
       {/* MyPage */}
+      <Route path="/mypagePerson" element={<MypagePersonMain />} />
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
 

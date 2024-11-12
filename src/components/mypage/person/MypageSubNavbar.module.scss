@@ -1,0 +1,25 @@
+@import 'variables.scss';
+
+.subNav {
+  margin-bottom: 60px;
+
+  li {
+    display: inline-block;
+    position: relative;
+
+    &:after {
+      content: '';
+      display: block;
+      border-bottom: 3px solid $main-color;
+      width: 105%;
+      position: absolute;
+      bottom: -10px;
+    }
+  }
+
+  a {
+    font-family: $sub-font;
+    color: $main-color;
+    font-size: 24px;
+  }
+}

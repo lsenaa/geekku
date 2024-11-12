@@ -1,4 +1,15 @@
-@import '../../../variables.scss';
+@import 'variables.scss';
+
+.container {
+  @include container;
+  @include flexrow;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.contentWrap {
+  width: ((1200px - 40px) * 0.8);
+}
 
 .customTable {
   width: 100%;
@@ -28,15 +39,10 @@
         transform: scale(1);
       }
 
-      .writer {
-        display: inline-flex;
-        align-items: center;
-      }
-
       td {
         border-top: 1px solid $main-color;
         border-bottom: 1px solid $main-color;
-        padding: 20px 16px;
+        padding: 10px;
         vertical-align: middle;
         text-align: center;
 
@@ -44,6 +50,10 @@
           border-left: 1px solid $main-color;
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;
+        }
+        &:nth-child(2) {
+          text-align: left;
+          @include ellipse;
         }
         &:last-of-type {
           border-right: 1px solid $main-color;
