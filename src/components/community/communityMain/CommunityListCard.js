@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 
 const CommunityListCard = ({ title, image, views, profile }) => {
   const navigate = useNavigate();
-  
+
   const handleDetail = () => {
     navigate('/CommunityBoardDetail');
   };
@@ -13,7 +13,9 @@ const CommunityListCard = ({ title, image, views, profile }) => {
     // Card component
     <div className={styles.card} onClick={handleDetail}>
       <img src={image} alt={title} className={styles.cardImage} />
-      <h3 className={styles.cardTitle} style={{ fontWeight: "bolder" }}>{title}</h3>
+      <h3 className={styles.cardTitle} style={{ fontWeight: 'bolder' }}>
+        {title}
+      </h3>
       <div className={styles.cardFooter}>
         <div className={styles.profile}>
           <img src={profile} alt="프로필" className={styles.profileImage} />

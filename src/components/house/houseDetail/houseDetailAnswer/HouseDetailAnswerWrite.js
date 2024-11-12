@@ -1,6 +1,6 @@
-import styles from "./HouseDetailAnswerWrite.module.scss";
-import { FaUserCircle } from "react-icons/fa";
-import Button01 from "../../../commons/button/Button01";
+import styles from './HouseDetailAnswerWrite.module.scss';
+import { FaUserCircle } from 'react-icons/fa';
+import Button01 from '../../../commons/button/Button01';
 
 const HouseDetailAnswerWrite = ({ toggleModal }) => {
   return (

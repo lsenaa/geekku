@@ -1,9 +1,9 @@
-import styles from "./HouseDetailAnswerList.module.scss";
-import Button01 from "../../../commons/button/Button01";
-import { FaUserCircle } from "react-icons/fa";
-import { useState } from "react";
-import { Modal } from "antd";
-import HouseDetailAnswerWrite from "./HouseDetailAnswerWrite";
+import styles from './HouseDetailAnswerList.module.scss';
+import Button01 from '../../../commons/button/Button01';
+import { FaUserCircle } from 'react-icons/fa';
+import { useState } from 'react';
+import { Modal } from 'antd';
+import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 
 const HouseDetailAnswerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,13 +1,6 @@
 import './App.css';
-import Footer from './components/layout/footer/Footer';
-import Header from './components/layout/header/Header';
-import Main from './components/main/Main';
-import EstateSearch from './components/estate/estateSearch/EstateSearch';
-import InteriorMain from './components/interior/interiorMain/Main';
-import CommunityMain from './components/community/communityMain/CommunityMain';
-import CommunityBoardWrite from './components/community/communityWrite/CommunityBoardWrite';
-import CommunityBoardDetail from './components/community/communityBoardDetail/CommunityBoardDetail';
 import { Route, Routes } from 'react-router';
+<<<<<<< HEAD
 import CommunityList from './components/community/communityMain/CommunityList';
 import CompanyList from './components/interior/companyList/Main';
 import MypagePerson from './components/mypage/person/mypagePersonMain/MypagePerson';
@@ -26,11 +19,18 @@ import JoinInterior from './components/join/JoinInterior';
 import PersonInfo from './components/mypage/info/PersonInfo';
 import CompanyInfo from './components/mypage/info/CompanyInfo';
 import SearchId from './components/login/SearchId';
+=======
+import { Suspense } from 'react';
+import Header from 'components/layout/header/Header';
+import Footer from 'components/layout/footer/Footer';
+import Router from 'routes/Router';
+>>>>>>> 297ff730838e6f0e3c89954117254f14dc7e2a9f
 
 function App() {
   return (
     <div className="appContainer">
       <Header />
+<<<<<<< HEAD
       <Routes>
         {/* Estate */}
         <Route path="/" element={<Main />} />
@@ -74,6 +74,11 @@ function App() {
 
 
       </Routes>
+=======
+      <Suspense fallback={<div>Loading...</div>}>
+        <Router />
+      </Suspense>
+>>>>>>> 297ff730838e6f0e3c89954117254f14dc7e2a9f
       <Footer />
     </div>
   );

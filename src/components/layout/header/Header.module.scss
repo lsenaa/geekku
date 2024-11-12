@@ -6,7 +6,7 @@
   justify-content: space-between;
   background-color: $body-color;
   padding: 0 30px;
-  box-shadow:  0 4px 4px 0 rgba(0,0,0,0.25);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   position: relative;
 }
 
@@ -18,11 +18,11 @@
     width: 100%;
     display: flex;
     align-items: center;
-    
+
     li {
-      font-family: "Santokki";
+      font-family: 'Santokki';
       padding: 0 20px;
-      
+
       a {
         font-size: 20px;
       }
@@ -51,9 +51,9 @@
 
   li {
     padding: 16px 10px;
-  
+
     &:hover {
-      background-color: rgba(217,217,217,10);
+      background-color: rgba(217, 217, 217, 10);
       border-radius: 10px;
     }
   }

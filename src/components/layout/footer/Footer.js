@@ -23,6 +23,6 @@ const Footer = () => {
       <p>Copyright © 2024 gikku. All rights reserved.</p>
     </div>
   );
-}
+};
 
 export default Footer;
