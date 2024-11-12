@@ -45,6 +45,10 @@
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;
         }
+        &:nth-child(2) {
+          @include ellipse;
+          text-align: left;
+        }
         &:last-of-type {
           border-right: 1px solid $main-color;
           border-top-right-radius: 10px;
