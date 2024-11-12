@@ -162,29 +162,28 @@
 }
 
 // searchId
+.formBorder {
+  border: 2px solid $main-color;
+  border-radius: 5px;
+  padding-bottom: 30px;
+}
+
 .tabContainer {
   display: flex;
+  width: 500px;
   justify-content: center;
-  margin-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 .tabButton {
+  width: 100%;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: bold;
   color: #6b6969;
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
+  border: none;
+  background-color: $body-color;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:first-child {
-    border-radius: 10px 0 0 10px;
-  }
-
-  &:last-child {
-    border-radius: 0 10px 10px 0;
-  }
 
   &.activeTab {
     background-color: $main-color;
@@ -195,28 +194,29 @@
 .formContainer {
   width: 100%;
   max-width: 500px;
-  margin-top: 20px;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
 }
 
 .inputGroup {
   display: flex;
   align-items: center;
-  margin : 0 auto;
+  margin: 0 auto;
+
+  span {
+    width: 130px;
+  }
 
   .input {
-    width : 400px;
+    width: 300px;
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
     box-sizing: border-box;
   }
 
   .button {
-    width : 140px;
+    width: 140px;
     padding: 8px 12px;
     font-size: 13px;
     font-weight: bold;
@@ -225,6 +225,50 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+
+    &:hover {
+      background-color: $main-color;
+    }
+  }
+}
+
+//searchPwd
+.searchPwd {
+  width: 500px;
+  text-align: center;
+  border: 2px solid $main-color;
+  border-radius: 10px;
+  margin: 0 auto 90px auto;
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+  .inputGroup {
+    width: 85%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .button {
+    width: 30%;
+    border-radius: 20px;
+  }
+}
+
+//searchId 결과
+.confirmContainer {
+  text-align: center;
+  margin-top: 20px;
+
+  .button {
+    width: 150px;
+    padding: 8px 12px;
+    font-weight: bold;
+    color: white;
+    background-color: $sub-color;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
 
     &:hover {
       background-color: $main-color;

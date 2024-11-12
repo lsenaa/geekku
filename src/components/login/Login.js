@@ -59,11 +59,11 @@ const Login = () => {
       </div>
 
       <div className={styles.divider1}>
-        <a href="/" className={styles.divider1a}>
+        <a href="/searchId" className={styles.divider1a}>
           아이디를 잊으셨나요?
         </a>
         &nbsp;&nbsp;|&nbsp;&nbsp;
-        <a href="/" className={styles.divider1a}>
+        <a href="/searchPwd" className={styles.divider1a}>
           비밀번호를 잊으셨나요?
         </a>
       </div>
