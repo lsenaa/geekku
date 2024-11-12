@@ -1,8 +1,8 @@
-import styles from "./HouseMain.module.scss";
-import Button01 from "../commons/button/Button01";
-import HouseList from "./houseList/HouseList";
-import { Pagination } from "antd";
-import { Link } from "react-router-dom";
+import styles from './HouseMain.module.scss';
+import Button01 from '../commons/button/Button01';
+import HouseList from './houseList/HouseList';
+import { Pagination } from 'antd';
+import { Link } from 'react-router-dom';
 
 const HouseMain = () => {
   return (
@@ -23,7 +23,7 @@ const HouseMain = () => {
           <button className={styles.searchBtn}>검색</button>
         </div>
         <Button01 size="small">
-          <Link to={"/houseWrite"}>작성하기</Link>
+          <Link to={'/houseWrite'}>작성하기</Link>
         </Button01>
       </div>
       <HouseList />

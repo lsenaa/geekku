@@ -6,15 +6,15 @@
   display: flex;
   gap: 40px;
   padding: 40px 0;
-  background-color: #FFFAF4;
+  background-color: #fffaf4;
   padding-bottom: 150px; /* 임시용 */
 }
 
 .userInfoCard {
   width: 283px;
   height: 336px;
-  background-color: #FFFAF4;
-  border: 1px solid #6D885D;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -25,7 +25,7 @@
   width: 117px;
   height: 117px;
   border-radius: 50%;
-  background-color: #6D885D;
+  background-color: #6d885d;
   margin: 0 auto 15px;
 }
 
@@ -33,26 +33,26 @@
   font-size: 20px;
   font-weight: bold;
   color: #333;
-  line-height: 1.5; 
+  line-height: 1.5;
 }
 
 .userId,
 .userEmail {
   font-size: 16px;
   color: #333;
-  line-height: 1.6; 
+  line-height: 1.6;
 }
 
 .separator {
   margin: 20px 0;
   border: none;
-  border-top: 1px solid #6D885D;
+  border-top: 1px solid #6d885d;
 }
 
 .sectionTitle {
   font-size: 18px;
   font-weight: bold;
-  color: #6D885D;
+  color: #6d885d;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -70,11 +70,11 @@
 .houseListTitle {
   font-size: 24px;
   font-weight: bold;
-  color: #6D885D;
+  color: #6d885d;
 }
 
 .houseListViewAll {
   font-size: 16px;
-  color: #6D885D;
+  color: #6d885d;
   text-decoration: none;
 }

@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import logo from "../../../assets/images/logo.png";
-import styles from "./Header.module.scss";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import NotificationButton from '../notification/NotificationButton';
+import { Link } from 'react-router-dom';
+import logo from 'assets/images/logo.png';
+import styles from './Header.module.scss';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import NotificationButton from 'components/layout/notification/NotificationButton';
 
 const Header = () => {
   const [write, setWrite] = useState(false);
@@ -11,25 +11,26 @@ const Header = () => {
 
   return (
     <header className={styles.Container}>
-      <Link to={"/"}>
+      <Link to={'/'}>
         <img src={logo} alt="헤더로고" />
       </Link>
       <nav className={styles.navWrapper}>
         <ul>
           <li>
-            <Link to={"/estateSearch"}>매물검색</Link>
+            <Link to={'/estate'}>매물검색</Link>
           </li>
           <li>
-            <Link to={"/houseMain"}>집꾸하기</Link>
+            <Link to={'/house'}>집꾸하기</Link>
           </li>
           <li>
-            <Link to={"/InteriorMain"}>방꾸하기</Link>
+            <Link to={'/interior'}>방꾸하기</Link>
           </li>
           <li>
-            <Link to={"/oneStopList"}>한번에꾸하기</Link>
+            <Link to={'/oneStop'}>한번에꾸하기</Link>
           </li>
           <li>
-            <Link to={"/CommunityMain"}>집들이</Link>          </li>
+            <Link to={'/community'}>집들이</Link>
+          </li>
         </ul>
       </nav>
       {/* 알림 버튼 추가 위치 옮겨야 함*/}

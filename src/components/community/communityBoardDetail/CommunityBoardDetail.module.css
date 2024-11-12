@@ -2,8 +2,8 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 65px 0px;
-  background-color: #FFFAF4;
-  font-family: "Noto Sans KR", sans-serif;
+  background-color: #fffaf4;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .postImageContainer {
@@ -55,7 +55,7 @@
 
 .profileIcon {
   font-size: 40px;
-  background-color: #6D885D;
+  background-color: #6d885d;
   color: white;
   border-radius: 50%;
   width: 40px;
@@ -68,13 +68,13 @@
 
 .username {
   font-size: 24px;
-  color: #6D885D;
+  color: #6d885d;
 }
 
 .editButton {
   width: 130px;
   height: 45px;
-  background-color: #6D885D;
+  background-color: #6d885d;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -86,10 +86,10 @@
 .detailsCard {
   width: 1050px;
   height: 350px;
-  background-color: #FFFAF4;
+  background-color: #fffaf4;
   padding: 50px 30px;
   border-radius: 19px;
-  border: 1px solid #6D885D;
+  border: 1px solid #6d885d;
   margin: 0 75px 70px 75px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -132,7 +132,7 @@
 .comment {
   margin-top: 20px;
   margin-bottom: 20px;
-  border-bottom: 1px solid #6D885D;
+  border-bottom: 1px solid #6d885d;
   padding-bottom: 10px;
   font-weight: bold;
 }
@@ -151,12 +151,12 @@
   flex-grow: 1;
   margin-top: 20px;
   padding: 10px;
-  border: 1px solid #6D885D;
+  border: 1px solid #6d885d;
   border-radius: 10px;
   background-color: #fff;
   font-size: 16px;
   color: #888;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .commentInput {
@@ -173,12 +173,12 @@
   resize: none;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #6D885D;
+  border: 1px solid #6d885d;
   border-radius: 10px;
 }
 
 .submitButton {
-  background-color: #C8DBA8;
+  background-color: #c8dba8;
   color: white;
   border: none;
   border-radius: 10px;
@@ -192,7 +192,7 @@
 }
 
 .submitButton:hover {
-  background-color: #B0C591;
+  background-color: #b0c591;
 }
 
 .commentOutput {

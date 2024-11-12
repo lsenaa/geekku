@@ -1,8 +1,8 @@
 .houseCard {
   width: 278px;
   height: 261px;
-  background-color: #FFFAF4;
-  border: 1px solid #6D885D;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  color: #6D885D;
+  color: #6d885d;
   margin-bottom: 10px;
 }
 
@@ -39,5 +39,5 @@
   font-size: 16px;
   font-weight: bold;
   color: #333;
-  line-height: 1.5; 
+  line-height: 1.5;
 }
