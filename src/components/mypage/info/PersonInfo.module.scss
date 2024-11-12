@@ -1,0 +1,197 @@
+@import '../../../variables.scss';
+
+.container {
+    display: flex;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.line {
+    border: 1px solid $main-color;
+    margin: 20px 0;
+}
+
+.profileSidebar {
+    width: 283px;
+    height: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #6D885D;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 60px 0 0 100px;
+
+    .profileImage {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .profileName {
+        font-size: 18px;
+        font-weight: bold;
+        color: #6D885D;
+    }
+
+    .profileId,
+    .profileEmail {
+        font-size: 14px;
+    }
+
+    .menuList {
+        list-style: none;
+        padding: 0;
+
+        li {
+            font-size: 16px;
+            padding: 3px;
+            cursor: pointer;
+
+            &:hover {
+                color: $main-color;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.profileContent {
+    width: 600px;
+    padding: 20px;
+    margin: 0 auto;
+
+    .tabLinks {
+        display: flex;
+        gap: 20px;
+        font-size: 16px;
+        font-weight: bold;
+
+        .tabA {
+            text-decoration: none;
+            color: #6D885D;
+            margin: 0 80px;
+        }
+
+        .tabA:hover {
+            font-weight: bold;
+            color: #ddd;
+        }
+    }
+}
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    width: 489px;
+    margin: 0 auto;
+
+    .profileImg {
+        margin: 10px auto;
+    }
+
+    .inputGroup {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    input[readOnly] {
+        background-color: #f5f5f5;
+    }
+
+    .input1 {
+        padding-left: 7px;
+        width: 385px;
+        height: 45px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+    }
+
+    .input2 {
+        padding-left: 7px;
+        width: 100%;
+        height: 45px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+    }
+
+    .input3 {
+        padding-left: 7px;
+        width: 210px;
+        height: 45px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+    }
+
+    .input4 {
+        padding-left: 7px;
+        width: 240px;
+        height: 45px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+    }
+
+    .checkButton {
+        background-color: $sub-color;
+        color: #6B6969;
+        width: 90px;
+        height: 45px;
+        border-radius: 10px;
+        margin-left: 14px;
+        border: 1px solid #ddd;
+    }
+
+    .imageUploadBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        border-radius: 10px;
+        border: 1px dashed #ddd;
+        background-color: #f5f5f5;
+        cursor: pointer;
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .imageInput {
+        // opacity: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        cursor: pointer;
+    }
+}
+
+.button {
+    width: 100%;
+    max-width: 530px;
+    padding: 12px;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: $sub-color;
+
+    &:hover {
+        background-color: #5a9e62;
+    }
+}
+
+.removeUser {
+    margin-top: 50px;
+    text-decoration: none;
+    color: gray;
+
+    &:hover {
+        color:#5a9e62;
+    }
+}
