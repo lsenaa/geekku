@@ -9,7 +9,7 @@ import CommunityBoardWrite from 'components/community/communityWrite/CommunityBo
 import CommunityBoardDetail from 'components/community/communityBoardDetail/CommunityBoardDetail';
 import CommunityList from 'components/community/communityMain/CommunityList';
 import CompanyList from 'components/interior/companyList/Main';
-import MypagePerson from 'components/mypage/person/mypagePersonMain/MypagePerson';
+import ProfilePerson from 'components/profile/person/ProfilePerson';
 import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
@@ -46,9 +46,11 @@ const Router = () => {
       <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
 
       {/* MyPage */}
-      <Route path="/mypagePerson" element={<MypagePerson />} />
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+
+      {/* Profile */}
+      <Route path="/profilePerson" element={<ProfilePerson />} />
 
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
