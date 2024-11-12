@@ -18,6 +18,13 @@ import OneStopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
 import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
+import PersonInfo from 'components/mypage/info/PersonInfo';
+import CompanyInfo from 'components/mypage/info/CompanyInfo';
+import Login from 'components/login/Login';
+import SearchId from 'components/login/SearchId';
+import JoinPerson from 'components/join/JoinPerson';
+import JoinCompany from 'components/join/JoinCompany';
+import JoinInterior from 'components/join/JoinInterior';
 
 const Router = () => {
   return (
@@ -49,6 +56,17 @@ const Router = () => {
       <Route path="/mypagePerson" element={<MypagePerson />} />
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+      <Route path="/personInfo" element={<PersonInfo />} />
+      <Route path="/companyInfo" element={<CompanyInfo />} />
+
+      {/* Login */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/searchId" element={<SearchId />} />
+
+      {/* Join */}
+      <Route path="/joinPerson" element={<JoinPerson />} />
+      <Route path="/joinCompany" element={<JoinCompany />} />
+      <Route path="/joinInterior" element={<JoinInterior />} />
 
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
