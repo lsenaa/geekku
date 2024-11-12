@@ -1,156 +1,233 @@
 @import '../../variables.scss';
 
 .login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 50px;
-    border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 50px;
+  border-radius: 10px;
 
-    .logo {
-        width: 300px;
-        height: 100px;
-        margin-bottom: 10px;
-    }
+  .logo {
+    width: 300px;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-family: $sub-font;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 }
 
 .toggleContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin: 10px 0 10px 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 10px 0 10px 50px;
 }
 
 .toggleLabel {
-    font-size: 15px;
-    font-weight: 500;
-    color: $main-color;
-    cursor: pointer;
-    margin: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: $main-color;
+  cursor: pointer;
+  margin: 10px;
 }
 
 .toggle {
-    width: 56px !important;
-    height: 30px !important;
-    background-color: $sub-color;
-    border: none;
-    position: relative;
-    cursor: pointer;
+  width: 56px !important;
+  height: 30px !important;
+  background-color: $sub-color;
+  border: none;
+  position: relative;
+  cursor: pointer;
 
-    &:checked {
-        background-color: $main-color !important;
-    }
+  &:checked {
+    background-color: $main-color !important;
+  }
 
-    &::after {
-        content: "";
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        width: 22px;
-        height: 22px;
-        background-color: #E4CCEE;
-        border-radius: 50%;
-        transition: transform 0.3s ease;
-    }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 22px;
+    height: 22px;
+    background-color: #e4ccee;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
 
-    &:checked::after {
-        transform: translateX(27px);
-    }
+  &:checked::after {
+    transform: translateX(27px);
+  }
 }
 
 .input {
-    width: 90%;
-    max-width: 530px;
-    padding: 12px;
-    margin: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+  width: 90%;
+  max-width: 530px;
+  padding: 12px;
+  margin: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .button {
-    width: 90%;
-    max-width: 530px;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px;
-    transition: background-color 0.3s ease;
+  width: 90%;
+  max-width: 530px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease;
 
-    &:nth-of-type(1) {
-        background-color: $main-color;
+  &:nth-of-type(1) {
+    background-color: $main-color;
 
-        &:hover {
-            background-color: #5a9e62;
-        }
+    &:hover {
+      background-color: #5a9e62;
     }
+  }
 
-    &:nth-of-type(2) {
-        background-color: $sub-color;
+  &:nth-of-type(2) {
+    background-color: $sub-color;
 
-        &:hover {
-            background-color: #5a9e62;
-        }
+    &:hover {
+      background-color: #5a9e62;
     }
+  }
 
-    &:nth-of-type(3) {
-        background-color: $body-color;
-        border: 1px solid $sub-color;
-        color: #ddd;
+  &:nth-of-type(3) {
+    background-color: $body-color;
+    border: 1px solid $sub-color;
+    color: #ddd;
 
-        &:hover {
-            background-color: #5a9e62;
-        }
+    &:hover {
+      background-color: #5a9e62;
     }
+  }
 }
 
 .divider1,
 .divider2 {
-    font-size: 0.9rem;
-    color: #888;
-    margin-top: 10px;
-    text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .divider1a {
-    color: #6fae75;
-    text-decoration: none;
+  color: #6fae75;
+  text-decoration: none;
 
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .line {
-    width: 100%;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #8c8c8c;
-    margin: 20px 0;
-    display: block;
+  width: 100%;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #8c8c8c;
+  margin: 20px 0;
+  display: block;
 }
 
 .iconContainer {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 5px;
 
-    .icon {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
+  .icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 
-        &:hover {
-            transform: scale(1.1);
-        }
+    &:hover {
+      transform: scale(1.1);
     }
+  }
+}
+
+// searchId
+.tabContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #6b6969;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:first-child {
+    border-radius: 10px 0 0 10px;
+  }
+
+  &:last-child {
+    border-radius: 0 10px 10px 0;
+  }
+
+  &.activeTab {
+    background-color: $main-color;
+    color: #fff;
+  }
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  margin : 0 auto;
+
+  .input {
+    width : 400px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .button {
+    width : 140px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    background-color: $sub-color;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $main-color;
+    }
+  }
 }
