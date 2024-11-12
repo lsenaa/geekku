@@ -1,8 +1,8 @@
-import styles from "./HouseWrite.module.scss";
-import { useState } from "react";
-import { DatePicker } from "antd";
-import Button01 from "../../commons/button/Button01";
-import { Link } from "react-router-dom";
+import styles from './HouseWrite.module.scss';
+import { useState } from 'react';
+import { DatePicker } from 'antd';
+import Button01 from '../../commons/button/Button01';
+import { Link } from 'react-router-dom';
 
 const HouseWrite = () => {
   const [textCount, setTextCount] = useState(0);
@@ -54,7 +54,7 @@ const HouseWrite = () => {
             name="location1"
             defaultValue=""
             required="required"
-            style={{ marginRight: "16px" }}
+            style={{ marginRight: '16px' }}
           >
             <option value="" disabled>
               지역 선택
@@ -168,7 +168,7 @@ const HouseWrite = () => {
             minLength="5"
             maxLength="40"
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
-            style={{ width: "100%", textAlign: "left" }}
+            style={{ width: '100%', textAlign: 'left' }}
           />
         </div>
         <div className={styles.item}>
@@ -192,7 +192,7 @@ const HouseWrite = () => {
       <div className={styles.btnWrap}>
         <Button01 size="small">신청하기</Button01>
         <Button01 color="sub" size="small">
-          <Link to={"/houseMain"}>취소하기</Link>
+          <Link to={'/houseMain'}>취소하기</Link>
         </Button01>
       </div>
     </div>

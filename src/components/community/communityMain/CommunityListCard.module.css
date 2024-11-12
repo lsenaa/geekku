@@ -1,8 +1,8 @@
 .card {
   width: 384px;
   height: 351px;
-  background-color: #FFFAF4;
-  border: 1px solid #6D885D;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

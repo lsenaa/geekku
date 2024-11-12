@@ -1,5 +1,5 @@
-import styles from "./HouseList.module.scss";
-import { FaUserCircle } from "react-icons/fa";
+import styles from './HouseList.module.scss';
+import { FaUserCircle } from 'react-icons/fa';
 
 const HouseList = () => {
   return (
