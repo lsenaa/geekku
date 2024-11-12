@@ -23,6 +23,10 @@ import MypagePersonInterior from 'components/mypage/person/interior/MypagePerson
 import MypageLayout from 'components/layout/mypage/MypageLayout';
 import MypagePerson from 'components/mypage/person/MypagePersonMain';
 import MypagePersonReview from 'components/mypage/person/interior/MypagePersonReview';
+import MypagePersonOnestop from 'components/mypage/person/onestop/MypagePersonOnestop';
+import BookmarkHouse from 'components/mypage/person/bookmark/house/BookmarkHouse';
+import BookmarkInterior from 'components/mypage/person/bookmark/interior/BookmarkInterior';
+import BookmarkCommunity from 'components/mypage/person/bookmark/community/BookmarkCommunity';
 
 const Router = () => {
   return (
@@ -55,6 +59,10 @@ const Router = () => {
         <Route index element={<MypagePersonMain />} />
         <Route path="interior" element={<MypagePersonInterior />} />
         <Route path="interiorReview" element={<MypagePersonReview />} />
+        <Route path="onestop" element={<MypagePersonOnestop />} />
+        <Route path="bookmark" element={<BookmarkHouse />} />
+        <Route path="bookmarkInterior" element={<BookmarkInterior />} />
+        <Route path="bookmarkCommunity" element={<BookmarkCommunity />} />
       </Route>
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />

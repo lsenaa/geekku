@@ -1,10 +1,8 @@
 import { Pagination } from 'antd';
+import styles from '../MypagePersonMain.module.scss';
 import Button01 from 'components/commons/button/Button01';
-import MypageSiderbar from 'components/layout/mypage/MypageSiderbar';
-import MypageSubNavbar from 'components/layout/mypage/MypageSubNavbar';
-import styles from 'components/mypage/person/MypagePersonMain.module.scss';
 
-const MypagePersonInterior = () => {
+const MypagePersonOnestop = () => {
   return (
     <>
       <table className={styles.customTable}>
@@ -21,9 +19,9 @@ const MypagePersonInterior = () => {
           <tr>
             <th>번호</th>
             <th>제목</th>
-            <th>시공종류</th>
+            <th>거래종류</th>
             <th>희망지역</th>
-            <th>작성 날짜</th>
+            <th>작성날짜</th>
             <th>조회수</th>
             <th></th>
           </tr>
@@ -31,37 +29,33 @@ const MypagePersonInterior = () => {
         <tbody>
           <tr className={styles.rowWrap}>
             <td>3</td>
-            <td>
-              지방 인테리어 신청합니다. 경상남도 사천 위주로 알아보고 있어요.
-            </td>
-            <td>전체 시공</td>
+            <td>지방 빈 집 찾습니다. 경상남도 사천 위주로 알아보고 있어요.</td>
+            <td>매매</td>
             <td>경남 사천</td>
             <td>2024-10-27</td>
-            <td>56</td>
+            <td>32</td>
             <td>
               <Button01 size="x-small">삭제</Button01>
             </td>
           </tr>
           <tr className={styles.rowWrap}>
             <td>2</td>
-            <td>
-              지방으로 내려갈 계획 세우는 중입니다. 인테리어 알아보고 있어요~~
-            </td>
-            <td>전체 시공</td>
-            <td>충북 담양</td>
+            <td>지방 빈 집 찾습니다. 경상남도 사천 위주로 알아보고 있어요.</td>
+            <td>매매</td>
+            <td>경남 사천</td>
             <td>2024-10-27</td>
-            <td>2</td>
+            <td>32</td>
             <td>
               <Button01 size="x-small">삭제</Button01>
             </td>
           </tr>
           <tr className={styles.rowWrap}>
             <td>1</td>
-            <td>충청북도에서 부분 시공 인테리어 원해요!!</td>
-            <td>부분 시공</td>
-            <td>충북 담양</td>
+            <td>지방 빈 집 찾습니다. 경상남도 사천 위주로 알아보고 있어요.</td>
+            <td>매매</td>
+            <td>경남 사천</td>
             <td>2024-10-27</td>
-            <td>13</td>
+            <td>32</td>
             <td>
               <Button01 size="x-small">삭제</Button01>
             </td>
@@ -72,4 +66,5 @@ const MypagePersonInterior = () => {
     </>
   );
 };
-export default MypagePersonInterior;
+
+export default MypagePersonOnestop;

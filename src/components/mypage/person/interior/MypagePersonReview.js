@@ -1,7 +1,7 @@
 import Button01 from 'components/commons/button/Button01';
 import styles from './MypagePersonReview.module.scss';
 import { Pagination } from 'antd';
-import ReviewImg from 'assets/images/InteriorExam.jpg';
+import reviewImg from 'assets/images/InteriorExam.jpg';
 
 const MypagePersonReview = () => {
   return (
@@ -26,7 +26,7 @@ const MypagePersonReview = () => {
         <tbody>
           <tr className={styles.rowWrap}>
             <td>
-              <img src={ReviewImg} alt="후기 이미지" />
+              <img src={reviewImg} alt="후기 이미지" />
             </td>
             <td>
               코스타 인테리어 업체 후기! 너무 친절하시고 진행도 빨라서 좋았어요.
@@ -42,7 +42,7 @@ const MypagePersonReview = () => {
           </tr>
           <tr className={styles.rowWrap}>
             <td>
-              <img src={ReviewImg} alt="후기 이미지" />
+              <img src={reviewImg} alt="후기 이미지" />
             </td>
             <td>
               코스타 인테리어 업체 후기! 너무 친절하시고 진행도 빨라서 좋았어요.

@@ -10,10 +10,10 @@ const MypageSiderbar = () => {
   const personMenu = [
     { name: '집꾸하기', path: '/mypageUser' },
     { name: '방꾸하기', path: '/mypageUser/interior' },
-    { name: '한번에 꾸하기', path: '#' },
-    { name: '북마크', path: '#' },
-    { name: '집들이', path: '#' },
-    { name: '회원 정보 관리', path: '#' },
+    { name: '한번에 꾸하기', path: '/mypageUser/onestop' },
+    { name: '북마크', path: '/mypageUser/bookmark' },
+    { name: '집들이', path: '/mypageUser/community' },
+    { name: '회원 정보 관리', path: '/mypageUser/userInfo' },
   ];
 
   return (

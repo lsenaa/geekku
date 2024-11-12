@@ -1,7 +1,7 @@
-import MypageSiderbar from 'components/mypage/person/MypageSiderbar';
+import MypageSiderbar from 'components/layout/mypage/MypageSiderbar';
 import styles from './MypagePersonMain.module.scss';
 import { Link } from 'react-router-dom';
-import MypageSubNavbar from 'components/mypage/person/MypageSubNavbar';
+import MypageSubNavbar from 'components/layout/mypage/MypageSubNavbar';
 import Button01 from 'components/commons/button/Button01';
 import { Pagination } from 'antd';
 
