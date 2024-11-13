@@ -3,15 +3,15 @@ import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import styles from './OnestopDetail.module.scss';
+import styles from './ReqInteriorDetail.module.scss';
 import { useNavigate } from 'react-router';
-import OnestopDetailAnswerList from './oneStopDetailAnswer/OnestopDetailAnswerList';
+import ReqInteriorDetailAnswerList from './reqInteriorDetailAnswer/ReqInteriorDetailAnswerList';
 
-const OnestopDetail = () => {
+const ReqInteriorDetail = () => {
   let { num } = useParams();
   const navigate = useNavigate();
   const handleListButton = () => {
-    navigate('/oneStop');
+    navigate('/reqInterior');
   };
 
   return (
@@ -86,9 +86,9 @@ const OnestopDetail = () => {
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <OnestopDetailAnswerList />
+      <ReqInteriorDetailAnswerList />
     </div>
   );
 };
 
-export default OnestopDetail;
+export default ReqInteriorDetail;
