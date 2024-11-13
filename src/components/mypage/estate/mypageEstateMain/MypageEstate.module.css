@@ -1,0 +1,68 @@
+.mypageEstate {
+  display: flex;
+  gap: 40px;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+  background-color: #fffaf4;
+}
+
+.profileSection {
+  width: 283px;
+}
+
+.userInfoCard {
+  width: 283px;
+  height: 336px;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+  width: 117px;
+  height: 117px;
+  border-radius: 50%;
+  background-color: #6d885d;
+  margin: 0 auto 15px;
+}
+
+.username {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.5;
+}
+
+.userId,
+.userEmail {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.separator {
+  margin: 20px 0;
+  border-top: 1px solid #6d885d;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6d885d;
+}
+
+.estateSection {
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6d885d;
+  margin-bottom: 20px;
+  font-family: Santokki, sans-serif;
+}
