@@ -1,4 +1,4 @@
-@import '../../../variables.scss';
+@import 'variables.scss';
 
 .customTable {
   width: 100%;
@@ -28,15 +28,10 @@
         transform: scale(1);
       }
 
-      .writer {
-        display: inline-flex;
-        align-items: center;
-      }
-
       td {
         border-top: 1px solid $main-color;
         border-bottom: 1px solid $main-color;
-        padding: 20px 16px;
+        padding: 10px;
         vertical-align: middle;
         text-align: center;
 
@@ -46,8 +41,8 @@
           border-bottom-left-radius: 10px;
         }
         &:nth-child(2) {
-          @include ellipse;
           text-align: left;
+          @include ellipse;
         }
         &:last-of-type {
           border-right: 1px solid $main-color;

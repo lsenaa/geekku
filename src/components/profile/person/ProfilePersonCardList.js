@@ -1,13 +1,13 @@
 import React from 'react';
-import PersonProfileCard from './MypagePersonCard';
-import styles from './MypagePersonCardList.module.css';
+import ProfilePersonCard from './ProfilePersonCard';
+import styles from './ProfilePersonCardList.module.css';
 
-const MypagePersonCardList = ({ houseCards }) => {
+const ProfilePersonCardList = ({ houseCards }) => {
   return (
     <div className={styles.houseList}>
       {houseCards &&
         houseCards.map((card) => (
-          <PersonProfileCard
+          <ProfilePersonCard
             key={card.id}
             likeCount={card.likeCount}
             title={card.title}
@@ -17,4 +17,4 @@ const MypagePersonCardList = ({ houseCards }) => {
   );
 };
 
-export default MypagePersonCardList;
+export default ProfilePersonCardList;
