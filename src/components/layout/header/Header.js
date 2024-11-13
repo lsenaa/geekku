@@ -36,7 +36,9 @@ const Header = () => {
       {/* 알림 버튼 추가 위치 옮겨야 함*/}
       <NotificationButton />
 
-      <button onClick={() => navigate("/Login")} className={styles.btn}>로그인 | 회원가입</button>
+      <button onClick={() => navigate('/Login')} className={styles.btn}>
+        로그인 | 회원가입
+      </button>
 
       {/* 글쓰기 버튼 */}
       {/* <button className={styles.btn} onClick={() => setWrite(!write)}>글쓰기</button>
