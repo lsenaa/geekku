@@ -28,6 +28,15 @@ import BookmarkHouse from 'components/mypage/person/bookmark/house/BookmarkHouse
 import BookmarkInterior from 'components/mypage/person/bookmark/interior/BookmarkInterior';
 import BookmarkCommunity from 'components/mypage/person/bookmark/community/BookmarkCommunity';
 import MypagePersonCommunity from 'components/mypage/person/community/MypagePersonCommunity';
+import PersonInfo from 'components/mypage/info/PersonInfo';
+import CompanyInfo from 'components/mypage/info/CompanyInfo';
+import Login from 'components/login/Login';
+import SearchId from 'components/login/SearchId';
+import JoinPerson from 'components/join/JoinPerson';
+import JoinCompany from 'components/join/JoinCompany';
+import JoinInterior from 'components/join/JoinInterior';
+import SearchPwd from 'components/login/SearchPwd';
+import SearchPwdResult from 'components/login/SearchPwdResult';
 
 const Router = () => {
   return (
@@ -68,6 +77,19 @@ const Router = () => {
       </Route>
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+      <Route path="/personInfo" element={<PersonInfo />} />
+      <Route path="/companyInfo" element={<CompanyInfo />} />
+
+      {/* Login */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/searchId" element={<SearchId />} />
+      <Route path="/searchPwd" element={<SearchPwd />} />
+      <Route path="/searchPwdResult" element={<SearchPwdResult />} />
+
+      {/* Join */}
+      <Route path="/joinPerson" element={<JoinPerson />} />
+      <Route path="/joinCompany" element={<JoinCompany />} />
+      <Route path="/joinInterior" element={<JoinInterior />} />
 
       {/* Profile */}
       <Route path="/profilePerson" element={<ProfilePerson />} />
