@@ -1,5 +1,7 @@
 import './InteriorBar.css';
 import banner from '../../../assets/images/iBar.png';
+import Button01 from '../../commons/button/Button01';
+import { Link } from 'react-router-dom';
 
 const InteriorBar = () => {
   return (
@@ -10,7 +12,9 @@ const InteriorBar = () => {
           카테고리를 직접 골라 인테리어 업체에게 간단한 견적을 댓글로 받고
           싶으시다면
         </div>
-        <button className="btn">방꾸하기</button>
+        <Button01 size="small">
+          <Link to={'/requestInterior'}>방꾸하기</Link>
+        </Button01>
       </div>
     </div>
   );

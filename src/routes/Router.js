@@ -14,8 +14,12 @@ import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
 import HouseDetail from 'components/house/houseDetail/HouseDetail';
-import OneStopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
-import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
+import OnestopMain from 'components/oneStop/OnestopMain';
+import OnestopWrite from 'components/oneStop/oneStopWrite/OnestopWrite';
+import OnestopDetail from 'components/oneStop/oneStopDetail/OnestopDetail';
+import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
+import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
+import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
 
@@ -37,8 +41,17 @@ const Router = () => {
       <Route path="/companyList" element={<CompanyList />} />
 
       {/* Onestop */}
-      <Route path="/oneStopWrite" element={<OneStopWrite />} />
-      <Route path="/oneStopDetail" element={<OneStopDetail />} />
+      <Route path="/oneStop" element={<OnestopMain />} />
+      <Route path="/oneStopWrite" element={<OnestopWrite />} />
+      <Route path="/oneStopDetail/:num" element={<OnestopDetail />} />
+
+      {/* RequestInterior */}
+      <Route path="/requestInterior" element={<ReqInteriorMain />} />
+      <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
+      <Route
+        path="/requestInteriorDetail/:num"
+        element={<ReqInteriorDetail />}
+      />
 
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />

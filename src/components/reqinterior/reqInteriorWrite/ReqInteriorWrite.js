@@ -1,10 +1,10 @@
-import styles from './OnestopWrite.module.scss';
+import styles from './ReqInteriorWrite.module.scss';
 import { useState } from 'react';
 import { DatePicker } from 'antd';
 import Button01 from '../../commons/button/Button01';
 import { Link } from 'react-router-dom';
 
-const OnestopWrite = () => {
+const ReqInteriorWrite = () => {
   const [textCount, setTextCount] = useState(0);
 
   const onChangeDate = (date, dateString) => {
@@ -244,11 +244,11 @@ const OnestopWrite = () => {
       <div className={styles.btnWrap}>
         <Button01 size="small">신청하기</Button01>
         <Button01 color="sub" size="small">
-          <Link to={'/oneStop'}>취소하기</Link>
+          <Link to={'/reqInterior'}>취소하기</Link>
         </Button01>
       </div>
     </div>
   );
 };
 
-export default OnestopWrite;
+export default ReqInteriorWrite;
