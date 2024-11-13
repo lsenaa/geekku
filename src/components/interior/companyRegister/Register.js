@@ -51,6 +51,7 @@ const Register = () => {
             <li>
               소개글
               <input
+                placeholder="500자 이내로 소개글을 작성해주세요"
                 name="content"
                 style={{ width: '800px', height: '300px' }}
               />
