@@ -1,0 +1,94 @@
+:export {
+  maincolor: #6d885d;
+  subcolor: #c6d695;
+  bodycolor: #fffaf4;
+  subfont: "Santokki";
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  padding: 100px 0;
+  padding: 100px 0;
+}
+.container h2 {
+  font-size: 40px;
+  font-family: "Santokki";
+  text-align: center;
+}
+.container h2 {
+  font-family: "Santokki";
+  font-size: 40px;
+  text-align: center;
+}
+.container section {
+  margin-top: 40px;
+}
+.container section h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.profile p {
+  font-weight: bold;
+  margin-left: 10px;
+}
+.profile .createdAt {
+  font-weight: normal;
+  color: #757575;
+  margin-left: 20px;
+}
+
+.line {
+  background: #6d885d;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.title p {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-right: 20px;
+  width: 100%;
+}
+.item label {
+  font-weight: bold;
+  width: 140px;
+}
+
+.content {
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  width: 90%;
+  height: 200px;
+  padding: 16px;
+}
+
+.btnWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 80px 0;
+}/*# sourceMappingURL=HouseDetail.module.css.map */

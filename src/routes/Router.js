@@ -18,6 +18,7 @@ import OneStopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
 import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
+import Register from 'components/interior/companyRegister/Register';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
 import MypageLayout from 'components/layout/mypage/MypageLayout';
@@ -54,6 +55,7 @@ const Router = () => {
       {/* Interior */}
       <Route path="/interior" element={<InteriorMain />} />
       <Route path="/companyList" element={<CompanyList />} />
+      <Route path="/companyRegister" element={<Register />} />
 
       {/* Onestop */}
       <Route path="/oneStopWrite" element={<OneStopWrite />} />

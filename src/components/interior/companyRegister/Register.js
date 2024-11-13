@@ -3,12 +3,12 @@ import styles from './Register.module.scss';
 const Register = () => {
   return (
     <div className={styles.regDesign}>
-      <div>업체 등록하기</div>
-      <div>
+      <div className={styles.topText}>업체 등록하기</div>
+      <div className={styles.midText}>
         <span>업체정보</span>
         <span>필수입력항목</span>
       </div>
-      <hr />
+      <div className={styles.line}></div>
       <form>
         <ul>
           <li>
@@ -51,6 +51,7 @@ const Register = () => {
             <li>
               소개글
               <input
+                placeholder="500자 이내로 소개글을 작성해주세요"
                 name="content"
                 style={{ width: '800px', height: '300px' }}
               />

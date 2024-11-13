@@ -1,0 +1,64 @@
+:export {
+  maincolor: #6d885d;
+  subcolor: #c6d695;
+  bodycolor: #fffaf4;
+  subfont: "Santokki";
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  padding: 100px 0;
+  padding-right: 50px;
+  padding-left: 50px;
+}
+.container h2 {
+  font-size: 40px;
+  font-family: "Santokki";
+  text-align: center;
+}
+
+.topWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 60px 0 40px 0;
+}
+.topWrap .searchWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.topWrap .searchWrap .select {
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  width: 90px;
+  padding: 6px;
+  font-size: 16px;
+  background-color: white;
+}
+.topWrap .searchWrap .select:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+}
+.topWrap .searchWrap .searchInput {
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  width: 230px;
+  padding: 10px;
+  margin-left: 16px;
+}
+.topWrap .searchWrap .searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+}
+.topWrap .searchWrap .searchBtn {
+  background-color: #c6d695;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 8px;
+  margin-left: 8px;
+}/*# sourceMappingURL=HouseMain.module.css.map */

@@ -1,0 +1,91 @@
+:export {
+  maincolor: #6d885d;
+  subcolor: #c6d695;
+  bodycolor: #fffaf4;
+  subfont: "Santokki";
+}
+
+.container {
+  height: auto;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+}
+
+.topWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 30px 0;
+  padding-left: 35px;
+}
+
+.typeSelect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.typeSelect li {
+  margin-right: 24px;
+  font-family: "Santokki";
+  color: #a6a6a6;
+  cursor: pointer;
+  position: relative;
+}
+.typeSelect li:after {
+  display: block;
+  content: "";
+  width: 100%;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+.typeSelect li:hover {
+  color: #6d885d;
+}
+.typeSelect li:hover:after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  border-top: 2px solid #6d885d;
+  transform: scaleX(1);
+}
+.typeSelect .selected {
+  color: #6d885d;
+}
+.typeSelect .selected:after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  border-top: 2px solid #6d885d;
+  transform: scaleX(1);
+}
+
+.searchWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.searchWrapper input {
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  outline: none;
+  padding: 8px 16px;
+}
+.searchWrapper button {
+  background-color: #6d885d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 8px;
+  margin-left: 8px;
+}
+
+.bodyWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}/*# sourceMappingURL=EstateSearch.module.css.map */
