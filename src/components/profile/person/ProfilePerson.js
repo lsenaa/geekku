@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import style from './MypagePerson.module.css';
-import userProfileImage from '../../../../assets/images/person.jpg';
-import PersonProfileCardList from './MypagePersonCardList';
+import style from './ProfilePerson.module.css';
+import userProfileImage from 'assets/images/person.jpg';
+import ProfilePersonCardList from 'components/profile/person/ProfilePersonCardList';
 import { Outlet } from 'react-router';
 
-const MypagePerson = () => {
+const ProfilePerson = () => {
   // 카드 리스트 데이터
   const [houseCards, setHouseCards] = useState([
     {
@@ -72,11 +72,11 @@ const MypagePerson = () => {
             전체 보기
           </a>
         </div>
-        <PersonProfileCardList houseCards={houseCards} />
+        <ProfilePersonCardList houseCards={houseCards} />
       </div>
       <Outlet />
     </div>
   );
 };
 
-export default MypagePerson;
+export default ProfilePerson;

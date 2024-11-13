@@ -3,8 +3,8 @@ import { IoSearch } from 'react-icons/io5';
 import { IoIosArrowForward } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import esateImg01 from 'assets/images/estate01.png';
-import esateImg02 from '../../assets/images/estate02.png';
-import esateImg03 from '../../assets/images/estate03.png';
+import esateImg02 from 'assets/images/estate02.png';
+import esateImg03 from 'assets/images/estate03.png';
 import { Link } from 'react-router-dom';
 
 const Main = () => {

@@ -9,7 +9,7 @@ import CommunityBoardWrite from 'components/community/communityWrite/CommunityBo
 import CommunityBoardDetail from 'components/community/communityBoardDetail/CommunityBoardDetail';
 import CommunityList from 'components/community/communityMain/CommunityList';
 import CompanyList from 'components/interior/companyList/Main';
-import MypagePerson from 'components/mypage/person/mypagePersonMain/MypagePerson';
+import ProfilePerson from 'components/profile/person/ProfilePerson';
 import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
@@ -18,6 +18,16 @@ import OneStopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
 import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
+import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
+import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
+import MypageLayout from 'components/layout/mypage/MypageLayout';
+import MypagePerson from 'components/mypage/person/MypagePersonMain';
+import MypagePersonReview from 'components/mypage/person/interior/MypagePersonReview';
+import MypagePersonOnestop from 'components/mypage/person/onestop/MypagePersonOnestop';
+import BookmarkHouse from 'components/mypage/person/bookmark/house/BookmarkHouse';
+import BookmarkInterior from 'components/mypage/person/bookmark/interior/BookmarkInterior';
+import BookmarkCommunity from 'components/mypage/person/bookmark/community/BookmarkCommunity';
+import MypagePersonCommunity from 'components/mypage/person/community/MypagePersonCommunity';
 import PersonInfo from 'components/mypage/info/PersonInfo';
 import CompanyInfo from 'components/mypage/info/CompanyInfo';
 import Login from 'components/login/Login';
@@ -55,7 +65,16 @@ const Router = () => {
       <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
 
       {/* MyPage */}
-      <Route path="/mypagePerson" element={<MypagePerson />} />
+      <Route path="/mypageUser/*" element={<MypageLayout />}>
+        <Route index element={<MypagePersonMain />} />
+        <Route path="interior" element={<MypagePersonInterior />} />
+        <Route path="interiorReview" element={<MypagePersonReview />} />
+        <Route path="onestop" element={<MypagePersonOnestop />} />
+        <Route path="bookmark" element={<BookmarkHouse />} />
+        <Route path="bookmarkInterior" element={<BookmarkInterior />} />
+        <Route path="bookmarkCommunity" element={<BookmarkCommunity />} />
+        <Route path="community" element={<MypagePersonCommunity />} />
+      </Route>
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
       <Route path="/personInfo" element={<PersonInfo />} />
@@ -71,6 +90,9 @@ const Router = () => {
       <Route path="/joinPerson" element={<JoinPerson />} />
       <Route path="/joinCompany" element={<JoinCompany />} />
       <Route path="/joinInterior" element={<JoinInterior />} />
+
+      {/* Profile */}
+      <Route path="/profilePerson" element={<ProfilePerson />} />
 
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
