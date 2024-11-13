@@ -9,10 +9,6 @@
   transition: transform 0.2s;
 }
 
-.houseCard:hover {
-  transform: scale(1.02);
-}
-
 .houseImage {
   width: 100%;
   height: 150px;
