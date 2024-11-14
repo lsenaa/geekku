@@ -1,5 +1,23 @@
 @import 'variables.scss';
 
+.coverImgWrap {
+  width: 100%;
+  height: 500px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 .container {
   @include container;
+  @include flexrow;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.contentWrap {
+  width: ((1200px - 40px) * 0.75);
 }

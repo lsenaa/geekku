@@ -10,7 +10,6 @@ const MypageSubNavbar = () => {
   useEffect(() => {
     setSelected(locPath);
   }, [locPath]);
-  console.log(locPath);
 
   const houseMenu = { name: '집꾸하기 신청내역', path: '/mypage/person' };
   const interiorMenu = [

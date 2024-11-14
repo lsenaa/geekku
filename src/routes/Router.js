@@ -44,6 +44,7 @@ import SearchPwd from 'components/login/SearchPwd';
 import SearchPwdResult from 'components/login/SearchPwdResult';
 import MypageEstate from 'components/mypage/estate/mypageEstateMain/MypageEstate';
 import ProfileInterior from 'components/profile/interior/ProfileInterior';
+import ProfileInteriorAll from 'components/profile/interior/all/ProfileInteriorAll';
 
 const Router = () => {
   return (
@@ -102,8 +103,10 @@ const Router = () => {
       <Route path="/joinCompany" element={<JoinCompany />} />
       <Route path="/joinInterior" element={<JoinInterior />} />
       {/* Profile */}
-      <Route path="/profilePerson" element={<ProfilePerson />} />
-      <Route path="/profileInterior" element={<ProfileInterior />} />
+      <Route path="/profile/person" element={<ProfilePerson />} />
+      <Route path="/profile/interior/*" element={<ProfileInterior />}>
+        <Route index element={<ProfileInteriorAll />} />
+      </Route>
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
