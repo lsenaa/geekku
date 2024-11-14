@@ -64,7 +64,7 @@ const ProfileInteriorAll = () => {
             <li key={i}>
               <Link to={'/'}>
                 <div className={styles.sampleImgWrap}>
-                  <img src={sample.image} alt="집꾸 리스트 이미지" />
+                  <img src={sample.image} alt="시공사례 이미지" />
                 </div>
                 <div className={styles.textWrap}>
                   <p>{sample.title}</p>

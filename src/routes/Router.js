@@ -46,6 +46,7 @@ import MypageEstate from 'components/mypage/estate/mypageEstateMain/MypageEstate
 import ProfileInterior from 'components/profile/interior/ProfileInterior';
 import ProfileInteriorAll from 'components/profile/interior/all/ProfileInteriorAll';
 import ProfileInteriorIntroduce from 'components/profile/interior/introduce/ProfileInteriorIntroduce';
+import ProfileInteriorSample from 'components/profile/interior/sample/ProfileInteriorSample';
 
 const Router = () => {
   return (
@@ -107,8 +108,8 @@ const Router = () => {
       <Route path="/profile/person" element={<ProfilePerson />} />
       <Route path="/profile/interior/*" element={<ProfileInterior />}>
         <Route index element={<ProfileInteriorAll />} />
+        <Route path="sample" element={<ProfileInteriorSample />} />
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
-        {/* <Route path="sample" /> */}
         {/* <Route path="review" /> */}
       </Route>
       {/* <Route path="*" element={<NotFound />} /> */}

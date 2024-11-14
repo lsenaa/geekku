@@ -1,0 +1,59 @@
+@import 'variables.scss';
+
+.container {
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+}
+
+.filterBtnWrap {
+  @include flexrow;
+  justify-content: space-between;
+  margin-bottom: 40px;
+
+  .filter {
+    @include flexrow;
+
+    li {
+      border: 1px solid $main-color;
+      border-radius: 20px;
+      padding: 10px 16px;
+      color: $main-color;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  }
+}
+
+.sampleWrap {
+  @include flexrow;
+  flex-wrap: wrap;
+  gap: 20px 20px;
+
+  li {
+    width: calc((870px - 40px) / 3);
+    @include border;
+  }
+
+  .sampleImgWrap {
+    width: 100%;
+    height: 160px;
+
+    img {
+      @include imgSize;
+    }
+  }
+
+  .textWrap {
+    padding: 20px 0 20px 8px;
+
+    p {
+      @include ellipse;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+}
