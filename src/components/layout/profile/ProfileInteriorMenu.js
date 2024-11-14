@@ -15,7 +15,7 @@ const ProfileInteriorMenu = () => {
     { name: '전체보기', path: '/profile/interior' },
     { name: `시공사례(${26})`, path: '/profile/interior/sample' },
     { name: `사용자 리뷰(${10})`, path: '/profile/interior/review' },
-    { name: '소개글', path: '/profile/interior/intro' },
+    { name: '소개글', path: '/profile/interior/introduce' },
   ];
 
   return (
