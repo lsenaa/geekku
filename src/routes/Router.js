@@ -43,6 +43,7 @@ import JoinInterior from 'components/join/JoinInterior';
 import SearchPwd from 'components/login/SearchPwd';
 import SearchPwdResult from 'components/login/SearchPwdResult';
 import MypageEstate from 'components/mypage/estate/mypageEstateMain/MypageEstate';
+import ProfileInterior from 'components/profile/interior/ProfileInterior';
 
 const Router = () => {
   return (
@@ -50,11 +51,11 @@ const Router = () => {
       {/* Estate */}
       <Route path="/" element={<Main />} />
       <Route path="/estate" element={<EstateSearch />} />
-      <Route path="/estateWrite" element={<EstateWrite />} />
+      <Route path="/estate/write" element={<EstateWrite />} />
       {/* House */}
       <Route path="/house" element={<HouseMain />} />
-      <Route path="/houseWrite" element={<HouseWrite />} />
-      <Route path="/houseDetail/:num" element={<HouseDetail />} />
+      <Route path="/house/write" element={<HouseWrite />} />
+      <Route path="/house/:num" element={<HouseDetail />} />
       {/* Interior */}
       <Route path="/interior" element={<InteriorMain />} />
       <Route path="/companyList" element={<CompanyList />} />
@@ -75,14 +76,14 @@ const Router = () => {
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
       <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
       {/* MyPage */}
-      <Route path="/mypageUser/*" element={<MypageLayout />}>
+      <Route path="/mypage/person/*" element={<MypageLayout />}>
         <Route index element={<MypagePersonMain />} />
         <Route path="interior" element={<MypagePersonInterior />} />
-        <Route path="interiorReview" element={<MypagePersonReview />} />
+        <Route path="interior/review" element={<MypagePersonReview />} />
         <Route path="onestop" element={<MypagePersonOnestop />} />
         <Route path="bookmark" element={<BookmarkHouse />} />
-        <Route path="bookmarkInterior" element={<BookmarkInterior />} />
-        <Route path="bookmarkCommunity" element={<BookmarkCommunity />} />
+        <Route path="bookmark/interior" element={<BookmarkInterior />} />
+        <Route path="bookmark/community" element={<BookmarkCommunity />} />
         <Route path="community" element={<MypagePersonCommunity />} />
       </Route>
       <Route path="/estateProfile" element={<MypageEstate />} />{' '}
@@ -102,6 +103,7 @@ const Router = () => {
       <Route path="/joinInterior" element={<JoinInterior />} />
       {/* Profile */}
       <Route path="/profilePerson" element={<ProfilePerson />} />
+      <Route path="/profileInterior" element={<ProfileInterior />} />
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );

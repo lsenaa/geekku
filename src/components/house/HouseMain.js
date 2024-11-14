@@ -23,7 +23,7 @@ const HouseMain = () => {
           <button className={styles.searchBtn}>검색</button>
         </div>
         <Button01 size="small">
-          <Link to={'/houseWrite'}>작성하기</Link>
+          <Link to={'/house/write'}>작성하기</Link>
         </Button01>
       </div>
       <HouseList />

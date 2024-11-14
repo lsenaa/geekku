@@ -8,12 +8,12 @@ const MypageSiderbar = () => {
   const [selected, setSelected] = useState(location.pathname);
 
   const personMenu = [
-    { name: '집꾸하기', path: '/mypageUser' },
-    { name: '방꾸하기', path: '/mypageUser/interior' },
-    { name: '한번에 꾸하기', path: '/mypageUser/onestop' },
-    { name: '북마크', path: '/mypageUser/bookmark' },
-    { name: '집들이', path: '/mypageUser/community' },
-    { name: '회원 정보 관리', path: '/mypageUser/userInfo' },
+    { name: '집꾸하기', path: '/mypage/person' },
+    { name: '방꾸하기', path: '/mypage/person/interior' },
+    { name: '한번에 꾸하기', path: '/mypage/person/onestop' },
+    { name: '북마크', path: '/mypage/person/bookmark' },
+    { name: '집들이', path: '/mypage/person/community' },
+    { name: '회원 정보 관리', path: '/mypage/person/info' },
   ];
 
   return (

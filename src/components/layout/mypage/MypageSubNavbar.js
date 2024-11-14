@@ -10,24 +10,25 @@ const MypageSubNavbar = () => {
   useEffect(() => {
     setSelected(locPath);
   }, [locPath]);
+  console.log(locPath);
 
-  const houseMenu = { name: '집꾸하기 신청내역', path: '/mypageUser' };
+  const houseMenu = { name: '집꾸하기 신청내역', path: '/mypage/person' };
   const interiorMenu = [
-    { name: '방꾸하기 신청내역', path: '/mypageUser/interior' },
-    { name: '인테리어 업체 후기', path: '/mypageUser/interiorReview' },
+    { name: '방꾸하기 신청내역', path: '/mypage/person/interior' },
+    { name: '인테리어 업체 후기', path: '/mypage/person/interior/review' },
   ];
   const onestopMenu = {
     name: '한번에꾸하기 신청내역',
-    path: '/mypageUser/onestop',
+    path: '/mypage/person/onestop',
   };
   const bookmarkMenu = [
-    { name: '집꾸하기 북마크', path: '/mypageUser/bookmark' },
-    { name: '방꾸하기 북마크', path: '/mypageUser/bookmarkInterior' },
-    { name: '집들이 북마크', path: '/mypageUser/bookmarkCommunity' },
+    { name: '집꾸하기 북마크', path: '/mypage/person/bookmark' },
+    { name: '방꾸하기 북마크', path: '/mypage/person/bookmark/interior' },
+    { name: '집들이 북마크', path: '/mypage/person/bookmark/community' },
   ];
   const communityMenu = {
     name: '집들이 작성내역',
-    path: '/mypageUser/community',
+    path: '/mypage/person/community',
   };
 
   return (
@@ -37,7 +38,7 @@ const MypageSubNavbar = () => {
           <Link to={houseMenu.path}>{houseMenu.name}</Link>
         </li>
       )}
-      {locPath.includes('interior') &&
+      {locPath.includes('/person/interior') &&
         interiorMenu.map((interior, index) => (
           <li
             key={index}
