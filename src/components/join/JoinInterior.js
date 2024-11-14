@@ -13,18 +13,18 @@ const JoinInterior = () => {
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
 
       <h3 className={styles2.title}>기업 회원가입</h3>
-      <div>
-        <span
-          className={styles.checkRadio}
-          onClick={() => navigate('/JoinCompany')}
-        >
+      <div
+        className={styles2.radioContainer}
+        onClick={() => navigate('/JoinCompany')}
+      >
+        <div className={styles2.unCheckRadio}>
           <img src={unCheckRadio} alt="언체크라디오" />
-          부동산&nbsp;&nbsp;
-        </span>
-        <span className={styles.checkRadio}>
+          <p>부동산</p>
+        </div>
+        <div className={styles2.checkRadio}>
           <img src={checkRadio} alt="체크라디오" />
-          인테리어
-        </span>
+          <b>인테리어</b>
+        </div>
       </div>
       <hr className={styles.line} />
 
