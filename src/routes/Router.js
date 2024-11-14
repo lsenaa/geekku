@@ -47,6 +47,7 @@ import ProfileInterior from 'components/profile/interior/ProfileInterior';
 import ProfileInteriorAll from 'components/profile/interior/all/ProfileInteriorAll';
 import ProfileInteriorIntroduce from 'components/profile/interior/introduce/ProfileInteriorIntroduce';
 import ProfileInteriorSample from 'components/profile/interior/sample/ProfileInteriorSample';
+import ProfileInteriorReview from 'components/profile/interior/review/ProfileInteriorReview';
 
 const Router = () => {
   return (
@@ -109,8 +110,8 @@ const Router = () => {
       <Route path="/profile/interior/*" element={<ProfileInterior />}>
         <Route index element={<ProfileInteriorAll />} />
         <Route path="sample" element={<ProfileInteriorSample />} />
+        <Route path="review" element={<ProfileInteriorReview />} />
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
-        {/* <Route path="review" /> */}
       </Route>
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
