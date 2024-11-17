@@ -1,4 +1,4 @@
-@import '../../../variables.scss';
+@import 'variables.scss';
 
 .Container {
   display: flex;
@@ -12,12 +12,11 @@
 
 .navWrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex: 1;
 
   ul {
-    width: 100%;
-    display: flex;
-    align-items: center;
+    @include flexrow;
 
     li {
       font-family: 'Santokki';
@@ -27,6 +26,10 @@
         font-size: 20px;
       }
     }
+  }
+
+  &.loggedIn {
+    margin-left: 165px;
   }
 }
 
@@ -61,6 +64,7 @@
 
 .loginMenuWrap {
   @include flexrow;
+  min-width: 200px;
 
   .notificationWrap {
     cursor: pointer;

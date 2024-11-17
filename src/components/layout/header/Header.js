@@ -11,7 +11,6 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [write, setWrite] = useState(false);
   const navigate = useNavigate();
-  console.log(write);
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },
@@ -31,7 +30,7 @@ const Header = () => {
       <Link to={'/'}>
         <img src={logo} alt="헤더로고" />
       </Link>
-      <nav className={styles.navWrapper}>
+      <nav className={`${styles.navWrapper} ${isLogin ? styles.loggedIn : ''}`}>
         <ul>
           <li>
             <Link to={'/estate'}>매물검색</Link>
@@ -71,7 +70,10 @@ const Header = () => {
             <IoMdNotificationsOutline size="30" color="#6D885D" />
             <p>10</p>
           </div>
-          <div className={styles.userProfile}>
+          <div
+            className={styles.userProfile}
+            onClick={() => navigate('/mypage/person')}
+          >
             <FaUserCircle size="30" color="#6D885D" />
             <p className={styles.name}>홍길동</p>
           </div>
