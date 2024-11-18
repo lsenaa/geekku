@@ -1,7 +1,7 @@
-import MypageInteriorSubNavbar from './MypageInteriorSubNavbar';
+import MypageInteriorSiderbar from 'components/layout/mypage/interior/MypageInteriorSiderbar';
 import styles from './MypageInteriorLayout.module.scss';
-import MypageInteriorSiderbar from './MypageInteriorSiderbar';
 import { Outlet, useLocation } from 'react-router';
+import MypageInteriorSubNavbar from 'components/layout/mypage/interior/MypageInteriorSubNavbar';
 
 const MypageInteriorLayout = () => {
   const location = useLocation();

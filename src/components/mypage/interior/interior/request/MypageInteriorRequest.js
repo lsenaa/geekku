@@ -1,10 +1,10 @@
 import { Pagination } from 'antd';
 import Button01 from 'components/commons/button/Button01';
-import MypageInteriorSiderbar from 'components/layout/mypageInterior/MypageInteriorSiderbar';
-import MypageInteriorSubNavbar from 'components/layout/mypageInterior/MypageInteriorSubNavbar';
-import styles from 'components/myInteriorpage/interior/interiorInquiry/MypageInteriorInquiry.module.scss';
+import MypageInteriorSiderbar from 'components/layout/mypage/interior/MypageInteriorSiderbar';
+import MypageInteriorSubNavbar from 'components/layout/mypage/interior/MypageInteriorSubNavbar';
+import styles from './MypageInteriorRequest.module.scss';
 
-const MypageInteriorInquiry = () => {
+const MypageInteriorRequest = () => {
   return (
     <>
       <table className={styles.customTable}>
@@ -15,7 +15,6 @@ const MypageInteriorInquiry = () => {
           <col width="10%" />
           <col width="15%" />
           <col width="5%" />
-          <col width="15%" />
         </colgroup>
         <thead>
           <tr>
@@ -25,7 +24,6 @@ const MypageInteriorInquiry = () => {
             <th>희망지역</th>
             <th>작성 날짜</th>
             <th>조회수</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -38,9 +36,6 @@ const MypageInteriorInquiry = () => {
             <td>경남 사천</td>
             <td>2024-10-27</td>
             <td>56</td>
-            <td>
-              <Button01 size="x-small">삭제</Button01>
-            </td>
           </tr>
           <tr className={styles.rowWrap}>
             <td>2</td>
@@ -51,9 +46,6 @@ const MypageInteriorInquiry = () => {
             <td>충북 담양</td>
             <td>2024-10-27</td>
             <td>2</td>
-            <td>
-              <Button01 size="x-small">삭제</Button01>
-            </td>
           </tr>
           <tr className={styles.rowWrap}>
             <td>1</td>
@@ -62,9 +54,6 @@ const MypageInteriorInquiry = () => {
             <td>충북 담양</td>
             <td>2024-10-27</td>
             <td>13</td>
-            <td>
-              <Button01 size="x-small">삭제</Button01>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -72,4 +61,4 @@ const MypageInteriorInquiry = () => {
     </>
   );
 };
-export default MypageInteriorInquiry;
+export default MypageInteriorRequest;

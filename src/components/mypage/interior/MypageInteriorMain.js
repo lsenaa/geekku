@@ -1,7 +1,5 @@
-import MypageInteriorSiderbar from 'components/layout/mypageInterior/MypageInteriorSiderbar';
 import styles from './MypageInteriorMain.module.scss';
 import { Link } from 'react-router-dom';
-import MypageInteriorSubNavbar from 'components/layout/mypageInterior/MypageInteriorSubNavbar';
 import Button01 from 'components/commons/button/Button01';
 import { Pagination } from 'antd';
 
