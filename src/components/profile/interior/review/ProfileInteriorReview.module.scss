@@ -1,0 +1,98 @@
+@import 'variables.scss';
+
+.container {
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 40px;
+
+    span {
+      color: $main-color;
+    }
+  }
+}
+
+.filter {
+  @include flexrow;
+  margin-bottom: 40px;
+
+  li {
+    border: 1px solid $main-color;
+    border-radius: 20px;
+    padding: 10px 16px;
+    color: $main-color;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+}
+
+.reviewWrap {
+  li {
+    margin-bottom: 20px;
+
+    .userWrap {
+      @include flexrow;
+
+      .username {
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+      }
+
+      .createdAt {
+        color: #757575;
+        margin-left: 20px;
+      }
+    }
+
+    .optionWrap {
+      @include flexrow;
+      margin: 16px 0;
+
+      li {
+        border: none;
+        margin-bottom: 0;
+        border-radius: 5px;
+        padding: 6px 4px;
+        background-color: #d9d9d9;
+        color: #6b6969;
+        font-size: 14px;
+        margin-right: 8px;
+      }
+    }
+
+    .reviewImgsWrap {
+      width: 100%;
+      @include flexrow;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      margin: 16px 0;
+
+      .imgWrap {
+        width: calc((868px - 64px) / 5);
+        aspect-ratio: 1/1;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .content {
+      width: 100%;
+      margin: 0 30px;
+
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: normal;
+      // text-align: left;
+      // word-wrap: break-word;
+      // display: -webkit-box;
+      // -webkit-line-clamp: 4;
+      // -webkit-box-orient: vertical;
+    }
+  }
+}

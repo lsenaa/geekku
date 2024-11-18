@@ -1,5 +1,8 @@
 .houseList {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 20px;
+  /* display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 16px; */
 }

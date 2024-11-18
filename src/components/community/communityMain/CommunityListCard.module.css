@@ -26,6 +26,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  margin: 0 80px;
 }
 
 .profile {
@@ -41,13 +42,13 @@
 }
 
 .profileName {
-  font-size: 14px;
+  font-size: 16px;
   color: #555;
+  margin-left: 10px;
 }
 
 .cardViews {
   color: #555;
   font-size: 14px;
-  margin: 0 10px 10px 10px;
   text-align: right;
 }

@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './CommunityBoardWrite.module.css';
 import { useNavigate } from 'react-router';
 
 const CommunityBoardWrite = () => {
   const navigate = useNavigate();
+  const [textCount, setTextCount] = useState(0);
 
   const handleCommunityBoard = (event) => {
     event.preventDefault();
     navigate('/CommunityBoardDetail');
   };
 
+  const onTextareaHandler = (e) => {
+    setTextCount(e.target.value.length);
+  };
+
   return (
     <div className={styles.communityWriteInfo}>
       <h1 className={styles.infoTitle}>집들이 작성하기</h1>
       <div className={styles.requiredNote}>
-        <span className={styles.leftText}>집들이 정보 작성</span>
-        <span className={styles.rightText}>* 필수 입력 항목</span>
+        <span className={styles.leftText}>인테리어 정보</span>
+        <span className={styles.rightText}>
+          <span>*</span> 필수 입력 항목
+        </span>
       </div>
 
       <form className={styles.infoForm}>
@@ -105,10 +112,18 @@ const CommunityBoardWrite = () => {
           placeholder="제목을 입력해주세요."
           maxLength="80"
         />
-        <textarea
-          className={styles.contentInput}
-          placeholder="내용을 입력해주세요."
-        ></textarea>
+        <div className={styles.textareaWrap}>
+          <textarea
+            minLength="5"
+            maxLength="1000"
+            className={styles.contentInput}
+            placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
+            onChange={onTextareaHandler}
+          />
+          <p className={styles.textCount}>
+            <span>{textCount}</span> / 1000
+          </p>
+        </div>
         <button className={styles.submitButton} onClick={handleCommunityBoard}>
           등록하기
         </button>

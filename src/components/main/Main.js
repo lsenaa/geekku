@@ -1,11 +1,14 @@
 import styles from './Main.module.scss';
 import { IoSearch } from 'react-icons/io5';
+import { CiLocationOn } from 'react-icons/ci';
 import { IoIosArrowForward } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import esateImg01 from 'assets/images/estate01.png';
 import esateImg02 from 'assets/images/estate02.png';
 import esateImg03 from 'assets/images/estate03.png';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { hangjungdong } from 'constants/hangjungdong';
 
 const Main = () => {
   const estateData = [
@@ -35,13 +38,89 @@ const Main = () => {
     },
   ];
 
+  const [keyword, setKeyword] = useState('');
+  const { sido, sigugun, dong } = hangjungdong;
+
+  const handleKeyword = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  const searchByKeyword = (keyword) => {
+    if (!keyword) return [];
+
+    const results = [];
+
+    // 1. 시/도로 검색
+    if (sido.find((si) => si.codeNm.includes(keyword))) {
+      const targetSido = sido.find((si) => si.codeNm.includes(keyword));
+
+      if (!targetSido) {
+        return [];
+      }
+
+      const targetGuns = sigugun.filter((gun) => gun.sido === targetSido.sido);
+
+      targetGuns.forEach((gun) => {
+        const targetDongs = dong.filter((d) => d.sigugun === gun.sigugun);
+        targetDongs.forEach((d) => {
+          results.push(`${targetSido.codeNm} ${gun.codeNm} ${d.codeNm}`);
+        });
+      });
+    } else if (sigugun.find((gun) => gun.codeNm.includes(keyword))) {
+      // 2. 시군구로 검색
+      sigugun.forEach((gun) => {
+        if (gun.codeNm.includes(keyword)) {
+          const si = sido.find((s) => s.sido === gun.sido);
+          const targetDongs = dong.filter((d) => d.sigugun === gun.sigugun);
+
+          if (si) {
+            targetDongs.forEach((d) => {
+              results.push(`${si.codeNm} ${gun.codeNm} ${d.codeNm}`);
+            });
+          }
+        }
+      });
+    } else {
+      // 3.동 이름으로 검색
+      dong.forEach((d) => {
+        if (d.codeNm.includes(keyword)) {
+          const gun = sigugun.find((g) => g.sigugun === d.sigugun);
+          const si = sido.find((s) => s.sido === gun.sido);
+
+          if (si && gun) {
+            results.push(`${si.codeNm} ${gun.codeNm} ${d.codeNm}`);
+          }
+        }
+      });
+    }
+
+    return results.sort();
+  };
+
+  const searchResults = searchByKeyword(keyword);
+
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
         <h1>지방을 꾸미자</h1>
         <div className={styles.searchWrapper}>
           <IoSearch size={24} />
-          <input type="text" placeholder="매물 지역을 검색해주세요." />
+          <input
+            type="text"
+            placeholder="매물 지역을 검색해주세요."
+            value={keyword}
+            onChange={handleKeyword}
+          />
+          {keyword !== '' && searchResults.length !== 0 && (
+            <ul className={styles.searchList}>
+              {searchResults.map((search, i) => (
+                <li key={i}>
+                  <CiLocationOn size="20" />
+                  <p>{search}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
