@@ -1,0 +1,31 @@
+.fix {
+    width: 384px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #6d885d;
+    border-radius: 10px;
+    margin-right: 16px;
+  }
+  .title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 10px;
+  }
+  .company {
+    font-weight: bold;
+    color: #757575;
+  }
+  .wrapTitle{
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  .card {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 상속 */
+    
+    &:hover {
+        /* 호버 시 스타일 (원하는 경우) */
+        opacity: 0.8; /* 예시로 약간 투명하게 */
+    }
+}

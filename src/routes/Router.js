@@ -38,6 +38,11 @@ import JoinCompany from 'components/join/JoinCompany';
 import JoinInterior from 'components/join/JoinInterior';
 import SearchPwd from 'components/login/SearchPwd';
 import SearchPwdResult from 'components/login/SearchPwdResult';
+import SampleList from 'components/interior/sampleList/SampleList';
+import InteriorRegister from 'components/interior/interiorList/InteriorRegister';
+import SampleDetail from 'components/interior/sampleDetail/SampleDetail';
+import SampleRegister from 'components/interior/sampleRegister/SampleRegister';
+import InteriorAnswer from 'components/interior/interiorAnswer/InteriorAnswer';
 import MypageEstate from 'components/mypage/estate/main/MypageEstate';
 import ProfileInterior from 'components/profile/interior/ProfileInterior';
 import ProfileInteriorAll from 'components/profile/interior/all/ProfileInteriorAll';
@@ -49,6 +54,7 @@ import MypageEstateLayout from 'components/layout/mypage/estate/MypageEstateLayo
 import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstateHouseAnswer';
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
+
 
 const Router = () => {
   return (
@@ -65,6 +71,11 @@ const Router = () => {
       <Route path="/interior" element={<InteriorMain />} />
       <Route path="/companyList" element={<CompanyList />} />
       <Route path="/companyRegister" element={<Register />} />
+      <Route path="/sampleList" element={<SampleList />} />
+      <Route path="/interiorRegister" element={<InteriorRegister />} />
+      <Route path="/sampleDetail" element={<SampleDetail />} />
+      <Route path="/sampleRegister" element={<SampleRegister />} />
+      <Route path="/interiorAnswer" element={<InteriorAnswer />} />
       {/* Onestop */}
       <Route path="/oneStop" element={<OnestopMain />} />
       <Route path="/oneStopWrite" element={<OnestopWrite />} />
