@@ -1,8 +1,8 @@
 import styles from './OnestopMain.module.scss';
 import Button01 from '../commons/button/Button01';
-import OnestopList from './onestopList/OnestopList';
 import { Pagination } from 'antd';
 import { Link } from 'react-router-dom';
+import OnestopList from './onestopList/OnestopList';
 
 const OnestopMain = () => {
   return (
@@ -23,7 +23,7 @@ const OnestopMain = () => {
           <button className={styles.searchBtn}>검색</button>
         </div>
         <Button01 size="small">
-          <Link to={'/onestopWrite'}>작성하기</Link>
+          <Link to={'/onestop/write'}>작성하기</Link>
         </Button01>
       </div>
       <OnestopList />
