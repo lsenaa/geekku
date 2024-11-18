@@ -1,4 +1,3 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import loginLogo from '../../assets/images/login/loginLogo.png';
 import kakaoIcon from '../../assets/images/login/kakao_login_Btn.png';
 import naverIcon from '../../assets/images/login/naver_login_Btn.png';

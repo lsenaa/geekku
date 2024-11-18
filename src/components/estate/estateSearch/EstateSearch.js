@@ -3,6 +3,7 @@ import { useState } from 'react';
 import EstateList from '../estateList/EstateList';
 import EstateDetail from '../estateDetail/EstateDetail';
 import { Modal } from 'antd';
+import KakaoMap from 'components/map/KakaoMap';
 
 const EstateSearch = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +54,7 @@ const EstateSearch = () => {
 
       <div className={styles.bodyWrapper}>
         <EstateList isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        {/* 지도 들어감 */}
+        <KakaoMap />
       </div>
       {isModalOpen && (
         <Modal

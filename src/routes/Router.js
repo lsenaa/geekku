@@ -1,13 +1,10 @@
 import { Route, Routes } from 'react-router';
-import Footer from 'components/layout/footer/Footer';
-import Header from 'components/layout/header/Header';
 import Main from 'components/main/Main';
 import EstateSearch from 'components/estate/estateSearch/EstateSearch';
 import InteriorMain from 'components/interior/interiorMain/Main';
 import CommunityMain from 'components/community/communityMain/CommunityMain';
 import CommunityBoardWrite from 'components/community/communityWrite/CommunityBoardWrite';
 import CommunityBoardDetail from 'components/community/communityBoardDetail/CommunityBoardDetail';
-import CommunityList from 'components/community/communityMain/CommunityList';
 import CompanyList from 'components/interior/companyList/Main';
 import ProfilePerson from 'components/profile/person/ProfilePerson';
 import EstateWrite from 'components/estate/estateWrite/EstateWrite';
@@ -26,7 +23,6 @@ import Register from 'components/interior/companyRegister/Register';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
 import MypageLayout from 'components/layout/mypage/MypageLayout';
-import MypagePerson from 'components/mypage/person/MypagePersonMain';
 import MypagePersonReview from 'components/mypage/person/interior/MypagePersonReview';
 import MypagePersonOnestop from 'components/mypage/person/onestop/MypagePersonOnestop';
 import BookmarkHouse from 'components/mypage/person/bookmark/house/BookmarkHouse';
@@ -59,7 +55,7 @@ const Router = () => {
       {/* House */}
       <Route path="/house" element={<HouseMain />} />
       <Route path="/house/write" element={<HouseWrite />} />
-      <Route path="/house/:num" element={<HouseDetail />} />
+      <Route path="/house/detail/:num" element={<HouseDetail />} />
       {/* Interior */}
       <Route path="/interior" element={<InteriorMain />} />
       <Route path="/companyList" element={<CompanyList />} />
