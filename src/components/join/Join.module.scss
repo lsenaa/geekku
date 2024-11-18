@@ -17,6 +17,7 @@ $input-radius: 10px;
   display: flex;
   height: 40px;
   align-items: center;
+  cursor: pointer;
 
   img {
     margin-right: 5px;
@@ -27,7 +28,7 @@ $input-radius: 10px;
     align-items: center;
     margin-left: 10px;
     p {
-      
+      cursor: pointer;
     }
   }
 
@@ -35,7 +36,6 @@ $input-radius: 10px;
     display: flex;
     align-items: center;
     margin-left: 10px;
-    
   }
 }
 
@@ -156,13 +156,9 @@ b {
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin: 10px;
   transition: background-color 0.3s ease;
   background-color: $sub-color;
-
-  &:hover {
-    background-color: #5a9e62;
-  }
 }
