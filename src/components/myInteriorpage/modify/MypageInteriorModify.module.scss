@@ -11,7 +11,7 @@
   }
 }
 
-.btn{
+.btn {
   text-align: center;
 }
 
@@ -81,7 +81,6 @@ section {
     }
   }
 
-  
   .radioGroup {
     margin-right: 20px;
 
@@ -125,21 +124,20 @@ section {
     }
   }
 
-  .checkboxGroup{
+  .checkboxGroup {
     margin-right: 20px;
 
-    input[type="checkbox"] {
-    accent-color: $main-color;
-    padding: 20px;
+    input[type='checkbox'] {
+      accent-color: $main-color;
+      padding: 20px;
     }
     label {
-  margin-right: 10px;
-  width: 80px;
-  padding: 5px;
-  font-weight: normal;
+      margin-right: 10px;
+      width: 80px;
+      padding: 5px;
+      font-weight: normal;
     }
-    }
-
+  }
 }
 
 .subLabelWrap {
@@ -152,7 +150,6 @@ section {
     margin-bottom: 8px;
   }
 }
-
 
 .textareaWrap {
   position: relative;
