@@ -44,6 +44,7 @@ import ProfileInteriorAll from 'components/profile/interior/all/ProfileInteriorA
 import ProfileInteriorIntroduce from 'components/profile/interior/introduce/ProfileInteriorIntroduce';
 import ProfileInteriorSample from 'components/profile/interior/sample/ProfileInteriorSample';
 import ProfileInteriorReview from 'components/profile/interior/review/ProfileInteriorReview';
+import ProfileEstate from 'components/profile/estate/ProfileEstate';
 
 const Router = () => {
   return (
@@ -86,7 +87,7 @@ const Router = () => {
         <Route path="bookmark/community" element={<BookmarkCommunity />} />
         <Route path="community" element={<MypagePersonCommunity />} />
       </Route>
-      <Route path="/estateProfile" element={<MypageEstate />} />{' '}
+      <Route path="/mypage/estate" element={<MypageEstate />} />{' '}
       {/*임시 이름 바꿔야함*/}
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
@@ -109,6 +110,7 @@ const Router = () => {
         <Route path="review" element={<ProfileInteriorReview />} />
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
       </Route>
+      <Route path="/profile/estate" element={<ProfileEstate />} />
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );

@@ -1,0 +1,116 @@
+@import 'variables.scss';
+
+.container {
+  @include container;
+  @include flexrow;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.profile {
+  width: calc((1200px - 40px) * 0.2);
+  @include border;
+  padding: 20px 20px;
+  text-align: center;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.6);
+
+  h4 {
+    color: $main-color;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  hr {
+    height: 1px;
+    background-color: $main-color;
+    margin: 20px;
+  }
+
+  .sidebar {
+    li {
+      margin-bottom: 20px;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+    p {
+      color: $main-color;
+      font-weight: bold;
+    }
+  }
+}
+
+.contentWrap {
+  width: ((1200px - 40px) * 0.8);
+}
+
+.subNav {
+  @include flexrow;
+  margin-bottom: 60px;
+
+  p {
+    font-family: $sub-font;
+    color: $main-color;
+    font-size: 24px;
+  }
+}
+
+.estateListWrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 20px;
+
+  li {
+    border: 1px solid $main-color;
+    border-radius: 10px;
+    width: 31%;
+    overflow: hidden;
+
+    p {
+      font-size: 14px;
+    }
+
+    .price {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .imgWrapper {
+      width: 100%;
+      height: 200px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .textWrapper {
+      padding: 16px;
+    }
+
+    .type {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .locSizeWrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .title {
+      margin-top: 10px;
+    }
+  }
+}
