@@ -1,14 +1,29 @@
 import MypageInteriorSubNavbar from './MypageInteriorSubNavbar';
 import styles from './MypageInteriorLayout.module.scss';
 import MypageInteriorSiderbar from './MypageInteriorSiderbar';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
 const MypageInteriorLayout = () => {
+  const location = useLocation();
+  const allowedPaths = [
+    '/mypage/interior',
+    '/mypage/interior/manage/reqinterior',
+    '/mypage/interior/manage/case',
+    '/mypage/interior/manage/inquiry',
+    '/mypage/interior/manage/review',
+    '/mypage/interior/onestop',
+    '/mypage/interior/info',
+    '/mypage/interior/info/password',
+  ];
+
+  const isAllowedPath = allowedPaths.includes(location.pathname);
   return (
-    <div className={styles.container}>
-      <MypageInteriorSiderbar />
+    <div
+      className={isAllowedPath ? styles.container : styles.notfoundContainer}
+    >
+      {isAllowedPath && <MypageInteriorSiderbar />}
       <div className={styles.contentWrap}>
-        <MypageInteriorSubNavbar />
+        {isAllowedPath && <MypageInteriorSubNavbar />}
         <Outlet />
       </div>
     </div>

@@ -7,11 +7,11 @@ const MypageInteriorSiderbar = () => {
   const location = useLocation();
   const [selected, setSelected] = useState(location.pathname);
 
-  const personMenu = [
+  const interiorMenu = [
     { name: '업체 정보', path: '/mypage/interior' },
     { name: '방꾸하기', path: '/mypage/interior/manage/reqinterior' },
     { name: '한번에 꾸하기', path: '/mypage/interior/onestop' },
-    { name: '회원 정보 관리', path: '/mypage/interior/userInfo' },
+    { name: '회원 정보 관리', path: '/mypage/interior/info' },
   ];
 
   return (
@@ -22,13 +22,13 @@ const MypageInteriorSiderbar = () => {
       <p>kosta@gmail.com</p>
       <hr />
       <ul className={styles.sidebar}>
-        {personMenu.map((person, index) => (
+        {interiorMenu.map((interior, index) => (
           <li
             key={index}
-            className={selected === person.path ? styles.active : ''}
-            onClick={() => setSelected(person.path)}
+            className={selected === interior.path ? styles.active : ''}
+            onClick={() => setSelected(interior.path)}
           >
-            <Link to={person.path}>{person.name}</Link>
+            <Link to={interior.path}>{interior.name}</Link>
           </li>
         ))}
       </ul>

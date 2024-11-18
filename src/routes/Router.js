@@ -124,7 +124,9 @@ const Router = () => {
         <Route path="manage/inquiry" element={<MypageInteriorInquiry />} />
         <Route path="manage/review" element={<MypageInteriorReview />} />
         <Route path="onestop" element={<MypageInteriorOnestop />} />
-        <Route path="userInfo" element={<CompanyInfo />} />
+        <Route path="info" element={<CompanyInfo />} />
+        <Route path="info/password" element={<SearchPwdResult />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
 
@@ -144,6 +146,7 @@ const Router = () => {
         <Route path="sample" element={<ProfileInteriorSample />} />
         <Route path="review" element={<ProfileInteriorReview />} />
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/profile/estate" element={<ProfileEstate />} />
       {/* RequestInterior */}
