@@ -1,0 +1,64 @@
+.all {
+    width: 720px;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Noto Sans KR";
+    margin-bottom: 50px;
+    margin-top: 120px;
+}
+.user {
+    display: flex;
+    margin-bottom: 60px;
+}
+.nameInfo {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+
+    span {
+        margin-top: -3px;
+        margin-bottom: 3px;
+    }
+}
+#name {
+    height: 20px;
+    font-weight: bold;
+    font-family: 'Noto Sans KR';
+}
+#info {
+    height: 18px;
+    color: #ABAAAA;
+    font-weight: bold;
+    font-family: "Noto Sans KR";
+}
+.type {
+    background-color: white;
+    width: 720px;
+    height: 82px;
+    border-radius: 10px;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    font-family: "Noto Sans KR";
+    margin-bottom: 40px;
+    span {
+        font-weight: bold;
+    }
+}
+.content {
+    background-color: white;
+    margin-bottom: 80px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-family: "Noto Sans KR";
+    padding: 20px;
+    height: 1030px; //나중에 데이터 들어가면 높이 지정 빼기
+}

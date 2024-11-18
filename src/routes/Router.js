@@ -41,6 +41,8 @@ import SearchPwdResult from 'components/login/SearchPwdResult';
 import SampleList from 'components/interior/sampleList/SampleList';
 import InteriorRegister from 'components/interior/interiorList/InteriorRegister';
 import SampleDetail from 'components/interior/sampleDetail/SampleDetail';
+import SampleRegister from 'components/interior/sampleRegister/SampleRegister';
+import InteriorAnswer from 'components/interior/interiorAnswer/InteriorAnswer';
 
 const Router = () => {
   return (
@@ -62,6 +64,8 @@ const Router = () => {
       <Route path="/sampleList" element={<SampleList />} />
       <Route path="/interiorRegister" element={<InteriorRegister />} />
       <Route path="/sampleDetail" element={<SampleDetail />} />
+      <Route path="/sampleRegister" element={<SampleRegister />} />
+      <Route path="/interiorAnswer" element={<InteriorAnswer />} />
 
       {/* Onestop */}
       <Route path="/oneStopWrite" element={<OneStopWrite />} />

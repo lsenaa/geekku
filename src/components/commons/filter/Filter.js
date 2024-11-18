@@ -42,6 +42,7 @@ const Filter = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        footer={null}
       >
         <div className={styles.divStyle}>
           <span className={styles.spanStyle}>정렬</span>

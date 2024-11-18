@@ -1,7 +1,7 @@
-import styles from './Register.module.scss';
+import styles from './SampleRegister.module.scss';
 import { useRef } from 'react';
 
-const Register = () => {
+const SampleRegister = () => {
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
 
   const imageInput = useRef();
@@ -9,38 +9,39 @@ const Register = () => {
   const onClickImageUpload = () => {
     imageInput.current.click();
   };
+
   return (
     <div className={styles.regDesign}>
-      <div className={styles.topText}>업체 등록하기</div>
+      <div className={styles.topText}>시공사례 등록하기</div>
       <div className={styles.midText}>
-        <span>업체정보</span>
+        <span>카테고리 선택</span>
         <span>필수입력항목</span>
       </div>
       <div className={styles.line}></div>
-      <form>
+      <form className={styles.formEdit}>
         <ul>
           <li>
-            업체명 <input name="name" />
+            <span>주거형태</span>
+            <select className={styles.customSelect}>
+              <option>농가주택</option>
+              <option>전원주택</option>
+              <option>아파트/빌라</option>
+            </select>
           </li>
           <li>
-            부분시공 가능여부
-            <label>
-              <input type="radio" name="possiblePart" value="possible" />
-              가능
-            </label>
-            <label>
-              <input type="radio" name="possiblePart" value="impossible" />
-              불가능
-            </label>
+            <span>스타일</span>
+            <select className={styles.customSelect}>
+              <option>모던</option>
+              <option>우드</option>
+              <option>내추럴</option>
+              <option>클래식&엔틱</option>
+              <option>레트로&빈티지</option>
+              <option>미니멀</option>
+            </select>
           </li>
           <li>
-            경력 <input name="period" />
-          </li>
-          <li>
-            최근 계약 <input name="recentCount" />
-          </li>
-          <li>
-            보수 기간 <input name="repairDate" />
+            <span>평수</span>
+            <input name="size" className={styles.customSelect} />
           </li>
           <li>
             <span>지역</span>
@@ -73,27 +74,11 @@ const Register = () => {
             </button>
           </div>
         </div>
-        <div>
-          소개글 작성
-          <hr />
-          <ul>
-            <li>
-              한줄소개 <input name="intro" />
-            </li>
-            <li>
-              소개글
-              <input
-                placeholder="500자 이내로 소개글을 작성해주세요"
-                name="content"
-                style={{ width: '800px', height: '300px' }}
-              />
-            </li>
-          </ul>
-        </div>
+        <div className={styles.edt}>에디터 내용~~~~</div>
       </form>
-      <button>등록하기</button>
+      <button type="submit">등록하기</button>
     </div>
   );
 };
 
-export default Register;
+export default SampleRegister;
