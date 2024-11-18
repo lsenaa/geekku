@@ -11,10 +11,9 @@ import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
 import HouseDetail from 'components/house/houseDetail/HouseDetail';
+import OnestopMain from 'components/oneStop/OnestopMain';
 import OnestopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import OnestopDetail from 'components/oneStop/oneStopDetail/OneStopDetail';
-import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
-import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
 import MypageLayout from 'components/layout/mypage/person/MypageLayout';
@@ -50,6 +49,20 @@ import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstate
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
 import Register from 'components/interior/companyRegister/Register';
+// import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
+// import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
+// import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
+import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
+import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
+import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
+import MypageInteriorLayout from 'components/layout/mypageInterior/MypageInteriorLayout';
+import MypageInteriorMain from 'components/myInteriorpage/MypageInteriorMain';
+import MypageInteriorModify from 'components/myInteriorpage/modify/MypageInteriorModify';
+import MypageInteriorRequest from 'components/myInteriorpage/interior/request/MypageInteriorRequest';
+import MypageInteriorInquiry from 'components/myInteriorpage/interior/interiorInquiry/MypageInteriorInquiry';
+import MypageInteriorCase from 'components/myInteriorpage/interior/case/MypageInteriorCase';
+import MypageInteriorReview from 'components/myInteriorpage/interior/review/MypageInteriorReview';
+import MypageInteriorOnestop from 'components/myInteriorpage/onestop/OnestopReply';
 
 const Router = () => {
   return (
@@ -72,14 +85,15 @@ const Router = () => {
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
       {/* Onestop */}
-      <Route path="/oneStopWrite" element={<OnestopWrite />} />
-      <Route path="/oneStopDetail" element={<OnestopDetail />} />
+      <Route path="/onestop/write" element={<OnestopWrite />} />
+      <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
+      <Route path="/onestop" element={<OnestopMain />} />
 
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
       <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
-      {/* MyPage */}
+      {/* MypagePerson */}
       <Route path="/mypage/person/*" element={<MypageLayout />}>
         <Route index element={<MypagePersonMain />} />
         <Route path="interior" element={<MypagePersonInterior />} />
@@ -90,23 +104,29 @@ const Router = () => {
         <Route path="bookmark/community" element={<BookmarkCommunity />} />
         <Route path="community" element={<MypagePersonCommunity />} />
         <Route path="info" element={<PersonInfo />} />
-        {/* 비밀번호 변경 추가하기 */}
-        {/* <Route path="info/password" element={} /> */}
+        <Route path="info/password" element={<SearchPwdResult />} />
         <Route path="*" element={<NotFound />} />
       </Route>
+      {/* MypageEstate */}
       <Route path="/mypage/estate/*" element={<MypageEstateLayout />}>
         <Route index element={<MypageEstate />} />
         <Route path="house" element={<MypageEstateHouseAnswer />} />
         <Route path="onestop" element={<MypageEstateOnestopAnswer />} />
         <Route path="info" element={<CompanyInfo />} />
-        {/* 비밀번호 변경 추가하기 */}
-        {/* <Route path="info/password" element={} /> */}
+        <Route path="info/password" element={<SearchPwdResult />} />
         <Route path="*" element={<NotFound />} />
       </Route>
-      <Route path="/mypageInterior" element={<MypageInteriorMain />} />
-      <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
-      <Route path="/personInfo" element={<PersonInfo />} />
-      <Route path="/companyInfo" element={<CompanyInfo />} />
+      {/* MypageInterior */}
+      <Route path="/mypage/interior/*" element={<MypageInteriorLayout />}>
+        <Route index element={<MypageInteriorMain />} />
+        <Route path="manage/reqinterior" element={<MypageInteriorRequest />} />
+        <Route path="manage/case" element={<MypageInteriorCase />} />
+        <Route path="manage/inquiry" element={<MypageInteriorInquiry />} />
+        <Route path="manage/review" element={<MypageInteriorReview />} />
+        <Route path="onestop" element={<MypageInteriorOnestop />} />
+        <Route path="userInfo" element={<CompanyInfo />} />
+      </Route>
+      <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
 
       {/* Login */}
       <Route path="/login" element={<Login />} />
@@ -126,6 +146,13 @@ const Router = () => {
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
       </Route>
       <Route path="/profile/estate" element={<ProfileEstate />} />
+      {/* RequestInterior */}
+      <Route path="/requestInterior" element={<ReqInteriorMain />} />
+      <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
+      <Route
+        path="/requestInteriorDetail/:num"
+        element={<ReqInteriorDetail />}
+      />
       {/* NotFound */}
       <Route path="*" element={<NotFound />} />
     </Routes>

@@ -11,7 +11,7 @@ const OnestopDetail = () => {
   let { num } = useParams();
   const navigate = useNavigate();
   const handleListButton = () => {
-    navigate('/oneStop');
+    navigate('/onestop');
   };
 
   return (
