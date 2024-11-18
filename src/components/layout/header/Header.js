@@ -17,7 +17,7 @@ const Header = () => {
     { name: '방꾸 신청하기', path: '/requestInteriorWrite' },
     { name: '한번에 꾸하기 신청하기', path: '/oneStopWrite' },
     { name: '집들이 글쓰기', path: '/communityBoardWrite' },
-    { name: '인테리어 후기 작성하기', path: '/' },
+    { name: '인테리어 후기 작성하기', path: '/reviewWrite' },
   ];
   const estateWrite = { name: '매물 등록하기', path: '/estate/write' };
   const interiorWrite = [
