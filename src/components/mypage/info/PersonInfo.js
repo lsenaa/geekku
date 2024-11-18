@@ -30,7 +30,7 @@ const PersonInfo = () => {
           <a href="/" className={styles.tabA}>
             회원 정보 수정
           </a>
-          <a href="/searchPwd" className={styles.tabA}>
+          <a href="/searchPwdResult" className={styles.tabA}>
             {' '}
             비밀번호 변경
           </a>
