@@ -38,6 +38,9 @@ import JoinCompany from 'components/join/JoinCompany';
 import JoinInterior from 'components/join/JoinInterior';
 import SearchPwd from 'components/login/SearchPwd';
 import SearchPwdResult from 'components/login/SearchPwdResult';
+import SampleList from 'components/interior/sampleList/SampleList';
+import InteriorRegister from 'components/interior/interiorList/InteriorRegister';
+import SampleDetail from 'components/interior/sampleDetail/SampleDetail';
 
 const Router = () => {
   return (
@@ -56,6 +59,9 @@ const Router = () => {
       <Route path="/interior" element={<InteriorMain />} />
       <Route path="/companyList" element={<CompanyList />} />
       <Route path="/companyRegister" element={<Register />} />
+      <Route path="/sampleList" element={<SampleList />} />
+      <Route path="/interiorRegister" element={<InteriorRegister />} />
+      <Route path="/sampleDetail" element={<SampleDetail />} />
 
       {/* Onestop */}
       <Route path="/oneStopWrite" element={<OneStopWrite />} />

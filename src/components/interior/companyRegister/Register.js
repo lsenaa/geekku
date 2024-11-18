@@ -1,6 +1,8 @@
 import styles from './Register.module.scss';
 
 const Register = () => {
+  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
+
   return (
     <div className={styles.regDesign}>
       <div className={styles.topText}>업체 등록하기</div>
@@ -34,7 +36,15 @@ const Register = () => {
           <li>
             보수 기간 <input name="repairDate" />
           </li>
-          <li>시공 가능 지역</li>
+          <li>
+            시공 가능 지역
+            {area.map((area) => (
+              <label key={area} htmlFor={area}>
+                <input type="checkbox" id={area} />
+                {area}
+              </label>
+            ))}
+          </li>
         </ul>
         <div>
           추가하기 버튼으로 커버사진을 업로드 해주세요.

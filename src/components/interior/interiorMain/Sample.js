@@ -4,6 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import img from '../../../assets/images/interiorEx.png';
 import './Sample.css';
+import { Link } from 'react-router-dom';
 
 const Sample = () => {
   const settings = {
@@ -16,7 +17,9 @@ const Sample = () => {
   return (
     <div className="interiorAll" id="sampleBottom">
       <div id="sampleTop">시공사례</div>
-      <div id="more">더많은 사례보기&gt;</div>
+      <Link to="/sampleList" id="more">
+        더많은 사례보기&gt;
+      </Link>
 
       <div className="slider-container">
         <Slider {...settings}>
