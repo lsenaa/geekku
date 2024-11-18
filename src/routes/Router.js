@@ -22,7 +22,7 @@ import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModif
 import Register from 'components/interior/companyRegister/Register';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
-import MypageLayout from 'components/layout/mypage/MypageLayout';
+import MypageLayout from 'components/layout/mypage/person/MypageLayout';
 import MypagePersonReview from 'components/mypage/person/interior/MypagePersonReview';
 import MypagePersonOnestop from 'components/mypage/person/onestop/MypagePersonOnestop';
 import BookmarkHouse from 'components/mypage/person/bookmark/house/BookmarkHouse';
@@ -38,13 +38,17 @@ import JoinCompany from 'components/join/JoinCompany';
 import JoinInterior from 'components/join/JoinInterior';
 import SearchPwd from 'components/login/SearchPwd';
 import SearchPwdResult from 'components/login/SearchPwdResult';
-import MypageEstate from 'components/mypage/estate/mypageEstateMain/MypageEstate';
+import MypageEstate from 'components/mypage/estate/main/MypageEstate';
 import ProfileInterior from 'components/profile/interior/ProfileInterior';
 import ProfileInteriorAll from 'components/profile/interior/all/ProfileInteriorAll';
 import ProfileInteriorIntroduce from 'components/profile/interior/introduce/ProfileInteriorIntroduce';
 import ProfileInteriorSample from 'components/profile/interior/sample/ProfileInteriorSample';
 import ProfileInteriorReview from 'components/profile/interior/review/ProfileInteriorReview';
 import ProfileEstate from 'components/profile/estate/ProfileEstate';
+import MypageEstateLayout from 'components/layout/mypage/estate/MypageEstateLayout';
+import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstateHouseAnswer';
+import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
+import NotFound from 'components/notfound/NotFound';
 
 const Router = () => {
   return (
@@ -86,13 +90,23 @@ const Router = () => {
         <Route path="bookmark/interior" element={<BookmarkInterior />} />
         <Route path="bookmark/community" element={<BookmarkCommunity />} />
         <Route path="community" element={<MypagePersonCommunity />} />
+        <Route path="info" element={<PersonInfo />} />
+        {/* 비밀번호 변경 추가하기 */}
+        {/* <Route path="info/password" element={} /> */}
+        <Route path="*" element={<NotFound />} />
       </Route>
-      <Route path="/mypage/estate" element={<MypageEstate />} />{' '}
+      <Route path="/mypage/estate/*" element={<MypageEstateLayout />}>
+        <Route index element={<MypageEstate />} />
+        <Route path="house" element={<MypageEstateHouseAnswer />} />
+        <Route path="onestop" element={<MypageEstateOnestopAnswer />} />
+        <Route path="info" element={<CompanyInfo />} />
+        {/* 비밀번호 변경 추가하기 */}
+        {/* <Route path="info/password" element={} /> */}
+        <Route path="*" element={<NotFound />} />
+      </Route>
       {/*임시 이름 바꿔야함*/}
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
-      <Route path="/personInfo" element={<PersonInfo />} />
-      <Route path="/companyInfo" element={<CompanyInfo />} />
       {/* Login */}
       <Route path="/login" element={<Login />} />
       <Route path="/searchId" element={<SearchId />} />
@@ -111,7 +125,8 @@ const Router = () => {
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
       </Route>
       <Route path="/profile/estate" element={<ProfileEstate />} />
-      {/* <Route path="*" element={<NotFound />} /> */}
+      {/* NotFound */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

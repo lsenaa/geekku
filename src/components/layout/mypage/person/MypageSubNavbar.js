@@ -29,6 +29,16 @@ const MypageSubNavbar = () => {
     name: '집들이 작성내역',
     path: '/mypage/person/community',
   };
+  const infoMenu = [
+    {
+      name: '회원 정보 수정',
+      path: '/mypage/person/info',
+    },
+    {
+      name: '비밀번호 변경',
+      path: '/mypage/person/info/password',
+    },
+  ];
 
   return (
     <ul className={styles.subNav}>
@@ -67,6 +77,16 @@ const MypageSubNavbar = () => {
           <Link to={communityMenu.path}>{communityMenu.name}</Link>
         </li>
       )}
+      {locPath.includes('info') &&
+        infoMenu.map((info, index) => (
+          <li
+            key={index}
+            className={selected === info.path ? styles.active : 'false'}
+            onClick={() => setSelected(info.path)}
+          >
+            <Link to={info.path}>{info.name}</Link>
+          </li>
+        ))}
     </ul>
   );
 };

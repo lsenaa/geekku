@@ -1,12 +1,12 @@
 .card {
   width: 277px;
   height: 335px;
-  background-color: #FFFAF4;
-  border: 1px solid #6D885D;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s;
+  position: relative;
 }
 
 .cardImage {
@@ -21,7 +21,6 @@
 
 .type {
   font-size: 14px;
-  color: #888;
   margin-bottom: 10px;
 }
 
@@ -34,11 +33,26 @@
 
 .location {
   font-size: 14px;
-  color: #6D885D;
   margin-bottom: 10px;
 }
 
 .description {
   font-size: 14px;
-  color: #333;
+}
+
+.contentWrapper {
+  position: absolute;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.contentWrapper:hover {
+  opacity: 1;
 }

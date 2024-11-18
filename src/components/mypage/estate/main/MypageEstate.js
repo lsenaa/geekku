@@ -57,28 +57,7 @@ const MypageEstate = () => {
     // Add more entries if needed
   ];
 
-  return (
-    <div className={styles.mypageEstate}>
-      <div className={styles.profileSection}>
-        <div className={styles.userInfoCard}>
-          <img
-            src={userProfileImage}
-            alt="User Profile"
-            className={styles.profileImage}
-          />
-          <h3 className={styles.username}>코스타</h3>
-          <p className={styles.userId}>KostalD123</p>
-          <p className={styles.userEmail}>kosta@gmail.com</p>
-          <hr className={styles.separator} />
-          <p className={styles.sectionTitle}>집꾸하기</p>
-        </div>
-      </div>
-      <div className={styles.estateSection}>
-        <h2 className={styles.title}>매물 등록 내역</h2>
-        <MypageEstateCardList houseCards={estateCards} />
-      </div>
-    </div>
-  );
+  return <MypageEstateCardList houseCards={estateCards} />;
 };
 
 export default MypageEstate;
