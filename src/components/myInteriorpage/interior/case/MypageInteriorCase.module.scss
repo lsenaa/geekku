@@ -1,0 +1,59 @@
+@import 'variables.scss';
+
+.Container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 20px;
+
+  li {
+    border: 1px solid $main-color;
+    border-radius: 10px;
+    width: 31%;
+    overflow: hidden;
+    position: relative;
+
+    .contentWrapper {
+      position: absolute;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      top: 0;
+      bottom: 0;
+      opacity: 0;
+      transition: opacity 0.35s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .imgWrapper {
+    width: 100%;
+    height: 200px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .textWrapper {
+    padding: 20px;
+
+    .title {
+      @include ellipse;
+      font-weight: bold;
+    }
+    .view {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  }
+}
