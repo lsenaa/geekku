@@ -1,7 +1,5 @@
 import { Pagination } from 'antd';
 import Button01 from 'components/commons/button/Button01';
-import MypageSiderbar from 'components/layout/mypage/MypageSiderbar';
-import MypageSubNavbar from 'components/layout/mypage/MypageSubNavbar';
 import styles from 'components/mypage/person/MypagePersonMain.module.scss';
 
 const MypagePersonInterior = () => {

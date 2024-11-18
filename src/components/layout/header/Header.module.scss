@@ -1,4 +1,4 @@
-@import '../../../variables.scss';
+@import 'variables.scss';
 
 .Container {
   display: flex;
@@ -12,12 +12,11 @@
 
 .navWrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex: 1;
 
   ul {
-    width: 100%;
-    display: flex;
-    align-items: center;
+    @include flexrow;
 
     li {
       font-family: 'Santokki';
@@ -27,6 +26,10 @@
         font-size: 20px;
       }
     }
+  }
+
+  &.loggedIn {
+    margin-left: 165px;
   }
 }
 
@@ -44,7 +47,7 @@
 .writeWrapper {
   position: absolute;
   top: 75px;
-  right: 30px;
+  right: 163px;
   padding: 10px;
   background-color: $body-color;
   @include border;
@@ -56,5 +59,45 @@
       background-color: rgba(217, 217, 217, 10);
       border-radius: 10px;
     }
+  }
+}
+
+.loginMenuWrap {
+  @include flexrow;
+  min-width: 200px;
+
+  .notificationWrap {
+    cursor: pointer;
+    position: relative;
+
+    p {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      right: -5px;
+      background-color: $main-color;
+      color: white;
+      font-size: 10px;
+      text-align: center;
+      line-height: 1.7;
+    }
+  }
+
+  .userProfile {
+    @include flexrow;
+    margin-left: 16px;
+    cursor: pointer;
+
+    .name {
+      font-family: $sub-font;
+      font-size: 20px;
+      color: $main-color;
+      margin-left: 10px;
+    }
+  }
+  button {
+    margin-right: 30px;
   }
 }

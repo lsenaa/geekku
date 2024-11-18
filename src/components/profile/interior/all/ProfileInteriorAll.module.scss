@@ -1,0 +1,118 @@
+@import 'variables.scss';
+
+.section {
+  span {
+    color: $main-color;
+  }
+
+  .more {
+    margin: 20px 0;
+
+    a {
+      color: $main-color;
+      font-weight: bold;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.sampleWrap {
+  @include flexrow;
+  flex-wrap: wrap;
+  gap: 20px 20px;
+
+  li {
+    width: calc((870px - 40px) / 3);
+    @include border;
+  }
+
+  .sampleImgWrap {
+    width: 100%;
+    height: 160px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .textWrap {
+    padding: 20px 0 20px 8px;
+
+    p {
+      @include ellipse;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+}
+
+.reviewWrap {
+  li {
+    @include border;
+    margin-bottom: 20px;
+    transition: 0.3s ease-in-out;
+    height: 120px;
+
+    &:hover {
+      background-color: #dbe0cb;
+      transform: scale(1);
+    }
+
+    a {
+      @include flexrow;
+      height: 120px;
+      padding: 10px 20px;
+    }
+  }
+
+  .reviewImgWrap {
+    width: 12%;
+    aspect-ratio: 1/1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .content {
+    width: 70%;
+    margin: 0 30px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.detailWrap {
+  @include border;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  height: 190px;
+
+  .detailRow {
+    @include flexrow;
+    justify-content: space-between;
+    width: 360px;
+
+    .detailTitle {
+      font-weight: bold;
+    }
+    .detailContent {
+      text-decoration: underline;
+    }
+  }
+}

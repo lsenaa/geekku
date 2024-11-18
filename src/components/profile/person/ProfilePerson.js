@@ -3,6 +3,8 @@ import style from './ProfilePerson.module.css';
 import userProfileImage from 'assets/images/person.jpg';
 import ProfilePersonCardList from 'components/profile/person/ProfilePersonCardList';
 import { Outlet } from 'react-router';
+import { FaUserCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const ProfilePerson = () => {
   // 카드 리스트 데이터
@@ -42,33 +44,22 @@ const ProfilePerson = () => {
   return (
     <div className={style.profilePage}>
       {/* 사용자 정보 카드 */}
-      <div className={style.userInfoCard}>
-        <img
-          src={userProfileImage}
-          alt="User Profile"
-          className={style.profileImage}
-        />
-        <h3 className={style.username}>홍길동</h3>
-        <p className={style.userId}>KostalD123</p>
-        <p className={style.userEmail}>kosta@gmail.com</p>
-        <hr className={style.separator} />
-        <p className={style.sectionTitle}>집들이</p>
+      <div className={style.profile}>
+        <FaUserCircle color="#6D885D" size={100} />
+        <h4>홍길동</h4>
+        <p>kosta123</p>
+        <p>kosta@gmail.com</p>
+        <hr />
+        <ul className={style.sidebar}>
+          <p className={style.sectionTitle}>집들이</p>
+        </ul>
       </div>
 
       {/* 집들이 카드 리스트 */}
       <div className={style.houseListContainer}>
+        <h2 className={style.houseListTitle}>집들이</h2>
         <div className={style.houseListHeader}>
-          <h2
-            className={style.houseListTitle}
-            style={{ fontFamily: 'Santokki' }}
-          >
-            집들이
-          </h2>
-          <a
-            href="#"
-            className={style.houseListViewAll}
-            style={{ fontFamily: 'Santokki' }}
-          >
+          <a href="#" className={style.houseListViewAll}>
             전체 보기
           </a>
         </div>

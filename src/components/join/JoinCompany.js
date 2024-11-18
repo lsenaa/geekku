@@ -23,18 +23,18 @@ const JoinCompany = () => {
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
 
       <h3 className={styles2.title}>기업 회원가입</h3>
-      <div>
-        <span className={styles.checkRadio}>
+      <div className={styles2.radioContainer}>
+        <div className={styles2.checkRadio}>
           <img src={checkRadio} alt="체크라디오" />
-          <span>부동산</span>
-        </span>
-        <span
-          className={styles.checkRadio}
+          <b>부동산</b>
+        </div>
+        <div
+          className={styles2.unCheckRadio}
           onClick={() => navigate('/JoinInterior')}
         >
           <img src={unCheckRadio} alt="언체크라디오" />
-          <span>인테리어</span>
-        </span>
+          <p>인테리어</p>
+        </div>
       </div>
       <hr className={styles.line} />
 
