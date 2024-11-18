@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './CommunityListCard.module.css';
 import { useNavigate } from 'react-router';
+import { FaUserCircle } from 'react-icons/fa';
 
 const CommunityListCard = ({ title, image, views, profile }) => {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ const CommunityListCard = ({ title, image, views, profile }) => {
       </h3>
       <div className={styles.cardFooter}>
         <div className={styles.profile}>
-          <img src={profile} alt="프로필" className={styles.profileImage} />
+          {/* <img src={profile} alt="프로필" className={styles.profileImage} /> */}
+          <FaUserCircle color="#6D885D" size={30} />
           <span className={styles.profileName}>test_user</span>
         </div>
         <p className={styles.cardViews}>조회 {views}</p>

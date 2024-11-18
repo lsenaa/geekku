@@ -1,3 +1,4 @@
+import TopButton from 'components/layout/topbutton/TopButton';
 import NavBar from '../navBar/NavBar';
 import List from './List';
 
@@ -8,6 +9,7 @@ const CompanyMain = () => {
     >
       <NavBar />
       <List />
+      <TopButton />
     </div>
   );
 };

@@ -1,0 +1,18 @@
+@import 'variables.scss';
+
+.container {
+  @include container;
+  @include flexrow;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.contentWrap {
+  width: ((1200px - 40px) * 0.8);
+}
+
+.notfoundContainer {
+  @include flexrow;
+  align-items: start;
+  justify-content: center;
+}

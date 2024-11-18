@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styles from './CommunityBoardDetail.module.css';
 import { useNavigate } from 'react-router';
+import { FaUserCircle } from 'react-icons/fa';
 
 const CommunityBoardDetail = () => {
   const [post, setPost] = useState({
-    title: '홈스타일링 전문가와 함께, 블랙 포인트로 세련되게 완성한 집',
+    title:
+      '홈스타일링 전문가와 함께, 블랙 포인트로 세련되게 완성한 집 홈스타일링 전문가와 함께, 블랙 포인트로 세련되게 완성한 집',
     username: '코스타',
     type: '아파트',
     size: '33평',
@@ -15,6 +17,7 @@ const CommunityBoardDetail = () => {
     period: '1개월',
     scope: '세부공사 주방리모델링, 조명시공, 중문, 가벽&파티션, 슬라이딩 도어',
     content: `거실은 집 안에서 가장 중요한 공간이기 때문에...`,
+    date: '2024-10-24',
     imageUrl: require('../../../assets/images/communityExam.png'),
   });
 
@@ -70,17 +73,15 @@ const CommunityBoardDetail = () => {
       <div className={styles.postDetailContainer}>
         {/* 게시글 헤더 */}
         <div className={styles.header}>
-          <button className={styles.backButton} onClick={handleBackButton}>
-            ←
-          </button>
           <div className={styles.headerTitle}>{post.title}</div>
         </div>
 
         {/* 유저 정보 섹션 */}
         <div className={styles.userSection}>
           <div className={styles.userInfo}>
-            <div className={styles.profileIcon}></div>
+            <FaUserCircle color="#6D885D" size={30} />
             <span className={styles.username}>{post.username}</span>
+            <span className={styles.commentDate}>{post.date}</span>
           </div>
           <div className={styles.actions}>
             <button className={styles.editButton} onClick={handleWriteButton}>
@@ -97,7 +98,7 @@ const CommunityBoardDetail = () => {
             <div className={styles.iconItem}>✏️ {post.style}</div>
             <div className={styles.iconItem}>👫 {post.family}</div>
           </div>
-          <hr />
+          <hr className={styles.line} />
           <div className={styles.detailContent}>
             지역: {post.location} | 스타일: {post.style} | 예산: {post.budget} |
             기간: {post.period}
@@ -114,6 +115,12 @@ const CommunityBoardDetail = () => {
         <div className={styles.commentsSection}>
           <div className={styles.comment}>댓글</div>
           <div className={styles.commentInput}>
+            <button
+              onClick={handleCommentSubmit}
+              className={styles.submitButton}
+            >
+              작성하기
+            </button>
             <textarea
               value={newComment}
               onChange={handleCommentChange}
@@ -121,12 +128,6 @@ const CommunityBoardDetail = () => {
               maxLength={500}
               className={styles.textArea}
             />
-            <button
-              onClick={handleCommentSubmit}
-              className={styles.submitButton}
-            >
-              작성하기
-            </button>
           </div>
           <div className={styles.commentOutput}>
             <div className={styles.commentsList}>
@@ -136,8 +137,9 @@ const CommunityBoardDetail = () => {
                     className={styles.commentHeader}
                     style={{ marginBottom: '10px' }}
                   >
+                    <FaUserCircle color="#6D885D" size={30} />
                     <span className={styles.commentUsername}>
-                      {comment.username}&nbsp;&nbsp;
+                      {comment.username}
                     </span>
                     <span className={styles.commentDate}>{comment.date}</span>
                   </div>
