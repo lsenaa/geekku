@@ -1,0 +1,102 @@
+@import 'variables.scss';
+
+.containerbox {
+  margin: 0 auto;
+  width: 600px;
+  height: auto;
+  border: 1px solid grey;
+  border-radius: 20px;
+  text-align: center;
+  padding: 20px;
+
+  .title {
+  padding-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #6d885d;
+  }
+}
+
+.td {
+  width: 60px;
+}
+
+.tr {
+  height: 50px;
+  padding: 30px;
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+}
+
+.leftcol {
+  width: 25%;
+  text-align: center;
+  font-weight: bold;
+  color: #6d885d;
+}
+.btncontain{
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}
+
+.rightcol {
+  width: 65%;
+  text-align: left;
+  padding: 10px;
+}
+
+.customTable {
+  width: 100%;
+  text-align: center;
+  border-collapse: separate;
+  table-layout: fixed;
+  border-spacing: 0 16px;
+  margin-bottom: 60px;
+
+  thead {
+    font-weight: bold;
+    border-collapse: collapse;
+  }
+
+  tbody {
+    border-spacing: 0 16px;
+    .rowWrap {
+      @include border;
+      display: table-row;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #dbe0cb;
+        transform: scale(1);
+      }
+
+      td {
+        border-top: 1px solid $main-color;
+        border-bottom: 1px solid $main-color;
+        padding: 10px;
+        vertical-align: middle;
+        text-align: center;
+
+        &:first-child {
+          border-left: 1px solid $main-color;
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+        &:nth-child(2) {
+          text-align: left;
+          @include ellipse;
+        }
+        &:last-of-type {
+          border-right: 1px solid $main-color;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+    }
+  }
+}

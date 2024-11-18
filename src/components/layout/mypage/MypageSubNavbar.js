@@ -29,7 +29,6 @@ const MypageSubNavbar = () => {
     name: '집들이 작성내역',
     path: '/mypageUser/community',
   };
-
   return (
     <ul className={styles.subNav}>
       {locPath === houseMenu.path && (

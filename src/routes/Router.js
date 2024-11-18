@@ -14,10 +14,20 @@ import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
 import HouseDetail from 'components/house/houseDetail/HouseDetail';
-import OneStopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
-import OneStopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
-import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
-import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
+import OnestopMain from 'components/oneStop/OnestopMain';
+import OnestopWrite from 'components/oneStop/oneStopWrite/oneStopWrite';
+import OnestopDetail from 'components/oneStop/oneStopDetail/oneStopDetail';
+import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
+import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
+import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
+import MypageInteriorLayout from 'components/layout/mypageInterior/MypageInteriorLayout';
+import MypageInteriorMain from 'components/myInteriorpage/MypageInteriorMain';
+import MypageInteriorModify from 'components/myInteriorpage/modify/MypageInteriorModify';
+import MypageInteriorRequest from 'components/myInteriorpage/interior/request/MypageInteriorRequest';
+import MypageInteriorInquiry from 'components/myInteriorpage/interior/interiorInquiry/MypageInteriorInquiry';
+import MypageInteriorCase from 'components/myInteriorpage/interior/case/MypageInteriorCase';
+import MypageInteriorReview from 'components/myInteriorpage/interior/review/MypageInteriorReview';
+import MypageInteriorOnestop from 'components/myInteriorpage/onestop/OnestopReply';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
 import MypageLayout from 'components/layout/mypage/MypageLayout';
@@ -56,8 +66,17 @@ const Router = () => {
       <Route path="/companyList" element={<CompanyList />} />
 
       {/* Onestop */}
-      <Route path="/oneStopWrite" element={<OneStopWrite />} />
-      <Route path="/oneStopDetail" element={<OneStopDetail />} />
+      <Route path="/oneStop" element={<OnestopMain />} />
+      <Route path="/oneStopWrite" element={<OnestopWrite />} />
+      <Route path="/oneStopDetail/:num" element={<OnestopDetail />} />
+
+      {/* RequestInterior */}
+      <Route path="/requestInterior" element={<ReqInteriorMain />} />
+      <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
+      <Route
+        path="/requestInteriorDetail/:num"
+        element={<ReqInteriorDetail />}
+      />
 
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
@@ -75,8 +94,16 @@ const Router = () => {
         <Route path="bookmarkCommunity" element={<BookmarkCommunity />} />
         <Route path="community" element={<MypagePersonCommunity />} />
       </Route>
-      <Route path="/mypageInterior" element={<MypageInteriorMain />} />
-      <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+      {/*myinteriorpage */}
+      <Route path="/mypage/interior/*" element={<MypageInteriorLayout />}>
+        <Route index element={<MypageInteriorMain />} />
+        <Route path="manage/reqinterior" element={<MypageInteriorRequest />} />
+        <Route path="manage/case" element={<MypageInteriorCase />} />
+        <Route path="manage/inquiry" element={<MypageInteriorInquiry />} />
+        <Route path="manage/review" element={<MypageInteriorReview />} />
+        <Route path="onestop" element={<MypageInteriorOnestop />} />
+      </Route>
+      <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
       <Route path="/personInfo" element={<PersonInfo />} />
       <Route path="/companyInfo" element={<CompanyInfo />} />
 

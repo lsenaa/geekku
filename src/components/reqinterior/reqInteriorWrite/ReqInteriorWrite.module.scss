@@ -1,0 +1,184 @@
+@import '../../../variables.scss';
+
+.container {
+  @include container;
+  padding: 100px 0;
+
+  h2 {
+    font-family: $sub-font;
+    font-size: 40px;
+    text-align: center;
+  }
+}
+
+section {
+  margin-top: 40px;
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.title {
+  @include flexrow;
+  width: 100%;
+  justify-content: space-between;
+
+  p {
+    font-size: 16px;
+    font-weight: bold;
+    span {
+      color: red;
+    }
+  }
+}
+
+.line {
+  background: $main-color;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+
+.item {
+  @include flexrow;
+  margin-bottom: 30px;
+  padding-right: 20px;
+
+  label {
+    font-weight: bold;
+    width: 140px;
+
+    span {
+      color: red;
+    }
+  }
+  input {
+    @include border;
+    padding: 12px 16px;
+    width: 170px;
+    text-align: right;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+
+  .select {
+    width: 235px;
+    padding: 10px;
+    @include border;
+    font-size: 16px;
+    background-color: white;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+
+  .radioGroup {
+    margin-right: 20px;
+
+    label {
+      margin-right: 8px;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    input[type='radio'] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border: 1px solid $main-color;
+      border-radius: 50%;
+      outline: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    input[type='radio']:checked {
+      background-color: white;
+      border: 4px solid $main-color;
+      box-shadow: 0 0 0 1px $main-color;
+    }
+  }
+}
+
+.items {
+  @include flexrow;
+  margin-bottom: 30px;
+  padding-right: 20px;
+
+  label {
+    font-weight: bold;
+    width: 140px;
+
+    span {
+      color: red;
+    }
+  }
+
+  .checkboxGroup{
+    margin-right: 20px;
+
+    input[type="checkbox"] {
+    accent-color: $main-color;
+    padding: 20px;
+    }
+    label {
+  margin-right: 10px;
+  padding: 10px;
+  font-weight: normal;
+    }
+    }
+
+}
+
+.subLabelWrap {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+
+  label {
+    font-weight: normal;
+    margin-bottom: 8px;
+  }
+}
+
+
+.textareaWrap {
+  position: relative;
+  width: 100%;
+
+  .detailTextarea {
+    @include border;
+    width: 100%;
+    height: 200px;
+    padding: 16px;
+    resize: none;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+  p {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    color: #757575;
+  }
+}
+
+.btnWrap {
+  @include flexrow;
+  justify-content: center;
+  margin-top: 80px;
+
+  button {
+    &:first-child {
+      margin-right: 40px;
+    }
+  }
+}
