@@ -94,11 +94,17 @@ const JoinPerson = () => {
 
       <div className={styles2.checkContainer}>
         <span>
-          <input type="checkbox" /> 만 14세 이상만 가입할 수 있습니다.<b>*</b>
+          <input type="checkbox" />{' '}
+          <span>
+            만 14세 이상만 가입할 수 있습니다.<b>*</b>
+          </span>
         </span>
         <span>
-          <input type="checkbox" /> 이용약관 및 개인정보 수집에 동의합니다.
-          <b>*</b>
+          <input type="checkbox" />{' '}
+          <span>
+            이용약관 및 개인정보 수집에 동의합니다.
+            <b>*</b>
+          </span>
         </span>
       </div>
 

@@ -14,9 +14,7 @@ const CommunityFilterBar = () => {
     // 필터바 출력
     <div className={styles.filterContainer}>
       <div className={styles.filterBar}>
-        <h2 className={styles.boardTitle} style={{ fontFamily: 'Santokki' }}>
-          집들이 게시판
-        </h2>
+        <h2 className={styles.boardTitle}>집들이 게시판</h2>
         <button className={styles.filterButton}>주거 형태</button>
         <button className={styles.filterButton}>방수</button>
         <button className={styles.filterButton}>스타일</button>

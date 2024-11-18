@@ -18,15 +18,15 @@
 /* 제목 스타일 */
 .boardTitle {
   font-size: 36px;
-  font-weight: bold;
   color: #6d885d;
   margin-top: 10px;
   margin-right: 20px;
+  font-family: 'Santokki';
 }
 
 /* 총 개수 스타일 */
 .totalCount {
-  font-size: 14px;
+  font-size: 16px;
   color: #6d885d;
 }
 
@@ -53,7 +53,9 @@
 }
 
 .filterButton:hover {
-  background-color: #c8dbbe;
+  background-color: #c6d695;
+  color: white;
+  border: none;
 }
 
 /* 등록 버튼 스타일 */
@@ -63,11 +65,8 @@
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   margin-left: auto;
-}
-
-.registerButton:hover {
-  background-color: #567d1b;
+  font-size: 16px;
 }

@@ -6,17 +6,36 @@ $input-height: 45px;
 $input-radius: 10px;
 
 .title {
+  font-size: 25px;
   font-family: $sub-font;
   margin-top: 20px;
+  margin-bottom: 20px;
   color: $title-color;
 }
 
-.checkRadio {
-  position: relative;
+.radioContainer {
+  display: flex;
+  height: 40px;
+  align-items: center;
   cursor: pointer;
 
-  &.span {
-    font-family: $sub-font;
+  img {
+    margin-right: 5px;
+  }
+
+  .checkRadio {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    p {
+      cursor: pointer;
+    }
+  }
+
+  .unCheckRadio {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
   }
 }
 
@@ -123,6 +142,10 @@ b {
   display: flex;
   flex-direction: column;
   margin: 30px 0 30px 0;
+
+  span {
+    margin-top: 10px;
+  }
 }
 
 .button {
@@ -133,13 +156,9 @@ b {
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin: 10px;
   transition: background-color 0.3s ease;
   background-color: $sub-color;
-
-  &:hover {
-    background-color: #5a9e62;
-  }
 }

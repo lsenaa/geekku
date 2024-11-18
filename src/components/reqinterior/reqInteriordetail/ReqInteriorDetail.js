@@ -21,6 +21,7 @@ const ReqInteriorDetail = () => {
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
           <p>코스타</p>
+
           <p className={styles.createdAt}>2024-10-28</p>
         </div>
         <hr className={styles.line} />

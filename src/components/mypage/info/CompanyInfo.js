@@ -5,7 +5,7 @@ import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
 const CompanyInfo = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.profileSidebar}>
+      {/* <div className={styles.profileSidebar}>
         <img
           src={profileImg}
           alt="프로필이미지"
@@ -20,19 +20,19 @@ const CompanyInfo = () => {
           <li>한번에 꾸하기</li>
           <li>회원 정보 관리</li>
         </ul>
-      </div>
+      </div> */}
 
       <div className={styles.profileContent}>
-        <div className={styles.tabLinks}>
+        {/* <div className={styles.tabLinks}>
           <a href="/" className={styles.tabA}>
             회원 정보 수정
           </a>
-          <a href="/" className={styles.tabA}>
+          <a href="/searchPwdResult" className={styles.tabA}>
             {' '}
             비밀번호 변경
           </a>
         </div>
-        <hr className={styles.line} />
+        <hr className={styles.line} /> */}
 
         <div className={styles.profileForm}>
           <div className={styles.profileImg}>

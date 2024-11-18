@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import loginLogo from '../../assets/images/login/loginLogo.png';
 import kakaoIcon from '../../assets/images/login/kakao_login_Btn.png';
 import naverIcon from '../../assets/images/login/naver_login_Btn.png';
@@ -6,28 +5,20 @@ import googleIcon from '../../assets/images/login/google_login_Btn.png';
 import styles from './Login.module.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ToggleSwitch from './ToggleSwitch';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
-  const toggleSwitch = () => setIsChecked(!isChecked);
   const navigate = useNavigate();
+  const handleToggle = (checked) => setIsChecked(checked);
 
   return (
     <div className={styles.login}>
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
 
+      {/* 토글 */}
       <div className={styles.toggleContainer}>
-        <div className="form-check form-switch">
-          <input
-            type="checkbox"
-            className={`form-check-input ${styles.toggle}`}
-            checked={isChecked}
-            onChange={toggleSwitch}
-          />
-        </div>
-        <label className={styles.toggleLabel}>
-          {isChecked ? '[기업]' : '[개인]'}
-        </label>
+        <ToggleSwitch isChecked={isChecked} onToggle={handleToggle} />
       </div>
 
       <div>

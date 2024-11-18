@@ -2,8 +2,11 @@
 
 .container {
   display: flex;
+<<<<<<< HEAD
   padding: 30px;
   max-width: 1200px;
+=======
+>>>>>>> develop
   margin: 0 auto;
 }
 
@@ -15,7 +18,10 @@
 .profileSidebar {
   width: 283px;
   height: 500px;
+<<<<<<< HEAD
   padding: 20px;
+=======
+>>>>>>> develop
   border-radius: 10px;
   border: 1px solid #6d885d;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -58,7 +64,10 @@
 
 .profileContent {
   width: 600px;
+<<<<<<< HEAD
   padding: 20px;
+=======
+>>>>>>> develop
   margin: 0 auto;
 
   .tabLinks {
@@ -137,7 +146,11 @@
 
   .checkButton {
     background-color: $sub-color;
+<<<<<<< HEAD
     color: #6b6969;
+=======
+    color: white;
+>>>>>>> develop
     width: 90px;
     height: 45px;
     border-radius: 10px;

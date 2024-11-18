@@ -5,41 +5,10 @@ import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
 const PersonInfo = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.profileSidebar}>
-        <img
-          src={profileImg}
-          alt="프로필이미지"
-          className={styles.profileImage}
-        />
-        <p className={styles.profileName}>홍길동</p>
-        <p className={styles.profileId}>KostaID123</p>
-        <p className={styles.profileEmail}>kosta@gmail.com</p>
-        <hr className={styles.line} />
-        <ul className={styles.menuList}>
-          <li>집꾸하기</li>
-          <li>방꾸하기</li>
-          <li>한번에 꾸하기</li>
-          <li>북마크</li>
-          <li>집들이</li>
-          <li>회원 정보 관리</li>
-        </ul>
-      </div>
-
       <div className={styles.profileContent}>
-        <div className={styles.tabLinks}>
-          <a href="/" className={styles.tabA}>
-            회원 정보 수정
-          </a>
-          <a href="/searchPwd" className={styles.tabA}>
-            {' '}
-            비밀번호 변경
-          </a>
-        </div>
-        <hr className={styles.line} />
-
         <div className={styles.profileForm}>
           <div className={styles.profileImg}>
-            <a href="/">
+            <a href="#">
               <img src={profileImgAdd} alt="프로필이미지추가" />
             </a>
           </div>

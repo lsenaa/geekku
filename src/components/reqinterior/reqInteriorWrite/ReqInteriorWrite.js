@@ -72,22 +72,16 @@ const ReqInteriorWrite = () => {
         </div>
         <div className={styles.item}>
           <label>
-            건물 유형<span>*</span>
+            거래 종류<span>*</span>
           </label>
-          <select
-            className={styles.select}
-            name="type"
-            defaultValue=""
-            required="required"
-          >
-            <option value="" disabled>
-              건물 유형 선택
-            </option>
-            <option value="countryHouse">시골농가주택</option>
-            <option value="house">전원주택</option>
-            <option value="apt">아파트/빌라</option>
-            <option value="farm">농장/토지</option>
-          </select>
+          <div className={styles.radioGroup}>
+            <input type="radio" id="jeonse" name="rentType" value="jeonse" />
+            <label htmlFor="jeonse">전세</label>
+            <input type="radio" id="monthly" name="rentType" value="monthly" />
+            <label htmlFor="monthly">월세</label>
+            <input type="radio" id="buy" name="rentType" value="buy" />
+            <label htmlFor="buy">매매</label>
+          </div>
         </div>
         <div className={styles.item}>
           <label>
@@ -126,37 +120,36 @@ const ReqInteriorWrite = () => {
           </div>
         </div>
 
-        <div className={styles.items}>
+        <div className={styles.item}>
           <label>
             인테리어 시공<span>*</span>
           </label>
-          <div className={styles.checkboxGroup}>
+          <div>
             <input type="checkbox" name="interiorJenre" value="1" />
-            <label>도배</label>
+            도배
             <input type="checkbox" name="interiorJenre" value="2" />
-            <label>바닥</label>
+            바닥
             <input type="checkbox" name="interiorJenre" value="3" />
-            <label>몰딩</label>
+            몰딩
             <input type="checkbox" name="interiorJenre" value="1" />
-            <label>샷시</label>
+            샷시
             <input type="checkbox" name="interiorJenre" value="2" />
-            <label>페인트</label>
+            페인트
           </div>
         </div>
 
-        <div className={styles.items}>
-          <label></label>
-          <div className={styles.checkboxGroup}>
+        <div className={styles.item}>
+          <div>
             <input type="checkbox" name="interiorJenre" value="1" />
-            <label>조명</label>
+            조명
             <input type="checkbox" name="interiorJenre" value="2" />
-            <label> 욕실</label>
+            욕실
             <input type="checkbox" name="interiorJenre" value="3" />
-            <label>주방</label>
+            주방
             <input type="checkbox" name="interiorJenre" value="1" />
-            <label>문/현관</label>
+            문/현관
             <input type="checkbox" name="interiorJenre" value="2" />
-            <label>베란다</label>
+            베란다
           </div>
         </div>
 
@@ -208,7 +201,7 @@ const ReqInteriorWrite = () => {
       <div className={styles.btnWrap}>
         <Button01 size="small">신청하기</Button01>
         <Button01 color="sub" size="small">
-          <Link to={'/requestInterior'}>취소하기</Link>
+          <Link to={'/reqInterior'}>취소하기</Link>
         </Button01>
       </div>
     </div>
