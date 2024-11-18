@@ -17,7 +17,7 @@ const ReqInteriorWrite = () => {
 
   return (
     <div className={styles.container}>
-      <h2>한번에꾸미기 신청하기</h2>
+      <h2>방꾸미기 신청하기</h2>
       <section>
         <div className={styles.title}>
           <h3>원하는 매물 정보</h3>
@@ -27,23 +27,16 @@ const ReqInteriorWrite = () => {
         </div>
         <hr className={styles.line} />
         <div className={styles.item}>
-          <label>
-            매물 유형<span>*</span>
-          </label>
-          <select
-            className={styles.select}
-            name="type"
-            defaultValue=""
-            required="required"
-          >
-            <option value="" disabled>
-              매물 유형 선택
-            </option>
-            <option value="countryHouse">시골농가주택</option>
-            <option value="house">전원주택</option>
-            <option value="apt">아파트/빌라</option>
-            <option value="farm">농장/토지</option>
-          </select>
+          <label>신청자 이름</label>
+          <div className={styles.subLabelWrap}>
+            <input type="text" value="코스타" />
+          </div>
+        </div>
+        <div className={styles.item}>
+          <label> 연락처</label>
+          <div>
+            <input type="text" value="010-1234-5678" />
+          </div>
         </div>
         <div className={styles.item}>
           <label>
@@ -92,7 +85,7 @@ const ReqInteriorWrite = () => {
         </div>
         <div className={styles.item}>
           <label>
-            희망 평수<span>*</span>
+            시공 평수<span>*</span>
           </label>
           <select
             className={styles.select}
@@ -101,7 +94,7 @@ const ReqInteriorWrite = () => {
             required="required"
           >
             <option value="" disabled>
-              희망 평수 선택
+              시공 평수 선택
             </option>
             <option value="1">10평 이상</option>
             <option value="2">20평 이상</option>
@@ -110,23 +103,8 @@ const ReqInteriorWrite = () => {
           </select>
         </div>
         <div className={styles.item}>
-          <label>
-            예산<span>*</span>
-          </label>
-          <div className={styles.subLabelWrap}>
-            <label>전세가</label>
-            <input type="text" placeholder="만원" />
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>보증금</label>
-            <input type="text" placeholder="만원" />
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>월세</label>
-            <input type="text" placeholder="만원" />
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>매매가</label>
+          <label> 예산 </label>
+          <div>
             <input type="text" placeholder="만원" />
           </div>
         </div>
@@ -173,27 +151,6 @@ const ReqInteriorWrite = () => {
             <input type="checkbox" name="interiorJenre" value="2" />
             베란다
           </div>
-        </div>
-
-        <div className={styles.item}>
-          <label>
-            희망 평수<span>*</span>
-          </label>
-          <select
-            className={styles.select}
-            name="movingnum"
-            defaultValue=""
-            required="required"
-          >
-            <option value="" disabled>
-              이동 인원
-            </option>
-            <option value="1">1명</option>
-            <option value="2">2명</option>
-            <option value="3">3명</option>
-            <option value="4">4명</option>
-            <option value="5">5명 이상</option>
-          </select>
         </div>
 
         <div className={styles.item}>

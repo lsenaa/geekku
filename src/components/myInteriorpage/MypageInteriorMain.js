@@ -1,9 +1,13 @@
-import styles from './MypageInteriorMain.module.css';
+import MypageInteriorSiderbar from 'components/layout/mypageInterior/MypageInteriorSiderbar';
+import styles from './MypageInteriorMain.module.scss';
+import { Link } from 'react-router-dom';
+import MypageInteriorSubNavbar from 'components/layout/mypageInterior/MypageInteriorSubNavbar';
+import Button01 from 'components/commons/button/Button01';
+import { Pagination } from 'antd';
 
 const MypageInteriorMain = () => {
   return (
-    <div className={styles.mainbody}>
-      <div className={styles.main}>업체 정보 관리</div>
+    <>
       <div className={styles.containerbox}>
         <div className={styles.title}>내 업체 정보</div>
         <br />
@@ -44,16 +48,14 @@ const MypageInteriorMain = () => {
               소개글예시500자이내로작성
             </td>
           </tr>
-          <tr></tr>
         </tbody>
       </div>
-      <br />
-      <br />
-      <button className="submit-button">수정하기</button>
-
-      <br />
-      <br />
-    </div>
+      <div className={styles.btncontain}>
+        <Button01 size="small">
+          <Link to={'/mypageInterior/modify'}>수정하기</Link>
+        </Button01>
+      </div>
+    </>
   );
 };
 export default MypageInteriorMain;

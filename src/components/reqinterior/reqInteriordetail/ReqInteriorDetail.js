@@ -16,11 +16,12 @@ const ReqInteriorDetail = () => {
 
   return (
     <div className={styles.container}>
-      <h2>한번에 꾸미기 신청내역</h2>
+      <h2>방꾸 신청내역</h2>
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
-          <p>홍길동</p>
+          <p>코스타</p>
+
           <p className={styles.createdAt}>2024-10-28</p>
         </div>
         <hr className={styles.line} />
@@ -40,27 +41,22 @@ const ReqInteriorDetail = () => {
           <p>단양군</p>
         </div>
         <div className={styles.item}>
-          <label>거래 종류</label>
-          <p>전세</p>
-        </div>
-        <div className={styles.item}>
           <label>희망 평수</label>
-          <p>30평 이상</p>
+          <p>31평~35평</p>
         </div>
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p style={{ marginBottom: '8px' }}>전세가</p>
-            <p>1,000만원</p>
+            <p>5,000만원</p>
           </div>
         </div>
         <div className={styles.item}>
-          <label>입주 희망 일자</label>
-          <p>2024-10-28</p>
+          <label>시공 종류</label>
+          <p>부분 시공</p>
         </div>
         <div className={styles.item}>
-          <label>연락처</label>
-          <p>010-1234-5678</p>
+          <label>인테리어 시공</label>
+          <p>도배 바닥 몰딩 샷시 조명 베란다</p>
         </div>
       </section>
       <section>
@@ -82,7 +78,7 @@ const ReqInteriorDetail = () => {
       </section>
       <div className={styles.btnWrap}>
         <Button01 size="small">
-          <Link to={'/houseMain'}>목록으로</Link>
+          <Link to={'/requestInterior'}>목록으로</Link>
         </Button01>
       </div>
       {/* 답변 리스트 */}

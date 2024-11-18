@@ -11,15 +11,10 @@ import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
 import HouseDetail from 'components/house/houseDetail/HouseDetail';
-import OnestopMain from 'components/oneStop/OnestopMain';
 import OnestopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import OnestopDetail from 'components/oneStop/oneStopDetail/OneStopDetail';
-import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
-import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
-import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
 import MypageInteriorMain from 'components/mypage/interior/mypageInteriorMain/MypageInteriorMain';
 import MypageInteriorModify from 'components/mypage/interior/mypageInteriorModify/MypageInteriorModify';
-import Register from 'components/interior/companyRegister/Register';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
 import MypageLayout from 'components/layout/mypage/person/MypageLayout';
@@ -54,7 +49,7 @@ import MypageEstateLayout from 'components/layout/mypage/estate/MypageEstateLayo
 import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstateHouseAnswer';
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
-
+import Register from 'components/interior/companyRegister/Register';
 
 const Router = () => {
   return (
@@ -77,16 +72,9 @@ const Router = () => {
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
       {/* Onestop */}
-      <Route path="/oneStop" element={<OnestopMain />} />
       <Route path="/oneStopWrite" element={<OnestopWrite />} />
-      <Route path="/oneStopDetail/:num" element={<OnestopDetail />} />
-      {/* RequestInterior */}
-      <Route path="/requestInterior" element={<ReqInteriorMain />} />
-      <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
-      <Route
-        path="/requestInteriorDetail/:num"
-        element={<ReqInteriorDetail />}
-      />
+      <Route path="/oneStopDetail" element={<OnestopDetail />} />
+
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
@@ -115,9 +103,11 @@ const Router = () => {
         {/* <Route path="info/password" element={} /> */}
         <Route path="*" element={<NotFound />} />
       </Route>
-      {/*임시 이름 바꿔야함*/}
       <Route path="/mypageInterior" element={<MypageInteriorMain />} />
       <Route path="/mypageInteriorModify" element={<MypageInteriorModify />} />
+      <Route path="/personInfo" element={<PersonInfo />} />
+      <Route path="/companyInfo" element={<CompanyInfo />} />
+
       {/* Login */}
       <Route path="/login" element={<Login />} />
       <Route path="/searchId" element={<SearchId />} />

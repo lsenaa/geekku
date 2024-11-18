@@ -29,6 +29,8 @@ const MypageSubNavbar = () => {
     name: '집들이 작성내역',
     path: '/mypage/person/community',
   };
+<<<<<<< HEAD:src/components/layout/mypage/MypageSubNavbar.js
+=======
   const infoMenu = [
     {
       name: '회원 정보 수정',
@@ -40,6 +42,7 @@ const MypageSubNavbar = () => {
     },
   ];
 
+>>>>>>> develop:src/components/layout/mypage/person/MypageSubNavbar.js
   return (
     <ul className={styles.subNav}>
       {locPath === houseMenu.path && (
