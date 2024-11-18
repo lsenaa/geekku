@@ -6,6 +6,7 @@
   align-items: center;
   width: 100%;
   max-width: 600px;
+  min-height: calc(100vh - 269px);
   margin: 0 auto;
   padding: 50px;
   border-radius: 10px;
@@ -18,9 +19,9 @@
 
   .title {
     font-family: $sub-font;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 24px;
   }
 }
 
@@ -28,7 +29,7 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
-  margin: 10px 0 10px 50px;
+  margin: 20px 0 20px 50px;
 }
 
 .toggleLabel {
@@ -102,8 +103,8 @@
 
   &:nth-of-type(3) {
     background-color: $body-color;
-    border: 1px solid $sub-color;
-    color: #ddd;
+    border: 1px solid $main-color;
+    color: $main-color;
   }
 }
 
@@ -137,7 +138,7 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-top: 5px;
+  margin-top: 15px;
 
   .icon {
     width: 40px;
@@ -152,7 +153,7 @@
 
 // searchId
 .formBorder {
-  border: 2px solid $main-color;
+  border: 1px solid $main-color;
   border-radius: 10px;
   padding-bottom: 30px;
   width: 600px;
@@ -172,9 +173,15 @@
   font-weight: bold;
   color: #6b6969;
   border: none;
-  background-color: $body-color;
+  background-color: transparent;
   cursor: pointer;
-  border-radius: 7px;
+
+  &:first-child {
+    border-top-left-radius: 7px;
+  }
+  &:last-of-type {
+    border-top-right-radius: 7px;
+  }
 
   &.activeTab {
     background-color: $main-color;
@@ -223,7 +230,7 @@
 .searchPwd {
   width: 500px;
   text-align: center;
-  border: 2px solid $main-color;
+  border: 1px solid $main-color;
   border-radius: 10px;
   margin: 0 auto 90px auto;
   padding-top: 50px;
@@ -231,7 +238,7 @@
 
   span {
     display: block;
-    margin-bottom : 10px;
+    margin-bottom: 10px;
   }
 
   .inputGroup {
