@@ -20,6 +20,7 @@
     font-family: $sub-font;
     margin-top: 20px;
     margin-bottom: 20px;
+    font-size: 20px;
   }
 }
 
@@ -58,7 +59,7 @@
     width: 22px;
     height: 22px;
     background-color: #e4ccee;
-    border-radius: 50%;
+    border-radius: 10px;
     transition: transform 0.3s ease;
   }
 
@@ -74,7 +75,7 @@
   margin: 10px;
   font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
   box-sizing: border-box;
 }
 
@@ -86,35 +87,23 @@
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin: 10px;
   transition: background-color 0.3s ease;
 
   &:nth-of-type(1) {
     background-color: $main-color;
-
-    &:hover {
-      background-color: #5a9e62;
-    }
   }
 
   &:nth-of-type(2) {
     background-color: $sub-color;
-
-    &:hover {
-      background-color: #5a9e62;
-    }
   }
 
   &:nth-of-type(3) {
     background-color: $body-color;
     border: 1px solid $sub-color;
     color: #ddd;
-
-    &:hover {
-      background-color: #5a9e62;
-    }
   }
 }
 
@@ -164,13 +153,14 @@
 // searchId
 .formBorder {
   border: 2px solid $main-color;
-  border-radius: 5px;
+  border-radius: 10px;
   padding-bottom: 30px;
+  width: 600px;
 }
 
 .tabContainer {
   display: flex;
-  width: 500px;
+  width: 100%;
   justify-content: center;
   padding-bottom: 30px;
 }
@@ -184,6 +174,7 @@
   border: none;
   background-color: $body-color;
   cursor: pointer;
+  border-radius: 7px;
 
   &.activeTab {
     background-color: $main-color;
@@ -193,7 +184,7 @@
 
 .formContainer {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   padding: 20px;
 }
 
@@ -223,12 +214,8 @@
     color: white;
     background-color: $sub-color;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-
-    &:hover {
-      background-color: $main-color;
-    }
   }
 }
 
@@ -242,6 +229,11 @@
   padding-top: 50px;
   padding-bottom: 50px;
 
+  span {
+    display: block;
+    margin-bottom : 10px;
+  }
+
   .inputGroup {
     width: 85%;
     margin-top: 30px;
@@ -250,7 +242,7 @@
 
   .button {
     width: 30%;
-    border-radius: 20px;
+    border-radius: 10px;
   }
 }
 
@@ -266,12 +258,8 @@
     color: white;
     background-color: $sub-color;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     margin-top: 10px;
-
-    &:hover {
-      background-color: $main-color;
-    }
   }
 }

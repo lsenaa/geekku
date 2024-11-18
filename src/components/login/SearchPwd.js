@@ -10,9 +10,7 @@ const SearchPwd = () => {
       </div>
       <div className={styles.searchPwd}>
         <span>비밀번호를 재설정 할 이메일을 입력해 주세요.</span>
-        <br />
         <span>입력된 메일로 자세한 안내를 보내드립니다.</span>
-        <br />
         <div className={styles.inputGroup}>
           <span>이메일</span>
           <input
