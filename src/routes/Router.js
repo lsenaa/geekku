@@ -63,6 +63,7 @@ import MypageInteriorInquiry from 'components/myInteriorpage/interior/interiorIn
 import MypageInteriorCase from 'components/myInteriorpage/interior/case/MypageInteriorCase';
 import MypageInteriorReview from 'components/myInteriorpage/interior/review/MypageInteriorReview';
 import MypageInteriorOnestop from 'components/myInteriorpage/onestop/OnestopReply';
+import ModifyPwd from 'components/mypage/info/ModifyPwd';
 
 const Router = () => {
   return (
@@ -104,7 +105,7 @@ const Router = () => {
         <Route path="bookmark/community" element={<BookmarkCommunity />} />
         <Route path="community" element={<MypagePersonCommunity />} />
         <Route path="info" element={<PersonInfo />} />
-        <Route path="info/password" element={<SearchPwdResult />} />
+        <Route path="info/password" element={<ModifyPwd />} />
         <Route path="*" element={<NotFound />} />
       </Route>
       {/* MypageEstate */}
@@ -113,7 +114,7 @@ const Router = () => {
         <Route path="house" element={<MypageEstateHouseAnswer />} />
         <Route path="onestop" element={<MypageEstateOnestopAnswer />} />
         <Route path="info" element={<CompanyInfo />} />
-        <Route path="info/password" element={<SearchPwdResult />} />
+        <Route path="info/password" element={<ModifyPwd />} />
         <Route path="*" element={<NotFound />} />
       </Route>
       {/* MypageInterior */}
@@ -125,6 +126,7 @@ const Router = () => {
         <Route path="manage/review" element={<MypageInteriorReview />} />
         <Route path="onestop" element={<MypageInteriorOnestop />} />
         <Route path="userInfo" element={<CompanyInfo />} />
+        <Route path="userInfo/password" element={<ModifyPwd />} />
       </Route>
       <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
 
