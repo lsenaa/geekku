@@ -54,7 +54,7 @@ import MypageEstateLayout from 'components/layout/mypage/estate/MypageEstateLayo
 import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstateHouseAnswer';
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
-
+import ReviewWrite from 'components/interior/review/ReviewWrite';
 
 const Router = () => {
   return (
@@ -76,6 +76,7 @@ const Router = () => {
       <Route path="/sampleDetail" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
+      <Route path="/reviewWrite" element={<ReviewWrite />} />
       {/* Onestop */}
       <Route path="/oneStop" element={<OnestopMain />} />
       <Route path="/oneStopWrite" element={<OnestopWrite />} />
