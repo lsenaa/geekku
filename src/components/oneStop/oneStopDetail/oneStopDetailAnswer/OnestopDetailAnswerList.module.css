@@ -1,0 +1,71 @@
+:export {
+  maincolor: #6d885d;
+  subcolor: #c6d695;
+  bodycolor: #fffaf4;
+  subfont: "Santokki";
+}
+
+.container {
+  margin-top: 40px;
+}
+.container .topWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.container h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.line {
+  background: #6d885d;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.profile p {
+  font-weight: bold;
+  margin-left: 10px;
+}
+.profile .createdAt {
+  font-weight: normal;
+  color: #757575;
+  margin: 0 20px;
+}
+.profile button {
+  border: none;
+  border-radius: 10px;
+  padding: 4px 12px;
+  color: #757575;
+}
+
+.phoneAddWrap .phone,
+.phoneAddWrap .address {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.phoneAddWrap p {
+  font-size: 14px;
+}
+.phoneAddWrap p:first-child {
+  width: 60px;
+}
+.phoneAddWrap p:last-of-type {
+  font-weight: normal;
+  color: #757575;
+}
+
+.editorContent {
+  margin-top: 16px;
+}/*# sourceMappingURL=OnestopDetailAnswerList.module.css.map */

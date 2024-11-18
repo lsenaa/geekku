@@ -1,0 +1,63 @@
+:export {
+  maincolor: #6d885d;
+  subcolor: #c6d695;
+  bodycolor: #fffaf4;
+  subfont: "Santokki";
+}
+
+.customTable {
+  width: 100%;
+  text-align: center;
+  border-collapse: separate;
+  table-layout: fixed;
+  border-spacing: 0 16px;
+  margin-bottom: 60px;
+}
+.customTable thead {
+  font-weight: bold;
+  border-collapse: collapse;
+}
+.customTable tbody {
+  border-spacing: 0 16px;
+}
+.customTable tbody .rowWrap {
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  display: table-row;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.customTable tbody .rowWrap:hover {
+  background-color: #dbe0cb;
+  transform: scale(1);
+}
+.customTable tbody .rowWrap .writer {
+  display: inline-flex;
+  align-items: center;
+}
+.customTable tbody .rowWrap td {
+  border-top: 1px solid #6d885d;
+  border-bottom: 1px solid #6d885d;
+  padding: 20px 16px;
+  vertical-align: middle;
+  text-align: center;
+}
+.customTable tbody .rowWrap td:first-child {
+  border-left: 1px solid #6d885d;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.customTable tbody .rowWrap td:nth-child(2) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-align: left;
+}
+.customTable tbody .rowWrap td:last-of-type {
+  border-right: 1px solid #6d885d;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}/*# sourceMappingURL=HouseList.module.css.map */

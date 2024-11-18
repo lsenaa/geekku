@@ -6,21 +6,38 @@
 }
 
 .title {
+  font-size: 25px;
   font-family: "Santokki";
   margin-top: 20px;
-  color: #6B6969;
+  margin-bottom: 20px;
+  color: #6b6969;
 }
 
-.checkRadio {
-  position: relative;
+.radioContainer {
+  display: flex;
+  height: 40px;
+  align-items: center;
   cursor: pointer;
 }
-.checkRadio.span {
-  font-family: "Santokki";
+.radioContainer img {
+  margin-right: 5px;
+}
+.radioContainer .checkRadio {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.radioContainer .checkRadio p {
+  cursor: pointer;
+}
+.radioContainer .unCheckRadio {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
 
 b {
-  color: #E96565;
+  color: #e96565;
   margin-left: 3px;
 }
 
@@ -35,7 +52,7 @@ b {
   margin-bottom: 15px;
 }
 .joinForm span {
-  color: #6B6969;
+  color: #6b6969;
   font-weight: bold;
   font-size: 16px;
 }
@@ -76,7 +93,7 @@ b {
 }
 .joinForm .checkButton {
   background-color: #c6d695;
-  color: #6B6969;
+  color: #6b6969;
   width: 90px;
   height: 45px;
   border-radius: 10px;
@@ -102,7 +119,7 @@ b {
   cursor: pointer;
 }
 .joinForm .imageUploadBox label {
-  color: #6B6969;
+  color: #6b6969;
   font-size: 14px;
 }
 
@@ -110,6 +127,9 @@ b {
   display: flex;
   flex-direction: column;
   margin: 30px 0 30px 0;
+}
+.checkContainer span {
+  margin-top: 10px;
 }
 
 .button {
@@ -120,12 +140,9 @@ b {
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin: 10px;
   transition: background-color 0.3s ease;
   background-color: #c6d695;
-}
-.button:hover {
-  background-color: #5a9e62;
 }/*# sourceMappingURL=Join.module.css.map */
