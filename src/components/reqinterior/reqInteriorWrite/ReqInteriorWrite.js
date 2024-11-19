@@ -202,7 +202,7 @@ const ReqInteriorWrite = () => {
       <div className={styles.btnWrap}>
         <Button01 size="small">신청하기</Button01>
         <Button01 color="sub" size="small">
-          <Link to={'/reqInterior'}>취소하기</Link>
+          <Link to={'/requestInterior'}>취소하기</Link>
         </Button01>
       </div>
     </div>

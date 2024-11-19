@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './CommunityBoardWrite.module.css';
 import { useNavigate } from 'react-router';
+import Button01 from 'components/commons/button/Button01';
 
 const CommunityBoardWrite = () => {
   const navigate = useNavigate();
@@ -124,9 +125,21 @@ const CommunityBoardWrite = () => {
             <span>{textCount}</span> / 1000
           </p>
         </div>
-        <button className={styles.submitButton} onClick={handleCommunityBoard}>
-          등록하기
-        </button>
+        <div className={styles.btnWrap}>
+          <button
+            className={styles.submitButton}
+            onClick={handleCommunityBoard}
+          >
+            등록하기
+          </button>
+          <Button01
+            size="small"
+            color="sub"
+            onClick={() => navigate('/community')}
+          >
+            취소하기
+          </Button01>
+        </div>
       </form>
     </div>
   );
