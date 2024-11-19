@@ -180,7 +180,6 @@ const OnestopWrite = () => {
         <div className={styles.item}>
           <label>
             이동 인원<span>*</span>
-
           </label>
           <select
             className={styles.select}
