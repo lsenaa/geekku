@@ -106,6 +106,35 @@ section {
   }
 }
 
+.items {
+  @include flexrow;
+  margin-bottom: 30px;
+  padding-right: 20px;
+
+  label {
+    font-weight: bold;
+    width: 140px;
+
+    span {
+      color: red;
+    }
+  }
+
+  .checkboxGroup {
+    margin-right: 20px;
+
+    input[type='checkbox'] {
+      accent-color: $main-color;
+      padding: 20px;
+    }
+    label {
+      margin-right: 10px;
+      padding: 10px;
+      font-weight: normal;
+    }
+  }
+}
+
 .subLabelWrap {
   display: flex;
   flex-direction: column;
@@ -116,7 +145,6 @@ section {
     margin-bottom: 8px;
   }
 }
-
 
 .textareaWrap {
   position: relative;
