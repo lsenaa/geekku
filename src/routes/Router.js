@@ -150,7 +150,7 @@ const Router = () => {
       <Route path="/requestInterior" element={<ReqInteriorMain />} />
       <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
       <Route
-        path="/requestInteriorDetail/:num"
+        path="/requestInterior/detail/:num"
         element={<ReqInteriorDetail />}
       />
       {/* NotFound */}

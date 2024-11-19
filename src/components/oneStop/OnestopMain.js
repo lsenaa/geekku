@@ -7,7 +7,7 @@ import OnestopList from './onestopList/OnestopList';
 const OnestopMain = () => {
   return (
     <div className={styles.container}>
-      <h2>상담신청 리스트</h2>
+      <h2>한번에꾸하기 신청하기</h2>
       <div className={styles.topWrap}>
         <div className={styles.searchWrap}>
           <select className={styles.select}>

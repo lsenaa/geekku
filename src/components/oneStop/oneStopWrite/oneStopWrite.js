@@ -17,7 +17,7 @@ const OnestopWrite = () => {
 
   return (
     <div className={styles.container}>
-      <h2>한번에 꾸하기</h2>
+      <h2>한번에 꾸하기 신청하기</h2>
       <section>
         <div className={styles.title}>
           <h3>원하는 매물 정보</h3>
@@ -178,7 +178,7 @@ const OnestopWrite = () => {
 
         <div className={styles.item}>
           <label>
-            희망 평수<span>*</span>
+            이동 인원<span>*</span>
           </label>
           <select
             className={styles.select}
