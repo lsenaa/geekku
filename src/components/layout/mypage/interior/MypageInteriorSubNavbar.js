@@ -28,6 +28,16 @@ const MypageInteriorSubNavbar = () => {
     name: '한번에꾸하기 답변 한 글',
     path: '/mypage/interior/onestop',
   };
+  const infoMenu = [
+    {
+      name: '회원 정보 수정',
+      path: '/mypage/estate/info',
+    },
+    {
+      name: '비밀번호 변경',
+      path: '/mypage/estate/info/password',
+    },
+  ];
 
   return (
     <ul className={styles.subNav}>
@@ -51,6 +61,16 @@ const MypageInteriorSubNavbar = () => {
           <Link to={onestopMenu.path}>{onestopMenu.name}</Link>
         </li>
       )}
+      {locPath.includes('info') &&
+        infoMenu.map((info, index) => (
+          <li
+            key={index}
+            className={selected === info.path ? styles.active : 'false'}
+            onClick={() => setSelected(info.path)}
+          >
+            <Link to={info.path}>{info.name}</Link>
+          </li>
+        ))}
     </ul>
   );
 };

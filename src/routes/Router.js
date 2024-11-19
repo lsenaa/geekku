@@ -48,6 +48,7 @@ import MypageEstateLayout from 'components/layout/mypage/estate/MypageEstateLayo
 import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstateHouseAnswer';
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
+import ReviewWrite from 'components/interior/review/ReviewWrite';
 import Register from 'components/interior/companyRegister/Register';
 // import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
 // import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
@@ -55,14 +56,14 @@ import Register from 'components/interior/companyRegister/Register';
 import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
 import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
 import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
-import MypageInteriorLayout from 'components/layout/mypageInterior/MypageInteriorLayout';
-import MypageInteriorMain from 'components/myInteriorpage/MypageInteriorMain';
-import MypageInteriorModify from 'components/myInteriorpage/modify/MypageInteriorModify';
-import MypageInteriorRequest from 'components/myInteriorpage/interior/request/MypageInteriorRequest';
-import MypageInteriorInquiry from 'components/myInteriorpage/interior/interiorInquiry/MypageInteriorInquiry';
-import MypageInteriorCase from 'components/myInteriorpage/interior/case/MypageInteriorCase';
-import MypageInteriorReview from 'components/myInteriorpage/interior/review/MypageInteriorReview';
-import MypageInteriorOnestop from 'components/myInteriorpage/onestop/OnestopReply';
+import MypageInteriorLayout from 'components/layout/mypage/interior/MypageInteriorLayout';
+import MypageInteriorMain from 'components/mypage/interior/MypageInteriorMain';
+import MypageInteriorModify from 'components/mypage/interior/modify/MypageInteriorModify';
+import MypageInteriorRequest from 'components/mypage/interior/interior/request/MypageInteriorRequest';
+import MypageInteriorInquiry from 'components/mypage/interior/interior/interiorInquiry/MypageInteriorInquiry';
+import MypageInteriorCase from 'components/mypage/interior/interior/case/MypageInteriorCase';
+import MypageInteriorReview from 'components/mypage/interior/interior/review/MypageInteriorReview';
+import MypageInteriorOnestop from 'components/mypage/interior/onestop/OnestopReply';
 
 const Router = () => {
   return (
@@ -84,6 +85,7 @@ const Router = () => {
       <Route path="/sampleDetail" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
+      <Route path="/reviewWrite" element={<ReviewWrite />} />
       {/* Onestop */}
       <Route path="/onestop/write" element={<OnestopWrite />} />
       <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
@@ -124,7 +126,9 @@ const Router = () => {
         <Route path="manage/inquiry" element={<MypageInteriorInquiry />} />
         <Route path="manage/review" element={<MypageInteriorReview />} />
         <Route path="onestop" element={<MypageInteriorOnestop />} />
-        <Route path="userInfo" element={<CompanyInfo />} />
+        <Route path="info" element={<CompanyInfo />} />
+        <Route path="info/password" element={<SearchPwdResult />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
 
@@ -144,6 +148,7 @@ const Router = () => {
         <Route path="sample" element={<ProfileInteriorSample />} />
         <Route path="review" element={<ProfileInteriorReview />} />
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/profile/estate" element={<ProfileEstate />} />
       {/* RequestInterior */}

@@ -21,3 +21,9 @@
 .contentWrap {
   width: ((1200px - 40px) * 0.75);
 }
+
+.notfoundContainer {
+  @include flexrow;
+  align-items: start;
+  justify-content: center;
+}

@@ -17,13 +17,14 @@ const Register = () => {
         <span>필수입력항목</span>
       </div>
       <div className={styles.line}></div>
-      <form>
+      <form className={styles.formEdit}>
         <ul>
           <li>
-            업체명 <input name="name" />
+            <span>업체명</span>{' '}
+            <input name="name" className={styles.customSelect} />
           </li>
           <li>
-            부분시공 가능여부
+            <span>부분시공 가능여부</span>
             <label>
               <input type="radio" name="possiblePart" value="possible" />
               가능
@@ -34,13 +35,16 @@ const Register = () => {
             </label>
           </li>
           <li>
-            경력 <input name="period" />
+            <span>경력</span>
+            <input name="period" className={styles.customSelect} />
           </li>
           <li>
-            최근 계약 <input name="recentCount" />
+            <span>최근 계약</span>
+            <input name="recentCount" className={styles.customSelect} />
           </li>
           <li>
-            보수 기간 <input name="repairDate" />
+            <span>보수 기간</span>
+            <input name="repairDate" className={styles.customSelect} />
           </li>
           <li>
             <span>지역</span>
@@ -74,19 +78,20 @@ const Register = () => {
           </div>
         </div>
         <div>
-          소개글 작성
+          <span>소개글 작성</span>
           <hr />
           <ul>
             <li>
-              한줄소개 <input name="intro" />
+              <span>한줄소개</span>{' '}
+              <input
+                name="intro"
+                className={styles.intro}
+                placeholder="한줄 소개를 작성해주세요"
+              />
             </li>
             <li>
-              소개글
-              <input
-                placeholder="500자 이내로 소개글을 작성해주세요"
-                name="content"
-                style={{ width: '800px', height: '300px' }}
-              />
+              <span>소개글</span>
+              <textarea placeholder="500자 이내로 소개글을 작성해주세요"></textarea>
             </li>
           </ul>
         </div>

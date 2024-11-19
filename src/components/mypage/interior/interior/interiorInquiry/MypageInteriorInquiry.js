@@ -1,10 +1,8 @@
 import { Pagination } from 'antd';
 import Button01 from 'components/commons/button/Button01';
-import MypageInteriorSiderbar from 'components/layout/mypageInterior/MypageInteriorSiderbar';
-import MypageInteriorSubNavbar from 'components/layout/mypageInterior/MypageInteriorSubNavbar';
-import styles from 'components/myInteriorpage/interior/request/MypageInteriorRequest.module.scss';
+import styles from './MypageInteriorInquiry.module.scss';
 
-const MypageInteriorRequest = () => {
+const MypageInteriorInquiry = () => {
   return (
     <>
       <table className={styles.customTable}>
@@ -15,6 +13,7 @@ const MypageInteriorRequest = () => {
           <col width="10%" />
           <col width="15%" />
           <col width="5%" />
+          <col width="15%" />
         </colgroup>
         <thead>
           <tr>
@@ -24,6 +23,7 @@ const MypageInteriorRequest = () => {
             <th>희망지역</th>
             <th>작성 날짜</th>
             <th>조회수</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -36,6 +36,9 @@ const MypageInteriorRequest = () => {
             <td>경남 사천</td>
             <td>2024-10-27</td>
             <td>56</td>
+            <td>
+              <Button01 size="x-small">삭제</Button01>
+            </td>
           </tr>
           <tr className={styles.rowWrap}>
             <td>2</td>
@@ -46,6 +49,9 @@ const MypageInteriorRequest = () => {
             <td>충북 담양</td>
             <td>2024-10-27</td>
             <td>2</td>
+            <td>
+              <Button01 size="x-small">삭제</Button01>
+            </td>
           </tr>
           <tr className={styles.rowWrap}>
             <td>1</td>
@@ -54,6 +60,9 @@ const MypageInteriorRequest = () => {
             <td>충북 담양</td>
             <td>2024-10-27</td>
             <td>13</td>
+            <td>
+              <Button01 size="x-small">삭제</Button01>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -61,4 +70,4 @@ const MypageInteriorRequest = () => {
     </>
   );
 };
-export default MypageInteriorRequest;
+export default MypageInteriorInquiry;

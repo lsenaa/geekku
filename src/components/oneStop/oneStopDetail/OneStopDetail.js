@@ -83,6 +83,7 @@ const OnestopDetail = () => {
       <div className={styles.btnWrap}>
         <Button01 size="small">
           <Link to={'/oneStop'}>목록으로</Link>
+
         </Button01>
       </div>
       {/* 답변 리스트 */}

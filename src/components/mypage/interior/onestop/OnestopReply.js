@@ -1,8 +1,8 @@
 import { Pagination } from 'antd';
 import Button01 from 'components/commons/button/Button01';
-import MypageInteriorSiderbar from 'components/layout/mypageInterior/MypageInteriorSiderbar';
-import MypageInteriorSubNavbar from 'components/layout/mypageInterior/MypageInteriorSubNavbar';
-import styles from 'components/myInteriorpage/onestop/OnestopReply.module.scss';
+import MypageInteriorSiderbar from 'components/layout/mypage/interior/MypageInteriorSiderbar';
+import MypageInteriorSubNavbar from 'components/layout/mypage/interior/MypageInteriorSubNavbar';
+import styles from './OnestopReply.module.scss';
 
 const MypageInteriorOnestop = () => {
   return (
