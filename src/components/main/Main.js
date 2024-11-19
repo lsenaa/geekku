@@ -128,7 +128,7 @@ const Main = () => {
       <section className={styles.estateWrapper}>
         <h2>최신 매물 리스트</h2>
         <div className={styles.more}>
-          <Link to={'/estateSearch'}>
+          <Link to={'/estate'}>
             더 많은 매물 보기
             <IoIosArrowForward />
           </Link>
@@ -159,7 +159,7 @@ const Main = () => {
       <section className={styles.estateWrapper}>
         <h2>집들이 베스트 리스트</h2>
         <div className={styles.more}>
-          <Link to={'/communityMain'}>
+          <Link to={'/community'}>
             더 많은 집들이 보기
             <IoIosArrowForward />
           </Link>

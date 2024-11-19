@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const SampleList = () => {
   return (
     <div className={styles.all}>
-      <p>시공사례</p>
+      <p className={styles.title}>시공사례</p>
       <div className={styles.midBar}>
         <Filter />
         <Link to="/sampleRegister">
