@@ -48,6 +48,7 @@ import MypageEstateLayout from 'components/layout/mypage/estate/MypageEstateLayo
 import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstateHouseAnswer';
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
+import ReviewWrite from 'components/interior/review/ReviewWrite';
 import Register from 'components/interior/companyRegister/Register';
 // import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
 // import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
@@ -84,6 +85,7 @@ const Router = () => {
       <Route path="/sampleDetail" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
+      <Route path="/reviewWrite" element={<ReviewWrite />} />
       {/* Onestop */}
       <Route path="/onestop/write" element={<OnestopWrite />} />
       <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
