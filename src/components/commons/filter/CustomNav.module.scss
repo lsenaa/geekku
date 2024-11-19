@@ -1,14 +1,15 @@
 #filter {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 20px;
+  margin-left: 33px;
 }
 
 #sub {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Santokki';
-    width: 48px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Santokki';
+  width: 42px;
 }
