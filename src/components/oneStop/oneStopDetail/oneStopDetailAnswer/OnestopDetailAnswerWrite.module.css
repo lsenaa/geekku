@@ -1,0 +1,67 @@
+:export {
+  maincolor: #6d885d;
+  subcolor: #c6d695;
+  bodycolor: #fffaf4;
+  subfont: "Santokki";
+}
+
+.modalContainer {
+  padding: 40px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.profile p {
+  font-weight: bold;
+  margin-left: 10px;
+}
+.profile .createdAt {
+  font-weight: normal;
+  color: #757575;
+  margin: 0 20px;
+}
+.profile button {
+  border: none;
+  border-radius: 10px;
+  padding: 4px 12px;
+  color: #757575;
+}
+
+.phoneAddWrap .phone,
+.phoneAddWrap .address {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.phoneAddWrap p {
+  font-size: 14px;
+}
+.phoneAddWrap p:first-child {
+  width: 60px;
+}
+.phoneAddWrap p:last-of-type {
+  font-weight: normal;
+  color: #757575;
+}
+
+.editorContent {
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  margin: 40px 0;
+  padding: 16px;
+}
+
+.btnWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.btnWrap button:first-child {
+  margin-right: 40px;
+}/*# sourceMappingURL=OnestopDetailAnswerWrite.module.css.map */

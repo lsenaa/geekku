@@ -20,6 +20,12 @@
   height: 100px;
   margin-bottom: 10px;
 }
+.login .title {
+  font-family: "Santokki";
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
 
 .toggleContainer {
   display: flex;
@@ -54,8 +60,8 @@
   left: 4px;
   width: 22px;
   height: 22px;
-  background-color: #E4CCEE;
-  border-radius: 50%;
+  background-color: #e4ccee;
+  border-radius: 10px;
   transition: transform 0.3s ease;
 }
 .toggle:checked::after {
@@ -69,7 +75,7 @@
   margin: 10px;
   font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
   box-sizing: border-box;
 }
 
@@ -81,7 +87,7 @@
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   margin: 10px;
   transition: background-color 0.3s ease;
@@ -89,22 +95,13 @@
 .button:nth-of-type(1) {
   background-color: #6d885d;
 }
-.button:nth-of-type(1):hover {
-  background-color: #5a9e62;
-}
 .button:nth-of-type(2) {
   background-color: #c6d695;
-}
-.button:nth-of-type(2):hover {
-  background-color: #5a9e62;
 }
 .button:nth-of-type(3) {
   background-color: #fffaf4;
   border: 1px solid #c6d695;
   color: #ddd;
-}
-.button:nth-of-type(3):hover {
-  background-color: #5a9e62;
 }
 
 .divider1,
@@ -145,4 +142,107 @@
 }
 .iconContainer .icon:hover {
   transform: scale(1.1);
+}
+
+.formBorder {
+  border: 2px solid #6d885d;
+  border-radius: 10px;
+  padding-bottom: 30px;
+  width: 600px;
+}
+
+.tabContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
+.tabButton {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #6b6969;
+  border: none;
+  background-color: #fffaf4;
+  cursor: pointer;
+  border-radius: 7px;
+}
+.tabButton.activeTab {
+  background-color: #6d885d;
+  color: #fff;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+.inputGroup span {
+  width: 130px;
+}
+.inputGroup .input {
+  width: 300px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.inputGroup .button {
+  width: 140px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+  background-color: #c6d695;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.searchPwd {
+  width: 500px;
+  text-align: center;
+  border: 2px solid #6d885d;
+  border-radius: 10px;
+  margin: 0 auto 90px auto;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.searchPwd span {
+  display: block;
+  margin-bottom: 10px;
+}
+.searchPwd .inputGroup {
+  width: 85%;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.searchPwd .button {
+  width: 30%;
+  border-radius: 10px;
+}
+
+.confirmContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+.confirmContainer .button {
+  width: 150px;
+  padding: 8px 12px;
+  font-weight: bold;
+  color: white;
+  background-color: #c6d695;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
 }/*# sourceMappingURL=Login.module.css.map */
