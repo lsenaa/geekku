@@ -120,36 +120,37 @@ const ReqInteriorWrite = () => {
           </div>
         </div>
 
-        <div className={styles.item}>
+        <div className={styles.items}>
           <label>
             인테리어 시공<span>*</span>
           </label>
-          <div>
+          <div className={styles.checkboxGroup}>
             <input type="checkbox" name="interiorJenre" value="1" />
-            도배
+            <label>도배</label>
             <input type="checkbox" name="interiorJenre" value="2" />
-            바닥
+            <label>바닥</label>
             <input type="checkbox" name="interiorJenre" value="3" />
-            몰딩
+            <label>몰딩</label>
             <input type="checkbox" name="interiorJenre" value="1" />
-            샷시
+            <label>샷시</label>
             <input type="checkbox" name="interiorJenre" value="2" />
-            페인트
+            <label>페인트</label>
           </div>
         </div>
 
-        <div className={styles.item}>
-          <div>
+        <div className={styles.items}>
+          <label></label>
+          <div className={styles.checkboxGroup}>
             <input type="checkbox" name="interiorJenre" value="1" />
-            조명
+            <label>조명</label>
             <input type="checkbox" name="interiorJenre" value="2" />
-            욕실
+            <label>욕실</label>
             <input type="checkbox" name="interiorJenre" value="3" />
-            주방
+            <label>주방</label>
             <input type="checkbox" name="interiorJenre" value="1" />
-            문/현관
+            <label>문/현관</label>
             <input type="checkbox" name="interiorJenre" value="2" />
-            베란다
+            <label>베란다</label>
           </div>
         </div>
 

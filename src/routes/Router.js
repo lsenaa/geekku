@@ -129,6 +129,9 @@ const Router = () => {
         <Route path="onestop" element={<MypageInteriorOnestop />} />
         <Route path="userInfo" element={<CompanyInfo />} />
         <Route path="userInfo/password" element={<ModifyPwd />} />
+        <Route path="info" element={<CompanyInfo />} />
+        <Route path="info/password" element={<SearchPwdResult />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
 
@@ -148,13 +151,14 @@ const Router = () => {
         <Route path="sample" element={<ProfileInteriorSample />} />
         <Route path="review" element={<ProfileInteriorReview />} />
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/profile/estate" element={<ProfileEstate />} />
       {/* RequestInterior */}
       <Route path="/requestInterior" element={<ReqInteriorMain />} />
       <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
       <Route
-        path="/requestInteriorDetail/:num"
+        path="/requestInterior/detail/:num"
         element={<ReqInteriorDetail />}
       />
       {/* NotFound */}
