@@ -92,7 +92,10 @@ const Router = () => {
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
-      <Route path="/communityBoardDetail" element={<CommunityBoardDetail />} />
+      <Route
+        path="/communityBoardDetail/:CommunityNum"
+        element={<CommunityBoardDetail />}
+      />
       {/* MypagePerson */}
       <Route path="/mypage/person/*" element={<MypageLayout />}>
         <Route index element={<MypagePersonMain />} />
