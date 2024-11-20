@@ -3,27 +3,29 @@ import styles from './CommunityListCard.module.css';
 import { useNavigate } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
 
-const CommunityListCard = ({ title, image, views, profile }) => {
+const CommunityListCard = ({
+  community_num,
+  title,
+  image,
+  viewCount,
+  profile,
+}) => {
   const navigate = useNavigate();
 
-  const handleDetail = () => {
-    navigate('/CommunityBoardDetail');
+  const handleCardClick = () => {
+    navigate(`/CommunityBoardDetail/${community_num}`); // community_num 사용
   };
 
   return (
-    // Card component
-    <div className={styles.card} onClick={handleDetail}>
+    <div className={styles.card} onClick={handleCardClick}>
       <img src={image} alt={title} className={styles.cardImage} />
-      <h3 className={styles.cardTitle} style={{ fontWeight: 'bolder' }}>
-        {title}
-      </h3>
+      <h3 className={styles.cardTitle}>{title}</h3>
       <div className={styles.cardFooter}>
         <div className={styles.profile}>
-          {/* <img src={profile} alt="프로필" className={styles.profileImage} /> */}
           <FaUserCircle color="#6D885D" size={30} />
           <span className={styles.profileName}>test_user</span>
         </div>
-        <p className={styles.cardViews}>조회 {views}</p>
+        <p className={styles.cardViews}>조회 {viewCount}</p>
       </div>
     </div>
   );
