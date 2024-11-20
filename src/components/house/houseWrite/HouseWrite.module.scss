@@ -124,6 +124,8 @@ section {
   }
 
   input[type='checkbox'] {
+    accent-color: $main-color;
+
     &:focus {
       box-shadow: none;
     }

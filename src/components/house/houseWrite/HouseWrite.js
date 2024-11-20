@@ -106,7 +106,8 @@ const HouseWrite = () => {
             <option value="1">10평 이상</option>
             <option value="2">20평 이상</option>
             <option value="3">30평 이상</option>
-            <option value="4">기타</option>
+            <option value="4">40평 이상</option>
+            <option value="5">기타</option>
           </select>
         </div>
         <div className={styles.item}>

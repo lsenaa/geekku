@@ -3,11 +3,9 @@ import styles from './Login.module.scss';
 
 const SearchPwdResult = () => {
   return (
-    <>
-      <div className={styles.login}>
-        <img src={loginLogo} alt="로그인로고" className={styles.logo} />
-        <h2 className={styles.title}>비밀번호 재설정</h2>
-      </div>
+    <div className={styles.login}>
+      <img src={loginLogo} alt="로그인로고" className={styles.logo} />
+      <h2 className={styles.title}>비밀번호 재설정</h2>
       <div className={styles.searchPwd}>
         <div className={styles.inputGroup}>
           <span>
@@ -31,7 +29,7 @@ const SearchPwdResult = () => {
         </div>
         <button className={styles.button}>비밀번호 변경</button>
       </div>
-    </>
+    </div>
   );
 };
 export default SearchPwdResult;

@@ -2,9 +2,6 @@ import styles from '../../login/Login.module.scss';
 const ModifyPwd = () => {
   return (
     <>
-      <div className={styles.login}>
-        <h2 className={styles.title}>비밀번호 재설정</h2>
-      </div>
       <div className={styles.searchPwd}>
         <div className={styles.inputGroup}>
           <span>

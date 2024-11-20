@@ -157,10 +157,18 @@ section {
 }
 
 .availableDate {
-  input {
+  padding: 20px;
+
+  input[type='checkbox'] {
     width: 20px;
     margin-left: 20px;
+    accent-color: $main-color;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
+
   label {
     font-weight: normal;
   }
