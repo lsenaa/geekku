@@ -177,8 +177,15 @@
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  display: block;
-  margin: 80px auto 0 auto;
+  margin-right: 40px;
+  width: 130px;
+}
+
+.btnWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
 }
 
 .fileInput {

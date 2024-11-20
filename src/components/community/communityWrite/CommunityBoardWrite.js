@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import styles from './CommunityBoardWrite.module.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'constants/path';
+import { useNavigate } from 'react-router';
+import Button01 from 'components/commons/button/Button01';
 
 const CommunityBoardWrite = () => {
   const navigate = useNavigate();
@@ -244,10 +245,18 @@ const CommunityBoardWrite = () => {
             <span>{textCount}</span> / 1000
           </p>
         </div>
-
-        <button type="submit" className={styles.submitButton}>
-          등록하기
-        </button>
+        <div className={styles.btnWrap}>
+          <button type="submit" className={styles.submitButton}>
+            등록하기
+          </button>
+          <Button01
+            size="small"
+            color="sub"
+            onClick={() => navigate('/community')}
+          >
+            취소하기
+          </Button01>
+        </div>
       </form>
     </div>
   );

@@ -88,7 +88,6 @@ const Router = () => {
       <Route path="/onestop/write" element={<OnestopWrite />} />
       <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
       <Route path="/onestop" element={<OnestopMain />} />
-
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
@@ -134,7 +133,6 @@ const Router = () => {
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/mypageInterior/modify" element={<MypageInteriorModify />} />
-
       {/* Login */}
       <Route path="/login" element={<Login />} />
       <Route path="/searchId" element={<SearchId />} />
