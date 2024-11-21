@@ -3,12 +3,20 @@ import { useRef, useState } from 'react';
 import { DatePicker, Modal } from 'antd';
 import { FiPlus } from 'react-icons/fi';
 import Button01 from '../../commons/button/Button01';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdCancel } from 'react-icons/md';
 import DaumPostcode from 'react-daum-postcode';
+import { url } from 'lib/axios';
+import axios from 'axios';
 
 const EstateWrite = () => {
+  const navigate = useNavigate();
+  const imgRef = useRef();
   const [textCount, setTextCount] = useState(0);
+  const [imgList, setImgList] = useState([]);
+  const [isAddressOpen, setIsAddressOpen] = useState(false);
+  const [isParking, setIsParking] = useState(false);
+  const [isManage, setIsManage] = useState(false);
   const [estate, setEstate] = useState({
     type: '',
     address: '',
@@ -32,26 +40,24 @@ const EstateWrite = () => {
     title: '',
     content: '',
   });
-  const [imgList, setImgList] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const imgRef = useRef();
-  const [isParking, setIsParking] = useState(false);
 
   const handleComplete = (data) => {
-    console.log(data);
+    // console.log(data);
+    setEstate({
+      ...estate,
+      address: data.address,
+      addressDetail: data.buildingName,
+    });
     onToggleAddress();
   };
 
   const onToggleAddress = () => {
-    setIsOpen((prev) => !prev);
+    setIsAddressOpen((prev) => !prev);
   };
 
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
-  const onTextareaHandler = (e) => {
-    setTextCount(e.target.value.length);
+    // console.log(date, dateString);
+    setEstate({ ...estate, availableDate: dateString });
   };
 
   const handleAddImages = (e) => {
@@ -76,6 +82,64 @@ const EstateWrite = () => {
 
   const handleEdit = (e) => {
     setEstate({ ...estate, [e.target.name]: e.target.value });
+
+    if (e.target.name === 'content') {
+      setTextCount(e.target.value.length);
+    }
+
+    if (estate.rentType !== 'apt' && e.target.name === 'size1') {
+      setEstate((prev) => ({
+        ...prev,
+        size2: Math.trunc(e.target.value * 3.3058 * 100) / 100,
+      }));
+    } else if (estate.rentType !== 'apt' && e.target.name === 'size2') {
+      setEstate((prev) => ({
+        ...prev,
+        size1: Math.round(e.target.value * 0.3025),
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('type', estate.type);
+    formData.append('address1', estate.address);
+    formData.append('address2', estate.addressDetail);
+    formData.append('size1', estate.size1);
+    formData.append('size2', estate.size2);
+    formData.append('roomCount', estate.roomCount);
+    formData.append('rentType', estate.rentType);
+    formData.append('jeonsePrice', estate.jeonsePrice);
+    formData.append('monthlyPrice', estate.monthlyPrice);
+    formData.append('buyPrice', estate.buyPrice);
+    formData.append('depositPrice', estate.depositPrice);
+    formData.append('managePrice', estate.managePrice);
+    formData.append('availableDate', estate.availableDate);
+    formData.append('availableState', estate.availableState);
+    formData.append('totalFloor', estate.totalFloor);
+    formData.append('floor', estate.floor);
+    formData.append('bathCount', estate.bathCount);
+    formData.append('parking', estate.parking);
+    formData.append('utility', estate.utility);
+    formData.append('title', estate.title);
+    formData.append('content', estate.content);
+    // formData.append("companyName", company.companyName);
+
+    for (let img of imgList) {
+      formData.append('image', img);
+    }
+
+    axios
+      .post(`${url}/estateWrite`, formData)
+      .then((res) => {
+        console.log(res);
+        // navigate(`/estate/detail/${res.data}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -129,14 +193,15 @@ const EstateWrite = () => {
                 placeholder="주소를 검색해주세요."
                 readOnly
                 required
+                value={estate.address}
                 onChange={handleEdit}
               />
               <Button01 size="x-small" type="button" onClick={onToggleAddress}>
                 주소검색
               </Button01>
-              {isOpen && (
+              {isAddressOpen && (
                 <Modal
-                  open={isOpen}
+                  open={isAddressOpen}
                   onOk={onToggleAddress}
                   onCancel={onToggleAddress}
                   centered
@@ -150,6 +215,7 @@ const EstateWrite = () => {
               type="text"
               name="addressDetail"
               placeholder="상세 주소를 입력해주세요."
+              value={estate.addressDetail}
               onChange={handleEdit}
             />
           </div>
@@ -190,6 +256,7 @@ const EstateWrite = () => {
                   placeholder="평"
                   required
                   onChange={handleEdit}
+                  value={estate.size1 || ''}
                 />
                 <p>=</p>
                 <input
@@ -198,6 +265,7 @@ const EstateWrite = () => {
                   placeholder="㎡"
                   required
                   onChange={handleEdit}
+                  value={estate.size2 || ''}
                 />
               </>
             )}
@@ -314,18 +382,28 @@ const EstateWrite = () => {
               id="false"
               value="false"
               required
+              defaultChecked
+              onChange={() => setIsManage(false)}
             />
             <label htmlFor="false">없음</label>
-            <input type="radio" name="isManage" id="true" value="true" />
+            <input
+              type="radio"
+              name="isManage"
+              id="true"
+              value="true"
+              onChange={() => setIsManage(true)}
+            />
             <label htmlFor="true">있음</label>
           </div>
-          <input
-            type="text"
-            name="managePrice"
-            placeholder="원"
-            required
-            onChange={handleEdit}
-          />
+          {isManage && (
+            <input
+              type="text"
+              name="managePrice"
+              placeholder="만원"
+              required
+              onChange={handleEdit}
+            />
+          )}
         </div>
         <div className={styles.item}>
           <label>
@@ -339,7 +417,7 @@ const EstateWrite = () => {
           />
           <div className={styles.availableDate}>
             <input type="checkbox" id="availableState" name="availableState" />
-            <label htmlFor="availableDate">협의 가능</label>
+            <label htmlFor="availableState">협의 가능</label>
           </div>
         </div>
       </section>
@@ -394,18 +472,28 @@ const EstateWrite = () => {
               name="isParking"
               value="false"
               required
+              onChange={() => setIsParking(false)}
+              defaultChecked
             />
             <label htmlFor="false">불가능</label>
-            <input type="radio" id="true" name="isParking" value="true" />
+            <input
+              type="radio"
+              id="true"
+              name="isParking"
+              value="true"
+              onChange={() => setIsParking(true)}
+            />
             <label htmlFor="true">가능</label>
           </div>
-          <input
-            type="text"
-            placeholder="대"
-            name="parking"
-            required
-            onChange={handleEdit}
-          />
+          {isParking && (
+            <input
+              type="text"
+              placeholder="대"
+              name="parking"
+              required
+              onChange={handleEdit}
+            />
+          )}
         </div>
         <div className={styles.item}>
           <label>
@@ -417,6 +505,7 @@ const EstateWrite = () => {
             placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
             style={{ width: '100%', textAlign: 'left' }}
             required
+            onChange={handleEdit}
           />
         </div>
       </section>
@@ -490,6 +579,7 @@ const EstateWrite = () => {
             maxLength="40"
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
             style={{ width: '100%', textAlign: 'left' }}
+            onChange={handleEdit}
           />
         </div>
         <div className={styles.item}>
@@ -503,7 +593,7 @@ const EstateWrite = () => {
               maxLength="1000"
               className={styles.detailTextarea}
               placeholder="매물 상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
-              onChange={onTextareaHandler}
+              onChange={handleEdit}
             />
             <p>
               <span>{textCount}</span> / 1000
@@ -520,7 +610,7 @@ const EstateWrite = () => {
         </ul>
       </section>
       <div className={styles.btnWrap}>
-        <Button01 size="small" type="submit">
+        <Button01 size="small" type="submit" onClick={handleSubmit}>
           등록하기
         </Button01>
         <Button01 color="sub" size="small">
