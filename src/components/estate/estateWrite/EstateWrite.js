@@ -1,13 +1,50 @@
 import styles from './EstateWrite.module.scss';
-import { useState } from 'react';
-import { DatePicker } from 'antd';
+import { useRef, useState } from 'react';
+import { DatePicker, Modal } from 'antd';
 import { FiPlus } from 'react-icons/fi';
 import Button01 from '../../commons/button/Button01';
-import estateWriteImg from '../../../assets/images/estateWriteImg.png';
 import { Link } from 'react-router-dom';
+import { MdCancel } from 'react-icons/md';
+import DaumPostcode from 'react-daum-postcode';
 
 const EstateWrite = () => {
   const [textCount, setTextCount] = useState(0);
+  const [estate, setEstate] = useState({
+    type: '',
+    address: '',
+    addressDetail: '',
+    size1: '',
+    size2: '',
+    roomCount: 0,
+    rentType: 'jeonse',
+    jeonsePrice: 0,
+    monthlyPrice: 0,
+    buyPrice: 0,
+    depositPrice: 0,
+    managePrice: 0,
+    availableDate: '',
+    availableState: false,
+    totalFloor: 0,
+    floor: 0,
+    bathCount: 0,
+    parking: 0,
+    utility: '',
+    title: '',
+    content: '',
+  });
+  const [imgList, setImgList] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const imgRef = useRef();
+  const [isParking, setIsParking] = useState(false);
+
+  const handleComplete = (data) => {
+    console.log(data);
+    onToggleAddress();
+  };
+
+  const onToggleAddress = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
@@ -17,8 +54,32 @@ const EstateWrite = () => {
     setTextCount(e.target.value.length);
   };
 
+  const handleAddImages = (e) => {
+    const addImgLists = e.target.files;
+    let imgUrlLists = [...imgList];
+
+    for (let add of addImgLists) {
+      const currentImageUrl = URL.createObjectURL(add);
+      imgUrlLists.push(currentImageUrl);
+    }
+
+    if (imgUrlLists.length > 8) {
+      imgUrlLists = imgUrlLists.slice(0, 8);
+    }
+
+    setImgList(imgUrlLists);
+  };
+
+  const handleDeleteImg = (img) => {
+    setImgList([...imgList.filter((i) => i !== img)]);
+  };
+
+  const handleEdit = (e) => {
+    setEstate({ ...estate, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div className={styles.container}>
+    <form className={styles.container}>
       <h2>매물 등록하기</h2>
       <ul className={styles.alert}>
         <li>전/월세,매매만 등록할 수 있습니다.</li>
@@ -45,6 +106,7 @@ const EstateWrite = () => {
             name="type"
             defaultValue=""
             required="required"
+            onChange={handleEdit}
           >
             <option value="" disabled>
               매물 유형 선택
@@ -61,10 +123,35 @@ const EstateWrite = () => {
           </label>
           <div className={styles.address}>
             <div className={styles.addressBtnWrap}>
-              <input type="text" placeholder="주소를 검색해주세요." readOnly />
-              <Button01 size="x-small">주소검색</Button01>
+              <input
+                type="text"
+                name="address"
+                placeholder="주소를 검색해주세요."
+                readOnly
+                required
+                onChange={handleEdit}
+              />
+              <Button01 size="x-small" type="button" onClick={onToggleAddress}>
+                주소검색
+              </Button01>
+              {isOpen && (
+                <Modal
+                  open={isOpen}
+                  onOk={onToggleAddress}
+                  onCancel={onToggleAddress}
+                  centered
+                  className={styles.customModal}
+                >
+                  <DaumPostcode onComplete={handleComplete} />
+                </Modal>
+              )}
             </div>
-            <input type="text" placeholder="상세 주소를 입력해주세요." />
+            <input
+              type="text"
+              name="addressDetail"
+              placeholder="상세 주소를 입력해주세요."
+              onChange={handleEdit}
+            />
           </div>
         </div>
         <div className={styles.item}>
@@ -72,17 +159,48 @@ const EstateWrite = () => {
             면적<span>*</span>
           </label>
           <div className={styles.size}>
-            <input type="text" placeholder="평" />
-            <p>=</p>
-            <input type="text" placeholder="㎡" />
-            <div className={styles.subLabelWrap}>
-              <label>전용면적</label>
-              <input type="text" placeholder="㎡" />
-            </div>
-            <div className={styles.subLabelWrap}>
-              <label>공급면적</label>
-              <input type="text" placeholder="㎡" />
-            </div>
+            {estate.type === 'apt' ? (
+              <>
+                <div className={styles.subLabelWrap}>
+                  <label>전용면적</label>
+                  <input
+                    type="text"
+                    name="size1"
+                    placeholder="㎡"
+                    required
+                    onChange={handleEdit}
+                  />
+                </div>
+                <div className={styles.subLabelWrap}>
+                  <label>공급면적</label>
+                  <input
+                    type="text"
+                    name="size2"
+                    placeholder="㎡"
+                    required
+                    onChange={handleEdit}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  name="size1"
+                  placeholder="평"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>=</p>
+                <input
+                  type="text"
+                  name="size2"
+                  placeholder="㎡"
+                  required
+                  onChange={handleEdit}
+                />
+              </>
+            )}
           </div>
         </div>
         <div className={styles.item}>
@@ -90,7 +208,13 @@ const EstateWrite = () => {
             방 개수<span>*</span>
           </label>
           <div className={styles.size}>
-            <input type="text" placeholder="개" />
+            <input
+              type="text"
+              name="roomCount"
+              placeholder="개"
+              required
+              onChange={handleEdit}
+            />
           </div>
         </div>
       </section>
@@ -102,11 +226,31 @@ const EstateWrite = () => {
             거래 종류<span>*</span>
           </label>
           <div className={styles.radioGroup}>
-            <input type="radio" id="jeonse" name="rentType" value="jeonse" />
+            <input
+              type="radio"
+              id="jeonse"
+              name="rentType"
+              value="jeonse"
+              required
+              onChange={handleEdit}
+              defaultChecked
+            />
             <label htmlFor="jeonse">전세</label>
-            <input type="radio" id="monthly" name="rentType" value="monthly" />
+            <input
+              type="radio"
+              id="monthly"
+              name="rentType"
+              value="monthly"
+              onChange={handleEdit}
+            />
             <label htmlFor="monthly">월세</label>
-            <input type="radio" id="buy" name="rentType" value="buy" />
+            <input
+              type="radio"
+              id="buy"
+              name="rentType"
+              value="buy"
+              onChange={handleEdit}
+            />
             <label htmlFor="buy">매매</label>
           </div>
         </div>
@@ -114,34 +258,74 @@ const EstateWrite = () => {
           <label>
             가격 정보<span>*</span>
           </label>
-          <div className={styles.subLabelWrap}>
-            <label>전세가</label>
-            <input type="text" placeholder="만원" />
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>보증금</label>
-            <input type="text" placeholder="만원" />
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>월세</label>
-            <input type="text" placeholder="만원" />
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>매매가</label>
-            <input type="text" placeholder="만원" />
-          </div>
+          {estate.rentType === 'jeonse' && (
+            <div className={styles.subLabelWrap}>
+              <label>전세가</label>
+              <input
+                type="text"
+                name="jeonsePrice"
+                placeholder="만원"
+                onChange={handleEdit}
+              />
+            </div>
+          )}
+          {estate.rentType === 'monthly' && (
+            <>
+              <div className={styles.subLabelWrap}>
+                <label>보증금</label>
+                <input
+                  type="text"
+                  name="depositPrice"
+                  placeholder="만원"
+                  onChange={handleEdit}
+                />
+              </div>
+              <div className={styles.subLabelWrap}>
+                <label>월세</label>
+                <input
+                  type="text"
+                  name="monthlyPrice"
+                  placeholder="만원"
+                  onChange={handleEdit}
+                />
+              </div>
+            </>
+          )}
+          {estate.rentType === 'buy' && (
+            <div className={styles.subLabelWrap}>
+              <label>매매가</label>
+              <input
+                type="text"
+                name="buyPrice"
+                placeholder="만원"
+                onChange={handleEdit}
+              />
+            </div>
+          )}
         </div>
         <div className={styles.item}>
           <label>
             관리비<span>*</span>
           </label>
           <div className={styles.radioGroup}>
-            <input type="radio" id="false" name="managePrice" value="false" />
+            <input
+              type="radio"
+              name="isManage"
+              id="false"
+              value="false"
+              required
+            />
             <label htmlFor="false">없음</label>
-            <input type="radio" id="true" name="managePrice" value="true" />
+            <input type="radio" name="isManage" id="true" value="true" />
             <label htmlFor="true">있음</label>
           </div>
-          <input type="text" placeholder="원" />
+          <input
+            type="text"
+            name="managePrice"
+            placeholder="원"
+            required
+            onChange={handleEdit}
+          />
         </div>
         <div className={styles.item}>
           <label>
@@ -151,9 +335,10 @@ const EstateWrite = () => {
             size="large"
             placeholder="날짜를 선택해주세요."
             onChange={onChangeDate}
+            required
           />
           <div className={styles.availableDate}>
-            <input type="checkbox" id="availableDate" />
+            <input type="checkbox" id="availableState" name="availableState" />
             <label htmlFor="availableDate">협의 가능</label>
           </div>
         </div>
@@ -167,30 +352,60 @@ const EstateWrite = () => {
           </label>
           <div className={styles.subLabelWrap}>
             <label>전체 층수</label>
-            <input type="text" placeholder="층" />
+            <input
+              type="text"
+              placeholder="층"
+              name="totalFloor"
+              required
+              onChange={handleEdit}
+            />
           </div>
           <div className={styles.subLabelWrap}>
             <label>해당 층수</label>
-            <input type="text" placeholder="층" />
+            <input
+              type="text"
+              placeholder="층"
+              name="floor"
+              required
+              onChange={handleEdit}
+            />
           </div>
         </div>
         <div className={styles.item}>
           <label>
             욕실 수<span>*</span>
           </label>
-          <input type="text" placeholder="개" />
+          <input
+            type="text"
+            placeholder="개"
+            name="bathCount"
+            required
+            onChange={handleEdit}
+          />
         </div>
         <div className={styles.item}>
           <label>
             주차 가능 여부<span>*</span>
           </label>
           <div className={styles.radioGroup}>
-            <input type="radio" id="false" name="parking" value="false" />
+            <input
+              type="radio"
+              id="false"
+              name="isParking"
+              value="false"
+              required
+            />
             <label htmlFor="false">불가능</label>
-            <input type="radio" id="true" name="parking" value="true" />
+            <input type="radio" id="true" name="isParking" value="true" />
             <label htmlFor="true">가능</label>
           </div>
-          <input type="text" placeholder="대" />
+          <input
+            type="text"
+            placeholder="대"
+            name="parking"
+            required
+            onChange={handleEdit}
+          />
         </div>
         <div className={styles.item}>
           <label>
@@ -198,8 +413,10 @@ const EstateWrite = () => {
           </label>
           <input
             type="text"
+            name="utility"
             placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
             style={{ width: '100%', textAlign: 'left' }}
+            required
           />
         </div>
       </section>
@@ -225,36 +442,36 @@ const EstateWrite = () => {
             일반 사진<span>*</span>
           </label>
           <div className={styles.imgBtnWrap}>
-            <input type="file" hidden />
-            <button className={styles.addImgBtn}>
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              hidden
+              onChange={handleAddImages}
+              ref={imgRef}
+              multiple
+            />
+            <button
+              className={styles.addImgBtn}
+              type="button"
+              onClick={() => imgRef.current.click()}
+            >
               <FiPlus size={18} />
               사진 추가
             </button>
             <div className={styles.imgsWrap}>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
-              <div className={styles.imgWrap}>
-                <img src={estateWriteImg} alt="매물등록 이미지" />
-              </div>
+              {imgList.map((img, i) => (
+                <div key={i} className={styles.imgCancelWrap}>
+                  <MdCancel
+                    size={25}
+                    className={styles.cancelBtn}
+                    onClick={() => handleDeleteImg(img)}
+                  />
+                  <div className={styles.imgWrap}>
+                    <img src={img} alt="매물등록 이미지" />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -268,6 +485,7 @@ const EstateWrite = () => {
           </label>
           <input
             type="text"
+            name="title"
             minLength="5"
             maxLength="40"
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
@@ -280,6 +498,7 @@ const EstateWrite = () => {
           </label>
           <div className={styles.textareaWrap}>
             <textarea
+              name="content"
               minLength="5"
               maxLength="1000"
               className={styles.detailTextarea}
@@ -301,12 +520,14 @@ const EstateWrite = () => {
         </ul>
       </section>
       <div className={styles.btnWrap}>
-        <Button01 size="small">등록하기</Button01>
+        <Button01 size="small" type="submit">
+          등록하기
+        </Button01>
         <Button01 color="sub" size="small">
           <Link to={'/'}>취소하기</Link>
         </Button01>
       </div>
-    </div>
+    </form>
   );
 };
 

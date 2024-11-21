@@ -101,6 +101,7 @@ const HouseDetailAnswerList = () => {
           width={857}
           footer={null}
           className={styles.customModal}
+          centered
         >
           <HouseDetailAnswerWrite toggleModal={toggleModal} />
         </Modal>

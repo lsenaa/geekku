@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styles from './CommunityBoardWrite.module.css';
 import axios from 'axios';
-import { url } from 'constants/path';
+import { url } from 'lib/axios';
 import { useNavigate } from 'react-router';
 import Button01 from 'components/commons/button/Button01';
 
