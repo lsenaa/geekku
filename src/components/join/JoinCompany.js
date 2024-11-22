@@ -89,15 +89,7 @@ const JoinCompany = () => {
             이메일<b>*</b>
           </span>
           <br />
-          <input type="text" className={styles2.input3} />
-          <span>&nbsp;&nbsp;@&nbsp;&nbsp;</span>
-          <select className={styles2.input4}>
-            <option value=""> 선택하세요</option>
-            <option value="gmail.com"> gmail.com</option>
-            <option value="naver.com"> naver.com</option>
-            <option value="daum.net"> daum.net</option>
-            <option value="직접 입력"> 직접 입력</option>
-          </select>
+          <input type="text" className={styles2.input2} />
         </div>
       </div>
 
