@@ -17,7 +17,7 @@ const CompanyList = () => {
   return (
     <div className="interiorAll">
       <div id="companyTop">시공업체</div>
-      <Link to="/companyList" id="more">
+      <Link to="/interiorList" id="more">
         더많은 업체보기&gt;
       </Link>
 
