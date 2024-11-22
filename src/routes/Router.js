@@ -49,7 +49,7 @@ import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstate
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
 import ReviewWrite from 'components/interior/review/ReviewWrite';
-import Register from 'components/interior/companyRegister/Register';
+import Register from 'components/interior/interiorRegister/Register';
 import ModifyPwd from 'components/mypage/info/ModifyPwd';
 import MypageInteriorLayout from 'components/layout/mypage/interior/MypageInteriorLayout';
 import MypageInteriorMain from 'components/mypage/interior/MypageInteriorMain';
@@ -76,7 +76,7 @@ const Router = () => {
       <Route path="/house/detail/:num" element={<HouseDetail />} />
       {/* Interior */}
       <Route path="/interior" element={<InteriorMain />} />
-      <Route path="/companyList" element={<CompanyList />} />
+      <Route path="/interiorList" element={<CompanyList />} />
       <Route path="/companyRegister" element={<Register />} />
       <Route path="/sampleList" element={<SampleList />} />
       <Route path="/interiorRegister" element={<InteriorRegister />} />
