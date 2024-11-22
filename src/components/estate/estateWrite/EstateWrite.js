@@ -87,6 +87,7 @@ const EstateWrite = () => {
       setTextCount(e.target.value.length);
     }
 
+    // 평 -> 면적 변환
     if (estate.rentType !== 'apt' && e.target.name === 'size1') {
       setEstate((prev) => ({
         ...prev,
@@ -96,6 +97,13 @@ const EstateWrite = () => {
       setEstate((prev) => ({
         ...prev,
         size1: Math.round(e.target.value * 0.3025),
+      }));
+    }
+
+    if (e.target.name === 'availableState') {
+      setEstate((prev) => ({
+        ...prev,
+        availableState: e.target.checked,
       }));
     }
   };
@@ -128,7 +136,7 @@ const EstateWrite = () => {
     // formData.append("companyName", company.companyName);
 
     for (let img of imgList) {
-      formData.append('image', img);
+      formData.append('images', img);
     }
 
     axios
@@ -416,7 +424,13 @@ const EstateWrite = () => {
             required
           />
           <div className={styles.availableDate}>
-            <input type="checkbox" id="availableState" name="availableState" />
+            <input
+              type="checkbox"
+              id="availableState"
+              name="availableState"
+              // checked={false}
+              onChange={handleEdit}
+            />
             <label htmlFor="availableState">협의 가능</label>
           </div>
         </div>
