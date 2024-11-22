@@ -224,7 +224,7 @@ section {
   .detailTextarea {
     @include border;
     width: 100%;
-    height: 200px;
+    height: 240px;
     padding: 16px;
     resize: none;
     &:focus {

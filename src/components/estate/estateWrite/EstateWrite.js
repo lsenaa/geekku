@@ -1,6 +1,6 @@
 import styles from './EstateWrite.module.scss';
 import { useRef, useState } from 'react';
-import { DatePicker, Modal } from 'antd';
+import { DatePicker, message, Modal } from 'antd';
 import { FiPlus } from 'react-icons/fi';
 import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ const EstateWrite = () => {
   const [isAddressOpen, setIsAddressOpen] = useState(false);
   const [isParking, setIsParking] = useState(false);
   const [isManage, setIsManage] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const [estate, setEstate] = useState({
     type: '',
     address: '',
@@ -41,6 +42,7 @@ const EstateWrite = () => {
     content: '',
   });
 
+  // 다음 주소 검색
   const handleComplete = (data) => {
     // console.log(data);
     setEstate({
@@ -55,31 +57,33 @@ const EstateWrite = () => {
     setIsAddressOpen((prev) => !prev);
   };
 
+  // 날짜 선택
   const onChangeDate = (date, dateString) => {
     // console.log(date, dateString);
     setEstate({ ...estate, availableDate: dateString });
   };
 
+  // 이미지
   const handleAddImages = (e) => {
     const addImgLists = e.target.files;
-    let imgUrlLists = [...imgList];
+    let imgFileLists = [...imgList];
 
     for (let add of addImgLists) {
-      const currentImageUrl = URL.createObjectURL(add);
-      imgUrlLists.push(currentImageUrl);
+      imgFileLists.push(add); // File 객체로 저장
     }
 
-    if (imgUrlLists.length > 8) {
-      imgUrlLists = imgUrlLists.slice(0, 8);
+    if (imgFileLists.length > 8) {
+      imgFileLists = imgFileLists.slice(0, 8);
     }
 
-    setImgList(imgUrlLists);
+    setImgList(imgFileLists);
   };
 
   const handleDeleteImg = (img) => {
     setImgList([...imgList.filter((i) => i !== img)]);
   };
 
+  // 입력값
   const handleEdit = (e) => {
     setEstate({ ...estate, [e.target.name]: e.target.value });
 
@@ -111,6 +115,14 @@ const EstateWrite = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (imgList.length < 3) {
+      messageApi.open({
+        type: 'warning',
+        content: '사진은 필수 최소 3장이상 등록해야 합니다.',
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('type', estate.type);
     formData.append('address1', estate.address);
@@ -139,11 +151,15 @@ const EstateWrite = () => {
       formData.append('images', img);
     }
 
+    // console.log([...formData.entries()]);
+
     axios
       .post(`${url}/estateWrite`, formData)
       .then((res) => {
         console.log(res);
-        // navigate(`/estate/detail/${res.data}`);
+        // navigate('/estate', {
+        //   state: { estateNum: res.data },
+        // });
       })
       .catch((err) => {
         console.log(err);
@@ -571,7 +587,7 @@ const EstateWrite = () => {
                     onClick={() => handleDeleteImg(img)}
                   />
                   <div className={styles.imgWrap}>
-                    <img src={img} alt="매물등록 이미지" />
+                    <img src={URL.createObjectURL(img)} alt="매물등록 이미지" />
                   </div>
                 </div>
               ))}
@@ -624,6 +640,7 @@ const EstateWrite = () => {
         </ul>
       </section>
       <div className={styles.btnWrap}>
+        {contextHolder}
         <Button01 size="small" type="submit" onClick={handleSubmit}>
           등록하기
         </Button01>

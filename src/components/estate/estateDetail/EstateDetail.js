@@ -6,9 +6,18 @@ import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
 import { useState } from 'react';
 import { Carousel } from 'antd';
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { useLocation } from 'react-router';
 
 const EstateDetail = () => {
   const [bookmark, setBookmark] = useState(false);
+  const [estate, setEstate] = useState();
+  const { state } = useLocation();
+  const { estateNum } = state;
+  console.log(estateNum);
+
+  // axios.get(`${url}/${estateNum}`);
 
   return (
     <div className={styles.modalContainer}>
