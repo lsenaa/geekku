@@ -8,7 +8,7 @@ import esateImg02 from 'assets/images/estate02.png';
 import esateImg03 from 'assets/images/estate03.png';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { hangjungdong } from 'constants/hangjungdong';
+import { hangjungdong } from 'lib/hangjungdong';
 
 const Main = () => {
   const estateData = [

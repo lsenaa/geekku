@@ -192,13 +192,26 @@ section {
     flex-wrap: wrap;
     gap: 16px;
 
-    .imgWrap {
-      width: calc((100% - 16px * 3) / 4);
-      height: 145px;
-      img {
+    .imgCancelWrap {
+      width: calc((100% - 48px) / 4);
+      position: relative;
+
+      .cancelBtn {
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        cursor: pointer;
+      }
+
+      .imgWrap {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: 145px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
@@ -238,6 +251,14 @@ section {
     }
     a {
       color: white;
+    }
+  }
+}
+
+.customModal {
+  .ant-modal {
+    .ant-modal-content {
+      background-color: white !important;
     }
   }
 }
