@@ -23,7 +23,7 @@ const Sample = () => {
 
       <div className="slider-container">
         <Slider {...settings}>
-          <div className="card">
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -33,8 +33,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -44,8 +44,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -55,8 +55,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -66,8 +66,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -77,8 +77,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -88,8 +88,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -99,8 +99,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -110,8 +110,8 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/sampleDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -121,7 +121,7 @@ const Sample = () => {
                 코스타 인테리어
               </div>
             </div>
-          </div>
+          </Link>
         </Slider>
       </div>
     </div>
