@@ -13,9 +13,6 @@ import { useLocation } from 'react-router';
 const EstateDetail = () => {
   const [bookmark, setBookmark] = useState(false);
   const [estate, setEstate] = useState();
-  const { state } = useLocation();
-  const { estateNum } = state;
-  console.log(estateNum);
 
   // axios.get(`${url}/${estateNum}`);
 

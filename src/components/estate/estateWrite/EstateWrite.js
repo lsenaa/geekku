@@ -145,13 +145,10 @@ const EstateWrite = () => {
     formData.append('utility', estate.utility);
     formData.append('title', estate.title);
     formData.append('content', estate.content);
-    // formData.append("companyName", company.companyName);
 
     for (let img of imgList) {
       formData.append('images', img);
     }
-
-    // console.log([...formData.entries()]);
 
     axios
       .post(`${url}/estateWrite`, formData)
@@ -160,6 +157,10 @@ const EstateWrite = () => {
         // navigate('/estate', {
         //   state: { estateNum: res.data },
         // });
+        Modal.success({
+          content: '매물 등록이 완료되었습니다.',
+        });
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);

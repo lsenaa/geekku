@@ -1,13 +1,20 @@
 import styles from './EstateSearch.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EstateList from '../estateList/EstateList';
 import EstateDetail from '../estateDetail/EstateDetail';
 import { Modal } from 'antd';
 import KakaoMap from 'components/map/KakaoMap';
+import axios from 'axios';
+import { url } from 'lib/axios';
 
 const EstateSearch = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [type, setType] = useState(0);
+  const [estateList, setEstateList] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleCancel = () => {
     setIsModalOpen(!isModalOpen);
@@ -15,6 +22,18 @@ const EstateSearch = () => {
 
   const onClickType = (index) => () => {
     setType(index);
+  };
+
+  const fetchData = () => {
+    axios
+      .get(`${url}/estateList`)
+      .then((res) => {
+        // console.log(res.data);
+        setEstateList([...res.data.estateList]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -53,7 +72,11 @@ const EstateSearch = () => {
       </div>
 
       <div className={styles.bodyWrapper}>
-        <EstateList isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <EstateList
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          estateList={estateList}
+        />
         <KakaoMap />
       </div>
       {isModalOpen && (
