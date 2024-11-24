@@ -8,7 +8,7 @@ export const hangjungdong = {
     { sido: '31', codeNm: '울산광역시' },
     { sido: '36', codeNm: '세종특별자치시' },
     { sido: '41', codeNm: '경기도' },
-    { sido: '42', codeNm: '강원도' },
+    { sido: '42', codeNm: '강원특별자치도' },
     { sido: '43', codeNm: '충청북도' },
     { sido: '44', codeNm: '충청남도' },
     { sido: '45', codeNm: '전라북도' },

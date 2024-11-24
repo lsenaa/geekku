@@ -1,55 +1,80 @@
 import styles from './EstateList.module.scss';
-import listImg from '../../../assets/images/estateListImg.png';
+import { url } from 'utils/axios';
+import { Modal } from 'antd';
+import EstateDetail from '../estateDetail/EstateDetail';
+import { useState } from 'react';
+import { formatEstateType, formatPrice } from 'utils/utils';
 
-const EstateList = ({ isModalOpen, setIsModalOpen, estateList }) => {
-  // console.log(estateList);
+const EstateList = ({ estateList }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [estateDetail, setEstateDetail] = useState({});
+
+  const onToggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const onClickModal = (estateNum) => () => {
+    onToggleModal();
+
+    const modalItem = estateList.find((estate) => {
+      if (estate.estateNum === estateNum) return estate;
+    });
+    setEstateDetail(modalItem);
+  };
+
+  // const useInfiniteScroll = (onScrollEnd) => {
+  //   const [isEnd, setIsEnd] = useState(false);
+
+  //   const handleScroll = async () => {
+  //     const scrollHeight = document.documentElement.scrollHeight;
+  //     const scrollTop = document.documentElement.scrollTop;
+  //     const clientHeight = document.documentElement.clientHeight;
+
+  //     if (scrollTop + clientHeight >= scrollHeight) {
+  //       setIsEnd(true);
+  //       lockScroll();
+  //       if (onScrollEnd) await onScrollEnd();
+  //       await unlockScroll();
+  //       await setIsEnd(false);
+  //     }
+  //   };
 
   return (
     <ul className={styles.listWrapper}>
-      {/* <li onClick={() => setIsModalOpen(!isModalOpen)}>
-        <div className={styles.imgWrapper}>
-          <img src={listImg} alt="리스트 이미지" />
-        </div>
-        <div className={styles.textWrapper}>
-          <p>시골농가주택</p>
-          <p className={styles.price}>월세 300/33</p>
-          <p>충청북도 단양군 상세주소주소</p>
-          <p>리모델링한 시골농가주택 임대합니다. 많은 관심 부탁드려요.</p>
-        </div>
-      </li>
-      <li>
-        <div className={styles.imgWrapper}>
-          <img src={listImg} alt="리스트 이미지" />
-        </div>
-        <div className={styles.textWrapper}>
-          <p>시골농가주택</p>
-          <p className={styles.price}>월세 300/33</p>
-          <p>충청북도 단양군 상세주소주소</p>
-          <p>리모델링한 시골농가주택 임대합니다. 많은 관심 부탁드려요.</p>
-        </div>
-      </li>
-      <li>
-        <div className={styles.imgWrapper}>
-          <img src={listImg} alt="리스트 이미지" />
-        </div>
-        <div className={styles.textWrapper}>
-          <p>시골농가주택</p>
-          <p className={styles.price}>월세 300/33</p>
-          <p>충청북도 단양군 상세주소주소</p>
-          <p>리모델링한 시골농가주택 임대합니다. 많은 관심 부탁드려요.</p>
-        </div>
-      </li>
-      <li>
-        <div className={styles.imgWrapper}>
-          <img src={listImg} alt="리스트 이미지" />
-        </div>
-        <div className={styles.textWrapper}>
-          <p>시골농가주택</p>
-          <p className={styles.price}>월세 300/33</p>
-          <p>충청북도 단양군 상세주소주소</p>
-          <p>리모델링한 시골농가주택 임대합니다. 많은 관심 부탁드려요.</p>
-        </div>
-      </li> */}
+      {estateList.map((estate) => (
+        <li key={estate.estateNum} onClick={onClickModal(estate.estateNum)}>
+          <div className={styles.imgWrapper}>
+            <img
+              src={`${url}/estateImage/${estate.estateImageNums?.slice(0, 1)}`}
+              alt="리스트 이미지"
+            />
+          </div>
+          <div className={styles.textWrapper}>
+            <p>{formatEstateType(estate.type)}</p>
+            <p className={styles.price}>
+              {formatPrice({
+                jeonsePrice: estate.jeonsePrice,
+                monthlyPrice: estate.monthlyPrice,
+                depositPrice: estate.depositPrice,
+                buyPrice: estate.buyPrice,
+              })}
+            </p>
+            <p>{estate.address1 + ' ' + estate.address2}</p>
+            <p>{estate.title}</p>
+          </div>
+        </li>
+      ))}
+      {isModalOpen && (
+        <Modal
+          open={isModalOpen}
+          onCancel={onToggleModal}
+          width={857}
+          footer={null}
+          className={styles.customModal}
+        >
+          <EstateDetail estate={estateDetail} />
+        </Modal>
+      )}
     </ul>
   );
 };

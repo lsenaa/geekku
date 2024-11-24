@@ -3,7 +3,7 @@ import CommunityListCard from './CommunityListCard';
 import styles from './CommunityList.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { url } from 'lib/axios';
+import { url } from 'utils/axios';
 
 // import interiorImage from '../../../assets/images/InteriorExam.jpg';
 // import personImage from '../../../assets/images/person.jpg';

@@ -6,40 +6,43 @@ import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
 import { useState } from 'react';
 import { Carousel } from 'antd';
-import axios from 'axios';
-import { url } from 'lib/axios';
-import { useLocation } from 'react-router';
+import { formatEstateType, formatPrice } from 'utils/utils';
+import { url } from 'utils/axios';
 
-const EstateDetail = () => {
+const EstateDetail = ({ estate }) => {
+  const imgNumList = estate.estateImageNums.split(',');
   const [bookmark, setBookmark] = useState(false);
-  const [estate, setEstate] = useState();
 
-  // axios.get(`${url}/${estateNum}`);
+  // console.log(estate);
 
   return (
     <div className={styles.modalContainer}>
       <div className={styles.imgTextWrapper}>
         <Carousel arrows infinite={false} dots={false}>
-          <div className={styles.detailImgWrapper}>
-            <img src={detailImg} alt="매물상세 이미지" />
-          </div>
-          <div className={styles.detailImgWrapper}>
-            <img src={detailImg} alt="매물상세 이미지" />
-          </div>
-          <div className={styles.detailImgWrapper}>
-            <img src={detailImg} alt="매물상세 이미지" />
-          </div>
+          {imgNumList.map((num) => (
+            <div className={styles.detailImgWrapper} key={num}>
+              <img src={`${url}/estateImage/${num}`} alt="매물상세 이미지" />
+            </div>
+          ))}
         </Carousel>
         <div className={styles.textWrapper}>
-          <p>시골농가주택</p>
-          <p className={styles.price}>월세 300/33</p>
-          <p>강원특별자치도 양구군 방산면 평화로 4801</p>
-          <p>리모델링한 시골농가주택</p>
+          <p>{formatEstateType(estate.type)}</p>
+          <p className={styles.price}>
+            {' '}
+            {formatPrice({
+              jeonsePrice: estate.jeonsePrice,
+              monthlyPrice: estate.monthlyPrice,
+              depositPrice: estate.depositPrice,
+              buyPrice: estate.buyPrice,
+            })}
+          </p>
+          <p>{estate.address1 + ' ' + estate.address2}</p>
+          <p>{estate.title}</p>
           <div className={styles.profileWrapper}>
             <FaUserCircle color="#6D885D" size={30} />
             <div className={styles.profile}>
-              <p>코스타 부동산</p>
-              <p>010-1234-5678</p>
+              <p>{estate.companyName}</p>
+              <p>{estate.companyPhone}</p>
             </div>
           </div>
           <div className={styles.btnWrapper}>
@@ -56,45 +59,55 @@ const EstateDetail = () => {
         <tbody>
           <tr>
             <td className={styles.title}>보증금/월세</td>
-            <td className={styles.content}>300/33(만원)</td>
+
+            <td className={styles.content}>
+              {estate.depositPrice
+                ? `${estate.depositPrice}/${estate.monthlyPrice}(만원)`
+                : '없음'}
+            </td>
             <td className={styles.title}>관리비</td>
-            <td className={styles.content}>13만원</td>
+            <td className={styles.content}>
+              {estate.managePrice !== 0 ? estate.managePrice : '없음'}
+            </td>
           </tr>
           <tr>
             <td className={styles.title}>층수(건물층)</td>
-            <td className={styles.content}>1층(1층)</td>
+            <td className={styles.content}>
+              {estate.floor}층({estate.totalFloor}층)
+            </td>
             <td className={styles.title}>전용/공급면적</td>
-            <td className={styles.content}>103㎡/103㎡</td>
+            <td className={styles.content}>
+              {estate.size1}㎡/{estate.size2}㎡
+            </td>
           </tr>
           <tr>
             <td className={styles.title}>방 수</td>
-            <td className={styles.content}>2개</td>
+            <td className={styles.content}>{estate.roomCount}개</td>
             <td className={styles.title}>욕실 수</td>
-            <td className={styles.content}>1개</td>
+            <td className={styles.content}>{estate.bathCount}개</td>
           </tr>
           <tr>
             <td className={styles.title}>주차</td>
-            <td className={styles.content}>2대</td>
+            <td className={styles.content}>
+              {estate.parking !== 0 ? estate.parking + '대' : '불가능'}
+            </td>
             <td className={styles.title}>입주 가능일</td>
-            <td className={styles.content}>2024.10.22 (협의 가능)</td>
+            <td className={styles.content}>
+              {estate.availableDate} {estate.availableState && '(협의 가능)'}
+            </td>
           </tr>
           <tr>
             <td className={styles.title}>객실 시설</td>
             <td className={styles.longContent} colSpan="3">
-              전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 전기밥솥, TV,
-              화장실(내부), 식탁, 옷걸이, 와이파이, 인터넷
+              {/* 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 전기밥솥, TV,
+              화장실(내부), 식탁, 옷걸이, 와이파이, 인터넷 */}
+              {estate.utility}
             </td>
           </tr>
           <tr>
             <td className={styles.title}>상세 내용</td>
             <td className={styles.longContent} colSpan="3">
-              최근 깔금하게 리모델링한 시골 농가주택입니다. 보증금 300에 월세 33
-              저렴하게 올라온 매물이니 연락주세요.최근 깔금하게 리모델링한 시골
-              농가주택입니다. 보증금 300에 월세 33 저렴하게 올라온 매물이니
-              연락주세요.최근 깔금하게 리모델링한 시골 농가주택입니다. 보증금
-              300에 월세 33 저렴하게 올라온 매물이니 연락주세요.최근 깔금하게
-              리모델링한 시골 농가주택입니다. 보증금 300에 월세 33 저렴하게
-              올라온 매물이니 연락주세요.
+              {estate.content}
             </td>
           </tr>
         </tbody>
