@@ -1,5 +1,5 @@
 import styles from './EstateList.module.scss';
-import { url } from 'utils/axios';
+import { url } from 'lib/axios';
 import { Modal } from 'antd';
 import EstateDetail from '../estateDetail/EstateDetail';
 import { useState } from 'react';

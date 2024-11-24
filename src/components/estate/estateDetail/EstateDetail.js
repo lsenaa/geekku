@@ -7,7 +7,7 @@ import Button01 from '../../commons/button/Button01';
 import { useState } from 'react';
 import { Carousel } from 'antd';
 import { formatEstateType, formatPrice } from 'utils/utils';
-import { url } from 'utils/axios';
+import { url } from 'lib/axios';
 
 const EstateDetail = ({ estate }) => {
   const imgNumList = estate.estateImageNums.split(',');

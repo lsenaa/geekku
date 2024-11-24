@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import EstateList from '../estateList/EstateList';
 import KakaoMap from 'components/map/KakaoMap';
 import axios from 'axios';
-import { url } from 'utils/axios';
+import { url } from 'lib/axios';
 import { useLocation } from 'react-router';
 import { CiLocationOn } from 'react-icons/ci';
 import { searchByKeyword } from 'utils/utils';

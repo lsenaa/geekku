@@ -6,7 +6,7 @@ import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdCancel } from 'react-icons/md';
 import DaumPostcode from 'react-daum-postcode';
-import { url } from 'utils/axios';
+import { url } from 'lib/axios';
 import axios from 'axios';
 
 const EstateWrite = () => {
