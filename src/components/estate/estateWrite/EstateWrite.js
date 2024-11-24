@@ -263,50 +263,58 @@ const EstateWrite = () => {
           <label>
             면적<span>*</span>
           </label>
-          <div className={styles.size}>
+          <div className={styles.flexRow}>
             {estate.type === 'apt' ? (
-              <>
+              <div className={styles.flexRow}>
                 <div className={styles.subLabelWrap}>
                   <label>전용면적</label>
-                  <input
-                    type="text"
-                    name="size1"
-                    placeholder="㎡"
-                    required
-                    onChange={handleEdit}
-                  />
+                  <div className={styles.inputTextWrap}>
+                    <input
+                      type="text"
+                      name="size1"
+                      required
+                      onChange={handleEdit}
+                    />
+                    <p>㎡</p>
+                  </div>
                 </div>
                 <div className={styles.subLabelWrap}>
                   <label>공급면적</label>
+                  <div className={styles.inputTextWrap}>
+                    <input
+                      type="text"
+                      name="size2"
+                      required
+                      onChange={handleEdit}
+                    />
+                    <p>㎡</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.flexRow}>
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="size1"
+                    required
+                    onChange={handleEdit}
+                    value={estate.size1 || ''}
+                  />
+                  <p>평</p>
+                </div>
+                <p style={{ margin: '0 8px' }}>=</p>
+                <div className={styles.inputTextWrap}>
                   <input
                     type="text"
                     name="size2"
-                    placeholder="㎡"
                     required
                     onChange={handleEdit}
+                    value={estate.size2 || ''}
                   />
+                  <p>㎡</p>
                 </div>
-              </>
-            ) : (
-              <>
-                <input
-                  type="text"
-                  name="size1"
-                  placeholder="평"
-                  required
-                  onChange={handleEdit}
-                  value={estate.size1 || ''}
-                />
-                <p>=</p>
-                <input
-                  type="text"
-                  name="size2"
-                  placeholder="㎡"
-                  required
-                  onChange={handleEdit}
-                  value={estate.size2 || ''}
-                />
-              </>
+              </div>
             )}
           </div>
         </div>
@@ -315,14 +323,14 @@ const EstateWrite = () => {
             <label>
               방 개수<span>*</span>
             </label>
-            <div className={styles.size}>
+            <div className={styles.inputTextWrap}>
               <input
                 type="text"
                 name="roomCount"
-                placeholder="개"
                 required
                 onChange={handleEdit}
               />
+              <p>개</p>
             </div>
           </div>
         )}
@@ -385,45 +393,45 @@ const EstateWrite = () => {
           {estate.rentType === 'jeonse' && (
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
-              <input
-                type="text"
-                name="jeonsePrice"
-                placeholder="만원"
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input type="text" name="jeonsePrice" onChange={handleEdit} />
+                <p>만원</p>
+              </div>
             </div>
           )}
           {estate.rentType === 'monthly' && (
             <>
               <div className={styles.subLabelWrap}>
                 <label>보증금</label>
-                <input
-                  type="text"
-                  name="depositPrice"
-                  placeholder="만원"
-                  onChange={handleEdit}
-                />
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="depositPrice"
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
               </div>
               <div className={styles.subLabelWrap}>
                 <label>월세</label>
-                <input
-                  type="text"
-                  name="monthlyPrice"
-                  placeholder="만원"
-                  onChange={handleEdit}
-                />
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="monthlyPrice"
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
               </div>
             </>
           )}
           {estate.rentType === 'buy' && (
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
-              <input
-                type="text"
-                name="buyPrice"
-                placeholder="만원"
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input type="text" name="buyPrice" onChange={handleEdit} />
+                <p>만원</p>
+              </div>
             </div>
           )}
         </div>
@@ -454,13 +462,15 @@ const EstateWrite = () => {
                 <label htmlFor="true">있음</label>
               </div>
               {isManage && (
-                <input
-                  type="text"
-                  name="managePrice"
-                  placeholder="만원"
-                  required
-                  onChange={handleEdit}
-                />
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="managePrice"
+                    required
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
               )}
             </div>
             <div className={styles.item}>
@@ -497,36 +507,42 @@ const EstateWrite = () => {
             </label>
             <div className={styles.subLabelWrap}>
               <label>전체 층수</label>
-              <input
-                type="text"
-                placeholder="층"
-                name="totalFloor"
-                required
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input
+                  type="text"
+                  name="totalFloor"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>층</p>
+              </div>
             </div>
             <div className={styles.subLabelWrap}>
               <label>해당 층수</label>
-              <input
-                type="text"
-                placeholder="층"
-                name="floor"
-                required
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input
+                  type="text"
+                  name="floor"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>층</p>
+              </div>
             </div>
           </div>
           <div className={styles.item}>
             <label>
               욕실 수<span>*</span>
             </label>
-            <input
-              type="text"
-              placeholder="개"
-              name="bathCount"
-              required
-              onChange={handleEdit}
-            />
+            <div className={styles.inputTextWrap}>
+              <input
+                type="text"
+                name="bathCount"
+                required
+                onChange={handleEdit}
+              />
+              <p>개</p>
+            </div>
           </div>
           <div className={styles.item}>
             <label>
@@ -553,13 +569,15 @@ const EstateWrite = () => {
               <label htmlFor="true">가능</label>
             </div>
             {isParking && (
-              <input
-                type="text"
-                placeholder="대"
-                name="parking"
-                required
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input
+                  type="text"
+                  name="parking"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>대</p>
+              </div>
             )}
           </div>
           <div className={styles.item}>
