@@ -164,6 +164,17 @@
   display: flex;
   align-items: center;
   margin: 10px 0;
+
+  p {
+    &:first-child {
+      padding-right: 8px;
+      border-right: 1px solid $main-color;
+    }
+
+    &:nth-child(2) {
+      margin-left: 8px;
+    }
+  }
 }
 
 .communityTitle {

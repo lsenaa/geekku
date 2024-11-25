@@ -129,6 +129,17 @@ section {
   }
 }
 
+.inputTextWrap {
+  @include flexrow;
+  position: relative;
+
+  p {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
+  }
+}
+
 .availableDate {
   input {
     width: 20px;

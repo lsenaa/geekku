@@ -50,7 +50,7 @@ const EstateWrite = () => {
       ...estate,
       address: data.address,
       addressDetail: data.buildingName,
-      jibunAddress: data.jibunAddress,
+      jibunAddress: `${data.sido} ${data.sigungu} ${data.bname}`,
     });
     onToggleAddress();
   };

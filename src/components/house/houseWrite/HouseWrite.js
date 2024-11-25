@@ -1,18 +1,96 @@
 import styles from './HouseWrite.module.scss';
 import { useState } from 'react';
-import { DatePicker } from 'antd';
+import { DatePicker, Modal } from 'antd';
 import Button01 from '../../commons/button/Button01';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { hangjungdong } from 'utils/hangjungdong';
+import axios from 'axios';
+import { url } from 'lib/axios';
 
 const HouseWrite = () => {
+  const navigate = useNavigate();
   const [textCount, setTextCount] = useState(0);
+  const { sido, sigugun } = hangjungdong;
+  const [house, setHouse] = useState({
+    type: '',
+    address: '',
+    addressDetail: '',
+    size: '',
+    rentType: 'jeonse',
+    jeonsePrice: 0,
+    monthlyPrice: 0,
+    buyPrice: 0,
+    depositPrice: 0,
+    requestDate: '2024-11-25',
+    requestState: false,
+    allowPhone: false,
+    title: '',
+    content: '',
+  });
 
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
+    setHouse({ ...house, requestDate: dateString });
   };
 
-  const onTextareaHandler = (e) => {
-    setTextCount(e.target.value.length);
+  // 입력값
+  const handleEdit = (e) => {
+    setHouse({ ...house, [e.target.name]: e.target.value });
+
+    if (e.target.name === 'content') {
+      setTextCount(e.target.value.length);
+    }
+
+    if (e.target.name === 'type' && e.target.value === 'land') {
+      setHouse((prev) => ({
+        ...prev,
+        rentType: 'buy',
+      }));
+    }
+
+    if (e.target.name === 'requestState') {
+      setHouse((prev) => ({
+        ...prev,
+        requestState: e.target.checked,
+      }));
+    }
+
+    if (e.target.name === 'content') {
+      setTextCount(e.target.value.length);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('type', house.type);
+    formData.append('address1', house.address);
+    formData.append('address2', house.addressDetail);
+    formData.append('size', house.size);
+    formData.append('rentType', house.rentType);
+    formData.append('jeonsePrice', house.jeonsePrice);
+    formData.append('monthlyPrice', house.monthlyPrice);
+    formData.append('buyPrice', house.buyPrice);
+    formData.append('depositPrice', house.depositPrice);
+    formData.append('requestDate', house.requestDate);
+    formData.append('requestState', house.requestState);
+    formData.append('allowPhone', house.allowPhone);
+    formData.append('title', house.title);
+    formData.append('content', house.content);
+
+    axios
+      .post(`${url}/houseWrite`, formData)
+      .then((res) => {
+        console.log(res.data);
+        Modal.success({
+          content: '집꾸 등록이 완료되었습니다.',
+        });
+        navigate(`/house/detail/${res.data}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -35,14 +113,15 @@ const HouseWrite = () => {
             name="type"
             defaultValue=""
             required="required"
+            onChange={handleEdit}
           >
             <option value="" disabled>
               매물 유형 선택
             </option>
-            <option value="countryHouse">시골농가주택</option>
-            <option value="house">전원주택</option>
+            <option value="farmHouse">시골농가주택</option>
+            <option value="countryHouse">전원주택</option>
             <option value="apt">아파트/빌라</option>
-            <option value="farm">농장/토지</option>
+            <option value="land">농장/토지</option>
           </select>
         </div>
         <div className={styles.item}>
@@ -51,44 +130,87 @@ const HouseWrite = () => {
           </label>
           <select
             className={styles.select}
-            name="location1"
+            name="address"
             defaultValue=""
             required="required"
             style={{ marginRight: '16px' }}
+            onChange={handleEdit}
           >
             <option value="" disabled>
               지역 선택
             </option>
-            <option value="1">경기도</option>
-            <option value="2">충청북도</option>
-            <option value="3">충청남도</option>
+            {sido.map((si) => (
+              <option value={si.sido} key={si.sido}>
+                {si.codeNm}
+              </option>
+            ))}
           </select>
           <select
             className={styles.select}
-            name="location2"
+            name="addressDetail"
             defaultValue=""
             required="required"
+            onChange={handleEdit}
           >
             <option value="" disabled>
               상세 지역 선택
             </option>
-            <option value="1">지역지역</option>
-            <option value="2">지역지역</option>
-            <option value="3">지역지역</option>
+            {sigugun
+              .filter((gun) => gun.sido === house.address)
+              .map((gu) => (
+                <option value={gu.sigugun} key={gu.sigugun}>
+                  {gu.codeNm}
+                </option>
+              ))}
           </select>
         </div>
         <div className={styles.item}>
           <label>
             거래 종류<span>*</span>
           </label>
-          <div className={styles.radioGroup}>
-            <input type="radio" id="jeonse" name="rentType" value="jeonse" />
-            <label htmlFor="jeonse">전세</label>
-            <input type="radio" id="monthly" name="rentType" value="monthly" />
-            <label htmlFor="monthly">월세</label>
-            <input type="radio" id="buy" name="rentType" value="buy" />
-            <label htmlFor="buy">매매</label>
-          </div>
+          {house.type === 'land' ? (
+            <div className={styles.radioGroup}>
+              <input
+                type="radio"
+                id="buy"
+                name="rentType"
+                value="buy"
+                checked
+                readOnly
+              />
+              <label htmlFor="buy">매매</label>
+            </div>
+          ) : (
+            <div className={styles.radioGroup}>
+              <input
+                type="radio"
+                id="jeonse"
+                name="rentType"
+                value="jeonse"
+                onChange={handleEdit}
+                checked={house.rentType === 'jeonse'}
+              />
+              <label htmlFor="jeonse">전세</label>
+              <input
+                type="radio"
+                id="monthly"
+                name="rentType"
+                value="monthly"
+                onChange={handleEdit}
+                checked={house.rentType === 'monthly'}
+              />
+              <label htmlFor="monthly">월세</label>
+              <input
+                type="radio"
+                id="buy"
+                name="rentType"
+                value="buy"
+                onChange={handleEdit}
+                checked={house.rentType === 'buy'}
+              />
+              <label htmlFor="buy">매매</label>
+            </div>
+          )}
         </div>
         <div className={styles.item}>
           <label>
@@ -99,6 +221,7 @@ const HouseWrite = () => {
             name="size"
             defaultValue=""
             required="required"
+            onChange={handleEdit}
           >
             <option value="" disabled>
               희망 평수 선택
@@ -114,34 +237,50 @@ const HouseWrite = () => {
           <label>
             예산<span>*</span>
           </label>
-          <div className={styles.subLabelWrap}>
-            <label>전세가</label>
-            <div className={styles.priceInputWrap}>
-              <input type="text" />
-              <p>만원</p>
+          {house.rentType === 'jeonse' && (
+            <div className={styles.subLabelWrap}>
+              <label>전세가</label>
+              <div className={styles.inputTextWrap}>
+                <input type="text" name="jeonsePrice" onChange={handleEdit} />
+                <p>만원</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>보증금</label>
-            <div className={styles.priceInputWrap}>
-              <input type="text" placeholder="만원" />
-              <p>만원</p>
+          )}
+          {house.rentType === 'monthly' && (
+            <>
+              <div className={styles.subLabelWrap}>
+                <label>보증금</label>
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="depositPrice"
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
+              </div>
+              <div className={styles.subLabelWrap}>
+                <label>월세</label>
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="monthlyPrice"
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
+              </div>
+            </>
+          )}
+          {house.rentType === 'buy' && (
+            <div className={styles.subLabelWrap}>
+              <label>매매가</label>
+              <div className={styles.inputTextWrap}>
+                <input type="text" name="buyPrice" onChange={handleEdit} />
+                <p>만원</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>월세</label>
-            <div className={styles.priceInputWrap}>
-              <input type="text" placeholder="만원" />
-              <p>만원</p>
-            </div>
-          </div>
-          <div className={styles.subLabelWrap}>
-            <label>매매가</label>
-            <div className={styles.priceInputWrap}>
-              <input type="text" placeholder="만원" />
-              <p>만원</p>
-            </div>
-          </div>
+          )}
         </div>
         <div className={styles.item}>
           <label>
@@ -150,11 +289,17 @@ const HouseWrite = () => {
           <DatePicker
             size="large"
             placeholder="날짜를 선택해주세요."
+            name="requestDate"
             onChange={onChangeDate}
           />
           <div className={styles.availableDate}>
-            <input type="checkbox" id="availableDate" />
-            <label htmlFor="availableDate">미정</label>
+            <input
+              type="checkbox"
+              name="requestState"
+              id="requestState"
+              onChange={handleEdit}
+            />
+            <label htmlFor="requestState">미정</label>
           </div>
         </div>
         <div className={styles.item}>
@@ -162,10 +307,23 @@ const HouseWrite = () => {
             연락처 공개<span>*</span>
           </label>
           <div className={styles.radioGroup}>
-            <input type="radio" id="true" name="allowPhone" value="true" />
-            <label htmlFor="true">공개</label>
-            <input type="radio" id="false" name="allowPhone" value="false" />
+            <input
+              type="radio"
+              id="false"
+              name="allowPhone"
+              value="false"
+              defaultChecked
+              onChange={handleEdit}
+            />
             <label htmlFor="false">비공개</label>
+            <input
+              type="radio"
+              id="true"
+              name="allowPhone"
+              value="true"
+              onChange={handleEdit}
+            />
+            <label htmlFor="true">공개</label>
           </div>
         </div>
       </section>
@@ -180,8 +338,10 @@ const HouseWrite = () => {
             type="text"
             minLength="5"
             maxLength="40"
+            name="title"
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
             style={{ width: '100%', textAlign: 'left' }}
+            onChange={handleEdit}
           />
         </div>
         <div className={styles.item}>
@@ -193,8 +353,9 @@ const HouseWrite = () => {
               minLength="5"
               maxLength="1000"
               className={styles.detailTextarea}
+              name="content"
               placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
-              onChange={onTextareaHandler}
+              onChange={handleEdit}
             />
             <p>
               <span>{textCount}</span> / 1000
@@ -203,8 +364,10 @@ const HouseWrite = () => {
         </div>
       </section>
       <div className={styles.btnWrap}>
-        <Button01 size="small">신청하기</Button01>
-        <Button01 color="sub" size="small">
+        <Button01 type="submit" size="small" onClick={handleSubmit}>
+          신청하기
+        </Button01>
+        <Button01 type="button" color="sub" size="small">
           <Link to={'/house'}>취소하기</Link>
         </Button01>
       </div>

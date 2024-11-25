@@ -22,13 +22,13 @@ export const formatPrice = ({
   buyPrice,
 }) => {
   if (jeonsePrice) {
-    return `전세 ${jeonsePrice}`;
+    return `전세 ${jeonsePrice.toLocaleString()}`;
   }
   if (monthlyPrice) {
-    return `월세 ${depositPrice}/${monthlyPrice}`;
+    return `월세 ${depositPrice.toLocaleString()}/${monthlyPrice}`;
   }
   if (buyPrice) {
-    return `매매 ${buyPrice}`;
+    return `매매 ${buyPrice.toLocaleString()}`;
   }
 };
 
