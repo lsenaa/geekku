@@ -63,6 +63,18 @@
   right: 0;
   padding: 8px;
 
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #9da996;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
   li {
     @include flexrow;
     height: 40px;

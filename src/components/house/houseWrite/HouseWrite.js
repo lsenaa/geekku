@@ -116,19 +116,31 @@ const HouseWrite = () => {
           </label>
           <div className={styles.subLabelWrap}>
             <label>전세가</label>
-            <input type="text" placeholder="만원" />
+            <div className={styles.priceInputWrap}>
+              <input type="text" />
+              <p>만원</p>
+            </div>
           </div>
           <div className={styles.subLabelWrap}>
             <label>보증금</label>
-            <input type="text" placeholder="만원" />
+            <div className={styles.priceInputWrap}>
+              <input type="text" placeholder="만원" />
+              <p>만원</p>
+            </div>
           </div>
           <div className={styles.subLabelWrap}>
             <label>월세</label>
-            <input type="text" placeholder="만원" />
+            <div className={styles.priceInputWrap}>
+              <input type="text" placeholder="만원" />
+              <p>만원</p>
+            </div>
           </div>
           <div className={styles.subLabelWrap}>
             <label>매매가</label>
-            <input type="text" placeholder="만원" />
+            <div className={styles.priceInputWrap}>
+              <input type="text" placeholder="만원" />
+              <p>만원</p>
+            </div>
           </div>
         </div>
         <div className={styles.item}>

@@ -72,7 +72,7 @@ section {
     @include border;
     padding: 12px 16px;
     width: 170px;
-    text-align: right;
+
     &:focus {
       outline: none;
       box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
@@ -105,15 +105,8 @@ section {
     }
   }
 
-  .size {
+  .room {
     @include flexrow;
-    p {
-      margin: 0 12px;
-    }
-    div {
-      display: flex;
-      flex-direction: column;
-    }
   }
 
   .radioGroup {
@@ -153,6 +146,21 @@ section {
   label {
     font-weight: normal;
     margin-bottom: 8px;
+  }
+}
+
+.flexRow {
+  @include flexrow;
+}
+
+.inputTextWrap {
+  @include flexrow;
+  position: relative;
+
+  p {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
   }
 }
 

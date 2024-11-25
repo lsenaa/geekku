@@ -22,6 +22,7 @@ const EstateWrite = () => {
     type: '',
     address: '',
     addressDetail: '',
+    jibunAddress: '',
     size1: '',
     size2: '',
     roomCount: 0,
@@ -44,11 +45,12 @@ const EstateWrite = () => {
 
   // 다음 주소 검색
   const handleComplete = (data) => {
-    // console.log(data);
+    console.log(data);
     setEstate({
       ...estate,
       address: data.address,
       addressDetail: data.buildingName,
+      jibunAddress: data.jibunAddress,
     });
     onToggleAddress();
   };
@@ -91,6 +93,13 @@ const EstateWrite = () => {
       setTextCount(e.target.value.length);
     }
 
+    if (e.target.name === 'type' && e.target.value === 'land') {
+      setEstate((prev) => ({
+        ...prev,
+        rentType: 'buy',
+      }));
+    }
+
     // 평 -> 면적 변환
     if (estate.rentType !== 'apt' && e.target.name === 'size1') {
       setEstate((prev) => ({
@@ -127,6 +136,7 @@ const EstateWrite = () => {
     formData.append('type', estate.type);
     formData.append('address1', estate.address);
     formData.append('address2', estate.addressDetail);
+    formData.append('jibunAddress', estate.jibunAddress);
     formData.append('size1', estate.size1);
     formData.append('size2', estate.size2);
     formData.append('roomCount', estate.roomCount);
@@ -150,6 +160,10 @@ const EstateWrite = () => {
       formData.append('images', img);
     }
 
+    if (estate.type === 'land') {
+      formData.delete('availableDate');
+    }
+
     axios
       .post(`${url}/estateWrite`, formData)
       .then((res) => {
@@ -160,7 +174,7 @@ const EstateWrite = () => {
         Modal.success({
           content: '매물 등록이 완료되었습니다.',
         });
-        navigate('/');
+        navigate('/estate');
       })
       .catch((err) => {
         console.log(err);
@@ -200,10 +214,10 @@ const EstateWrite = () => {
             <option value="" disabled>
               매물 유형 선택
             </option>
-            <option value="countryHouse">시골농가주택</option>
-            <option value="house">전원주택</option>
+            <option value="farmHouse">시골농가주택</option>
+            <option value="countryHouse">전원주택</option>
             <option value="apt">아파트/빌라</option>
-            <option value="farm">농장/토지</option>
+            <option value="land">농장/토지</option>
           </select>
         </div>
         <div className={styles.item}>
@@ -249,67 +263,77 @@ const EstateWrite = () => {
           <label>
             면적<span>*</span>
           </label>
-          <div className={styles.size}>
+          <div className={styles.flexRow}>
             {estate.type === 'apt' ? (
-              <>
+              <div className={styles.flexRow}>
                 <div className={styles.subLabelWrap}>
                   <label>전용면적</label>
-                  <input
-                    type="text"
-                    name="size1"
-                    placeholder="㎡"
-                    required
-                    onChange={handleEdit}
-                  />
+                  <div className={styles.inputTextWrap}>
+                    <input
+                      type="text"
+                      name="size1"
+                      required
+                      onChange={handleEdit}
+                    />
+                    <p>㎡</p>
+                  </div>
                 </div>
                 <div className={styles.subLabelWrap}>
                   <label>공급면적</label>
+                  <div className={styles.inputTextWrap}>
+                    <input
+                      type="text"
+                      name="size2"
+                      required
+                      onChange={handleEdit}
+                    />
+                    <p>㎡</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.flexRow}>
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="size1"
+                    required
+                    onChange={handleEdit}
+                    value={estate.size1 || ''}
+                  />
+                  <p>평</p>
+                </div>
+                <p style={{ margin: '0 8px' }}>=</p>
+                <div className={styles.inputTextWrap}>
                   <input
                     type="text"
                     name="size2"
-                    placeholder="㎡"
                     required
                     onChange={handleEdit}
+                    value={estate.size2 || ''}
                   />
+                  <p>㎡</p>
                 </div>
-              </>
-            ) : (
-              <>
-                <input
-                  type="text"
-                  name="size1"
-                  placeholder="평"
-                  required
-                  onChange={handleEdit}
-                  value={estate.size1 || ''}
-                />
-                <p>=</p>
-                <input
-                  type="text"
-                  name="size2"
-                  placeholder="㎡"
-                  required
-                  onChange={handleEdit}
-                  value={estate.size2 || ''}
-                />
-              </>
+              </div>
             )}
           </div>
         </div>
-        <div className={styles.item}>
-          <label>
-            방 개수<span>*</span>
-          </label>
-          <div className={styles.size}>
-            <input
-              type="text"
-              name="roomCount"
-              placeholder="개"
-              required
-              onChange={handleEdit}
-            />
+        {estate.type !== 'land' && (
+          <div className={styles.item}>
+            <label>
+              방 개수<span>*</span>
+            </label>
+            <div className={styles.inputTextWrap}>
+              <input
+                type="text"
+                name="roomCount"
+                required
+                onChange={handleEdit}
+              />
+              <p>개</p>
+            </div>
           </div>
-        </div>
+        )}
       </section>
       <section>
         <h3>거래 정보</h3>
@@ -318,34 +342,49 @@ const EstateWrite = () => {
           <label>
             거래 종류<span>*</span>
           </label>
-          <div className={styles.radioGroup}>
-            <input
-              type="radio"
-              id="jeonse"
-              name="rentType"
-              value="jeonse"
-              required
-              onChange={handleEdit}
-              defaultChecked
-            />
-            <label htmlFor="jeonse">전세</label>
-            <input
-              type="radio"
-              id="monthly"
-              name="rentType"
-              value="monthly"
-              onChange={handleEdit}
-            />
-            <label htmlFor="monthly">월세</label>
-            <input
-              type="radio"
-              id="buy"
-              name="rentType"
-              value="buy"
-              onChange={handleEdit}
-            />
-            <label htmlFor="buy">매매</label>
-          </div>
+          {estate.type === 'land' ? (
+            <div className={styles.radioGroup}>
+              <input
+                type="radio"
+                id="buy"
+                name="rentType"
+                value="buy"
+                checked
+                readOnly
+              />
+              <label htmlFor="buy">매매</label>
+            </div>
+          ) : (
+            <div className={styles.radioGroup}>
+              <input
+                type="radio"
+                id="jeonse"
+                name="rentType"
+                value="jeonse"
+                onChange={handleEdit}
+                checked={estate.rentType === 'jeonse'}
+              />
+              <label htmlFor="jeonse">전세</label>
+              <input
+                type="radio"
+                id="monthly"
+                name="rentType"
+                value="monthly"
+                onChange={handleEdit}
+                checked={estate.rentType === 'monthly'}
+              />
+              <label htmlFor="monthly">월세</label>
+              <input
+                type="radio"
+                id="buy"
+                name="rentType"
+                value="buy"
+                onChange={handleEdit}
+                checked={estate.rentType === 'buy'}
+              />
+              <label htmlFor="buy">매매</label>
+            </div>
+          )}
         </div>
         <div className={styles.item}>
           <label>
@@ -354,192 +393,208 @@ const EstateWrite = () => {
           {estate.rentType === 'jeonse' && (
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
-              <input
-                type="text"
-                name="jeonsePrice"
-                placeholder="만원"
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input type="text" name="jeonsePrice" onChange={handleEdit} />
+                <p>만원</p>
+              </div>
             </div>
           )}
           {estate.rentType === 'monthly' && (
             <>
               <div className={styles.subLabelWrap}>
                 <label>보증금</label>
-                <input
-                  type="text"
-                  name="depositPrice"
-                  placeholder="만원"
-                  onChange={handleEdit}
-                />
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="depositPrice"
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
               </div>
               <div className={styles.subLabelWrap}>
                 <label>월세</label>
-                <input
-                  type="text"
-                  name="monthlyPrice"
-                  placeholder="만원"
-                  onChange={handleEdit}
-                />
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="monthlyPrice"
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
               </div>
             </>
           )}
           {estate.rentType === 'buy' && (
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
-              <input
-                type="text"
-                name="buyPrice"
-                placeholder="만원"
-                onChange={handleEdit}
-              />
+              <div className={styles.inputTextWrap}>
+                <input type="text" name="buyPrice" onChange={handleEdit} />
+                <p>만원</p>
+              </div>
             </div>
           )}
         </div>
-        <div className={styles.item}>
-          <label>
-            관리비<span>*</span>
-          </label>
-          <div className={styles.radioGroup}>
-            <input
-              type="radio"
-              name="isManage"
-              id="false"
-              value="false"
-              required
-              defaultChecked
-              onChange={() => setIsManage(false)}
-            />
-            <label htmlFor="false">없음</label>
-            <input
-              type="radio"
-              name="isManage"
-              id="true"
-              value="true"
-              onChange={() => setIsManage(true)}
-            />
-            <label htmlFor="true">있음</label>
-          </div>
-          {isManage && (
-            <input
-              type="text"
-              name="managePrice"
-              placeholder="만원"
-              required
-              onChange={handleEdit}
-            />
-          )}
-        </div>
-        <div className={styles.item}>
-          <label>
-            입주 가능 일자<span>*</span>
-          </label>
-          <DatePicker
-            size="large"
-            placeholder="날짜를 선택해주세요."
-            onChange={onChangeDate}
-            required
-          />
-          <div className={styles.availableDate}>
-            <input
-              type="checkbox"
-              id="availableState"
-              name="availableState"
-              // checked={false}
-              onChange={handleEdit}
-            />
-            <label htmlFor="availableState">협의 가능</label>
-          </div>
-        </div>
+        {estate.type !== 'land' && (
+          <>
+            <div className={styles.item}>
+              <label>
+                관리비<span>*</span>
+              </label>
+              <div className={styles.radioGroup}>
+                <input
+                  type="radio"
+                  name="isManage"
+                  id="false"
+                  value="false"
+                  required
+                  defaultChecked
+                  onChange={() => setIsManage(false)}
+                />
+                <label htmlFor="false">없음</label>
+                <input
+                  type="radio"
+                  name="isManage"
+                  id="true"
+                  value="true"
+                  onChange={() => setIsManage(true)}
+                />
+                <label htmlFor="true">있음</label>
+              </div>
+              {isManage && (
+                <div className={styles.inputTextWrap}>
+                  <input
+                    type="text"
+                    name="managePrice"
+                    required
+                    onChange={handleEdit}
+                  />
+                  <p>만원</p>
+                </div>
+              )}
+            </div>
+            <div className={styles.item}>
+              <label>
+                입주 가능 일자<span>*</span>
+              </label>
+              <DatePicker
+                size="large"
+                placeholder="날짜를 선택해주세요."
+                onChange={onChangeDate}
+                required
+              />
+              <div className={styles.availableDate}>
+                <input
+                  type="checkbox"
+                  id="availableState"
+                  name="availableState"
+                  // checked={false}
+                  onChange={handleEdit}
+                />
+                <label htmlFor="availableState">협의 가능</label>
+              </div>
+            </div>
+          </>
+        )}
       </section>
-      <section>
-        <h3>추가 정보</h3>
-        <hr className={styles.line} />
-        <div className={styles.item}>
-          <label>
-            층 수<span>*</span>
-          </label>
-          <div className={styles.subLabelWrap}>
-            <label>전체 층수</label>
+      {estate.type !== 'land' && (
+        <section>
+          <h3>추가 정보</h3>
+          <hr className={styles.line} />
+          <div className={styles.item}>
+            <label>
+              층 수<span>*</span>
+            </label>
+            <div className={styles.subLabelWrap}>
+              <label>전체 층수</label>
+              <div className={styles.inputTextWrap}>
+                <input
+                  type="text"
+                  name="totalFloor"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>층</p>
+              </div>
+            </div>
+            <div className={styles.subLabelWrap}>
+              <label>해당 층수</label>
+              <div className={styles.inputTextWrap}>
+                <input
+                  type="text"
+                  name="floor"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>층</p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.item}>
+            <label>
+              욕실 수<span>*</span>
+            </label>
+            <div className={styles.inputTextWrap}>
+              <input
+                type="text"
+                name="bathCount"
+                required
+                onChange={handleEdit}
+              />
+              <p>개</p>
+            </div>
+          </div>
+          <div className={styles.item}>
+            <label>
+              주차 가능 여부<span>*</span>
+            </label>
+            <div className={styles.radioGroup}>
+              <input
+                type="radio"
+                id="false"
+                name="isParking"
+                value="false"
+                required
+                onChange={() => setIsParking(false)}
+                defaultChecked
+              />
+              <label htmlFor="false">불가능</label>
+              <input
+                type="radio"
+                id="true"
+                name="isParking"
+                value="true"
+                onChange={() => setIsParking(true)}
+              />
+              <label htmlFor="true">가능</label>
+            </div>
+            {isParking && (
+              <div className={styles.inputTextWrap}>
+                <input
+                  type="text"
+                  name="parking"
+                  required
+                  onChange={handleEdit}
+                />
+                <p>대</p>
+              </div>
+            )}
+          </div>
+          <div className={styles.item}>
+            <label>
+              객실 시설<span>*</span>
+            </label>
             <input
               type="text"
-              placeholder="층"
-              name="totalFloor"
+              name="utility"
+              placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
+              style={{ width: '100%', textAlign: 'left' }}
               required
               onChange={handleEdit}
             />
           </div>
-          <div className={styles.subLabelWrap}>
-            <label>해당 층수</label>
-            <input
-              type="text"
-              placeholder="층"
-              name="floor"
-              required
-              onChange={handleEdit}
-            />
-          </div>
-        </div>
-        <div className={styles.item}>
-          <label>
-            욕실 수<span>*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="개"
-            name="bathCount"
-            required
-            onChange={handleEdit}
-          />
-        </div>
-        <div className={styles.item}>
-          <label>
-            주차 가능 여부<span>*</span>
-          </label>
-          <div className={styles.radioGroup}>
-            <input
-              type="radio"
-              id="false"
-              name="isParking"
-              value="false"
-              required
-              onChange={() => setIsParking(false)}
-              defaultChecked
-            />
-            <label htmlFor="false">불가능</label>
-            <input
-              type="radio"
-              id="true"
-              name="isParking"
-              value="true"
-              onChange={() => setIsParking(true)}
-            />
-            <label htmlFor="true">가능</label>
-          </div>
-          {isParking && (
-            <input
-              type="text"
-              placeholder="대"
-              name="parking"
-              required
-              onChange={handleEdit}
-            />
-          )}
-        </div>
-        <div className={styles.item}>
-          <label>
-            객실 시설<span>*</span>
-          </label>
-          <input
-            type="text"
-            name="utility"
-            placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
-            style={{ width: '100%', textAlign: 'left' }}
-            required
-            onChange={handleEdit}
-          />
-        </div>
-      </section>
+        </section>
+      )}
       <section>
         <h3>사진 등록</h3>
         <hr className={styles.line} />
