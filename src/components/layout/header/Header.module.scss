@@ -100,6 +100,22 @@
   button {
     margin-right: 30px;
   }
+
+  .logoutBtn {
+    background-color: $main-color;
+    font-family: $sub-font;
+    border: none;
+    border-radius: 10px;
+    width: 60px;
+    padding: 12px 0;
+    font-size: 16px;
+    color: white;
+    margin-left : 30px;
+  }
+
+  .profileImage {
+    width: 30px;
+  }
 }
 
 /* Notification Container */
