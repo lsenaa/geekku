@@ -1,10 +1,11 @@
 import img from '../../../assets/images/interiorEx.png';
 import bookmark from '../../../assets/images/bookmark.png';
 import './Card.css';
+import { Link } from 'react-router-dom';
 
 const Card = () => {
   return (
-    <div>
+    <Link to="/interiorDetail">
       <div className="card" style={{ width: '384px', marginBottom: '50px' }}>
         <img src={img} style={{ width: '384px', height: '242px' }} />
         <div className="wrap-title">
@@ -22,7 +23,7 @@ const Card = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

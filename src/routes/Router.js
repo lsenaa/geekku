@@ -84,6 +84,7 @@ const Router = () => {
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
       <Route path="/reviewWrite" element={<ReviewWrite />} />
+      <Route path="/interiorDetail" element={<ProfileInteriorAll />} />
       {/* Onestop */}
       <Route path="/onestop/write" element={<OnestopWrite />} />
       <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
