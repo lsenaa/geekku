@@ -1,10 +1,11 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import img from '../../../assets/images/interiorEx.png';
 import './CompanyList.css';
 import { Link } from 'react-router-dom';
+import { url } from 'lib/axios';
 
 const CompanyList = () => {
   const settings = {
@@ -14,6 +15,9 @@ const CompanyList = () => {
     slidesToShow: 3,
     slidesToScroll: 3,
   };
+
+  const [interiorList, setInteriorList] = useState([]);
+
   return (
     <div className="interiorAll">
       <div id="companyTop">시공업체</div>
@@ -23,114 +27,30 @@ const CompanyList = () => {
 
       <div className="slider-container">
         <Slider {...settings}>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
+          {interiorList.map((interior) => (
+            <Link
+              to="/profile/interior"
+              className="card"
+              key={interior.interiorNum}
+            >
+              <img style={{ width: '100%', height: '242px' }}>
+                {interior.coverImage}
+              </img>
+              <div className="wrap-title">
+                <div className="title">
+                  {interior.companyName}
+                  <button id="loc">{interior.possibleLocation}</button>
+                </div>
+                <div className="title" id="possible">
+                  {interior.possiblePart === false ? (
+                    <>전체시공</>
+                  ) : (
+                    <>전체시공/부분시공</>
+                  )}
+                </div>
               </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
-          <Link to="/interiorDetail" className="card">
-            <img src={img} style={{ width: '100%', height: '242px' }} />
-            <div className="wrap-title">
-              <div className="title">
-                코스타 인테리어
-                <button id="loc">경상도</button>
-              </div>
-              <div className="title" id="possible">
-                전체시공/부분시공
-              </div>
-            </div>
-          </Link>
+            </Link>
+          ))}
         </Slider>
       </div>
     </div>
