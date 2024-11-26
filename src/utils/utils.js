@@ -32,6 +32,16 @@ export const formatPrice = ({
   }
 };
 
+export const formatDate = (date) => {
+  let newDate = new Date(date);
+  let year = newDate.getFullYear();
+  let month = String(newDate.getMonth() + 1).padStart(2, '0');
+  let day = String(newDate.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
+// 매물 검색 - 지역 키워드 찾기
 export const searchByKeyword = (keyword) => {
   const { sido, sigugun, dong } = hangjungdong;
 
@@ -90,4 +100,23 @@ export const searchByKeyword = (keyword) => {
   }
 
   return results.sort();
+};
+
+export const processLocation = (location) => {
+  const replacements = {
+    광역시: '',
+    충청북도: '충북',
+    충청남도: '충남',
+    전라북도: '전북',
+    전라남도: '전남',
+    경상북도: '경북',
+    경상남도: '경남',
+  };
+
+  let processedKeyword = location || '';
+  Object.keys(replacements).forEach((key) => {
+    processedKeyword = processedKeyword.replace(key, replacements[key]);
+  });
+
+  return processedKeyword.trim();
 };

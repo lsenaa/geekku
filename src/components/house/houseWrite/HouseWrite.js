@@ -21,11 +21,13 @@ const HouseWrite = () => {
     monthlyPrice: 0,
     buyPrice: 0,
     depositPrice: 0,
-    requestDate: '2024-11-25',
+    requestDate: '2000-01-01',
     requestState: false,
     allowPhone: false,
     title: '',
     content: '',
+    sido: '',
+    sigugun: '',
   });
 
   const onChangeDate = (date, dateString) => {
@@ -54,10 +56,30 @@ const HouseWrite = () => {
         requestState: e.target.checked,
       }));
     }
+  };
 
-    if (e.target.name === 'content') {
-      setTextCount(e.target.value.length);
-    }
+  const handleSido = (e) => {
+    const selectedSido = sido.find((si) => si.sido === e.target.value);
+
+    setHouse((prev) => ({
+      ...prev,
+      sido: selectedSido.sido,
+      sigugun: '',
+      address: selectedSido.codeNm, // 시/도 이름 저장
+      addressDetail: '', // 시/도 변경 시 구/군 초기화
+    }));
+  };
+
+  const handleSigugun = (e) => {
+    const selectedSigugun = sigugun.find(
+      (gun) => gun.sigugun === e.target.value
+    );
+
+    setHouse((prev) => ({
+      ...prev,
+      sigugun: selectedSigugun.sigugun,
+      addressDetail: selectedSigugun?.codeNm, // 구/군 이름 저장
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -82,7 +104,6 @@ const HouseWrite = () => {
     axios
       .post(`${url}/houseWrite`, formData)
       .then((res) => {
-        console.log(res.data);
         Modal.success({
           content: '집꾸 등록이 완료되었습니다.',
         });
@@ -131,10 +152,10 @@ const HouseWrite = () => {
           <select
             className={styles.select}
             name="address"
-            defaultValue=""
             required="required"
             style={{ marginRight: '16px' }}
-            onChange={handleEdit}
+            value={house.sido || ''}
+            onChange={handleSido}
           >
             <option value="" disabled>
               지역 선택
@@ -148,15 +169,15 @@ const HouseWrite = () => {
           <select
             className={styles.select}
             name="addressDetail"
-            defaultValue=""
             required="required"
-            onChange={handleEdit}
+            value={house.sigugun || ''}
+            onChange={handleSigugun}
           >
             <option value="" disabled>
               상세 지역 선택
             </option>
             {sigugun
-              .filter((gun) => gun.sido === house.address)
+              .filter((gun) => gun.sido === house.sido)
               .map((gu) => (
                 <option value={gu.sigugun} key={gu.sigugun}>
                   {gu.codeNm}
@@ -226,10 +247,10 @@ const HouseWrite = () => {
             <option value="" disabled>
               희망 평수 선택
             </option>
-            <option value="1">10평 이상</option>
-            <option value="2">20평 이상</option>
-            <option value="3">30평 이상</option>
-            <option value="4">40평 이상</option>
+            <option value="10">10평 이상</option>
+            <option value="20">20평 이상</option>
+            <option value="30">30평 이상</option>
+            <option value="40">40평 이상</option>
             <option value="5">기타</option>
           </select>
         </div>
