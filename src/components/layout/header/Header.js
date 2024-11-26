@@ -6,14 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom } from 'jotai';
-import {
-  userNameAtom,
-  alarmsAtom,
-  userAtom,
-  tokenAtom,
-} from '../../../store/atoms';
+import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import axios from 'axios';
-import { userAtom, tokenAtom } from 'atoms';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
