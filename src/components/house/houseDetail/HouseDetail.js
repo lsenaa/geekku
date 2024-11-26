@@ -7,13 +7,27 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
-import { formatEstateType, formatPrice } from 'utils/utils';
+import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
 
 const HouseDetail = () => {
   let { num } = useParams();
-  const [house, setHouse] = useState();
-
-  console.log(house);
+  const [house, setHouse] = useState({
+    type: '',
+    address1: '',
+    address2: '',
+    size: '',
+    rentType: 'jeonse',
+    jeonsePrice: 0,
+    monthlyPrice: 0,
+    buyPrice: 0,
+    depositPrice: 0,
+    requestDate: '2000-01-01',
+    requestState: false,
+    allowPhone: false,
+    title: '',
+    content: '',
+    createdAt: '',
+  });
 
   useEffect(() => {
     fetchData();
@@ -23,7 +37,7 @@ const HouseDetail = () => {
     axios
       .get(`${url}/houseDetail/${num}`)
       .then((res) => {
-        setHouse(res.data);
+        setHouse({ ...res.data });
       })
       .catch((err) => {
         console.log(err);
@@ -48,12 +62,11 @@ const HouseDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>매물 유형</label>
-          <p>{formatEstateType(house?.type)}</p>
+          <p>{formatEstateType(house.type)}</p>
         </div>
         <div className={styles.item}>
           <label>지역</label>
-          <p>충청북도</p>
-          <p>단양군</p>
+          <p>{`${processLocation(house.address1)} ${house.address2}`}</p>
         </div>
         <div className={styles.item}>
           <label>거래 종류</label>
@@ -65,17 +78,17 @@ const HouseDetail = () => {
         </div>
         <div className={styles.item}>
           <label>희망 평수</label>
-          <p>{house?.size === 5 ? '기타' : `${house?.size}평 이상`}</p>
+          <p>{house.size === 5 ? '기타' : `${house.size}평 이상`}</p>
         </div>
         <div className={styles.item}>
           <label>예산</label>
           <div>
             <p>
               {formatPrice({
-                jeonsePrice: house?.jeonsePrice,
-                monthlyPrice: house?.monthlyPrice,
-                depositPrice: house?.depositPrice,
-                buyPrice: house?.buyPrice,
+                jeonsePrice: house.jeonsePrice,
+                monthlyPrice: house.monthlyPrice,
+                depositPrice: house.depositPrice,
+                buyPrice: house.buyPrice,
               }) + ' 만원'}
             </p>
           </div>
@@ -83,15 +96,15 @@ const HouseDetail = () => {
         <div className={styles.item}>
           <label>입주 희망 일자</label>
           <p>
-            {house?.requestState && house?.requestDate === '2024-11-25'
+            {house.requestState && house.requestDate === '2000-01-01'
               ? '미정'
-              : house?.requestDate}
+              : house.requestDate}
           </p>
         </div>
         {house?.allowPhone && (
           <div className={styles.item}>
             <label>연락처</label>
-            <p>{house?.userPhone}</p>
+            <p>{house.userPhone}</p>
           </div>
         )}
       </section>
@@ -102,11 +115,11 @@ const HouseDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>제목</label>
-          <p>{house?.title}</p>
+          <p>{house.title}</p>
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
-          <p className={styles.content}>{house?.content}</p>
+          <p className={styles.content}>{house.content}</p>
         </div>
       </section>
       <div className={styles.btnWrap}>
@@ -115,7 +128,7 @@ const HouseDetail = () => {
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <HouseDetailAnswerList />
+      <HouseDetailAnswerList houseNum={house.houseNum} />
     </div>
   );
 };

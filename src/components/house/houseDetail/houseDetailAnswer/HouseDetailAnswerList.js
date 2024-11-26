@@ -1,15 +1,32 @@
 import styles from './HouseDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
 import { FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
+import axios from 'axios';
+import { url } from 'lib/axios';
 
-const HouseDetailAnswerList = () => {
+const HouseDetailAnswerList = ({ houseNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axios
+      .get(`${url}/houseAnswerList`, houseNum)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

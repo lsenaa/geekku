@@ -1,14 +1,18 @@
 import styles from './HouseList.module.scss';
 import { FaUserCircle } from 'react-icons/fa';
+import { formatDate, formatLocation, processLocation } from 'utils/utils';
+import { useNavigate } from 'react-router-dom';
 
-const HouseList = () => {
+const HouseList = ({ houseList }) => {
+  const navigate = useNavigate();
+
   return (
     <table className={styles.customTable}>
       <colgroup>
         <col width="5%" />
-        <col width="40%" />
+        <col width="35%" />
         <col width="10%" />
-        <col width="10%" />
+        <col width="15%" />
         <col width="15%" />
         <col width="15%" />
         <col width="5%" />
@@ -25,57 +29,30 @@ const HouseList = () => {
         </tr>
       </thead>
       <tbody>
-        <tr className={styles.rowWrap}>
-          <td>3</td>
-          <td>
-            지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-            같아요.
-          </td>
-          <td>매매</td>
-          <td>경남 사천</td>
-          <td>
-            <span className={styles.writer}>
-              <FaUserCircle color="#6D885D" size={30} />
-              &nbsp;홍길동
-            </span>
-          </td>
-          <td>2024-10-27</td>
-          <td>32</td>
-        </tr>
-        <tr className={styles.rowWrap}>
-          <td>2</td>
-          <td>
-            지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-            같아요.
-          </td>
-          <td>매매</td>
-          <td>경남 사천</td>
-          <td>
-            <span className={styles.writer}>
-              <FaUserCircle color="#6D885D" size={30} />
-              &nbsp;홍길동
-            </span>
-          </td>
-          <td>2024-10-27</td>
-          <td>32</td>
-        </tr>
-        <tr className={styles.rowWrap}>
-          <td>1</td>
-          <td>
-            지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-            같아요.
-          </td>
-          <td>매매</td>
-          <td>경남 사천</td>
-          <td>
-            <span className={styles.writer}>
-              <FaUserCircle color="#6D885D" size={30} />
-              &nbsp;홍길동
-            </span>
-          </td>
-          <td>2024-10-27</td>
-          <td>32</td>
-        </tr>
+        {houseList.map((house, i) => (
+          <tr
+            className={styles.rowWrap}
+            key={house.houseNum}
+            onClick={() => navigate(`/house/detail/${house.houseNum}`)}
+          >
+            <td>{i + 1}</td>
+            <td>{house.title}</td>
+            <td>
+              {house.rentType === 'jeonse' && '전세'}
+              {house.rentType === 'monthly' && '월세'}
+              {house.rentType === 'buy' && '매매'}
+            </td>
+            <td>{`${processLocation(house.address1)} ${house.address2}`}</td>
+            <td>
+              <span className={styles.writer}>
+                <FaUserCircle color="#6D885D" size={30} />
+                &nbsp;홍길동
+              </span>
+            </td>
+            <td>{formatDate(house.createdAt)}</td>
+            <td>{house.viewCount}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
