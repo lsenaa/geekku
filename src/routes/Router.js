@@ -62,6 +62,7 @@ import MypageInteriorModify from 'components/mypage/interior/modify/MypageInteri
 import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
 import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
 import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
+import SendAlarm from 'components/layout/notification/SendAlarm';
 
 const Router = () => {
   return (
@@ -162,6 +163,8 @@ const Router = () => {
       />
       {/* NotFound */}
       <Route path="*" element={<NotFound />} />
+      {/* test 나중에 지워야함*/}
+      <Route path="/sendAlarm" element={<SendAlarm />} />
     </Routes>
   );
 };
