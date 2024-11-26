@@ -13,11 +13,7 @@ import {
   tokenAtom,
 } from '../../../store/atoms';
 import axios from 'axios';
-
-// import { useAtom } from 'jotai';
-
 import { userAtom, tokenAtom } from 'atoms';
-
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
@@ -105,7 +101,7 @@ const Header = ({ alarms = [] }) => {
             <Link to={'/interior'}>방꾸하기</Link>
           </li>
           <li>
-            <Link to={'/oneStop'}>한번에꾸하기</Link>
+            <Link to={'/onestop'}>한번에꾸하기</Link>
           </li>
           <li>
             <Link to={'/community'}>집들이</Link>

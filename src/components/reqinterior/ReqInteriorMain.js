@@ -23,7 +23,7 @@ const ReqInteriorMain = () => {
           <button className={styles.searchBtn}>검색</button>
         </div>
         <Button01 size="small">
-          <Link to={'/requestInteriorWrite'}>작성하기</Link>
+          <Link to={'/requestInterior/write'}>작성하기</Link>
         </Button01>
       </div>
       <ReqInteriorList />
