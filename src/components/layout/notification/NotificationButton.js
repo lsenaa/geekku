@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IoMdNotificationsOutline } from 'react-icons/io'; // IoMdNotificationsOutline 가져오기
 import styles from './NotificationButton.module.css';
 
 const NotificationButton = () => {
@@ -21,14 +22,16 @@ const NotificationButton = () => {
 
   return (
     <div className={styles.notificationContainer}>
-      <button
-        className={styles.notificationButton}
-        onClick={toggleNotification}
-      >
-        알림
+      {/* 알림 버튼: IoMdNotificationsOutline로 교체 */}
+      <button onClick={toggleNotification}>
+        <IoMdNotificationsOutline size="24" color="#6D885D" /> {/* 아이콘 */}
       </button>
+
+      {/* 알림 패널 */}
       <div
-        className={`${styles.notificationPanel} ${isOpen ? styles.open : styles.close}`}
+        className={`${styles.notificationPanel} ${
+          isOpen ? styles.open : styles.close
+        }`}
       >
         <div className={styles.notificationHeader}>
           <span>알림</span>
