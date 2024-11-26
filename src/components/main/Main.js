@@ -82,7 +82,10 @@ const Main = () => {
               <Link to={'/estate'} state={{ keyword: estate.jibunAddress }}>
                 <div className={styles.imgWrapper}>
                   <img
-                    src={`${url}/estateImage/${estate.estateImageNums.split(',')[0]}`}
+                    src={
+                      estate.estateImageNums &&
+                      `${url}/estateImage/${estate.estateImageNums.split(',')[0]}`
+                    }
                     alt="집꾸 리스트 이미지"
                   />
                 </div>
