@@ -1,16 +1,32 @@
 import { Link } from 'react-router-dom';
 import logo from 'assets/images/logo.png';
 import styles from './Header.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NotificationButton from 'components/layout/notification/NotificationButton';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 
+import { useAtom } from 'jotai';
+import { userAtom, tokenAtom } from 'atoms';
+
 const Header = () => {
+  const [user, setUser] = useAtom(userAtom);
+  const [, setToken] = useAtom(tokenAtom);
+
   const [isLogin, setIsLogin] = useState(true);
+
   const [write, setWrite] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      setIsLogin(true);
+      console.log(user);
+    } else {
+      setIsLogin(false);
+    }
+  }, [user]);
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },
@@ -19,11 +35,32 @@ const Header = () => {
     { name: '집들이 글쓰기', path: '/communityBoardWrite' },
     { name: '인테리어 후기 작성하기', path: '/reviewWrite' },
   ];
-  const estateWrite = { name: '매물 등록하기', path: '/estate/write' };
+  const estateWrite = [{ name: '매물 등록하기', path: '/estate/write' }];
   const interiorWrite = [
     { name: '시공업체 등록하기', path: '/companyRegister' },
     { name: '시공사례 등록하기', path: '/' },
   ];
+
+  const getWriteOptions = () => {
+    if (!user) return [];
+    switch (user.type) {
+      case 'user':
+        return userWrite;
+      case 'estate':
+        return estateWrite;
+      case 'interior':
+        return interiorWrite;
+      default:
+        return [];
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    alert('로그아웃 되었습니다.');
+    navigate('/');
+  };
 
   return (
     <header className={styles.Container}>
@@ -57,10 +94,10 @@ const Header = () => {
           </button>
           {write && (
             <ul className={styles.writeWrapper}>
-              {userWrite.map((user, i) => (
+              {getWriteOptions().map((item, i) => (
                 <li key={i}>
-                  <Link to={user.path} onClick={() => setWrite(!write)}>
-                    {user.name}
+                  <Link to={item.path} onClick={() => setWrite(!write)}>
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -70,13 +107,33 @@ const Header = () => {
             <IoMdNotificationsOutline size="30" color="#6D885D" />
             <p>10</p>
           </div>
+
+          {/* 사용자 프로필 이미지와 이름 */}
           <div
             className={styles.userProfile}
             onClick={() => navigate('/mypage/person')}
           >
-            <FaUserCircle size="30" color="#6D885D" />
-            <p className={styles.name}>홍길동</p>
+            {user && (
+              <img
+                src={`data:image/png;base64, ${
+                  user.socialProfileImage != null
+                    ? user.socialProfileImage
+                    : user.profileImage
+                }`}
+                alt="사용자 프로필 이미지"
+                className={styles.profileImage}
+              />
+            )}
+            {/* <FaUserCircle size="30" color="#6D885D" /> */}
+            <p className={styles.name}>
+              {user && (user.type == 'user' ? user.nickname : user.companyName)}
+            </p>
           </div>
+
+          {/* 로그아웃버튼 */}
+          <button onClick={logout} className={styles.logoutBtn}>
+            Logout
+          </button>
         </div>
       ) : (
         <button onClick={() => navigate('/Login')} className={styles.btn}>
