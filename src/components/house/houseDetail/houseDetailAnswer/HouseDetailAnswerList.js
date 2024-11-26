@@ -6,9 +6,11 @@ import { Modal } from 'antd';
 import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 import axios from 'axios';
 import { url } from 'lib/axios';
+import { formatDate } from 'utils/utils';
 
 const HouseDetailAnswerList = ({ houseNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [houseAnswerList, setHouseAnswerList] = useState([]);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -20,9 +22,10 @@ const HouseDetailAnswerList = ({ houseNum }) => {
 
   const fetchData = () => {
     axios
-      .get(`${url}/houseAnswerList`, houseNum)
+      .get(`${url}/houseAnswerList/${houseNum}`)
       .then((res) => {
         console.log(res.data);
+        setHouseAnswerList([...res.data.houseAnswerList]);
       })
       .catch((err) => {
         console.log(err);
@@ -39,77 +42,38 @@ const HouseDetailAnswerList = ({ houseNum }) => {
       </div>
       <hr className={styles.line} />
       <ul>
-        <li>
-          <div>
-            <div className={styles.profile}>
-              <FaUserCircle color="#6D885D" size={30} />
-              <p>코스타 부동산</p>
-              <p className={styles.createdAt}>2024-10-28</p>
-              <button>삭제</button>
-            </div>
-            <div className={styles.phoneAddWrap}>
-              <div className={styles.phone}>
-                <p>연락처</p>
-                <p>010-1234-5678</p>
+        {houseAnswerList.map((answer) => (
+          <div key={answer.answerHouseNum}>
+            <li key={answer.answerHouseNum}>
+              <div>
+                <div className={styles.profile}>
+                  <img
+                    src={`data:image/png;base64, ${answer.companyProfileImage}`}
+                  />
+                  <p>{answer.companyName}</p>
+                  <p className={styles.createdAt}>
+                    {formatDate(answer.createdAt)}
+                  </p>
+                  <button>삭제</button>
+                </div>
+                <div className={styles.phoneAddWrap}>
+                  <div className={styles.phone}>
+                    <p>연락처</p>
+                    <p>{answer.companyPhone}</p>
+                  </div>
+                  <div className={styles.address}>
+                    <p>주소</p>
+                    <p>{answer.companyAddress}</p>
+                  </div>
+                </div>
               </div>
-              <div className={styles.address}>
-                <p>주소</p>
-                <p>
-                  강원특별자치도 춘천시 안마산로 131 상가씨동 1층
-                  C-106호(퇴계동)
-                </p>
+              <div className={styles.editorContent}>
+                <p>{answer.content}</p>
               </div>
-            </div>
+            </li>
+            <hr className={styles.line} />
           </div>
-          <div className={styles.editorContent}>
-            <p>
-              에디터 내용 들어갈 자리 Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.
-            </p>
-          </div>
-        </li>
-        <hr className={styles.line} />
-        <li>
-          <div>
-            <div className={styles.profile}>
-              <FaUserCircle color="#6D885D" size={30} />
-              <p>코스타 부동산</p>
-              <p className={styles.createdAt}>2024-10-28</p>
-              <button>삭제</button>
-            </div>
-            <div className={styles.phoneAddWrap}>
-              <div className={styles.phone}>
-                <p>연락처</p>
-                <p>010-1234-5678</p>
-              </div>
-              <div className={styles.address}>
-                <p>주소</p>
-                <p>
-                  강원특별자치도 춘천시 안마산로 131 상가씨동 1층
-                  C-106호(퇴계동)
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className={styles.editorContent}>
-            <p>
-              에디터 내용 들어갈 자리 Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.
-            </p>
-          </div>
-        </li>
+        ))}
       </ul>
       {isModalOpen && (
         <Modal
@@ -120,7 +84,10 @@ const HouseDetailAnswerList = ({ houseNum }) => {
           className={styles.customModal}
           centered
         >
-          <HouseDetailAnswerWrite toggleModal={toggleModal} />
+          <HouseDetailAnswerWrite
+            toggleModal={toggleModal}
+            houseNum={houseNum}
+          />
         </Modal>
       )}
     </div>
