@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Card = () => {
   return (
-    <Link to="/interiorDetail">
+    <Link to="/profile/interior">
       <div className="card" style={{ width: '384px', marginBottom: '50px' }}>
         <img src={img} style={{ width: '384px', height: '242px' }} />
         <div className="wrap-title">
