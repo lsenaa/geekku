@@ -6,16 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom } from 'jotai';
-import { userNameAtom, alarmsAtom } from '../../../store/atoms';
+import {
+  userNameAtom,
+  alarmsAtom,
+  userAtom,
+  tokenAtom,
+} from '../../../store/atoms';
 import axios from 'axios';
-import { useAtom } from 'jotai';
-import { userAtom, tokenAtom } from 'atoms';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
   const [, setToken] = useAtom(tokenAtom);
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const [write, setWrite] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // 알림 패널 열기/닫기 상태
@@ -37,9 +40,8 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && user.username) {
       setIsLogin(true);
-      console.log(user);
     } else {
       setIsLogin(false);
     }
@@ -75,6 +77,8 @@ const Header = ({ alarms = [] }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    setIsLogin(false);
+    localStorage.removeItem('token');
     alert('로그아웃 되었습니다.');
     navigate('/');
   };
