@@ -23,7 +23,7 @@ const CompanyList = () => {
 
       <div className="slider-container">
         <Slider {...settings}>
-          <div className="card">
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -34,8 +34,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -46,8 +46,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -58,8 +58,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -70,8 +70,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -82,8 +82,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -94,8 +94,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -106,8 +106,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -118,8 +118,8 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
-          <div className="card">
+          </Link>
+          <Link to="/interiorDetail" className="card">
             <img src={img} style={{ width: '100%', height: '242px' }} />
             <div className="wrap-title">
               <div className="title">
@@ -130,7 +130,7 @@ const CompanyList = () => {
                 전체시공/부분시공
               </div>
             </div>
-          </div>
+          </Link>
         </Slider>
       </div>
     </div>
