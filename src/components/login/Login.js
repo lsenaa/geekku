@@ -9,7 +9,7 @@ import { url } from '../../config';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from 'jotai';
-import { userAtom, tokenAtom } from 'atoms';
+import { userAtom, tokenAtom } from '../../store/atoms';
 import axios from 'axios';
 import axiosToken from 'axios';
 

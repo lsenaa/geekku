@@ -1,17 +1,30 @@
 import { atomWithStorage, createJSONStorage } from 'jotai/utils';
+import { atom } from 'jotai';
+export const initUser = {
+  userId: '',
+  username: '',
+  name: '',
+  phone: '',
+  email: '',
+  nickname: '',
+  profileImage: '',
+  role: '',
+  provider: '',
+  providerId: '',
+  socialProfileImage: '',
+};
 
-// export const initUser = {
-//   id: "",
-//   password: "",
-//   name: "",
-//   nickname: "",
-//   email: "",
-//   address: "",
-//   profileImage: "",
-//   profileImageStr: ""
-// }
+export const userAtom = atomWithStorage(
+  'user',
+  initUser,
+  createJSONStorage(() => sessionStorage)
+);
 
-// export const userAtom = atomWithStorage("user", initUser, createJSONStorage(() => sessionStorage));
+export const tokenAtom = atomWithStorage(
+  'token',
+  '',
+  createJSONStorage(() => sessionStorage)
+);
 
 export const fcmTokenAtom = atomWithStorage(
   'fcmtoken',
