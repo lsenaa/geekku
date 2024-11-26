@@ -19,27 +19,23 @@ const Sample = () => {
   const [sampleList, setSampleList] = useState([]);
 
   const list = () => {
-    const url = 'http://localhost:3000';
-    const apiUrl = `${url}/interior`;
+    const url = 'http://localhost:8080';
+    const apiUrl = `${url}/interiorMain`;
     console.log('API URL:', apiUrl);
 
     axios
       .get(apiUrl)
       .then((res) => {
         console.log('API Response:', res.data); // 응답 확인
-        // 응답이 배열인지 확인
-        if (Array.isArray(res.data)) {
-          setSampleList(res.data);
-        } else {
-          console.error('Expected an array but got:', res.data);
-          setSampleList([]); // 배열이 아닐 경우 빈 배열로 설정
-        }
+        setSampleList([...res.data.sampleList]);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
         setSampleList([]); // 에러 발생 시 빈 배열로 설정
       });
   };
+
+  console.log(sampleList);
 
   useEffect(() => {
     console.log('list: ');

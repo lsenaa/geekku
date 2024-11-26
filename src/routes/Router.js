@@ -76,7 +76,7 @@ const Router = () => {
       <Route path="/house/write" element={<HouseWrite />} />
       <Route path="/house/detail/:num" element={<HouseDetail />} />
       {/* Interior */}
-      <Route path="/interior" element={<InteriorMain />} />
+      <Route path="/interiorMain" element={<InteriorMain />} />
       <Route path="/interiorList" element={<CompanyList />} />
       <Route path="/companyRegister" element={<Register />} />
       <Route path="/sampleList" element={<SampleList />} />
