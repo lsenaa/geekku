@@ -12,8 +12,8 @@ import HouseMain from 'components/house/HouseMain';
 import HouseWrite from 'components/house/houseWrite/HouseWrite';
 import HouseDetail from 'components/house/houseDetail/HouseDetail';
 import OnestopMain from 'components/oneStop/OnestopMain';
-import OnestopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import OnestopDetail from 'components/oneStop/oneStopDetail/OneStopDetail';
+import OnestopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import MypagePersonMain from 'components/mypage/person/MypagePersonMain';
 import MypagePersonInterior from 'components/mypage/person/interior/MypagePersonInterior';
 import MypageLayout from 'components/layout/mypage/person/MypageLayout';
@@ -155,7 +155,7 @@ const Router = () => {
       <Route path="/profile/estate" element={<ProfileEstate />} />
       {/* RequestInterior */}
       <Route path="/requestInterior" element={<ReqInteriorMain />} />
-      <Route path="/requestInteriorWrite" element={<ReqInteriorWrite />} />
+      <Route path="/requestInterior/write" element={<ReqInteriorWrite />} />
       <Route
         path="/requestInterior/detail/:num"
         element={<ReqInteriorDetail />}
