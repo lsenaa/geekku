@@ -37,7 +37,6 @@ const HouseDetail = () => {
     axios
       .get(`${url}/houseDetail/${num}`)
       .then((res) => {
-        console.log(res.data);
         setHouse({ ...res.data });
       })
       .catch((err) => {
@@ -116,7 +115,7 @@ const HouseDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>제목</label>
-          <p>{house?.title}</p>
+          <p>{house.title}</p>
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
@@ -129,7 +128,7 @@ const HouseDetail = () => {
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <HouseDetailAnswerList />
+      <HouseDetailAnswerList houseNum={house.houseNum} />
     </div>
   );
 };
