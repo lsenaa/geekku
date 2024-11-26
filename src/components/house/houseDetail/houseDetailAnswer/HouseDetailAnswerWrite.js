@@ -1,34 +1,79 @@
 import styles from './HouseDetailAnswerWrite.module.scss';
 import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../../commons/button/Button01';
+import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from 'atoms';
+import ToastEditor from 'components/commons/ToastEditor';
+import { useRef } from 'react';
+import { axiosInToken } from 'config';
+import { Modal } from 'antd';
 
-const HouseDetailAnswerWrite = ({ toggleModal }) => {
+const HouseDetailAnswerWrite = ({ toggleModal, houseNum }) => {
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
+  const editorRef = useRef();
+  // console.log(user);
+
+  // console.log(editorRef.current.getInstance().getHTML()); // HTML로 읽어오기
+  // console.log(editorRef.current?.getInstance().getMarkdown()); // Markdown 으로 읽어오기
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData();
+
+    formData.append('houseNum', houseNum);
+    formData.append('content', editorRef.current.getInstance().getHTML());
+    formData.append('companyId', user.userId);
+    formData.append('companyName', user.companyName);
+    formData.append('companyProfileImage', user.companyProfileImage);
+    formData.append('companyPhone', user.companyPhone);
+    formData.append('companyAddress', user.companyAddress);
+
+    axiosInToken(token)
+      .post(`/company/houseAnswerWrite`, formData)
+      .then((res) => {
+        console.log(res);
+        Modal.success({
+          content: '집꾸 답변이 등록되었습니다.',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
-          <FaUserCircle color="#6D885D" size={30} />
-          <p>코스타 부동산</p>
+          {/* <img src={`data:image/png;base64, ${user.companyProfileImage}`} /> */}
+          {/* <FaUserCircle color="#6D885D" size={30} /> */}
+          <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>
           <div className={styles.phone}>
             <p>연락처</p>
-            <p>010-1234-5678</p>
+            <p>{user.phone}</p>
           </div>
           <div className={styles.address}>
             <p>주소</p>
-            <p>
-              강원특별자치도 춘천시 안마산로 131 상가씨동 1층 C-106호(퇴계동)
-            </p>
+            <p>{user.companyAddress}</p>
           </div>
         </div>
       </div>
       <div className={styles.editorContent}>
-        <p>에디터 들어감 - 사진, 위치정보 등 상세 내용 작성</p>
+        <ToastEditor
+          editorRef={editorRef}
+          placeholder="내용을 입력해주세요."
+          // onChange={handleEditor}
+        />
       </div>
       <div className={styles.btnWrap}>
-        <Button01 size="small">작성하기</Button01>
-        <Button01 size="small" color="sub" onClick={toggleModal}>
+        <Button01 size="small" type="submit" onClick={handleSubmit}>
+          작성하기
+        </Button01>
+        <Button01 size="small" color="sub" type="button" onClick={toggleModal}>
           취소하기
         </Button01>
       </div>

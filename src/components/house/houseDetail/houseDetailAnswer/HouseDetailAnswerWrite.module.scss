@@ -8,6 +8,11 @@
   @include flexrow;
   margin-bottom: 16px;
 
+  img {
+    width: 30px;
+    height: 30px;
+  }
+
   p {
     font-weight: bold;
     margin-left: 10px;
@@ -47,9 +52,7 @@
 }
 
 .editorContent {
-  @include border;
   margin: 40px 0;
-  padding: 16px;
 }
 
 .btnWrap {
