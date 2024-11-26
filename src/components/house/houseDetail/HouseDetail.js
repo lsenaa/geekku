@@ -27,6 +27,7 @@ const HouseDetail = () => {
     title: '',
     content: '',
     createdAt: '',
+    houseNum: num || 0,
   });
 
   useEffect(() => {
@@ -71,9 +72,9 @@ const HouseDetail = () => {
         <div className={styles.item}>
           <label>거래 종류</label>
           <p>
-            {house?.rentType === 'jeonse' && '전세'}
-            {house?.rentType === 'monthly' && '월세'}
-            {house?.rentType === 'buy' && '매매'}
+            {house.rentType === 'jeonse' && '전세'}
+            {house.rentType === 'monthly' && '월세'}
+            {house.rentType === 'buy' && '매매'}
           </p>
         </div>
         <div className={styles.item}>
@@ -101,7 +102,7 @@ const HouseDetail = () => {
               : house.requestDate}
           </p>
         </div>
-        {house?.allowPhone && (
+        {house.allowPhone && (
           <div className={styles.item}>
             <label>연락처</label>
             <p>{house.userPhone}</p>
