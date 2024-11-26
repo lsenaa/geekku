@@ -8,7 +8,6 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom } from 'jotai';
 import { userNameAtom, alarmsAtom } from '../../../store/atoms';
 import axios from 'axios';
-import { useAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'atoms';
 
 const Header = ({ alarms = [] }) => {
@@ -37,7 +36,7 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user.userId) {
       setIsLogin(true);
       console.log(user);
     } else {

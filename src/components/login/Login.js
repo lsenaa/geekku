@@ -10,13 +10,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'atoms';
-import jwt_decode from 'jwt-decode';
+
 import axios from 'axios';
 import axiosToken from 'axios';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
-
   const [member, setMember] = useState({ username: '', password: '' });
 
   const setUser = useSetAtom(userAtom);
