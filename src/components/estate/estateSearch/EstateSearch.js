@@ -1,5 +1,5 @@
 import styles from './EstateSearch.module.scss';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import EstateList from '../estateList/EstateList';
 import KakaoMap from 'components/map/KakaoMap';
 import axios from 'axios';
@@ -20,7 +20,7 @@ const EstateSearch = () => {
 
   // 초기 location.state에서 keyword 값 설정
   useEffect(() => {
-    if (location.state.keyword) {
+    if (location.state?.keyword) {
       const initialKeyword = location.state.keyword;
       setKeyword(processKeyword(initialKeyword));
       setSearchInput(initialKeyword);
@@ -138,11 +138,12 @@ const EstateSearch = () => {
       </div>
 
       <div className={styles.bodyWrapper}>
-        {estateList.length === 0 ? (
-          <div className={styles.noEstate}>등록된 매물 목록이 없습니다.</div>
-        ) : (
-          <EstateList estateList={estateList} />
-        )}
+        {/* {estateList.length === 0 ? (
+            <div className={styles.noEstate}>등록된 매물 목록이 없습니다.</div>
+          ) : (
+            
+          )} */}
+        <EstateList estateList={estateList} />
         <KakaoMap />
       </div>
     </div>

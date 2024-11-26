@@ -3,43 +3,33 @@ import { IoSearch } from 'react-icons/io5';
 import { CiLocationOn } from 'react-icons/ci';
 import { IoIosArrowForward } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
-import esateImg01 from 'assets/images/estate01.png';
-import esateImg02 from 'assets/images/estate02.png';
-import esateImg03 from 'assets/images/estate03.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { searchByKeyword } from 'utils/utils';
+import { useEffect, useState } from 'react';
+import { formatEstateType, formatPrice, searchByKeyword } from 'utils/utils';
+import axios from 'axios';
+import { url } from 'lib/axios';
 
 const Main = () => {
-  const estateData = [
-    {
-      type: '전원주택',
-      price: '월세 300/33',
-      location: '충청남도 태안군',
-      size: '109㎡ (30평)',
-      title: '시골 빈집 전원주택',
-      image: esateImg01,
-    },
-    {
-      type: '아파트',
-      price: '월세 500/43',
-      location: '경상북도 예천군',
-      size: '109㎡ (30평)',
-      title: '깔끔하게 리모델링한 아파트',
-      image: esateImg02,
-    },
-    {
-      type: '시골농가주택',
-      price: '월세 100/33',
-      location: '충청북도 단양군',
-      size: '109㎡ (30평)',
-      title: '리모델링한 시골농가주택',
-      image: esateImg03,
-    },
-  ];
-
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState('');
+  const [estateList, setEstateList] = useState([]);
+  const [communityList, setCommunityList] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axios
+      .get(`${url}/listForMain`)
+      .then((res) => {
+        setEstateList(res.data.estateList);
+        setCommunityList(res.data.communityList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleKeyword = (e) => {
     setKeyword(e.target.value);
@@ -87,18 +77,30 @@ const Main = () => {
           </Link>
         </div>
         <ul>
-          {estateData.map((estate, i) => (
-            <li key={i}>
-              <Link to={'/'}>
+          {estateList.map((estate) => (
+            <li key={estate.estateNum}>
+              <Link to={'/estate'} state={{ keyword: estate.jibunAddress }}>
                 <div className={styles.imgWrapper}>
-                  <img src={estate.image} alt="집꾸 리스트 이미지" />
+                  <img
+                    src={`${url}/estateImage/${estate.estateImageNums.split(',')[0]}`}
+                    alt="집꾸 리스트 이미지"
+                  />
                 </div>
                 <div className={styles.textWrapper}>
-                  <p className={styles.type}>{estate.type}</p>
-                  <p className={styles.price}>{estate.price}</p>
+                  <p className={styles.type}>{formatEstateType(estate.type)}</p>
+                  <p className={styles.price}>
+                    {formatPrice({
+                      jeonsePrice: estate.jeonsePrice,
+                      monthlyPrice: estate.monthlyPrice,
+                      depositPrice: estate.depositPrice,
+                      buyPrice: estate.buyPrice,
+                    })}
+                  </p>
                   <div className={styles.locSizeWrapper}>
-                    <p>{estate.location}</p>
-                    <p>{estate.size}</p>
+                    <p>{estate.jibunAddress}</p>
+                    <p>
+                      {estate.size2}㎡({estate.size1}평)
+                    </p>
                   </div>
                   <p>{estate.title}</p>
                 </div>
@@ -118,66 +120,28 @@ const Main = () => {
           </Link>
         </div>
         <ul>
-          <li>
-            <Link to={'/'}>
-              <div className={styles.imgWrapper}>
-                <img src={esateImg01} alt="집꾸 리스트 이미지" />
-              </div>
-              <div className={styles.textWrapper}>
-                <p className={styles.communityTitle}>
-                  아빠와 딸이 함께 사는 전원주택, 내추럴 무드 그대로
-                  그대로그대로
-                </p>
-                <div className={styles.profileViewWrap}>
-                  <div className={styles.profile}>
-                    <FaUserCircle color="#6D885D" size={30} />
-                    <p>test_유저1</p>
-                  </div>
-                  <p>조회 1,059</p>
+          {communityList.map((community) => (
+            <li key={community.communityNum}>
+              <Link to={'/'}>
+                <div className={styles.imgWrapper}>
+                  <img
+                    src={`${url}/image/${community.coverImage}`}
+                    alt="집들이 이미지"
+                  />
                 </div>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to={'/'}>
-              <div className={styles.imgWrapper}>
-                <img src={esateImg01} alt="집꾸 리스트 이미지" />
-              </div>
-              <div className={styles.textWrapper}>
-                <p className={styles.communityTitle}>
-                  아빠와 딸이 함께 사는 전원주택, 내추럴 무드 그대로
-                  그대로그대로
-                </p>
-                <div className={styles.profileViewWrap}>
-                  <div className={styles.profile}>
-                    <FaUserCircle color="#6D885D" size={30} />
-                    <p>test_유저1</p>
+                <div className={styles.textWrapper}>
+                  <p className={styles.communityTitle}>{community.title}</p>
+                  <div className={styles.profileViewWrap}>
+                    <div className={styles.profile}>
+                      <FaUserCircle color="#6D885D" size={30} />
+                      <p>test_유저1</p>
+                    </div>
+                    <p>{community.viewCount.toLocaleString()}</p>
                   </div>
-                  <p>조회 1,059</p>
                 </div>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to={'/'}>
-              <div className={styles.imgWrapper}>
-                <img src={esateImg01} alt="집꾸 리스트 이미지" />
-              </div>
-              <div className={styles.textWrapper}>
-                <p className={styles.communityTitle}>
-                  아빠와 딸이 함께 사는 전원주택, 내추럴 무드 그대로
-                  그대로그대로
-                </p>
-                <div className={styles.profileViewWrap}>
-                  <div className={styles.profile}>
-                    <FaUserCircle color="#6D885D" size={30} />
-                    <p>test_유저1</p>
-                  </div>
-                  <p>조회 1,059</p>
-                </div>
-              </div>
-            </Link>
-          </li>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
     </div>

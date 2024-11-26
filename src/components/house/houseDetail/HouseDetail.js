@@ -4,9 +4,31 @@ import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
 import HouseDetailAnswerList from './houseDetailAnswer/HouseDetailAnswerList';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { useEffect, useState } from 'react';
+import { formatEstateType, formatPrice } from 'utils/utils';
 
 const HouseDetail = () => {
   let { num } = useParams();
+  const [house, setHouse] = useState();
+
+  console.log(house);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axios
+      .get(`${url}/houseDetail/${num}`)
+      .then((res) => {
+        setHouse(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={styles.container}>
@@ -26,7 +48,7 @@ const HouseDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>매물 유형</label>
-          <p>시골 농가 주택</p>
+          <p>{formatEstateType(house?.type)}</p>
         </div>
         <div className={styles.item}>
           <label>지역</label>
@@ -35,27 +57,43 @@ const HouseDetail = () => {
         </div>
         <div className={styles.item}>
           <label>거래 종류</label>
-          <p>전세</p>
+          <p>
+            {house?.rentType === 'jeonse' && '전세'}
+            {house?.rentType === 'monthly' && '월세'}
+            {house?.rentType === 'buy' && '매매'}
+          </p>
         </div>
         <div className={styles.item}>
           <label>희망 평수</label>
-          <p>30평 이상</p>
+          <p>{house?.size === 5 ? '기타' : `${house?.size}평 이상`}</p>
         </div>
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p style={{ marginBottom: '8px' }}>전세가</p>
-            <p>1,000만원</p>
+            <p>
+              {formatPrice({
+                jeonsePrice: house?.jeonsePrice,
+                monthlyPrice: house?.monthlyPrice,
+                depositPrice: house?.depositPrice,
+                buyPrice: house?.buyPrice,
+              }) + ' 만원'}
+            </p>
           </div>
         </div>
         <div className={styles.item}>
           <label>입주 희망 일자</label>
-          <p>2024-10-28</p>
+          <p>
+            {house?.requestState && house?.requestDate === '2024-11-25'
+              ? '미정'
+              : house?.requestDate}
+          </p>
         </div>
-        <div className={styles.item}>
-          <label>연락처</label>
-          <p>010-1234-5678</p>
-        </div>
+        {house?.allowPhone && (
+          <div className={styles.item}>
+            <label>연락처</label>
+            <p>{house?.userPhone}</p>
+          </div>
+        )}
       </section>
       <section>
         <div className={styles.title}>
@@ -64,19 +102,16 @@ const HouseDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>제목</label>
-          <p>집꾸 신청합니다.</p>
+          <p>{house?.title}</p>
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
-          <p className={styles.content}>
-            상세 내용 상세 내용 상세 내용 상세 내용 상세 내용 상세 내용 상세
-            내용
-          </p>
+          <p className={styles.content}>{house?.content}</p>
         </div>
       </section>
       <div className={styles.btnWrap}>
         <Button01 size="small">
-          <Link to={'/houseMain'}>목록으로</Link>
+          <Link to={'/house'}>목록으로</Link>
         </Button01>
       </div>
       {/* 답변 리스트 */}
