@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './CustomNav.module.scss';
+import { useState } from 'react';
+import './LocFilter.css';
 // import { imgUrl } from "../../../constants/path";
 import loc_all from '../../../assets/images/loc_all.png';
 import loc_gyunggy from '../../../assets/images/loc_gyunggy.png';
@@ -10,7 +10,7 @@ import loc_jeolla from '../../../assets/images/loc_jeolla.png';
 import loc_gyangsang from '../../../assets/images/loc_gyangsang.png';
 import loc_jeju from '../../../assets/images/loc_jeju.png';
 
-const customNav = () => {
+const LocFilter = ({ loc, setLoc }) => {
   const categories = [
     { id: 1, name: '전체', imgSrc: loc_all },
     { id: 2, name: '경기', imgSrc: loc_gyunggy },
@@ -22,19 +22,11 @@ const customNav = () => {
     { id: 8, name: '제주', imgSrc: loc_jeju },
   ];
 
-  const filterCategory = (category) => {
-    console.log(`Filtering: ${category}`);
-  };
-
   return (
-    <div>
-      <ul id={styles.filter}>
-        {categories.map((category, index) => (
-          <li
-            id={styles.sub}
-            key={index}
-            onClick={() => filterCategory(category.name)}
-          >
+    <div className="filterA">
+      <ul id="filter">
+        {categories.map((category, interiorNum) => (
+          <li id="sub" key={interiorNum} onClick={() => setLoc(category.name)}>
             <img src={category.imgSrc} alt={category.name} />
             {category.name}
           </li>
@@ -44,4 +36,4 @@ const customNav = () => {
   );
 };
 
-export default customNav;
+export default LocFilter;
