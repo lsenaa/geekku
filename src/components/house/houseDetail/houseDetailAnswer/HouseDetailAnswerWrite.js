@@ -2,7 +2,7 @@ import styles from './HouseDetailAnswerWrite.module.scss';
 import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../../commons/button/Button01';
 import { useAtomValue } from 'jotai';
-import { tokenAtom, userAtom } from 'atoms';
+import { tokenAtom, userAtom } from '../../../../store/atoms';
 import ToastEditor from 'components/commons/ToastEditor';
 import { useRef } from 'react';
 import { axiosInToken } from 'config';

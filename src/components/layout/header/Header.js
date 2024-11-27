@@ -13,7 +13,6 @@ import {
   tokenAtom,
 } from '../../../store/atoms';
 import axios from 'axios';
-import { userAtom, tokenAtom } from 'atoms';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
