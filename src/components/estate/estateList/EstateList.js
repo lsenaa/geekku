@@ -72,7 +72,10 @@ const EstateList = ({ estateList }) => {
           footer={null}
           className={styles.customModal}
         >
-          <EstateDetail estate={estateDetail} />
+          <EstateDetail
+            estate={estateDetail}
+            estateNum={estateDetail.estateNum}
+          />
         </Modal>
       )}
     </ul>
