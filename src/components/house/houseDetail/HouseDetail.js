@@ -57,8 +57,8 @@ const HouseDetail = () => {
         <hr className={styles.line} />
       </section>
       <section>
-        <div className={styles.title}>
-          <h3>원하는 매물 정보</h3>
+        <div className={styles.sectionTitleWrap}>
+          <h3 className={styles.sectionTitle}>원하는 매물 정보</h3>
         </div>
         <hr className={styles.line} />
         <div className={styles.item}>
@@ -110,8 +110,8 @@ const HouseDetail = () => {
         )}
       </section>
       <section>
-        <div className={styles.title}>
-          <h3>상세 설명</h3>
+        <div className={styles.sectionTitleWrap}>
+          <h3 className={styles.sectionTitle}>상세 설명</h3>
         </div>
         <hr className={styles.line} />
         <div className={styles.item}>
