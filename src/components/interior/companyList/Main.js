@@ -5,6 +5,7 @@ import List from './List';
 
 const CompanyMain = () => {
   const [loc, setLoc] = useState('전체');
+
   return (
     <div
       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
