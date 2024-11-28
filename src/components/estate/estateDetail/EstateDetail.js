@@ -11,11 +11,12 @@ import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 import axios from 'axios';
 
-const EstateDetail = ({ estate, estateNum }) => {
-  const imgNumList = estate.estateImageNums.split(',');
+const EstateDetail = ({ estateNum, estateImageNums }) => {
   const [bookmark, setBookmark] = useState(false);
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
+  const [estate, setEstate] = useState({});
+  const imgNumList = estateImageNums.split(',');
 
   useEffect(() => {
     fetchData();
@@ -25,10 +26,11 @@ const EstateDetail = ({ estate, estateNum }) => {
     axios
       .post(`${url}/estateDetail`, {
         estateNum: estateNum,
-        userId: user.userId,
+        userId: user.userId ? user.userId : undefined,
       })
       .then((res) => {
         console.log(res.data);
+        setEstate({ ...res.data.estate });
         setBookmark(res.data.bookmark);
       })
       .catch((err) => {
@@ -40,11 +42,16 @@ const EstateDetail = ({ estate, estateNum }) => {
     axiosInToken(token)
       .post(`/user/estateBookmark/${estateNum}`)
       .then((res) => {
-        console.log(res);
-        // setBookmark(res.data);
-        Modal.success({
-          content: '매물 북마크가 완료되었습니다.',
-        });
+        if (res.data) {
+          Modal.success({
+            content: '매물 북마크가 완료되었습니다.',
+          });
+        } else {
+          Modal.success({
+            content: '매물 북마크가 해제되었습니다.',
+          });
+        }
+        setBookmark(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -82,7 +89,7 @@ const EstateDetail = ({ estate, estateNum }) => {
             </div>
           </div>
           <div className={styles.btnWrapper}>
-            {user.type === 'user' && (
+            {user.type === 'user' && user.username && (
               <img
                 src={bookmark ? bookmarkTrueImg : bookmarkFalseImg}
                 alt="북마크 이미지"

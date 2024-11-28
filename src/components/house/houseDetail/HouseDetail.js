@@ -45,13 +45,15 @@ const HouseDetail = () => {
       });
   };
 
+  console.log(house);
+
   return (
     <div className={styles.container}>
       <h2>집꾸 신청내역</h2>
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
-          <p>홍길동</p>
+          <p>{house.nickname}</p>
           <p className={styles.createdAt}>2024-10-28</p>
         </div>
         <hr className={styles.line} />

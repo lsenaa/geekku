@@ -5,10 +5,13 @@ import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { hangjungdong } from 'utils/hangjungdong';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
 
 const HouseWrite = () => {
   const navigate = useNavigate();
+  const token = useAtomValue(tokenAtom);
   const [textCount, setTextCount] = useState(0);
   const { sido, sigugun } = hangjungdong;
   const [house, setHouse] = useState({
@@ -32,7 +35,12 @@ const HouseWrite = () => {
 
   const onChangeDate = (date, dateString) => {
     console.log(date, dateString);
-    setHouse({ ...house, requestDate: dateString });
+
+    if (house.requestState) {
+      setHouse({ ...house, requestDate: '2000-01-01' });
+    } else {
+      setHouse({ ...house, requestDate: dateString });
+    }
   };
 
   // 입력값
@@ -101,8 +109,8 @@ const HouseWrite = () => {
     formData.append('title', house.title);
     formData.append('content', house.content);
 
-    axios
-      .post(`${url}/houseWrite`, formData)
+    axiosInToken(token)
+      .post(`/user/houseWrite`, formData)
       .then((res) => {
         Modal.success({
           content: '집꾸 등록이 완료되었습니다.',

@@ -73,7 +73,7 @@ const EstateList = ({ estateList }) => {
           className={styles.customModal}
         >
           <EstateDetail
-            estate={estateDetail}
+            estateImageNums={estateDetail.estateImageNums}
             estateNum={estateDetail.estateNum}
           />
         </Modal>

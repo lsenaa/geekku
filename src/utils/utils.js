@@ -15,6 +15,19 @@ export const formatEstateType = (type) => {
   }
 };
 
+export const formatRentType = (rentType) => {
+  switch (rentType) {
+    case 'jeonse':
+      return '전세';
+    case 'monthly':
+      return '월세';
+    case 'buy':
+      return '매매';
+    default:
+      return;
+  }
+};
+
 export const formatPrice = ({
   jeonsePrice,
   monthlyPrice,
