@@ -8,16 +8,9 @@ import { url } from '../../lib/axios';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { userAtom, tokenAtom } from '../../store/atoms';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import {
-  userAtom,
-  tokenAtom,
-  fcmTokenAtom,
-  alarmsAtom,
-} from '../../store/atoms'
+import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
 import axios from 'axios';
-import axiosToken from 'axios';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);

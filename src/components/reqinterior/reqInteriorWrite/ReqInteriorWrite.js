@@ -247,8 +247,8 @@ const ReqInteriorWrite = () => {
               onChange={handleEdit}
             />
             <label htmlFor="부분">부분시공</label>
-         </div>
-
+          </div>
+        </div>
         <div className={styles.items}>
           <label>
             인테리어 시공<span>*</span>
@@ -290,6 +290,7 @@ const ReqInteriorWrite = () => {
             />
             <label>페인트</label>
           </div>
+        </div>
         <div className={styles.items}>
           <label></label>
           <div className={styles.checkboxGroup}>
@@ -329,7 +330,7 @@ const ReqInteriorWrite = () => {
             />
             <label>베란다</label>
           </div>
-
+        </div>
         <div className={styles.item}>
           <label>
             연락처 공개<span>*</span>
@@ -403,18 +404,18 @@ const ReqInteriorWrite = () => {
               </p>
             </div>
           </div>
-        </section>
-        <div className={styles.btnWrap}>
-          <Button01 type="submit" size="small" onClick={handleSubmit}>
-            신청하기
-          </Button01>
-          <Button01 color="sub" size="small">
-            <Link to={'/requestInterior'}>취소하기</Link>
-          </Button01>
         </div>
+      </section>
+      <div className={styles.btnWrap}>
+        <Button01 type="submit" size="small" onClick={handleSubmit}>
+          신청하기
+        </Button01>
+        <Button01 color="sub" size="small">
+          <Link to={'/requestInterior'}>취소하기</Link>
+        </Button01>
       </div>
-    );
-  };
+    </div>
+  );
 };
 
 export default ReqInteriorWrite;

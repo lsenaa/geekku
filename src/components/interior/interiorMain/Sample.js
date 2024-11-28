@@ -6,7 +6,7 @@ import img from '../../../assets/images/interiorEx.png';
 import './Sample.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { url } from 'config';
+import { url } from 'lib/axios';
 
 const Sample = () => {
   const settings = {
