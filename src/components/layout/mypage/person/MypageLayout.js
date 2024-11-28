@@ -8,6 +8,7 @@ const MypageLayout = () => {
   const allowedPaths = [
     '/mypage/person',
     '/mypage/person/interior',
+    '/mypage/person/interior/request',
     '/mypage/person/interior/review',
     '/mypage/person/onestop',
     '/mypage/person/bookmark',

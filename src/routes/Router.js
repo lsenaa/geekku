@@ -64,6 +64,7 @@ import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInterio
 import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
 import SendAlarm from 'components/layout/notification/SendAlarm';
 import OneStopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
+import MypagePersonRequestInterior from 'components/mypage/person/interior/MypagePersonRequestInterior';
 
 const Router = () => {
   return (
@@ -84,7 +85,7 @@ const Router = () => {
       <Route path="/interiorRegister" element={<InteriorRegister />} />
       <Route path="/sampleDetail" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
-      <Route path="/interiorAnswer" element={<InteriorAnswer />} />
+      <Route path="/interiorAnswer/:num" element={<InteriorAnswer />} />
       <Route path="/reviewWrite" element={<ReviewWrite />} />
       {/* Onestop */}
       <Route path="/onestop" element={<OnestopMain />} />
@@ -102,6 +103,10 @@ const Router = () => {
       <Route path="/mypage/person/*" element={<MypageLayout />}>
         <Route index element={<MypagePersonMain />} />
         <Route path="interior" element={<MypagePersonInterior />} />
+        <Route
+          path="interior/request"
+          element={<MypagePersonRequestInterior />}
+        />
         <Route path="interior/review" element={<MypagePersonReview />} />
         <Route path="onestop" element={<MypagePersonOnestop />} />
         <Route path="bookmark" element={<BookmarkHouse />} />
@@ -147,7 +152,10 @@ const Router = () => {
       <Route path="/joinInterior" element={<JoinInterior />} />
       {/* Profile */}
       <Route path="/profile/person" element={<ProfilePerson />} />
-      <Route path="/profile/interior/*" element={<ProfileInterior />}>
+      <Route
+        path="/profile/interior/:interiorNum"
+        element={<ProfileInterior />}
+      >
         <Route index element={<ProfileInteriorAll />} />
         <Route path="sample" element={<ProfileInteriorSample />} />
         <Route path="review" element={<ProfileInteriorReview />} />

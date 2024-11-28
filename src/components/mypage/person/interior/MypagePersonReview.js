@@ -1,6 +1,6 @@
 import Button01 from 'components/commons/button/Button01';
 import styles from './MypagePersonReview.module.scss';
-import { Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
 import reviewImg from 'assets/images/InteriorExam.jpg';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
@@ -32,10 +32,32 @@ const MypagePersonReview = () => {
       });
   };
 
+  const handleDelete = (reviewNum) => {
+    Modal.warning({
+      content: '인테리어 업체 후기를 삭제하시겠습니까?',
+      onOk: () => {
+        axiosInToken(token)
+          .post(`/user/mypageUserReviewDelete/${reviewNum}`)
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              Modal.success({
+                content: '인테리어 업체 후기가 삭제되었습니다.',
+              });
+              fetchData();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+    });
+  };
+
   return (
     <>
       {reviewList.length === 0 ? (
-        <div>작성한 후기 내역이 없습니다.</div>
+        <div className={styles.noListText}>작성한 후기 내역이 없습니다.</div>
       ) : (
         <>
           <table className={styles.customTable}>
@@ -56,18 +78,41 @@ const MypagePersonReview = () => {
               </tr>
             </thead>
             <tbody>
-              {reviewList.map((review, i) => (
-                <tr className={styles.rowWrap} key={review.reviewNum}>
+              {reviewList.map((review) => (
+                <tr
+                  className={styles.rowWrap}
+                  key={review.reviewNum}
+                  onClick={() =>
+                    navigate(`/profile/interior/${review.interiorNum}`)
+                  }
+                >
                   <td>
+                    {/* <img src={review.imageNums && review.imageNums.split(",")[0]} alt="후기 이미지" /> */}
                     <img src={reviewImg} alt="후기 이미지" />
                   </td>
                   <td>{review.content}</td>
                   <td>{formatDate(review.createdAt)}</td>
                   <td>
-                    <button className={styles.editBtn}>수정</button>
+                    <button
+                      className={styles.editBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate('/reviewWrite');
+                      }}
+                    >
+                      수정
+                    </button>
                   </td>
                   <td>
-                    <Button01 size="x-small">삭제</Button01>
+                    <Button01
+                      size="x-small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(review.reviewNum);
+                      }}
+                    >
+                      삭제
+                    </Button01>
                   </td>
                 </tr>
               ))}
