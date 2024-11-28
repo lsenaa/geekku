@@ -42,6 +42,10 @@ const Header = ({ alarms = [] }) => {
       setIsLogin(false);
     }
   }, [user, token]);
+  // =======
+  //     setIsLogin(user !== null && user.username !== '');
+  //   }, [user]);
+  // >>>>>>> 473384f327e6968c76326514a2934cfcee6bb800
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },
@@ -96,7 +100,7 @@ const Header = ({ alarms = [] }) => {
             <Link to={'/house'}>집꾸하기</Link>
           </li>
           <li>
-            <Link to={'/interior'}>방꾸하기</Link>
+            <Link to={'/interiorMain'}>방꾸하기</Link>
           </li>
           <li>
             <Link to={'/onestop'}>한번에꾸하기</Link>
@@ -150,7 +154,7 @@ const Header = ({ alarms = [] }) => {
                 ) : (
                   alarms.map((item) => (
                     <li key={item.num} className={styles.notificationItem}>
-                      <b>{item.title}</b>&nbsp;&nbsp;{item.body}
+                      <b>{item.sender}</b>&nbsp;&nbsp;{item.message}
                       <button onClick={() => confirm(item.num)}>확인</button>
                     </li>
                   ))

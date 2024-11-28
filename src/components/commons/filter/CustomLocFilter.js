@@ -1,5 +1,5 @@
 import React from 'react';
-import './NavBar.css';
+import styles from './CustomLocFilter.module.scss';
 // import { imgUrl } from "../../../constants/path";
 import loc_all from '../../../assets/images/loc_all.png';
 import loc_gyunggy from '../../../assets/images/loc_gyunggy.png';
@@ -10,7 +10,7 @@ import loc_jeolla from '../../../assets/images/loc_jeolla.png';
 import loc_gyangsang from '../../../assets/images/loc_gyangsang.png';
 import loc_jeju from '../../../assets/images/loc_jeju.png';
 
-const NavBar = () => {
+const CustomLocFilter = () => {
   const categories = [
     { id: 1, name: '전체', imgSrc: loc_all },
     { id: 2, name: '경기', imgSrc: loc_gyunggy },
@@ -27,11 +27,11 @@ const NavBar = () => {
   };
 
   return (
-    <div className="filterA">
-      <ul id="filter">
+    <div>
+      <ul id={styles.filter}>
         {categories.map((category, index) => (
           <li
-            id="sub"
+            id={styles.sub}
             key={index}
             onClick={() => filterCategory(category.name)}
           >
@@ -44,4 +44,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default CustomLocFilter;

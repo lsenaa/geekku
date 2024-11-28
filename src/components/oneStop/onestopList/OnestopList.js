@@ -1,7 +1,10 @@
 import styles from './OnestopList.module.scss';
 import { FaUserCircle } from 'react-icons/fa';
+import { formatDate, formatLocation, processLocation } from 'utils/utils';
+import { useNavigate } from 'react-router-dom';
 
-const OnestopList = () => {
+const OnestopList = ({ onestopList }) => {
+  const navigate = useNavigate();
   return (
     <table className={styles.customTable}>
       <colgroup>
@@ -25,57 +28,30 @@ const OnestopList = () => {
         </tr>
       </thead>
       <tbody>
-        <tr className={styles.rowWrap}>
-          <td>3</td>
-          <td>
-            지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-            같아요.
-          </td>
-          <td>매매</td>
-          <td>경남 사천</td>
-          <td>
-            <span className={styles.writer}>
-              <FaUserCircle color="#6D885D" size={30} />
-              &nbsp;홍길동
-            </span>
-          </td>
-          <td>2024-10-27</td>
-          <td>32</td>
-        </tr>
-        <tr className={styles.rowWrap}>
-          <td>2</td>
-          <td>
-            지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-            같아요.
-          </td>
-          <td>매매</td>
-          <td>경남 사천</td>
-          <td>
-            <span className={styles.writer}>
-              <FaUserCircle color="#6D885D" size={30} />
-              &nbsp;홍길동
-            </span>
-          </td>
-          <td>2024-10-27</td>
-          <td>32</td>
-        </tr>
-        <tr className={styles.rowWrap}>
-          <td>1</td>
-          <td>
-            지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-            같아요.
-          </td>
-          <td>매매</td>
-          <td>경남 사천</td>
-          <td>
-            <span className={styles.writer}>
-              <FaUserCircle color="#6D885D" size={30} />
-              &nbsp;홍길동
-            </span>
-          </td>
-          <td>2024-10-27</td>
-          <td>32</td>
-        </tr>
+        {onestopList.map((onestop, i) => (
+          <tr
+            className={styles.rowWrap}
+            key={onestop.onestopNum}
+            onClick={() => navigate(`/onestop/detail/${onestop.onestopNum}`)}
+          >
+            <td>{i + 1}</td>
+            <td>{onestop.title}</td>
+            <td>
+              {onestop.rentType === 'jeonse' && '전세'}
+              {onestop.rentType === 'monthly' && '월세'}
+              {onestop.rentType === 'buy' && '매매'}
+            </td>
+            <td>{`${processLocation(onestop.address1)} ${onestop.address2}`}</td>
+            <td>
+              <span className={styles.writer}>
+                <FaUserCircle color="#6D885D" size={30} />
+                &nbsp;홍길동
+              </span>
+            </td>
+            <td>{formatDate(onestop.createdAt)}</td>
+            <td>{onestop.viewCount}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

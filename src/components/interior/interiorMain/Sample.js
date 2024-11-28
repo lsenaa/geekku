@@ -6,6 +6,7 @@ import img from '../../../assets/images/interiorEx.png';
 import './Sample.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { url } from 'lib/axios';
 
 const Sample = () => {
   const settings = {
@@ -18,28 +19,17 @@ const Sample = () => {
 
   const [sampleList, setSampleList] = useState([]);
 
-  const list = () => {
-    const url = 'http://localhost:8080';
-    const apiUrl = `${url}/interiorMain`;
-    console.log('API URL:', apiUrl);
-
+  useEffect(() => {
     axios
-      .get(apiUrl)
+      .get(`${url}/interiorMain`)
       .then((res) => {
-        console.log('API Response:', res.data); // 응답 확인
+        console.log(res.data);
         setSampleList([...res.data.sampleList]);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
-        setSampleList([]); // 에러 발생 시 빈 배열로 설정
+        console.error(error);
+        setSampleList([]);
       });
-  };
-
-  console.log(sampleList);
-
-  useEffect(() => {
-    console.log('list: ');
-    list();
   }, []);
 
   return (
@@ -50,30 +40,26 @@ const Sample = () => {
       </Link>
 
       <div className="slider-container">
-        {sampleList.length > 0 ? (
-          <Slider {...settings}>
-            {sampleList.map((sample) => (
-              <Link
-                to={`/sampleDetail/${sample.sampleNum}`}
-                className="card"
-                key={sample.sampleNum}
-              >
-                <img
-                  src={sample.coverImage}
-                  style={{ width: '100%', height: '242px' }}
-                />
-                <div className="wrap-title">
-                  <div className="title">{sample.intro}</div>
-                  <div className="title" id="interiorName">
-                    {sample.companyName}
-                  </div>
+        <Slider {...settings}>
+          {sampleList.map((sample) => (
+            <Link
+              to={`/sampleDetail/${sample.sampleNum}`}
+              className="card"
+              key={sample.sampleNum}
+            >
+              <img
+                src={sample.coverImage}
+                style={{ width: '100%', height: '242px' }}
+              />
+              <div className="wrap-title">
+                <div className="title">{sample.intro}</div>
+                <div className="title" id="interiorName">
+                  {sample.companyName}
                 </div>
-              </Link>
-            ))}
-          </Slider>
-        ) : (
-          <div>리스트가 없습니다.</div>
-        )}
+              </div>
+            </Link>
+          ))}
+        </Slider>
       </div>
     </div>
   );
