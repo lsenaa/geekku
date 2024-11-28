@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router';
 
 const MypagePerson = () => {
   const navigate = useNavigate();
-  const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
   const [houseList, setHouseList] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -23,7 +22,6 @@ const MypagePerson = () => {
     axiosInToken(token)
       .get('/user/mypageUserHouseList')
       .then((res) => {
-        console.log(res.data);
         setHouseList([...res.data.content]);
         setTotalCount(res.data.totalElements);
       })
@@ -32,7 +30,7 @@ const MypagePerson = () => {
       });
   };
 
-  const deleteHouse = (houseNum) => {
+  const handleDelete = (houseNum) => {
     Modal.warning({
       content: '집꾸 작성글을 삭제하시겠습니까?',
       onOk: () => {
@@ -99,7 +97,7 @@ const MypagePerson = () => {
                       size="x-small"
                       onClick={(e) => {
                         e.stopPropagation();
-                        deleteHouse(house.houseNum);
+                        handleDelete(house.houseNum);
                       }}
                     >
                       삭제
