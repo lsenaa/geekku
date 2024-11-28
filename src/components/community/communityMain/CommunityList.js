@@ -10,12 +10,13 @@ import { url } from 'lib/axios';
 
 const CommunityList = () => {
   const [posts, setPosts] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${url}/communityList`);
-        setPosts(response.data);
+        console.log(response.data); // 전체 API 응답 확인
+        console.log(response.data.content); // content 배열 확인
+        setPosts(response.data.content); // 상태로 content 설정
       } catch (error) {
         console.error('데이터를 가져오는데 실패했습니다:', error);
       }
@@ -23,6 +24,10 @@ const CommunityList = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(posts); // 상태 업데이트 후 확인
+  }, [posts]);
 
   return (
     <div className={styles.postList}>

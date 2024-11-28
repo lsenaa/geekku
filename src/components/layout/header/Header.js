@@ -128,9 +128,6 @@ const Header = ({ alarms = [] }) => {
             </ul>
           )}
 
-          {/* 알림 버튼 추가 위치 */}
-          <a href="/sendalarm">알람전송</a>
-
           {/* 알림 아이콘 버튼 */}
           <a href="#" onClick={() => setIsOpen(!isOpen)}>
             <div className={styles.notificationWrap}>
@@ -146,7 +143,19 @@ const Header = ({ alarms = [] }) => {
             >
               <div className={styles.notificationHeader}>
                 <span>알림</span>
-                <button onClick={() => setIsOpen(false)}>닫기</button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  style={{
+                    width: '50px',
+                    height: '30px',
+                    borderRadius: '5px',
+                    borderWidth: 0,
+                    backgroundColor: '#c6d695',
+                    color: '#ffffff',
+                  }}
+                >
+                  닫기
+                </button>
               </div>
               <ul className={styles.notificationList}>
                 {alarms.length === 0 ? (
@@ -154,8 +163,22 @@ const Header = ({ alarms = [] }) => {
                 ) : (
                   alarms.map((item) => (
                     <li key={item.num} className={styles.notificationItem}>
-                      <b>{item.sender}</b>&nbsp;&nbsp;{item.message}
-                      <button onClick={() => confirm(item.num)}>확인</button>
+                      <div style={{ fontWeight: 'bold' }}>{item.sender}</div>
+                      &nbsp;&nbsp;
+                      {item.title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <button
+                        onClick={() => confirm(item.num)}
+                        style={{
+                          width: '50px',
+                          height: '30px',
+                          borderRadius: '5px',
+                          borderWidth: 0,
+                          backgroundColor: '#c6d695',
+                          color: '#ffffff',
+                        }}
+                      >
+                        확인
+                      </button>
                     </li>
                   ))
                 )}
