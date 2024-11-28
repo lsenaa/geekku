@@ -1,14 +1,16 @@
+import { useState } from 'react';
 import TopButton from 'components/layout/topbutton/TopButton';
-import NavBar from '../navBar/NavBar';
+import LocFilter from '../locFilter/LocFilter';
 import List from './List';
 
 const CompanyMain = () => {
+  const [loc, setLoc] = useState('전체');
   return (
     <div
       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
-      <NavBar />
-      <List />
+      <LocFilter loc={loc} setLoc={setLoc} />
+      <List loc={loc} setLoc={setLoc} />
       <TopButton />
     </div>
   );

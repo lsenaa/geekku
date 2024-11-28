@@ -4,7 +4,7 @@ import Button01 from '../../../commons/button/Button01';
 import { useAtomValue } from 'jotai';
 import ToastEditor from 'components/commons/ToastEditor';
 import { useRef, useState } from 'react';
-import { axiosInToken } from 'config';
+import { axiosInToken } from 'lib/axios';
 import { Modal } from 'antd';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { url } from 'config';
