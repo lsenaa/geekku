@@ -1,22 +1,52 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styles from './OnestopDetail.module.scss';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { useEffect, useState } from 'react';
+import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
 import OnestopDetailAnswerList from './oneStopDetailAnswer/OnestopDetailAnswerList';
 
 const OnestopDetail = () => {
   let { num } = useParams();
-  const navigate = useNavigate();
-  const handleListButton = () => {
-    navigate('/onestop');
+  const [onestop, setOnestop] = useState({
+    type: '',
+    address1: '',
+    address2: '',
+    size: '',
+    rentType: '',
+    jeonsePrice: 0,
+    monthlyPrice: 0,
+    buyPrice: 0,
+    depositPrice: 0,
+    requestState: false,
+    allowPhone: false,
+    title: '',
+    content: '',
+    createdAt: '',
+    onestopNum: num || 0,
+  });
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log(onestop);
+  const fetchData = () => {
+    axios
+      .get(`${url}/onestopDetail/${num}`)
+      .then((res) => {
+        setOnestop({ ...res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
   return (
     <div className={styles.container}>
-      <h2>한번에 꾸미기 신청내역</h2>
+      <h2>한번에꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
@@ -32,36 +62,44 @@ const OnestopDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>매물 유형</label>
-          <p>시골 농가 주택</p>
+          <p>{formatEstateType(onestop.type)}</p>
         </div>
         <div className={styles.item}>
           <label>지역</label>
-          <p>충청북도</p>
-          <p>단양군</p>
+          <p>{`${processLocation(onestop.address1)} ${onestop.address2}`}</p>
         </div>
         <div className={styles.item}>
           <label>거래 종류</label>
-          <p>전세</p>
+          <p>
+            {onestop.rentType === 'jeonse' && '전세'}
+            {onestop.rentType === 'monthly' && '월세'}
+            {onestop.rentType === 'buy' && '매매'}
+          </p>
         </div>
         <div className={styles.item}>
           <label>희망 평수</label>
-          <p>30평 이상</p>
+          <p>{onestop.size === 5 ? '기타' : `${onestop.size}평 이상`}</p>
         </div>
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p style={{ marginBottom: '8px' }}>전세가</p>
-            <p>1,000만원</p>
+            <p>
+              {formatPrice({
+                jeonsePrice: onestop.jeonsePrice,
+                monthlyPrice: onestop.monthlyPrice,
+                depositPrice: onestop.depositPrice,
+                buyPrice: onestop.buyPrice,
+              }) + ' 만원'}
+            </p>
           </div>
         </div>
-        <div className={styles.item}>
-          <label>입주 희망 일자</label>
-          <p>2024-10-28</p>
-        </div>
-        <div className={styles.item}>
-          <label>연락처</label>
-          <p>010-1234-5678</p>
-        </div>
+
+        {onestop.allowPhone && (
+          <div className={styles.item}>
+            <label>연락처</label>
+            <p>{onestop.userPhone}</p>
+          </div>
+        )}
       </section>
       <section>
         <div className={styles.title}>
@@ -70,14 +108,11 @@ const OnestopDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>제목</label>
-          <p>집꾸 신청합니다.</p>
+          <p>{onestop.title}</p>
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
-          <p className={styles.content}>
-            상세 내용 상세 내용 상세 내용 상세 내용 상세 내용 상세 내용 상세
-            내용
-          </p>
+          <p className={styles.content}></p>
         </div>
       </section>
       <div className={styles.btnWrap}>
@@ -86,7 +121,7 @@ const OnestopDetail = () => {
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <OnestopDetailAnswerList />
+      <OnestopDetailAnswerList onestopNum={onestop.onestopNum} />
     </div>
   );
 };

@@ -63,6 +63,7 @@ import ReqInteriorMain from 'components/reqinterior/ReqInteriorMain';
 import ReqInteriorWrite from 'components/reqinterior/reqInteriorWrite/ReqInteriorWrite';
 import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInteriorDetail';
 import SendAlarm from 'components/layout/notification/SendAlarm';
+import OneStopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 
 const Router = () => {
   return (
@@ -86,9 +87,10 @@ const Router = () => {
       <Route path="/interiorAnswer" element={<InteriorAnswer />} />
       <Route path="/reviewWrite" element={<ReviewWrite />} />
       {/* Onestop */}
-      <Route path="/onestop/write" element={<OnestopWrite />} />
-      <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
       <Route path="/onestop" element={<OnestopMain />} />
+      <Route path="/onestop/write" element={<OneStopWrite />} />
+      <Route path="/onestop/detail/:num" element={<OnestopDetail />} />
+
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
