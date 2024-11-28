@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from 'assets/images/logo.png';
+import defaultImg from '../../../assets/images/usericon.png';
 import styles from './Header.module.scss';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,7 @@ import axios from 'axios';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
-  const [, setToken] = useAtom(tokenAtom);
+  const [token, setToken] = useAtom(tokenAtom);
 
   const [isLogin, setIsLogin] = useState(false);
 
@@ -35,8 +36,16 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    setIsLogin(user !== null && user.username !== '');
-  }, [user]);
+    if (user && token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [user, token]);
+  // =======
+  //     setIsLogin(user !== null && user.username !== '');
+  //   }, [user]);
+  // >>>>>>> 473384f327e6968c76326514a2934cfcee6bb800
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },
@@ -83,12 +92,15 @@ const Header = ({ alarms = [] }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
-    setIsLogin(false);
+
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    setIsLogin(false);
     alert('로그아웃 되었습니다.');
     navigate('/');
   };
-
+  console.log('현재 user 상태 : ', user);
   return (
     <header className={styles.Container}>
       <Link to={'/'}>
@@ -103,7 +115,7 @@ const Header = ({ alarms = [] }) => {
             <Link to={'/house'}>집꾸하기</Link>
           </li>
           <li>
-            <Link to={'/interiorMain'}>방꾸하기</Link>
+            <Link to={'/interior'}>방꾸하기</Link>
           </li>
           <li>
             <Link to={'/onestop'}>한번에꾸하기</Link>
@@ -131,9 +143,6 @@ const Header = ({ alarms = [] }) => {
             </ul>
           )}
 
-          {/* 알림 버튼 추가 위치 */}
-          <a href="/sendalarm">알람전송</a>
-
           {/* 알림 아이콘 버튼 */}
           <a href="#" onClick={() => setIsOpen(!isOpen)}>
             <div className={styles.notificationWrap}>
@@ -149,7 +158,19 @@ const Header = ({ alarms = [] }) => {
             >
               <div className={styles.notificationHeader}>
                 <span>알림</span>
-                <button onClick={() => setIsOpen(false)}>닫기</button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  style={{
+                    width: '50px',
+                    height: '30px',
+                    borderRadius: '5px',
+                    borderWidth: 0,
+                    backgroundColor: '#c6d695',
+                    color: '#ffffff',
+                  }}
+                >
+                  닫기
+                </button>
               </div>
               <ul className={styles.notificationList}>
                 {alarms.length === 0 ? (
@@ -157,8 +178,22 @@ const Header = ({ alarms = [] }) => {
                 ) : (
                   alarms.map((item) => (
                     <li key={item.num} className={styles.notificationItem}>
-                      <b>{item.sender}</b>&nbsp;&nbsp;{item.message}
-                      <button onClick={() => confirm(item.num)}>확인</button>
+                      <div style={{ fontWeight: 'bold' }}>{item.sender}</div>
+                      &nbsp;&nbsp;
+                      {item.title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <button
+                        onClick={() => confirm(item.num)}
+                        style={{
+                          width: '50px',
+                          height: '30px',
+                          borderRadius: '5px',
+                          borderWidth: 0,
+                          backgroundColor: '#c6d695',
+                          color: '#ffffff',
+                        }}
+                      >
+                        확인
+                      </button>
                     </li>
                   ))
                 )}
@@ -170,12 +205,13 @@ const Header = ({ alarms = [] }) => {
           <div className={styles.userProfile} onClick={onClickMypage}>
             {user && (
               <img
-                src={`data:image/png;base64, ${
-                  user.socialProfileImage != null
+                src={
+                  user.socialProfileImage
                     ? user.socialProfileImage
                     : user.profileImage
-                }`}
-                alt="사용자 프로필 이미지"
+                      ? `data:image/png;base64,${user.profileImage}`
+                      : defaultImg
+                }
                 className={styles.profileImage}
               />
             )}

@@ -158,10 +158,7 @@ const Router = () => {
       {/* RequestInterior */}
       <Route path="/requestInterior" element={<ReqInteriorMain />} />
       <Route path="/requestInterior/write" element={<ReqInteriorWrite />} />
-      <Route
-        path="/requestInterior/detail/:num"
-        element={<ReqInteriorDetail />}
-      />
+      <Route path="/interiorall/detail/:num" element={<ReqInteriorDetail />} />
       {/* NotFound */}
       <Route path="*" element={<NotFound />} />
       {/* test 나중에 지워야함*/}

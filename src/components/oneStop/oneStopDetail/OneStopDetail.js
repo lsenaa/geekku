@@ -33,7 +33,7 @@ const OnestopDetail = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(onestop);
+
   const fetchData = () => {
     axios
       .get(`${url}/onestopDetail/${num}`)
@@ -83,14 +83,7 @@ const OnestopDetail = () => {
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p>
-              {formatPrice({
-                jeonsePrice: onestop.jeonsePrice,
-                monthlyPrice: onestop.monthlyPrice,
-                depositPrice: onestop.depositPrice,
-                buyPrice: onestop.buyPrice,
-              }) + ' 만원'}
-            </p>
+            <p>{onestop.money + ' 만원'}</p>
           </div>
         </div>
 
@@ -112,7 +105,7 @@ const OnestopDetail = () => {
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
-          <p className={styles.content}></p>
+          <p className={styles.content}>{onestop.content}</p>
         </div>
       </section>
       <div className={styles.btnWrap}>

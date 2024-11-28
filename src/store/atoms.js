@@ -7,11 +7,14 @@ export const initUser = {
   phone: '',
   email: '',
   nickname: '',
-  profileImage: '',
   role: '',
   provider: '',
   providerId: '',
+  profileImage: '',
+  profileImageStr: '',
   socialProfileImage: '',
+  createdAt: '',
+  type: '',
 };
 
 export const userAtom = atomWithStorage(

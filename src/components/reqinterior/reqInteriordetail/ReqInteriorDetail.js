@@ -4,24 +4,49 @@ import Button01 from '../../commons/button/Button01';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './ReqInteriorDetail.module.scss';
-import { useNavigate } from 'react-router';
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { useEffect, useState } from 'react';
+import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
 import ReqInteriorDetailAnswerList from './reqInteriorDetailAnswer/ReqInteriorDetailAnswerList';
 
 const ReqInteriorDetail = () => {
   let { num } = useParams();
-  const navigate = useNavigate();
-  const handleListButton = () => {
-    navigate('/reqInterior');
-  };
+  const [interiorall, setInteriorall] = useState({
+    type: '',
+    address1: '',
+    address2: '',
+    size: '',
+    rentType: '',
+    money: '',
+    requestState: false,
+    allowPhone: false,
+    title: '',
+    addContent: '',
+    createdAt: '',
+    requestAllNum: num || 0,
+  });
+  useEffect(() => {
+    fetchData();
+  }, []);
 
+  const fetchData = () => {
+    axios
+      .get(`${url}/interiorallDetail/${num}`)
+      .then((res) => {
+        setInteriorall({ ...res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className={styles.container}>
-      <h2>방꾸 신청내역</h2>
+      <h2>집꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
-          <p>코스타</p>
-
+          <p>홍길동</p>
           <p className={styles.createdAt}>2024-10-28</p>
         </div>
         <hr className={styles.line} />
@@ -33,31 +58,34 @@ const ReqInteriorDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>매물 유형</label>
-          <p>시골 농가 주택</p>
+          <p>{formatEstateType(interiorall.type)}</p>
         </div>
         <div className={styles.item}>
           <label>지역</label>
-          <p>충청북도</p>
-          <p>단양군</p>
+          <p>{`${processLocation(interiorall.address1)} ${interiorall.address2}`}</p>
         </div>
         <div className={styles.item}>
-          <label>희망 평수</label>
-          <p>31평~35평</p>
+          <label>거래 종류</label>
+          <p>
+            {interiorall.rentType === 'jeonse' && '전세'}
+            {interiorall.rentType === 'monthly' && '월세'}
+            {interiorall.rentType === 'buy' && '매매'}
+          </p>
         </div>
+
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p>5,000만원</p>
+            <p>{interiorall.money + ' 만원'}</p>
           </div>
         </div>
-        <div className={styles.item}>
-          <label>시공 종류</label>
-          <p>부분 시공</p>
-        </div>
-        <div className={styles.item}>
-          <label>인테리어 시공</label>
-          <p>도배 바닥 몰딩 샷시 조명 베란다</p>
-        </div>
+
+        {interiorall.allowPhone && (
+          <div className={styles.item}>
+            <label>연락처</label>
+            <p>{interiorall.userPhone}</p>
+          </div>
+        )}
       </section>
       <section>
         <div className={styles.title}>
@@ -66,23 +94,20 @@ const ReqInteriorDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>제목</label>
-          <p>집꾸 신청합니다.</p>
+          <p>{interiorall.title}</p>
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
-          <p className={styles.content}>
-            상세 내용 상세 내용 상세 내용 상세 내용 상세 내용 상세 내용 상세
-            내용
-          </p>
+          <p className={styles.content}>{interiorall.addContent}</p>
         </div>
       </section>
       <div className={styles.btnWrap}>
         <Button01 size="small">
-          <Link to={'/requestInterior'}>목록으로</Link>
+          <Link to={'/oneStop'}>목록으로</Link>
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <ReqInteriorDetailAnswerList />
+      <ReqInteriorDetailAnswerList onestopNum={interiorall.onestopNum} />
     </div>
   );
 };
