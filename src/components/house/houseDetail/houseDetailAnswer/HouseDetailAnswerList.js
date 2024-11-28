@@ -7,10 +7,15 @@ import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
+import { Viewer } from '@toast-ui/react-editor';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
 
 const HouseDetailAnswerList = ({ houseNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [houseAnswerList, setHouseAnswerList] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const user = useAtomValue(userAtom);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -26,6 +31,24 @@ const HouseDetailAnswerList = ({ houseNum }) => {
       .then((res) => {
         console.log(res.data);
         setHouseAnswerList([...res.data.houseAnswerList]);
+        setTotalCount(res.data.pageInfo.totalCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleDelete = (houseAnswerNum) => {
+    axios
+      .post(`${url}/houseAnswerDelete`, { houseAnswerNum, houseNum })
+      .then((res) => {
+        console.log(res);
+        Modal.success({
+          content: '답변이 삭제되었습니다.',
+          onOk: () => {
+            fetchData();
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -43,36 +66,39 @@ const HouseDetailAnswerList = ({ houseNum }) => {
       <hr className={styles.line} />
       <ul>
         {houseAnswerList.map((answer) => (
-          <div key={answer.answerHouseNum}>
-            <li key={answer.answerHouseNum}>
-              <div>
-                <div className={styles.profile}>
-                  <img
-                    src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                  />
-                  <p>{answer.companyName}</p>
-                  <p className={styles.createdAt}>
-                    {formatDate(answer.createdAt)}
-                  </p>
-                  <button>삭제</button>
+          <li key={answer.answerHouseNum} className={styles.answerList}>
+            <div>
+              <div className={styles.profile}>
+                <img
+                  src={`data:image/png;base64, ${answer.companyProfileImage}`}
+                />
+                <p>{answer.companyName}</p>
+                <p className={styles.createdAt}>
+                  {formatDate(answer.createdAt)}
+                </p>
+                {user.companyId === answer.companyId && (
+                  <button onClick={() => handleDelete(answer.answerHouseNum)}>
+                    삭제
+                  </button>
+                )}
+              </div>
+              <div className={styles.phoneAddWrap}>
+                <div className={styles.phone}>
+                  <p>연락처</p>
+                  <p>{answer.companyPhone}</p>
                 </div>
-                <div className={styles.phoneAddWrap}>
-                  <div className={styles.phone}>
-                    <p>연락처</p>
-                    <p>{answer.companyPhone}</p>
-                  </div>
-                  <div className={styles.address}>
-                    <p>주소</p>
-                    <p>{answer.companyAddress}</p>
-                  </div>
+                <div className={styles.address}>
+                  <p>주소</p>
+                  <p>{answer.companyAddress}</p>
                 </div>
               </div>
-              <div className={styles.editorContent}>
-                <p>{answer.content}</p>
-              </div>
-            </li>
+            </div>
+            <p className={styles.title}>{answer?.title}</p>
+            <div className={styles.editorContent}>
+              <Viewer initialValue={answer.content} />
+            </div>
             <hr className={styles.line} />
-          </div>
+          </li>
         ))}
       </ul>
       {isModalOpen && (
@@ -87,6 +113,8 @@ const HouseDetailAnswerList = ({ houseNum }) => {
           <HouseDetailAnswerWrite
             toggleModal={toggleModal}
             houseNum={houseNum}
+            setIsModalOpen={setIsModalOpen}
+            fetchData={fetchData}
           />
         </Modal>
       )}

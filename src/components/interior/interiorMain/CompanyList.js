@@ -6,6 +6,7 @@ import img from '../../../assets/images/interiorEx.png';
 import './CompanyList.css';
 import { Link } from 'react-router-dom';
 import { url } from 'lib/axios';
+import axios from 'axios';
 
 const CompanyList = () => {
   const settings = {
@@ -18,6 +19,19 @@ const CompanyList = () => {
 
   const [interiorList, setInteriorList] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get(`${url}/interiorMain`)
+      .then((res) => {
+        console.log(res.data);
+        setInteriorList([...res.data.interiorList]);
+      })
+      .catch((error) => {
+        console.error(error);
+        setInteriorList([]);
+      });
+  }, []);
+
   return (
     <div className="interiorAll">
       <div id="companyTop">시공업체</div>
@@ -29,13 +43,15 @@ const CompanyList = () => {
         <Slider {...settings}>
           {interiorList.map((interior) => (
             <Link
-              to="/profile/interior"
+              to={`/profile/interior/${interior.interiorNum}`}
               className="card"
               key={interior.interiorNum}
             >
-              <img style={{ width: '100%', height: '242px' }}>
-                {interior.coverImage}
-              </img>
+              <img
+                src={interior.coverImage}
+                style={{ width: '100%', height: '242px' }}
+              />
+
               <div className="wrap-title">
                 <div className="title">
                   {interior.companyName}

@@ -4,13 +4,18 @@ import naverIcon from '../../assets/images/login/naver_login_Btn.png';
 import googleIcon from '../../assets/images/login/google_login_Btn.png';
 import styles from './Login.module.scss';
 import ToggleSwitch from './ToggleSwitch';
-import { url } from '../../config';
+import { url } from '../../lib/axios';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from '../../store/atoms';
-
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import {
+  userAtom,
+  tokenAtom,
+  fcmTokenAtom,
+  alarmsAtom,
+} from '../../store/atoms'
 import axios from 'axios';
 import axiosToken from 'axios';
 
@@ -18,8 +23,10 @@ const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [member, setMember] = useState({ username: '', password: '' });
 
-  const setUser = useSetAtom(userAtom);
-  const setToken = useSetAtom(tokenAtom);
+  const [user, setUser] = useAtom(userAtom);
+  const [token, setToken] = useAtom(tokenAtom);
+  const setAlarms = useSetAtom(alarmsAtom);
+  const fcmToken = useAtomValue(fcmTokenAtom);
 
   const navigate = useNavigate();
   const handleToggle = (checked) => setIsChecked(checked);
@@ -54,13 +61,55 @@ const Login = () => {
           })
           .then((res) => {
             setUser(res.data);
+            axios
+              .post(
+                `${url}/fcmToken`,
+                {
+                  userId: res.data.userId, //username: member.username, fcmToken: fcmToken,
+                  fcmToken:
+                    'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
+                  type: 'user',
+                },
+                {
+                  headers: {
+                    Authorization: token,
+                  },
+                }
+              )
+              .then(() => {
+                // **알림 데이터 가져오기 추가**
+                axios
+                  .post(
+                    `${url}/userAlarms`,
+                    { userId: res.data.userId },
+                    {
+                      headers: {
+                        Authorization: token,
+                      },
+                    }
+                  )
+                  .then((alarmResponse) => {
+                    if (alarmResponse.data.length !== 0) {
+                      console.log(alarmResponse.data);
+                      setAlarms(alarmResponse.data); // 알림 데이터 저장
+                    }
+                    // 로그인 완료 후 메인 화면으로 이동
+                    navigate('/');
+                  })
+                  .catch((error) => {
+                    console.error('알림 데이터 가져오기 실패:', error);
+                  });
+              })
+              .catch((error) => {
+                console.error('FCM 토큰 전송 실패:', error);
+              });
 
             if (isChecked) {
               alert('로그인 성공, [기업]사용자');
-              console.log(member);
+              // console.log(member);
             } else {
               alert('로그인 성공, [개인]사용자');
-              console.log(member);
+              // console.log(member);
             }
 
             navigate('/');

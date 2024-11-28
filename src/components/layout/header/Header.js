@@ -6,12 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom } from 'jotai';
-import {
-  userNameAtom,
-  alarmsAtom,
-  userAtom,
-  tokenAtom,
-} from '../../../store/atoms';
+import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import axios from 'axios';
 
 const Header = ({ alarms = [] }) => {
@@ -40,11 +35,7 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    if (user && user.username) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
+    setIsLogin(user !== null && user.username !== '');
   }, [user]);
 
   const userWrite = [
@@ -97,7 +88,7 @@ const Header = ({ alarms = [] }) => {
             <Link to={'/house'}>집꾸하기</Link>
           </li>
           <li>
-            <Link to={'/interior'}>방꾸하기</Link>
+            <Link to={'/interiorMain'}>방꾸하기</Link>
           </li>
           <li>
             <Link to={'/onestop'}>한번에꾸하기</Link>
@@ -151,7 +142,7 @@ const Header = ({ alarms = [] }) => {
                 ) : (
                   alarms.map((item) => (
                     <li key={item.num} className={styles.notificationItem}>
-                      <b>{item.title}</b>&nbsp;&nbsp;{item.body}
+                      <b>{item.sender}</b>&nbsp;&nbsp;{item.message}
                       <button onClick={() => confirm(item.num)}>확인</button>
                     </li>
                   ))

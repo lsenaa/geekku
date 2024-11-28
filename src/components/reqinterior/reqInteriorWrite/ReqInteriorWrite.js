@@ -116,11 +116,12 @@ const ReqInteriorWrite = () => {
           <div className={styles.subLabelWrap}>
             <input type="text" value="코스타" />
           </div>
-        </div>
-        <div className={styles.item}>
-          <label> 연락처</label>
-          <div>
-            <input type="text" value="010-1234-5678" />
+          <hr className={styles.line} />
+          <div className={styles.item}>
+            <label>신청자 이름</label>
+            <div className={styles.subLabelWrap}>
+              <input type="text" value="코스타" />
+            </div>
           </div>
         </div>
         <div className={styles.item}>
@@ -246,8 +247,7 @@ const ReqInteriorWrite = () => {
               onChange={handleEdit}
             />
             <label htmlFor="부분">부분시공</label>
-          </div>
-        </div>
+         </div>
 
         <div className={styles.items}>
           <label>
@@ -290,8 +290,6 @@ const ReqInteriorWrite = () => {
             />
             <label>페인트</label>
           </div>
-        </div>
-
         <div className={styles.items}>
           <label></label>
           <div className={styles.checkboxGroup}>
@@ -331,7 +329,6 @@ const ReqInteriorWrite = () => {
             />
             <label>베란다</label>
           </div>
-        </div>
 
         <div className={styles.item}>
           <label>
@@ -388,22 +385,36 @@ const ReqInteriorWrite = () => {
               placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
               onChange={(onTextareaHandler, handleEdit)}
             />
-            <p>
-              <span>{textCount}</span> / 1000
-            </p>
           </div>
+          <div className={styles.item}>
+            <label>
+              상세 내용<span>*</span>
+            </label>
+            <div className={styles.textareaWrap}>
+              <textarea
+                minLength="5"
+                maxLength="1000"
+                className={styles.detailTextarea}
+                placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
+                onChange={onTextareaHandler}
+              />
+              <p>
+                <span>{textCount}</span> / 1000
+              </p>
+            </div>
+          </div>
+        </section>
+        <div className={styles.btnWrap}>
+          <Button01 type="submit" size="small" onClick={handleSubmit}>
+            신청하기
+          </Button01>
+          <Button01 color="sub" size="small">
+            <Link to={'/requestInterior'}>취소하기</Link>
+          </Button01>
         </div>
-      </section>
-      <div className={styles.btnWrap}>
-        <Button01 type="submit" size="small" onClick={handleSubmit}>
-          신청하기
-        </Button01>
-        <Button01 color="sub" size="small">
-          <Link to={'/requestInterior'}>취소하기</Link>
-        </Button01>
       </div>
-    </div>
-  );
+    );
+  };
 };
 
 export default ReqInteriorWrite;
