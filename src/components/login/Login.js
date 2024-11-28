@@ -53,13 +53,12 @@ const Login = () => {
           })
           .then((res) => {
             setUser(res.data);
+            console.log(res.data);
 
             if (isChecked) {
               alert('로그인 성공, [기업]사용자');
-              console.log(member);
             } else {
               alert('로그인 성공, [개인]사용자');
-              console.log(member);
             }
 
             navigate('/');
