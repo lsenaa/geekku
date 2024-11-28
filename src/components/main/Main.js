@@ -15,8 +15,6 @@ const Main = () => {
   const [estateList, setEstateList] = useState([]);
   const [communityList, setCommunityList] = useState([]);
 
-  console.log(estateList);
-
   useEffect(() => {
     fetchData();
   }, []);

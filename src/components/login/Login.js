@@ -54,6 +54,7 @@ const Login = () => {
           })
           .then((res) => {
             setUser(res.data);
+            console.log(res);
             axios
               .post(
                 `${url}/fcmToken`,

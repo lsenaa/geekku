@@ -1,71 +1,117 @@
-import MypageSiderbar from 'components/layout/mypage/person/MypageSiderbar';
 import styles from './MypagePersonMain.module.scss';
-import { Link } from 'react-router-dom';
-import MypageSubNavbar from 'components/layout/mypage/person/MypageSubNavbar';
 import Button01 from 'components/commons/button/Button01';
-import { Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
+import { axiosInToken } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from 'store/atoms';
+import { useEffect, useState } from 'react';
+import { formatDate, formatRentType, processLocation } from 'utils/utils';
+import { useNavigate } from 'react-router';
 
 const MypagePerson = () => {
+  const navigate = useNavigate();
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
+  const [houseList, setHouseList] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axiosInToken(token)
+      .get('/user/mypageUserHouseList')
+      .then((res) => {
+        console.log(res.data);
+        setHouseList([...res.data.content]);
+        setTotalCount(res.data.totalElements);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteHouse = (houseNum) => {
+    Modal.warning({
+      content: '집꾸 작성글을 삭제하시겠습니까?',
+      onOk: () => {
+        axiosInToken(token)
+          .post(`/user/houseDelete/${houseNum}`)
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              Modal.success({
+                content: '집꾸 작성글이 삭제되었습니다.',
+              });
+              fetchData();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+    });
+  };
+
   return (
     <>
-      <table className={styles.customTable}>
-        <colgroup>
-          <col width="5%" />
-          <col width="40%" />
-          <col width="10%" />
-          <col width="10%" />
-          <col width="15%" />
-          <col width="5%" />
-          <col width="15%" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>거래종류</th>
-            <th>희망지역</th>
-            <th>작성날짜</th>
-            <th>조회수</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className={styles.rowWrap}>
-            <td>3</td>
-            <td>지방 빈 집 찾습니다. 경상남도 사천 위주로 알아보고 있어요.</td>
-            <td>매매</td>
-            <td>경남 사천</td>
-            <td>2024-10-27</td>
-            <td>32</td>
-            <td>
-              <Button01 size="x-small">삭제</Button01>
-            </td>
-          </tr>
-          <tr className={styles.rowWrap}>
-            <td>2</td>
-            <td>지방 빈 집 찾습니다. 경상남도 사천 위주로 알아보고 있어요.</td>
-            <td>매매</td>
-            <td>경남 사천</td>
-            <td>2024-10-27</td>
-            <td>32</td>
-            <td>
-              <Button01 size="x-small">삭제</Button01>
-            </td>
-          </tr>
-          <tr className={styles.rowWrap}>
-            <td>1</td>
-            <td>지방 빈 집 찾습니다. 경상남도 사천 위주로 알아보고 있어요.</td>
-            <td>매매</td>
-            <td>경남 사천</td>
-            <td>2024-10-27</td>
-            <td>32</td>
-            <td>
-              <Button01 size="x-small">삭제</Button01>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <Pagination defaultCurrent={1} total={50} />
+      {houseList.length === 0 ? (
+        <div className={styles.noListText}>작성한 집꾸 내역이 없습니다.</div>
+      ) : (
+        <>
+          <table className={styles.customTable}>
+            <colgroup>
+              <col width="5%" />
+              <col width="35%" />
+              <col width="10%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="5%" />
+              <col width="15%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>거래종류</th>
+                <th>희망지역</th>
+                <th>작성날짜</th>
+                <th>조회수</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {houseList.map((house, i) => (
+                <tr
+                  className={styles.rowWrap}
+                  key={house.houseNum}
+                  onClick={() => navigate(`/house/detail/${house.houseNum}`)}
+                >
+                  <td>{i + 1}</td>
+                  <td>{house.title}</td>
+                  <td>{formatRentType(house.rentType)}</td>
+                  <td>{`${processLocation(house.address1)} ${house.address2}`}</td>
+                  <td>{formatDate(house.createdAt)}</td>
+                  <td>{house.viewCount}</td>
+                  <td>
+                    <Button01
+                      size="x-small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteHouse(house.houseNum);
+                      }}
+                    >
+                      삭제
+                    </Button01>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination defaultCurrent={1} total={totalCount} />
+        </>
+      )}
     </>
   );
 };

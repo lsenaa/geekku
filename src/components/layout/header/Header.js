@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
-import { useSetAtom, useAtom } from 'jotai';
+import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import axios from 'axios';
 
@@ -62,6 +62,21 @@ const Header = ({ alarms = [] }) => {
         return interiorWrite;
       default:
         return [];
+    }
+  };
+
+  const onClickMypage = () => {
+    console.log(user);
+    if (!user.type) return;
+    switch (user.type) {
+      case 'user':
+        return navigate('/mypage/person');
+      case 'estate':
+        return navigate('/mypage/estate');
+      case 'interior':
+        return navigate('/mypage/interior');
+      default:
+        return;
     }
   };
 
@@ -152,10 +167,7 @@ const Header = ({ alarms = [] }) => {
           )}
 
           {/* 사용자 프로필 이미지와 이름 */}
-          <div
-            className={styles.userProfile}
-            onClick={() => navigate('/mypage/person')}
-          >
+          <div className={styles.userProfile} onClick={onClickMypage}>
             {user && (
               <img
                 src={`data:image/png;base64, ${
