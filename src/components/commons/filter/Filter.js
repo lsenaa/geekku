@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Filter.module.scss';
 import { Modal } from 'antd';
-import CustomNav from 'components/commons/filter/CustomNav';
+import CustomLocFilter from './CustomLocFilter';
 
 const Filter = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,7 +115,7 @@ const Filter = () => {
           <div className={styles.spanStyle} id={styles.top}>
             지역
           </div>
-          <CustomNav />
+          <CustomLocFilter />
         </div>
       </Modal>
     </>
