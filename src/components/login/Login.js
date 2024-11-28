@@ -54,55 +54,54 @@ const Login = () => {
           })
           .then((res) => {
             setUser(res.data);
-            axios
-              .post(
-                `${url}/fcmToken`,
-                {
-                  userId: res.data.userId, //username: member.username, fcmToken: fcmToken,
-                  fcmToken:
-                    'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
-                  type: 'user',
-                },
-                {
-                  headers: {
-                    Authorization: token,
-                  },
-                }
-              )
-              .then(() => {
-                // **알림 데이터 가져오기 추가**
-                axios
-                  .post(
-                    `${url}/userAlarms`,
-                    { userId: res.data.userId },
-                    {
-                      headers: {
-                        Authorization: token,
-                      },
-                    }
-                  )
-                  .then((alarmResponse) => {
-                    if (alarmResponse.data.length !== 0) {
-                      console.log(alarmResponse.data);
-                      setAlarms(alarmResponse.data); // 알림 데이터 저장
-                    }
-                    // 로그인 완료 후 메인 화면으로 이동
-                    navigate('/');
-                  })
-                  .catch((error) => {
-                    console.error('알림 데이터 가져오기 실패:', error);
-                  });
-              })
-              .catch((error) => {
-                console.error('FCM 토큰 전송 실패:', error);
-              });
+            console.log(res.data);
 
             if (isChecked) {
               alert('로그인 성공, [기업]사용자');
-              // console.log(member);
             } else {
               alert('로그인 성공, [개인]사용자');
-              // console.log(member);
+              axios
+                .post(
+                  `${url}/fcmToken`,
+                  {
+                    userId: res.data.userId, //username: member.username, fcmToken: fcmToken,
+                    fcmToken:
+                      'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
+                    type: 'user',
+                  },
+                  {
+                    headers: {
+                      Authorization: token,
+                    },
+                  }
+                )
+                .then(() => {
+                  // **알림 데이터 가져오기 추가**
+                  axios
+                    .post(
+                      `${url}/userAlarms`,
+                      { userId: res.data.userId },
+                      {
+                        headers: {
+                          Authorization: token,
+                        },
+                      }
+                    )
+                    .then((alarmResponse) => {
+                      if (alarmResponse.data.length !== 0) {
+                        console.log(alarmResponse.data);
+                        setAlarms(alarmResponse.data); // 알림 데이터 저장
+                      }
+                      // 로그인 완료 후 메인 화면으로 이동
+                      navigate('/');
+                    })
+                    .catch((error) => {
+                      console.error('알림 데이터 가져오기 실패:', error);
+                    });
+                })
+                .catch((error) => {
+                  console.error('FCM 토큰 전송 실패:', error);
+                });
             }
 
             navigate('/');

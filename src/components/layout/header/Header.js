@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from 'assets/images/logo.png';
+import defaultImg from '../../../assets/images/usericon.png';
 import styles from './Header.module.scss';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,7 @@ import axios from 'axios';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
-  const [, setToken] = useAtom(tokenAtom);
+  const [token, setToken] = useAtom(tokenAtom);
 
   const [isLogin, setIsLogin] = useState(false);
 
@@ -35,8 +36,16 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    setIsLogin(user !== null && user.username !== '');
-  }, [user]);
+    if (user && token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [user, token]);
+  // =======
+  //     setIsLogin(user !== null && user.username !== '');
+  //   }, [user]);
+  // >>>>>>> 473384f327e6968c76326514a2934cfcee6bb800
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },
@@ -68,12 +77,15 @@ const Header = ({ alarms = [] }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
-    setIsLogin(false);
+
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    setIsLogin(false);
     alert('로그아웃 되었습니다.');
     navigate('/');
   };
-
+  console.log('현재 user 상태 : ', user);
   return (
     <header className={styles.Container}>
       <Link to={'/'}>
@@ -158,12 +170,13 @@ const Header = ({ alarms = [] }) => {
           >
             {user && (
               <img
-                src={`data:image/png;base64, ${
-                  user.socialProfileImage != null
+                src={
+                  user.socialProfileImage
                     ? user.socialProfileImage
                     : user.profileImage
-                }`}
-                alt="사용자 프로필 이미지"
+                      ? `data:image/png;base64,${user.profileImage}`
+                      : defaultImg
+                }
                 className={styles.profileImage}
               />
             )}
