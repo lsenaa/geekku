@@ -35,11 +35,7 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    if (user && user.username) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
+    setIsLogin(user !== null && user.username !== '');
   }, [user]);
 
   const userWrite = [
@@ -146,7 +142,7 @@ const Header = ({ alarms = [] }) => {
                 ) : (
                   alarms.map((item) => (
                     <li key={item.num} className={styles.notificationItem}>
-                      <b>{item.title}</b>&nbsp;&nbsp;{item.body}
+                      <b>{item.sender}</b>&nbsp;&nbsp;{item.message}
                       <button onClick={() => confirm(item.num)}>확인</button>
                     </li>
                   ))

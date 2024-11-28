@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai';
 
 import ToastEditor from 'components/commons/ToastEditor';
 import { useRef } from 'react';
-import { axiosInToken } from 'config';
+import { axiosInToken } from 'lib/axios';
 import { Modal } from 'antd';
 import { tokenAtom, userAtom } from 'store/atoms';
 

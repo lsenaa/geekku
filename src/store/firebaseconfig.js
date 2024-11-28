@@ -42,8 +42,10 @@ export function firebaseReqPermission(setFcmToken, setAlarm) {
     console.log(payload);
     setAlarm({
       num: +payload.data.num,
-      title: payload.data.title, //수정함 Notification -> data
-      body: payload.data.body,
+      title: payload.data.message, //수정함 Notification -> data
+      type: payload.data.type,
+      detailPath: payload.data.detailPath,
+      sender: payload.data.sender,
     });
   });
 }
