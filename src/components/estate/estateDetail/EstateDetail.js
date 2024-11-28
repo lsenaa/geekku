@@ -1,19 +1,55 @@
 import styles from './EstateDetail.module.scss';
-import detailImg from '../../../assets/images/estateDetailImg.png';
 import bookmarkFalseImg from '../../../assets/images/bookmarkFalse.png';
 import bookmarkTrueImg from '../../../assets/images/bookmarkTrue.png';
 import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
-import { useState } from 'react';
-import { Carousel } from 'antd';
+import { useEffect, useState } from 'react';
+import { Carousel, Modal } from 'antd';
 import { formatEstateType, formatPrice } from 'utils/utils';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from 'store/atoms';
+import axios from 'axios';
 
-const EstateDetail = ({ estate }) => {
+const EstateDetail = ({ estate, estateNum }) => {
   const imgNumList = estate.estateImageNums.split(',');
   const [bookmark, setBookmark] = useState(false);
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
 
-  // console.log(estate);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axios
+      .post(`${url}/estateDetail`, {
+        estateNum: estateNum,
+        userId: user.userId,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setBookmark(res.data.bookmark);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleBookmark = () => {
+    axiosInToken(token)
+      .post(`/user/estateBookmark/${estateNum}`)
+      .then((res) => {
+        console.log(res);
+        // setBookmark(res.data);
+        Modal.success({
+          content: '매물 북마크가 완료되었습니다.',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={styles.modalContainer}>
@@ -46,10 +82,13 @@ const EstateDetail = ({ estate }) => {
             </div>
           </div>
           <div className={styles.btnWrapper}>
-            <img
-              src={bookmark ? bookmarkTrueImg : bookmarkFalseImg}
-              alt="북마크 이미지"
-            />
+            {user.type === 'user' && (
+              <img
+                src={bookmark ? bookmarkTrueImg : bookmarkFalseImg}
+                alt="북마크 이미지"
+                onClick={handleBookmark}
+              />
+            )}
             <Button01 size="medium">문의하기</Button01>
           </div>
         </div>

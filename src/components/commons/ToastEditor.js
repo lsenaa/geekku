@@ -7,19 +7,28 @@ const toolbar = [
   ['image'],
 ];
 
-const ToastEditor = ({ editorRef, imageHandler, onChange }) => {
+const ToastEditor = ({
+  initialValue,
+  editorRef,
+  handleImage,
+  height,
+  onChange,
+}) => {
   return (
     <Editor
       placeholder="내용을 입력해주세요."
+      initialValue={initialValue ?? ''}
+      initialEditType="wysiwyg"
       autofocus={false}
       ref={editorRef}
       toolbarItems={toolbar}
-      hideModeSwitch
-      height="500px"
+      hideModeSwitch={true}
+      height={height}
       viewer={true}
-      useCommandShortcut={false}
-      hooks={{ addImageBlobHook: imageHandler }}
       onChange={onChange}
+      language="ko-KR"
+      useCommandShortcut={false}
+      hooks={{ addImageBlobHook: handleImage }}
     />
   );
 };
