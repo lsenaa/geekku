@@ -70,6 +70,9 @@ const ReqInteriorMain = () => {
             type="text"
             className={styles.searchInput}
             placeholder="검색어를 입력해주세요."
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyUp={handleSearchEnter}
           />
           <button className={styles.searchBtn}>검색</button>
         </div>

@@ -3,7 +3,15 @@
 .modalContainer {
   padding: 40px;
 }
-
+.answerTitle {
+  padding: 8px 25px;
+  width: 100%;
+  border: 1px solid #dadde6;
+  margin: 20px 0;
+  &:focus {
+    outline: none;
+  }
+}
 .profile {
   @include flexrow;
   margin-bottom: 16px;

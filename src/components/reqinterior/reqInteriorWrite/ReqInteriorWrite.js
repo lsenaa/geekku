@@ -116,13 +116,6 @@ const ReqInteriorWrite = () => {
           <div className={styles.subLabelWrap}>
             <input type="text" value="코스타" />
           </div>
-          <hr className={styles.line} />
-          <div className={styles.item}>
-            <label>신청자 이름</label>
-            <div className={styles.subLabelWrap}>
-              <input type="text" value="코스타" />
-            </div>
-          </div>
         </div>
         <div className={styles.item}>
           <label>
@@ -216,7 +209,9 @@ const ReqInteriorWrite = () => {
           </select>
         </div>
         <div className={styles.item}>
-          <label> 예산 </label>
+          <label>
+            예산<span>*</span>
+          </label>
           <div>
             <input
               type="text"
@@ -386,23 +381,6 @@ const ReqInteriorWrite = () => {
               placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
               onChange={(onTextareaHandler, handleEdit)}
             />
-          </div>
-          <div className={styles.item}>
-            <label>
-              상세 내용<span>*</span>
-            </label>
-            <div className={styles.textareaWrap}>
-              <textarea
-                minLength="5"
-                maxLength="1000"
-                className={styles.detailTextarea}
-                placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
-                onChange={onTextareaHandler}
-              />
-              <p>
-                <span>{textCount}</span> / 1000
-              </p>
-            </div>
           </div>
         </div>
       </section>

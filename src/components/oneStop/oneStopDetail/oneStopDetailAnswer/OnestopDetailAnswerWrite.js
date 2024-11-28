@@ -1,34 +1,122 @@
 import styles from './OnestopDetailAnswerWrite.module.scss';
 import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../../commons/button/Button01';
+import { useAtomValue } from 'jotai';
+import ToastEditor from 'components/commons/ToastEditor';
+import { useRef, useState } from 'react';
+import { axiosInToken, url } from 'lib/axios';
+import { Modal } from 'antd';
+import { tokenAtom, userAtom } from 'store/atoms';
+import axios from 'axios';
 
-const OnestopDetailAnswerWrite = ({ toggleModal }) => {
+const OnestopDetailAnswerWrite = ({
+  toggleModal,
+  onestopNum,
+  setIsModalOpen,
+  fetchData,
+}) => {
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const editorRef = useRef();
+
+  const onChangeContent = () => {
+    const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
+    setContent(text === '<p><br><p>' ? '' : text);
+  };
+  // 에디터 이미지 url 받아오기
+  const handleImage = async (blob, callback) => {
+    try {
+      let formData = new FormData();
+      formData.append('image', blob);
+
+      const response = await axios.post(`${url}/editorImageUpload`, formData);
+
+      if (response.status === 200) {
+        const imageUrl = response.data;
+        callback(imageUrl);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData();
+
+    // 폼 데이터 검증
+    if (!content || content.trim() === '') {
+      Modal.error({ content: '내용을 입력하세요.' });
+      return;
+    }
+
+    formData.append('houseNum', onestopNum);
+    formData.append('title', title);
+    formData.append('content', editorRef.current?.getInstance().getHTML());
+    formData.append('companyId', user.companyId);
+    formData.append('companyName', user.companyName);
+    formData.append('companyProfileImage', user.companyProfileImage);
+    formData.append('companyPhone', user.phone);
+    formData.append('companyAddress', user.companyAddress);
+
+    axiosInToken(token)
+      .post(`/onestopAnswerWrite`, formData)
+      .then((res) => {
+        console.log(res);
+        Modal.success({
+          content: '한번에꾸미기 답변이 등록되었습니다.',
+          onOk: () => {
+            setIsModalOpen(false);
+            fetchData();
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
-          <FaUserCircle color="#6D885D" size={30} />
-          <p>코스타 부동산</p>
+          {/* <img src={`data:image/png;base64, ${user.companyProfileImage}`} /> */}
+          {/* <FaUserCircle color="#6D885D" size={30} /> */}
+          <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>
           <div className={styles.phone}>
             <p>연락처</p>
-            <p>010-1234-5678</p>
+            <p>{user.phone}</p>
           </div>
           <div className={styles.address}>
             <p>주소</p>
-            <p>
-              강원특별자치도 춘천시 안마산로 131 상가씨동 1층 C-106호(퇴계동)
-            </p>
+            <p>{user.companyAddress}</p>
           </div>
         </div>
       </div>
+      <input
+        className={styles.answerTitle}
+        placeholder="제목을 입력해주세요. (40자 이내)"
+        maxLength={40}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
       <div className={styles.editorContent}>
-        <p>에디터 들어감 - 사진, 위치정보 등 상세 내용 작성</p>
+        <ToastEditor
+          editorRef={editorRef}
+          height="500px"
+          handleImage={handleImage}
+          onChange={onChangeContent}
+        />
       </div>
       <div className={styles.btnWrap}>
-        <Button01 size="small">작성하기</Button01>
-        <Button01 size="small" color="sub" onClick={toggleModal}>
+        <Button01 size="small" type="submit" onClick={handleSubmit}>
+          작성하기
+        </Button01>
+        <Button01 size="small" color="sub" type="button" onClick={toggleModal}>
           취소하기
         </Button01>
       </div>

@@ -130,16 +130,16 @@ const OneStopWrite = () => {
           <select
             className={styles.select}
             name="type"
-            defaultValue=""
             required="required"
+            onChange={handleEdit}
           >
             <option value="" disabled>
               매물 유형 선택
             </option>
-            <option value="countryHouse">시골농가주택</option>
-            <option value="house">전원주택</option>
+            <option value="farmHouse">시골농가주택</option>
+            <option value="countryHouse">전원주택</option>
             <option value="apt">아파트/빌라</option>
-            <option value="farm">농장/토지</option>
+            <option value="land">농장/토지</option>
           </select>
         </div>
         <div className={styles.item}>
@@ -148,7 +148,7 @@ const OneStopWrite = () => {
           </label>
           <select
             className={styles.select}
-            name="address"
+            name="address1"
             required="required"
             style={{ marginRight: '16px' }}
             value={onestop.sido || ''}
@@ -168,6 +168,8 @@ const OneStopWrite = () => {
             name="address2"
             defaultValue=""
             required="required"
+            value={onestop.sigugun || ''}
+            onChange={handleSigugun}
           >
             <option value="" disabled>
               상세 지역 선택
@@ -231,13 +233,13 @@ const OneStopWrite = () => {
         </div>
         <div className={styles.item}>
           <label>
-            가격 정보<span>*</span>
+            예산<span>*</span>
           </label>
           {onestop.rentType === 'jeonse' && (
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
               <div className={styles.inputTextWrap}>
-                <input type="text" name="jeonsePrice" onChange={handleEdit} />
+                <input type="text" name="money" onChange={handleEdit} />
                 <p>만원</p>
               </div>
             </div>
@@ -247,102 +249,26 @@ const OneStopWrite = () => {
               <div className={styles.subLabelWrap}>
                 <label>보증금</label>
                 <div className={styles.inputTextWrap}>
-                  <input
-                    type="text"
-                    name="depositPrice"
-                    onChange={handleEdit}
-                  />
+                  <input type="text" name="money" onChange={handleEdit} />
                   <p>만원</p>
                 </div>
               </div>
               <div className={styles.subLabelWrap}>
                 <label>월세</label>
                 <div className={styles.inputTextWrap}>
-                  <input
-                    type="text"
-                    name="monthlyPrice"
-                    onChange={handleEdit}
-                  />
+                  <input type="text" name="money" onChange={handleEdit} />
                   <p>만원</p>
                 </div>
               </div>
             </>
           )}
+
+          {onestop.type !== 'land' && <></>}
           {onestop.rentType === 'buy' && (
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
               <div className={styles.inputTextWrap}>
-                <input type="text" name="buyPrice" onChange={handleEdit} />
-                <p>만원</p>
-              </div>
-            </div>
-          )}
-          {onestop.type !== 'land' && (
-            <>
-              <div className={styles.item}>
-                <label>
-                  관리비<span>*</span>
-                </label>
-                <div className={styles.radioGroup}>
-                  <input
-                    type="radio"
-                    name="isManage"
-                    id="false"
-                    value="false"
-                    required
-                    defaultChecked
-                    onChange={() => setIsManage(false)}
-                  />
-                  <label htmlFor="false">없음</label>
-                  <input
-                    type="radio"
-                    name="isManage"
-                    id="true"
-                    value="true"
-                    onChange={() => setIsManage(true)}
-                  />
-                  <label htmlFor="true">있음</label>
-                </div>
-                {isManage && (
-                  <div className={styles.inputTextWrap}>
-                    <input
-                      type="text"
-                      name="managePrice"
-                      required
-                      onChange={handleEdit}
-                    />
-                    <p>만원</p>
-                  </div>
-                )}
-              </div>
-              <div className={styles.item}>
-                <label>
-                  입주 가능 일자<span>*</span>
-                </label>
-                <DatePicker
-                  size="large"
-                  placeholder="날짜를 선택해주세요."
-                  onChange={onChangeDate}
-                  required
-                />
-                <div className={styles.availableDate}>
-                  <input
-                    type="checkbox"
-                    id="availableState"
-                    name="availableState"
-                    // checked={false}
-                    onChange={handleEdit}
-                  />
-                  <label htmlFor="availableState">협의 가능</label>
-                </div>
-              </div>
-            </>
-          )}
-          {onestop.rentType === 'buy' && (
-            <div className={styles.subLabelWrap}>
-              <label>매매가</label>
-              <div className={styles.inputTextWrap}>
-                <input type="text" name="buyPrice" onChange={handleEdit} />
+                <input type="text" name="money" onChange={handleEdit} />
                 <p>만원</p>
               </div>
             </div>
