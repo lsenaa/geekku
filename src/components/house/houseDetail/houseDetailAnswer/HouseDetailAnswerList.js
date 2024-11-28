@@ -15,6 +15,7 @@ const HouseDetailAnswerList = ({ houseNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [houseAnswerList, setHouseAnswerList] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [answerIsOpen, setAnswerIsOpen] = useState({});
   const user = useAtomValue(userAtom);
 
   const toggleModal = () => {
@@ -55,6 +56,13 @@ const HouseDetailAnswerList = ({ houseNum }) => {
       });
   };
 
+  const handleAnswer = (answerHouseNum) => {
+    setAnswerIsOpen((prev) => ({
+      ...prev,
+      [answerHouseNum]: !prev[answerHouseNum], // 현재 항목의 상태를 토글
+    }));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
@@ -66,6 +74,54 @@ const HouseDetailAnswerList = ({ houseNum }) => {
       <hr className={styles.line} />
       <ul>
         {houseAnswerList.map((answer) => (
+          <li
+            className={styles.answerList}
+            key={answer.answerHouseNum}
+            onClick={() => handleAnswer(answer.answerHouseNum)}
+          >
+            <div className={styles.preview}>
+              <div className={styles.profile}>
+                <img
+                  src={`data:image/png;base64, ${answer.companyProfileImage}`}
+                  alt="프로필 이미지"
+                />
+                <p className={styles.companyName}>{answer.companyName}</p>
+              </div>
+              <p className={styles.title}>{answer.title}</p>
+              <p className={styles.createdAt}>{formatDate(answer.createdAt)}</p>
+              {user.companyId === answer.companyId && (
+                <button
+                  className={styles.deleteBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(answer.answerHouseNum);
+                  }}
+                >
+                  삭제
+                </button>
+              )}
+            </div>
+            {answerIsOpen[answer.answerHouseNum] && (
+              <div>
+                <div className={styles.phoneAddWrap}>
+                  <div className={styles.phone}>
+                    <p>연락처</p>
+                    <p>{answer.companyPhone}</p>
+                  </div>
+                  <div className={styles.address}>
+                    <p>주소</p>
+                    <p>{answer.companyAddress}</p>
+                  </div>
+                </div>
+                <div className={styles.editorContent}>
+                  <Viewer initialValue={answer.content} />
+                </div>
+              </div>
+            )}
+            <hr className={styles.line} />
+          </li>
+        ))}
+        {/* {houseAnswerList.map((answer) => (
           <li key={answer.answerHouseNum} className={styles.answerList}>
             <div>
               <div className={styles.profile}>
@@ -99,7 +155,7 @@ const HouseDetailAnswerList = ({ houseNum }) => {
             </div>
             <hr className={styles.line} />
           </li>
-        ))}
+        ))} */}
       </ul>
       {isModalOpen && (
         <Modal
