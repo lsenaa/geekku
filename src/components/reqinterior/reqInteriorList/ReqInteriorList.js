@@ -31,10 +31,10 @@ const ReqInteriorList = ({ interiorAllList }) => {
         {interiorAllList.map((interiorAllRequest, i) => (
           <tr
             className={styles.rowWrap}
-            key={interiorAllRequest.interiorallNum}
+            key={interiorAllRequest.requestAllNum}
             onClick={() =>
               navigate(
-                `/interiorall/detail/${interiorAllRequest.interiorallNum}`
+                `/interiorall/detail/${interiorAllRequest.requestAllNum}`
               )
             }
           >

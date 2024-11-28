@@ -100,7 +100,7 @@ const Header = ({ alarms = [] }) => {
             <Link to={'/house'}>집꾸하기</Link>
           </li>
           <li>
-            <Link to={'/interiorMain'}>방꾸하기</Link>
+            <Link to={'/interior'}>방꾸하기</Link>
           </li>
           <li>
             <Link to={'/onestop'}>한번에꾸하기</Link>
