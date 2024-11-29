@@ -1,16 +1,16 @@
 import styles from './ProfileInterior.module.scss';
 import profileImg from 'assets/images/interiorProfileImg.png';
-import bookmarkImg from 'assets/images/bookmarkTrue.png';
-import Button01 from 'components/commons/button/Button01';
 import ProfileInteriorSidebar from 'components/layout/profile/ProfileInteriorSidebar';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import ProfileInteriorMenu from 'components/layout/profile/ProfileInteriorMenu';
+import { useEffect } from 'react';
 
 const ProfileInterior = () => {
   const location = useLocation();
+  // console.log(location);
+
   const allowedPaths = [
-    // `/profile/interior/${interiorNum}`,  // 각 인테리어 업체가 등록한 interiorNum 필요
-    `/profile/interior/1`,
+    `/profile/interior`,
     '/profile/interior/sample',
     '/profile/interior/review',
     '/profile/interior/introduce',

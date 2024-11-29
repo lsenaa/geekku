@@ -6,6 +6,7 @@ import { tokenAtom } from 'store/atoms';
 import { useEffect, useState } from 'react';
 import { axiosInToken } from 'lib/axios';
 import { formatDate } from 'utils/utils';
+import Button01 from 'components/commons/button/Button01';
 
 const MypagePersonRequestInterior = () => {
   const navigate = useNavigate();
@@ -30,6 +31,48 @@ const MypagePersonRequestInterior = () => {
       });
   };
 
+  // /user/mypageUserRequestInteriorDelete/${requestNum} -> 백엔드 기능 구현 필요
+  const handleDelete = (requestNum) => {
+    Modal.confirm({
+      content: '인테리어 문의내역을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
+      onOk: () => {
+        axiosInToken(token)
+          .post(`/user/mypageUserRequestInteriorDelete/${requestNum}`)
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              Modal.success({
+                content: '인테리어 문의내역이 삭제되었습니다.',
+              });
+              fetchData();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
+  };
+
   return (
     <>
       {requestList.length === 0 ? (
@@ -43,6 +86,7 @@ const MypagePersonRequestInterior = () => {
               <col width="10%" />
               <col width="15%" />
               <col width="15%" />
+              <col width="15%" />
             </colgroup>
             <thead>
               <tr>
@@ -51,6 +95,7 @@ const MypagePersonRequestInterior = () => {
                 <th>시공종류</th>
                 <th>희망평수</th>
                 <th>작성 날짜</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -79,6 +124,17 @@ const MypagePersonRequestInterior = () => {
                     {request.size === 6 && '기타'}
                   </td>
                   <td>{formatDate(request.createdAt)}</td>
+                  <td>
+                    <Button01
+                      size="x-small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(request.requestNum);
+                      }}
+                    >
+                      삭제
+                    </Button01>
+                  </td>
                 </tr>
               ))}
             </tbody>

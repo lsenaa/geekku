@@ -18,6 +18,8 @@ const MypagePersonOnestop = () => {
     fetchData();
   }, []);
 
+  console.log(onestopList);
+
   const fetchData = () => {
     axiosInToken(token)
       .get('/user/mypageUserOnestopList')
@@ -31,12 +33,28 @@ const MypagePersonOnestop = () => {
       });
   };
 
-  const handleDelete = (onestopNum) => {
-    Modal.warning({
+  const handleDelete = (num) => {
+    Modal.confirm({
       content: '한번에 꾸하기 작성글을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
       onOk: () => {
         axiosInToken(token)
-          .post(`/user/onestopDelete/${onestopNum}`)
+          .post(`/user/onestopDelete/${num}`)
           .then((res) => {
             console.log(res);
             if (res.data) {
@@ -49,6 +67,9 @@ const MypagePersonOnestop = () => {
           .catch((err) => {
             console.log(err);
           });
+      },
+      onCancel: () => {
+        console.log('Cancel');
       },
     });
   };
