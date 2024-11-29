@@ -2,10 +2,14 @@ import styles from './MypageSiderbar.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
 
 const MypageSiderbar = () => {
   const location = useLocation();
   const [selected, setSelected] = useState(location.pathname);
+  const user = useAtomValue(userAtom);
+  console.log(user);
 
   const personMenu = [
     { name: '집꾸하기', path: '/mypage/person' },
@@ -19,9 +23,9 @@ const MypageSiderbar = () => {
   return (
     <div className={styles.profile}>
       <FaUserCircle color="#6D885D" size={100} />
-      <h4>홍길동</h4>
-      <p>kosta123</p>
-      <p>kosta@gmail.com</p>
+      <h4>{user.nickname}</h4>
+      <p>{user.username}</p>
+      <p>{user.email}</p>
       <hr />
       <ul className={styles.sidebar}>
         {personMenu.map((person, index) => (

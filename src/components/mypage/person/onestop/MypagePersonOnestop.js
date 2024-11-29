@@ -18,6 +18,8 @@ const MypagePersonOnestop = () => {
     fetchData();
   }, []);
 
+  console.log(onestopList);
+
   const fetchData = () => {
     axiosInToken(token)
       .get('/user/mypageUserOnestopList')
@@ -31,12 +33,12 @@ const MypagePersonOnestop = () => {
       });
   };
 
-  const handleDelete = (onestopNum) => {
+  const handleDelete = (num) => {
     Modal.warning({
       content: '한번에 꾸하기 작성글을 삭제하시겠습니까?',
       onOk: () => {
         axiosInToken(token)
-          .post(`/user/onestopDelete/${onestopNum}`)
+          .post(`/user/onestopDelete/${num}`)
           .then((res) => {
             console.log(res);
             if (res.data) {

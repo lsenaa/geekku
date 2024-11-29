@@ -82,11 +82,11 @@ const MypagePersonReview = () => {
                 <tr
                   className={styles.rowWrap}
                   key={review.reviewNum}
-                  onClick={() =>
-                    navigate(`/profile/interior/${review.interiorNum}`, {
-                      state: { interiorNum: review.interiorNum },
-                    })
-                  }
+                  // onClick={() =>
+                  //   navigate(`/profile/interior/${review.interiorNum}`, {
+                  //     state: { interiorNum: review.interiorNum },
+                  //   })
+                  // }
                 >
                   <td>
                     {/* <img src={review.imageNums && review.imageNums.split(",")[0]} alt="후기 이미지" /> */}

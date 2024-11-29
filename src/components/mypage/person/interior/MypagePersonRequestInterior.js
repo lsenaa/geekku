@@ -1,11 +1,12 @@
 import styles from '../MypagePersonMain.module.scss';
-import { Modal, Pagination } from 'antd';
+import { Pagination } from 'antd';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import { useEffect, useState } from 'react';
 import { axiosInToken } from 'lib/axios';
 import { formatDate } from 'utils/utils';
+import Button01 from 'components/commons/button/Button01';
 
 const MypagePersonRequestInterior = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const MypagePersonRequestInterior = () => {
               <col width="10%" />
               <col width="15%" />
               <col width="15%" />
+              <col width="15%" />
             </colgroup>
             <thead>
               <tr>
@@ -51,6 +53,7 @@ const MypagePersonRequestInterior = () => {
                 <th>시공종류</th>
                 <th>희망평수</th>
                 <th>작성 날짜</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -79,6 +82,17 @@ const MypagePersonRequestInterior = () => {
                     {request.size === 6 && '기타'}
                   </td>
                   <td>{formatDate(request.createdAt)}</td>
+                  <td>
+                    <Button01
+                      size="x-small"
+                      // onClick={(e) => {
+                      //   e.stopPropagation();
+                      //   handleDelete(request.requestNum);
+                      // }}
+                    >
+                      삭제
+                    </Button01>
+                  </td>
                 </tr>
               ))}
             </tbody>
