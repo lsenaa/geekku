@@ -25,7 +25,15 @@
     color: #757575;
   }
 }
-
+.answerTitle {
+  padding: 8px 25px;
+  width: 100%;
+  border: 1px solid #dadde6;
+  margin: 20px 0;
+  &:focus {
+    outline: none;
+  }
+}
 .phoneAddWrap {
   .phone,
   .address {

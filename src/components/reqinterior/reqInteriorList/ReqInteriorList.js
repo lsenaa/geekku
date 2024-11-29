@@ -41,10 +41,8 @@ const ReqInteriorList = ({ interiorAllList }) => {
             <td>{i + 1}</td>
             <td>{interiorAllRequest.title}</td>
             <td>
-              {/* 수정하기 */}
-              {interiorAllRequest.rentType === 'jeonse' && '전세'}
-              {interiorAllRequest.rentType === 'monthly' && '월세'}
-              {interiorAllRequest.rentType === 'buy' && '매매'}
+              {interiorAllRequest.workType === 0 && '전체'}
+              {interiorAllRequest.workType === 1 && '부분'}
             </td>
             <td>{`${processLocation(interiorAllRequest.address1)} ${interiorAllRequest.address2}`}</td>
             <td>
@@ -53,7 +51,7 @@ const ReqInteriorList = ({ interiorAllList }) => {
                 &nbsp;홍길동
               </span>
             </td>
-            <td>{formatDate(interiorAllRequest.createdAt)}</td>
+            <td>{formatDate(interiorAllRequest.createAt)}</td>
             <td>{interiorAllRequest.viewCount}</td>
           </tr>
         ))}

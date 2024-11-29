@@ -34,7 +34,7 @@ const ReqInteriorWrite = () => {
   const handleEdit = (e) => {
     setInteriorall({ ...interiorall, [e.target.name]: e.target.value });
 
-    if (e.target.name === 'content') {
+    if (e.target.name === 'addContent') {
       setTextCount(e.target.value.length);
     }
 
@@ -82,7 +82,7 @@ const ReqInteriorWrite = () => {
     formData.append('rentType', interiorall.rentType);
     formData.append('allowPhone', interiorall.allowPhone);
     formData.append('title', interiorall.title);
-    formData.append('addcontent', interiorall.addContent);
+    formData.append('addContent', interiorall.addContent);
     formData.append('money', interiorall.money);
     formData.append('phone', interiorall.phone);
     formData.append('interiorType', interiorall.interiorType);
@@ -195,30 +195,26 @@ const ReqInteriorWrite = () => {
           <select
             className={styles.select}
             name="size"
-            defaultValue=""
             required
             onChange={handleEdit}
           >
             <option value="" disabled>
               시공 평수 선택
             </option>
-            <option value="1">10평 이상</option>
-            <option value="2">20평 이상</option>
-            <option value="3">30평 이상</option>
-            <option value="4">40평 이상</option>
+            <option value="10">10평 이상</option>
+            <option value="20">20평 이상</option>
+            <option value="30">30평 이상</option>
+            <option value="40">40평 이상</option>
+            <option value="5">50평 이상</option>
           </select>
         </div>
-        <div className={styles.item}>
+        <div className={styles.subLabelWrap}>
           <label>
             예산<span>*</span>
           </label>
-          <div>
-            <input
-              type="text"
-              name="money"
-              placeholder="만원"
-              onChange={handleEdit}
-            />
+          <div className={styles.inputTextWrap}>
+            <input type="text" name="money" onChange={handleEdit} />
+            <p>만원</p>
           </div>
         </div>
         <div className={styles.item}>

@@ -13,17 +13,19 @@ import ReqInteriorDetailAnswerList from './reqInteriorDetailAnswer/ReqInteriorDe
 const ReqInteriorDetail = () => {
   let { num } = useParams();
   const [interiorall, setInteriorall] = useState({
-    type: '',
+    addContent: '',
     address1: '',
     address2: '',
+    allowPhone: false,
+    createdAt: '',
     size: '',
     rentType: '',
     money: '',
     requestState: false,
-    allowPhone: false,
+
     title: '',
-    addContent: '',
-    createdAt: '',
+    type: '',
+
     requestAllNum: num || 0,
   });
   useEffect(() => {
@@ -32,7 +34,7 @@ const ReqInteriorDetail = () => {
 
   const fetchData = () => {
     axios
-      .get(`${url}/interiorallDetail/${num}`)
+      .get(`${url}/interiorAllDetail/${num}`)
       .then((res) => {
         setInteriorall({ ...res.data });
       })
@@ -42,7 +44,7 @@ const ReqInteriorDetail = () => {
   };
   return (
     <div className={styles.container}>
-      <h2>집꾸하기 신청내역</h2>
+      <h2>방꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
