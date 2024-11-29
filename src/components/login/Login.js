@@ -122,6 +122,12 @@ const Login = () => {
       });
   };
 
+  const onEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      submit();
+    }
+  };
+
   return (
     <div className={styles.login}>
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
@@ -145,6 +151,7 @@ const Login = () => {
           name="password"
           id="password"
           onChange={edit}
+          onKeyDown={onEnterKey}
           placeholder="비밀번호를 입력하세요."
           className={styles.input}
         />
