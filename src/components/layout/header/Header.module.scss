@@ -20,10 +20,13 @@
 
     li {
       font-family: 'Santokki';
-      padding: 0 20px;
+      text-align: center;
+      // padding: 0 20px;
 
       a {
         font-size: 20px;
+        display: block;
+        width: 100px;
       }
     }
   }
