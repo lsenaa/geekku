@@ -55,7 +55,7 @@ const PersonInfo = () => {
       });
   };
   const handleCheckNickname = () => {
-    checkNickname(user.nickname, url);
+    checkNickname(myUser.nickname, url);
   };
 
   const imageUpdate = () => {
