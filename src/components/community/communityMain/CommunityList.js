@@ -36,7 +36,7 @@ const CommunityList = () => {
           key={index}
           community_num={post.community_num}
           title={post.title}
-          image={post.image}
+          image={post.coverImage}
           viewCount={post.viewCount}
           profile={post.profile}
           className={styles.postCard}
