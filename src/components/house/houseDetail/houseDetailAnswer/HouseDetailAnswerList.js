@@ -10,7 +10,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
 
-const HouseDetailAnswerList = ({ houseNum }) => {
+const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [houseAnswerList, setHouseAnswerList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -213,6 +213,7 @@ const HouseDetailAnswerList = ({ houseNum }) => {
           centered
         >
           <HouseDetailAnswerWrite
+            userId={userId}
             toggleModal={toggleModal}
             houseNum={houseNum}
             setIsModalOpen={setIsModalOpen}

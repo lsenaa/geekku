@@ -29,6 +29,7 @@ const HouseDetail = () => {
     content: '',
     createdAt: '',
     houseNum: num || 0,
+    userId: '',
   });
 
   useEffect(() => {
@@ -132,7 +133,7 @@ const HouseDetail = () => {
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <HouseDetailAnswerList houseNum={house.houseNum} />
+      <HouseDetailAnswerList houseNum={house.houseNum} userId={house.userId} />
       <TopButton />
     </div>
   );
