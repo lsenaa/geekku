@@ -3,7 +3,7 @@ import kakaoIcon from '../../assets/images/login/kakao_login_Btn.png';
 import naverIcon from '../../assets/images/login/naver_login_Btn.png';
 import googleIcon from '../../assets/images/login/google_login_Btn.png';
 import styles from './Login.module.scss';
-import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitch from '../login/toggleSwitch/ToggleSwitch.module.scss';
 import { url } from '../../lib/axios';
 
 import { useState } from 'react';
