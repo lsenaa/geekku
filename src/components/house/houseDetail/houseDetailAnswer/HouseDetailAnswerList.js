@@ -135,7 +135,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
               </div>
               <p className={styles.title}>{answer.title}</p>
               <p className={styles.createdAt}>{formatDate(answer.createdAt)}</p>
-              {user.companyId === answer.companyId && (
+              {user?.companyId === answer.companyId && (
                 <button
                   className={styles.deleteBtn}
                   onClick={(e) => {
@@ -167,41 +167,6 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
             <hr className={styles.line} />
           </li>
         ))}
-        {/* {houseAnswerList.map((answer) => (
-          <li key={answer.answerHouseNum} className={styles.answerList}>
-            <div>
-              <div className={styles.profile}>
-                <img
-                  src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                />
-                <p>{answer.companyName}</p>
-                <p className={styles.createdAt}>
-                  {formatDate(answer.createdAt)}
-                </p>
-                {user.companyId === answer.companyId && (
-                  <button onClick={() => handleDelete(answer.answerHouseNum)}>
-                    삭제
-                  </button>
-                )}
-              </div>
-              <div className={styles.phoneAddWrap}>
-                <div className={styles.phone}>
-                  <p>연락처</p>
-                  <p>{answer.companyPhone}</p>
-                </div>
-                <div className={styles.address}>
-                  <p>주소</p>
-                  <p>{answer.companyAddress}</p>
-                </div>
-              </div>
-            </div>
-            <p className={styles.title}>{answer?.title}</p>
-            <div className={styles.editorContent}>
-              <Viewer initialValue={answer.content} />
-            </div>
-            <hr className={styles.line} />
-          </li>
-        ))} */}
       </ul>
       {isModalOpen && (
         <Modal
