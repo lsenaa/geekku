@@ -2,6 +2,7 @@ import styles from './PersonInfo.module.scss';
 import plusIcon from '../../../assets/images/mypage/plusIcon.png';
 import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
 import { url } from '../../../lib/axios';
+import { checkNickname } from 'components/join/checkNickname';
 
 import { useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
@@ -48,27 +49,8 @@ const PersonInfo = () => {
         redirect('${url}/user/updateUserInfo');
       });
   };
-
-  const checkNickname = () => {
-    if (!setUser.nickname) {
-      alert('닉네임을 입력해주세요');
-      return;
-    }
-
-    axios
-      .get(`${url}/checkNickname`, {
-        params: { nickname: setUser.nickname },
-      })
-      .then((response) => {
-        if (response.data === true) {
-          alert('이미 사용중인 닉네임입니다.');
-        } else {
-          alert('사용 가능한 닉네임입니다.');
-        }
-      })
-      .catch((err) => {
-        alert('닉네임 중복 확인 실패');
-      });
+  const handleCheckNickname = () => {
+    checkNickname(user.nickname, url);
   };
 
   const imageUpdate = () => {
@@ -129,7 +111,10 @@ const PersonInfo = () => {
               placeholder={user.nickname}
               className={styles.input1}
             />
-            <button className={styles.checkButton} onClick={checkNickname}>
+            <button
+              className={styles.checkButton}
+              onClick={handleCheckNickname}
+            >
               중복확인
             </button>
           </div>

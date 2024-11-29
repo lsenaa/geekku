@@ -3,10 +3,106 @@ import checkRadio from '../../assets/images/join/CheckedRadioBtn.png';
 import unCheckRadio from '../../assets/images/join/UncheckedRadioBtn.png';
 import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
+import { url } from '../../lib/axios';
+import { checkDoubleId } from './checkDoubleId';
+import { useAgreements } from './agreements';
+
+import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const JoinInterior = () => {
+  const [user, setUser] = useState({
+    type: 'interior',
+    username: '',
+    password: '',
+    phone: '',
+    email: '',
+    companyNumber: '',
+    ceoName: '',
+    companyName: '',
+    companyAddress: '',
+    companyCertificationImage: '',
+  });
+  const [usernameChecked, setUsernameChecked] = useState(false);
+  const { agreements, handleCheckboxChange, validateAgreements } =
+    useAgreements();
+
+  const edit = (e) => {
+    const { name, value } = e.target;
+    if (name === 'username') {
+      setUsernameChecked(false);
+    }
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckDoubleId = async () => {
+    const isAvailable = await checkDoubleId(user.username, url);
+    setUsernameChecked(isAvailable);
+  };
+
   const navigate = useNavigate();
+
+  const submit = (e) => {
+    e.preventDefault();
+
+    // 필수 입력값 확인
+    if (
+      !user.username ||
+      !user.password ||
+      !user.phone ||
+      !user.email ||
+      !user.companyNumber ||
+      !user.companyName ||
+      !user.ceoName
+    ) {
+      alert('모든 필수 항목을 입력해주세요.');
+      return;
+    }
+
+    // 아이디 중복확인
+    if (!usernameChecked) {
+      alert('아이디 중복 확인을 눌러주세요.');
+      return;
+    }
+
+    //동의 체크버튼
+    if (!validateAgreements()) {
+      return;
+    }
+
+    //비밀번호 검사
+    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // if (!passwordRegex.test(user.password)) {
+    //   alert('영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.');
+    //   return;
+    // }
+    if (user.password !== user.confirmPassword) {
+      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
+    let formData = new FormData();
+    formData.append('type', user.type);
+    formData.append('username', user.username);
+    formData.append('password', user.password);
+    formData.append('phone', user.phone);
+    formData.append('email', user.email);
+    formData.append('companyNumber', user.companyNumber);
+    formData.append('ceoName', user.ceoName);
+    formData.append('companyName', user.companyName);
+    formData.append('companyAddress', user.companyAddress);
+
+    axios
+      .post(`${url}/joinCompany`, formData)
+      .then((res) => {
+        console.log(res.data);
+        navigate('/login');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={styles.login}>
@@ -36,10 +132,19 @@ const JoinInterior = () => {
           <br />
           <input
             type="text"
+            name="username"
+            id="username"
+            onChange={edit}
             placeholder="아이디를 입력해주세요."
             className={styles2.input1}
           />
-          <button className={styles2.checkButton}>중복확인</button>
+          <button
+            className={styles2.checkButton}
+            onClick={handleCheckDoubleId}
+            disabled={usernameChecked}
+          >
+            {usernameChecked ? '확인 완료' : '중복 확인'}
+          </button>
         </div>
 
         <div className={styles2.inputGroup}>
@@ -48,7 +153,10 @@ const JoinInterior = () => {
           </span>
           <br />
           <input
-            type="text"
+            type="password"
+            name="password"
+            id="password"
+            onChange={edit}
             placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요."
             className={styles2.input2}
           />
@@ -60,7 +168,10 @@ const JoinInterior = () => {
           </span>
           <br />
           <input
-            type="text"
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            onChange={edit}
             placeholder="비밀번호를 다시 입력해주세요."
             className={styles2.input2}
           />
@@ -71,7 +182,13 @@ const JoinInterior = () => {
             휴대폰 번호<b>*</b>
           </span>
           <br />
-          <input type="text" className={styles2.input2} />
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            onChange={edit}
+            className={styles2.input2}
+          />
         </div>
 
         <div className={styles2.inputGroup}>
@@ -79,15 +196,13 @@ const JoinInterior = () => {
             이메일<b>*</b>
           </span>
           <br />
-          <input type="text" className={styles2.input3} />
-          <span>&nbsp;&nbsp;@&nbsp;&nbsp;</span>
-          <select className={styles2.input4}>
-            <option value=""> 선택하세요</option>
-            <option value="gmail.com"> gmail.com</option>
-            <option value="naver.com"> naver.com</option>
-            <option value="daum.net"> daum.net</option>
-            <option value="직접 입력"> 직접 입력</option>
-          </select>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            onChange={edit}
+            className={styles2.input2}
+          />
         </div>
       </div>
 
@@ -100,7 +215,14 @@ const JoinInterior = () => {
             사업자 등록 번호<b>*</b>
           </span>
           <br />
-          <input type="text" placeholder="" className={styles2.input1} />
+          <input
+            type="text"
+            name="companyNumber"
+            id="companyNumber"
+            onChange={edit}
+            placeholder=""
+            className={styles2.input1}
+          />
           <button className={styles2.checkButton}>인증</button>
         </div>
         <div className={styles2.inputGroup}>
@@ -108,26 +230,52 @@ const JoinInterior = () => {
             대표자명<b>*</b>
           </span>
           <br />
-          <input type="text" placeholder="" className={styles2.input2} />
+          <input
+            type="text"
+            name="ceoName"
+            id="ceoName"
+            onChange={edit}
+            placeholder=""
+            className={styles2.input2}
+          />
         </div>
         <div className={styles2.inputGroup}>
           <span>
             사업장명<b>*</b>
           </span>
           <br />
-          <input type="text" placeholder="" className={styles2.input2} />
+          <input
+            type="text"
+            name="companyName"
+            id="companyName"
+            onChange={edit}
+            placeholder=""
+            className={styles2.input2}
+          />
         </div>
         <div className={styles2.inputGroup}>
-          <span>사업장 주소</span>
+          <span>사업장 주소 (선택)</span>
           <br />
-          <input type="text" placeholder="" className={styles2.input1} />
+          <input
+            type="text"
+            name="companyAddress"
+            id="companyAddress"
+            onChange={edit}
+            placeholder=""
+            className={styles2.input1}
+          />
           <button className={styles2.checkButton}>찾기</button>
         </div>
         <div className={styles2.inputGroup}>
-          <span>사업자 등록증 이미지</span>
+          <span>사업자 등록증 이미지 (선택)</span>
           <br />
           <div className={styles2.imageUploadBox}>
-            <input type="file" className={styles2.imageInput} />
+            <input
+              type="file"
+              name="companyCertificationImage"
+              id="companyCertificationImage"
+              className={styles2.imageInput}
+            />
             <label>사업자 등록증 이미지 첨부 (+)</label>
           </div>
         </div>
@@ -135,15 +283,27 @@ const JoinInterior = () => {
 
       <div className={styles2.checkContainer}>
         <span>
-          <input type="checkbox" /> 만 14세 이상만 가입할 수 있습니다.<b>*</b>
+          <input
+            type="checkbox"
+            name="ageConfirmed"
+            onChange={handleCheckboxChange}
+          />{' '}
+          만 14세 이상만 가입할 수 있습니다.<b>*</b>
         </span>
         <span>
-          <input type="checkbox" /> 이용약관 및 개인정보 수집에 동의합니다.
+          <input
+            type="checkbox"
+            name="termsAccepted"
+            onChange={handleCheckboxChange}
+          />{' '}
+          이용약관 및 개인정보 수집에 동의합니다.
           <b>*</b>
         </span>
       </div>
 
-      <button className={styles2.button}>회원가입</button>
+      <button className={styles2.button} onClick={submit}>
+        회원가입
+      </button>
     </div>
   );
 };
