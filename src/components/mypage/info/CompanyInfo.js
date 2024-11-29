@@ -2,7 +2,19 @@ import styles from './PersonInfo.module.scss';
 import profileImg from '../../../assets/images/mypage/profileImg.png';
 import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
 
+import { useEffect, useState } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
+import { userAtom, tokenAtom } from '../../../store/atoms';
+
 const CompanyInfo = () => {
+  const [user, setUser] = useAtom(userAtom);
+  const [token, setToken] = useAtom(tokenAtom);
+
+  useEffect(() => {
+    setUser(user);
+  });
+  console.log(user);
+
   return (
     <div className={styles.container}>
       {/* <div className={styles.profileSidebar}>

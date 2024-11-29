@@ -3,7 +3,7 @@ import kakaoIcon from '../../assets/images/login/kakao_login_Btn.png';
 import naverIcon from '../../assets/images/login/naver_login_Btn.png';
 import googleIcon from '../../assets/images/login/google_login_Btn.png';
 import styles from './Login.module.scss';
-import ToggleSwitch from './ToggleSwitch';
+import ToggleSwitch from '../login/toggleSwitch/ToggleSwitch.module.scss';
 import { url } from '../../lib/axios';
 
 import { useState } from 'react';
@@ -122,6 +122,12 @@ const Login = () => {
       });
   };
 
+  const onEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      submit();
+    }
+  };
+
   return (
     <div className={styles.login}>
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
@@ -145,6 +151,7 @@ const Login = () => {
           name="password"
           id="password"
           onChange={edit}
+          onKeyDown={onEnterKey}
           placeholder="비밀번호를 입력하세요."
           className={styles.input}
         />

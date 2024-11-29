@@ -1,9 +1,9 @@
 import { Modal, Spin } from 'antd';
 import { useState } from 'react';
-import { url } from '../../lib/axios';
+import { url } from '../../../lib/axios';
 import axios from 'axios';
-import styles from './JoinModal.module.scss';
-import styles2 from './Join.module.scss';
+import styles from '../modals/JoinModal.module.scss';
+import styles2 from '../Join.module.scss';
 
 const JoinModal = ({ open, close, onConfirm }) => {
   const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태

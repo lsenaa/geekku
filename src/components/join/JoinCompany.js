@@ -3,10 +3,11 @@ import checkRadio from '../../assets/images/join/CheckedRadioBtn.png';
 import unCheckRadio from '../../assets/images/join/UncheckedRadioBtn.png';
 import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
-import JoinModal from './JoinModal';
+import JoinModal from './modals/JoinModal';
 import { url } from '../../lib/axios';
-import { checkDoubleId } from './checkDoubleId';
-import { useAgreements } from './agreements';
+import { checkDoubleId } from './utils/checkDoubleId';
+import { useAgreements } from './utils/agreements';
+import { formatCompanyNum, verifyCompanyNum } from './utils/companyNumCheck';
 
 import axios from 'axios';
 import { useState } from 'react';
@@ -32,6 +33,7 @@ const JoinCompany = () => {
   const [estateInfoChecked, setEstateInfoChecked] = useState(false);
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
+  const [preview, setPreview] = useState(null);
 
   const modalOpen = () => {
     setIsModal(true);
@@ -57,7 +59,7 @@ const JoinCompany = () => {
   };
 
   const handleModalConfirm = (selectedData) => {
-    console.log('모달에서 전달된 데이터 : ', selectedData);
+    //console.log('모달에서 전달된 데이터 : ', selectedData);
     setUser((prevUser) => {
       const updatedUser = {
         ...prevUser,
@@ -66,11 +68,24 @@ const JoinCompany = () => {
         ceoName: selectedData.ceoName,
         companyAddress: selectedData.companyAddress,
       };
-      console.log('업데이트된 user상태 :', updatedUser);
+      //console.log('업데이트된 user상태 :', updatedUser);
       return updatedUser;
     });
     setEstateInfoChecked(true);
     setIsModal(false);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+      setUser({ ...user, companyCertificationImage: file });
+    }
+  };
+
+  const handleVerifyCompanyNumber = () => {
+    const formattedNum = formatCompanyNum(user.companyNumber);
+    verifyCompanyNum(user.companyNumber, setUser, user);
   };
 
   const submit = (e) => {
@@ -121,6 +136,11 @@ const JoinCompany = () => {
     formData.append('companyName', user.companyName);
     formData.append('companyAddress', user.companyAddress);
     formData.append('estateNumber', user.estateNumber);
+
+    const fileInput = document.getElementById('companyCertificationImage');
+    if (fileInput && fileInput.files.length > 0) {
+      formData.append('file', fileInput.files[0]);
+    }
 
     axios
       .post(`${url}/joinCompany`, formData)
@@ -301,48 +321,67 @@ const JoinCompany = () => {
         </div>
         <br />
         <div className={styles2.inputGroup}>
-          <span>사업자 등록 번호</span>
+          <span>사업자 등록 번호 (선택) </span>
           <br />
           <input
             type="text"
-            name="estateNumber"
-            id="estateNumber"
+            name="companyNumber"
+            id="companyNumber"
             onChange={edit}
-            placeholder=""
+            placeholder="숫자 10자리를 입력해주세요."
             className={styles2.input1}
+            value={user.companyNumber}
           />
-          <button className={styles2.checkButton}>인증</button>
+          <button
+            className={styles2.checkButton}
+            onClick={handleVerifyCompanyNumber}
+          >
+            인증
+          </button>
         </div>
         <div className={styles2.inputGroup}>
           <span>사업자 등록증 이미지 (선택)</span>
           <br />
           <div className={styles2.imageUploadBox}>
+            {/* 이미지 미리보기 */}
+            {preview ? (
+              <div className={styles2.imagePreview}>
+                <img
+                  src={preview}
+                  alt="사업자 등록증 미리보기"
+                  className={styles2.previewImage}
+                />
+              </div>
+            ) : (
+              <label>사업자 등록증 이미지 첨부 (+)</label>
+            )}
             <input
               type="file"
               name="companyCertificationImage"
               id="companyCertificationImage"
               className={styles2.imageInput}
+              onChange={handleFileChange}
+              accept="image/*"
             />
-            <label>사업자 등록증 이미지 첨부 (+)</label>
           </div>
         </div>
       </div>
 
       <div className={styles2.checkContainer}>
-        <span>
+        <span className={styles2.checkboxGroup}>
           <input
             type="checkbox"
             name="ageConfirmed"
             onChange={handleCheckboxChange}
-          />{' '}
+          />
           만 14세 이상만 가입할 수 있습니다.<b>*</b>
         </span>
-        <span>
+        <span className={styles2.checkboxGroup}>
           <input
             type="checkbox"
             name="termsAccepted"
             onChange={handleCheckboxChange}
-          />{' '}
+          />
           이용약관 및 개인정보 수집에 동의합니다.
           <b>*</b>
         </span>

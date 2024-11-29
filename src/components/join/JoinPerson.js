@@ -2,9 +2,9 @@ import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
 import loginLogo from '../../assets/images/login/loginLogo.png';
 import { url } from '../../lib/axios';
-import { checkNickname } from 'components/join/checkNickname';
-import { checkDoubleId } from './checkDoubleId';
-import { useAgreements } from './agreements';
+import { checkNickname } from 'components/join/utils/checkNickname';
+import { checkDoubleId } from './utils/checkDoubleId';
+import { useAgreements } from './utils/agreements';
 
 import axios from 'axios';
 import { useState } from 'react';
@@ -241,7 +241,7 @@ const JoinPerson = () => {
       </div>
 
       <div className={styles2.checkContainer}>
-        <span>
+        <span className={styles2.checkboxGroup}>
           <input
             type="checkbox"
             name="ageConfirmed"
@@ -251,12 +251,12 @@ const JoinPerson = () => {
             만 14세 이상만 가입할 수 있습니다.<b>*</b>
           </span>
         </span>
-        <span>
+        <span className={styles2.checkboxGroup}>
           <input
             type="checkbox"
             name="termsAccepted"
             onChange={handleCheckboxChange}
-          />{' '}
+          />
           <span>
             이용약관 및 개인정보 수집에 동의합니다.
             <b>*</b>

@@ -2,7 +2,7 @@ import styles from './PersonInfo.module.scss';
 import plusIcon from '../../../assets/images/mypage/plusIcon.png';
 import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
 import { url } from '../../../lib/axios';
-import { checkNickname } from 'components/join/checkNickname';
+import { checkNickname } from 'components/join/utils/checkNickname';
 
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
@@ -55,7 +55,7 @@ const PersonInfo = () => {
       });
   };
   const handleCheckNickname = () => {
-    checkNickname(user.nickname, url);
+    checkNickname(myUser.nickname, url);
   };
 
   const imageUpdate = () => {
