@@ -34,11 +34,11 @@ const CommunityList = () => {
       {posts.map((post, index) => (
         <CommunityListCard
           key={index}
-          community_num={post.community_num}
+          communityNum={post.communityNum}
           title={post.title}
           image={post.coverImage}
           viewCount={post.viewCount}
-          profile={post.profile}
+          profile={post.username}
           className={styles.postCard}
         />
       ))}

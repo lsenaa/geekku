@@ -36,7 +36,7 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    if (user != null && user.username != null) {
+    if (user && user.username) {
       setIsLogin(true);
     } else {
       setIsLogin(false);

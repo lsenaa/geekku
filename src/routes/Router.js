@@ -169,8 +169,6 @@ const Router = () => {
       <Route path="/interiorall/detail/:num" element={<ReqInteriorDetail />} />
       {/* NotFound */}
       <Route path="*" element={<NotFound />} />
-      {/* test 나중에 지워야함*/}
-      <Route path="/sendAlarm" element={<SendAlarm />} />
     </Routes>
   );
 };
