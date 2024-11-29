@@ -31,8 +31,24 @@ const MypagePerson = () => {
   };
 
   const handleDelete = (houseNum) => {
-    Modal.warning({
+    Modal.confirm({
       content: '집꾸 작성글을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
       onOk: () => {
         axiosInToken(token)
           .post(`/user/houseDelete/${houseNum}`)
@@ -48,6 +64,9 @@ const MypagePerson = () => {
           .catch((err) => {
             console.log(err);
           });
+      },
+      onCancel: () => {
+        console.log('Cancel');
       },
     });
   };

@@ -1,6 +1,6 @@
 import styles from './HouseDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'antd';
 import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 import axios from 'axios';

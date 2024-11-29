@@ -33,8 +33,24 @@ const MypagePersonReview = () => {
   };
 
   const handleDelete = (reviewNum) => {
-    Modal.warning({
+    Modal.confirm({
       content: '인테리어 업체 후기를 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
       onOk: () => {
         axiosInToken(token)
           .post(`/user/mypageUserReviewDelete/${reviewNum}`)
@@ -50,6 +66,9 @@ const MypagePersonReview = () => {
           .catch((err) => {
             console.log(err);
           });
+      },
+      onCancel: () => {
+        console.log('Cancel');
       },
     });
   };

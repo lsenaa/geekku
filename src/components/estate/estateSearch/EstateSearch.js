@@ -18,6 +18,8 @@ const EstateSearch = () => {
   const searchResults = searchByKeyword(searchInput);
   const debouncedKeyword = useDebounce(keyword, 1000); //200ms로 설정된 debounce
 
+  console.log(estateList);
+
   // 초기 location.state에서 keyword 값 설정
   useEffect(() => {
     if (location.state?.keyword) {

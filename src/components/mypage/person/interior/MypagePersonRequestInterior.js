@@ -1,5 +1,5 @@
 import styles from '../MypagePersonMain.module.scss';
-import { Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
@@ -29,6 +29,48 @@ const MypagePersonRequestInterior = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  // /user/mypageUserRequestInteriorDelete/${requestNum} -> 백엔드 기능 구현 필요
+  const handleDelete = (requestNum) => {
+    Modal.confirm({
+      content: '인테리어 문의내역을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
+      onOk: () => {
+        axiosInToken(token)
+          .post(`/user/mypageUserRequestInteriorDelete/${requestNum}`)
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              Modal.success({
+                content: '인테리어 문의내역이 삭제되었습니다.',
+              });
+              fetchData();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
   };
 
   return (
@@ -85,10 +127,10 @@ const MypagePersonRequestInterior = () => {
                   <td>
                     <Button01
                       size="x-small"
-                      // onClick={(e) => {
-                      //   e.stopPropagation();
-                      //   handleDelete(request.requestNum);
-                      // }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(request.requestNum);
+                      }}
                     >
                       삭제
                     </Button01>

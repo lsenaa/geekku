@@ -9,7 +9,6 @@ const MypageSiderbar = () => {
   const location = useLocation();
   const [selected, setSelected] = useState(location.pathname);
   const user = useAtomValue(userAtom);
-  console.log(user);
 
   const personMenu = [
     { name: '집꾸하기', path: '/mypage/person' },
@@ -23,7 +22,7 @@ const MypageSiderbar = () => {
   return (
     <div className={styles.profile}>
       <FaUserCircle color="#6D885D" size={100} />
-      <h4>{user.nickname}</h4>
+      <h4>{user.nickname !== '' ? user.nickname : user.name}</h4>
       <p>{user.username}</p>
       <p>{user.email}</p>
       <hr />

@@ -6,12 +6,14 @@ import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdCancel } from 'react-icons/md';
 import DaumPostcode from 'react-daum-postcode';
-import { url } from 'lib/axios';
-import axios from 'axios';
+import { axiosInToken } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
 
 const EstateWrite = () => {
   const navigate = useNavigate();
   const imgRef = useRef();
+  const token = useAtomValue(tokenAtom);
   const [textCount, setTextCount] = useState(0);
   const [imgList, setImgList] = useState([]);
   const [isAddressOpen, setIsAddressOpen] = useState(false);
@@ -164,8 +166,8 @@ const EstateWrite = () => {
       formData.delete('availableDate');
     }
 
-    axios
-      .post(`${url}/estateWrite`, formData)
+    axiosInToken(token)
+      .post(`/company/estateWrite`, formData)
       .then((res) => {
         console.log(res);
         // navigate('/estate', {
