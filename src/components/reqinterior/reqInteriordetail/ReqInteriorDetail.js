@@ -7,26 +7,32 @@ import styles from './ReqInteriorDetail.module.scss';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
-import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
+import {
+  formatEstateType,
+  formatPrice,
+  processLocation,
+  formatDate,
+} from 'utils/utils';
+
 import ReqInteriorDetailAnswerList from './reqInteriorDetailAnswer/ReqInteriorDetailAnswerList';
 
 const ReqInteriorDetail = () => {
   let { num } = useParams();
-  const [interiorall, setInteriorall] = useState({
-    addContent: '',
+  const [interiorAll, setInteriorAll] = useState({
+    requestAllNum: num || 0,
     address1: '',
     address2: '',
-    allowPhone: false,
-    createdAt: '',
-    size: '',
-    rentType: '',
+    allowPhone: '',
+    createAt: '',
+    interiorType: '',
     money: '',
-    requestState: false,
-
+    name: '',
+    phone: '',
+    size: '',
     title: '',
     type: '',
-
-    requestAllNum: num || 0,
+    view_count: '',
+    workType: '',
   });
   useEffect(() => {
     fetchData();
@@ -36,7 +42,7 @@ const ReqInteriorDetail = () => {
     axios
       .get(`${url}/interiorAllDetail/${num}`)
       .then((res) => {
-        setInteriorall({ ...res.data });
+        setInteriorAll({ ...res.data });
       })
       .catch((err) => {
         console.log(err);
@@ -48,8 +54,8 @@ const ReqInteriorDetail = () => {
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
-          <p>홍길동</p>
-          <p className={styles.createdAt}>2024-10-28</p>
+          <p>{interiorAll.name}</p>
+          <p className={styles.createdAt}>{formatDate(interiorAll.createAt)}</p>
         </div>
         <hr className={styles.line} />
       </section>
@@ -59,33 +65,40 @@ const ReqInteriorDetail = () => {
         </div>
         <hr className={styles.line} />
         <div className={styles.item}>
-          <label>매물 유형</label>
-          <p>{formatEstateType(interiorall.type)}</p>
+          <label>건물 유형</label>
+          <p>{formatEstateType(interiorAll.type)}</p>
         </div>
         <div className={styles.item}>
           <label>지역</label>
-          <p>{`${processLocation(interiorall.address1)} ${interiorall.address2}`}</p>
+          <p>{`${processLocation(interiorAll.address1)} ${interiorAll.address2}`}</p>
         </div>
         <div className={styles.item}>
-          <label>거래 종류</label>
+          <label>시공 종류</label>
           <p>
-            {interiorall.rentType === 'jeonse' && '전세'}
-            {interiorall.rentType === 'monthly' && '월세'}
-            {interiorall.rentType === 'buy' && '매매'}
+            {interiorAll.workType == 0 && '전체시공'}
+            {interiorAll.workType == 1 && '부분시공'}
           </p>
+        </div>
+        <div className={styles.item}>
+          <label>시공 평수</label>
+          <p>{interiorAll.size == 10 && '10평 이상'}</p>
+          <p>{interiorAll.size == 20 && '20평 이상'}</p>
+          <p>{interiorAll.size == 30 && '30평 이상'}</p>
+          <p>{interiorAll.size == 40 && '40평 이상'}</p>
+          <p>{interiorAll.size == 5 && '50평 이상'}</p>
         </div>
 
         <div className={styles.item}>
           <label>예산</label>
           <div>
-            <p>{interiorall.money + ' 만원'}</p>
+            <p>{interiorAll.money + ' 만원'}</p>
           </div>
         </div>
 
-        {interiorall.allowPhone && (
+        {interiorAll.allowPhone && (
           <div className={styles.item}>
             <label>연락처</label>
-            <p>{interiorall.userPhone}</p>
+            <p>{interiorAll.phone}</p>
           </div>
         )}
       </section>
@@ -96,20 +109,20 @@ const ReqInteriorDetail = () => {
         <hr className={styles.line} />
         <div className={styles.item}>
           <label>제목</label>
-          <p>{interiorall.title}</p>
+          <p>{interiorAll.title}</p>
         </div>
         <div className={styles.item}>
           <label>상세 내용</label>
-          <p className={styles.content}>{interiorall.addContent}</p>
+          <p className={styles.content}>{interiorAll.addContent}</p>
         </div>
       </section>
       <div className={styles.btnWrap}>
         <Button01 size="small">
-          <Link to={'/oneStop'}>목록으로</Link>
+          <Link to={'/requestInterior'}>목록으로</Link>
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <ReqInteriorDetailAnswerList onestopNum={interiorall.onestopNum} />
+      <ReqInteriorDetailAnswerList requestAllNum={interiorAll.requestAllNum} />
     </div>
   );
 };

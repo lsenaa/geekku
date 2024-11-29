@@ -11,6 +11,36 @@
   }
 }
 
+.subLabelWrap {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+
+  label {
+    font-weight: normal;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+}
+
+.inputTextWrap {
+  @include flexrow;
+  position: relative;
+
+  p {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
+  }
+}
+
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 section {
   margin-top: 40px;
 
@@ -132,17 +162,6 @@ section {
       padding: 10px;
       font-weight: normal;
     }
-  }
-}
-
-.subLabelWrap {
-  display: flex;
-  flex-direction: column;
-  margin-right: 10px;
-
-  label {
-    font-weight: normal;
-    margin-bottom: 8px;
   }
 }
 
