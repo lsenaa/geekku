@@ -8,6 +8,7 @@ import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
 import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const HouseDetail = () => {
   let { num } = useParams();
@@ -132,6 +133,7 @@ const HouseDetail = () => {
       </div>
       {/* 답변 리스트 */}
       <HouseDetailAnswerList houseNum={house.houseNum} />
+      <TopButton />
     </div>
   );
 };

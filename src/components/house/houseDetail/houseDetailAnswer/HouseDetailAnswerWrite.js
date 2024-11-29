@@ -57,14 +57,9 @@ const HouseDetailAnswerWrite = ({
     formData.append('houseNum', houseNum);
     formData.append('title', title);
     formData.append('content', editorRef.current?.getInstance().getHTML());
-    formData.append('companyId', user.companyId);
-    formData.append('companyName', user.companyName);
-    formData.append('companyProfileImage', user.companyProfileImage);
-    formData.append('companyPhone', user.phone);
-    formData.append('companyAddress', user.companyAddress);
 
     axiosInToken(token)
-      .post(`/houseAnswerWrite`, formData)
+      .post(`/company/houseAnswerWrite`, formData)
       .then((res) => {
         console.log(res);
         Modal.success({

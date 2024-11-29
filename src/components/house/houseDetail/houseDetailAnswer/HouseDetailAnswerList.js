@@ -1,7 +1,7 @@
 import styles from './HouseDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
 import { FaUserCircle } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Modal } from 'antd';
 import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 import axios from 'axios';
@@ -14,28 +14,74 @@ import { userAtom } from 'store/atoms';
 const HouseDetailAnswerList = ({ houseNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [houseAnswerList, setHouseAnswerList] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [answerIsOpen, setAnswerIsOpen] = useState({});
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const user = useAtomValue(userAtom);
+  const elementRef = useRef(null);
 
+  // 답변 작성 모달 토글
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(page);
+  }, [page]);
 
-  const fetchData = () => {
+  // 답변 무한 스크롤
+  const onIntersection = (entries) => {
+    const firstEntry = entries[0];
+    if (firstEntry.isIntersecting && hasMore && !isLoading) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  // Intersection Observer 설정
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersection, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    // 컴포넌트가 언마운트되거나 더 이상 관찰할 필요가 없을 때(observer를 해제할 때)반환
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [hasMore, isLoading]);
+
+  // 답변 데이터 요청
+  const fetchData = (page) => {
+    if (isLoading) return; //이미 데이터를 요청중인 경우 return
+
+    setIsLoading(true);
     axios
-      .get(`${url}/houseAnswerList/${houseNum}`)
+      .get(`${url}/houseAnswerList/${houseNum}?page=${page}`)
       .then((res) => {
         console.log(res.data);
-        setHouseAnswerList([...res.data.houseAnswerList]);
-        setTotalCount(res.data.pageInfo.totalCount);
+
+        if (res.data.houseAnswerList.length === 0) {
+          setHasMore(false);
+        } else {
+          setHouseAnswerList((prev) => [...prev, ...res.data.houseAnswerList]);
+          if (page === res.data.pageInfo.endPage) {
+            setHasMore(false);
+          }
+        }
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -56,10 +102,11 @@ const HouseDetailAnswerList = ({ houseNum }) => {
       });
   };
 
+  // 답변 클릭시 내용 보여주도록 토글
   const handleAnswer = (answerHouseNum) => {
     setAnswerIsOpen((prev) => ({
       ...prev,
-      [answerHouseNum]: !prev[answerHouseNum], // 현재 항목의 상태를 토글
+      [answerHouseNum]: !prev[answerHouseNum],
     }));
   };
 
@@ -173,6 +220,11 @@ const HouseDetailAnswerList = ({ houseNum }) => {
             fetchData={fetchData}
           />
         </Modal>
+      )}
+      {hasMore && (
+        <div ref={elementRef} style={{ textAlign: 'center' }}>
+          Load More Items
+        </div>
       )}
     </div>
   );
