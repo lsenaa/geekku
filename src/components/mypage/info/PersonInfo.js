@@ -4,7 +4,7 @@ import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
 import { url } from '../../../lib/axios';
 import { checkNickname } from 'components/join/checkNickname';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from '../../../store/atoms';
 import axios from 'axios';
@@ -14,26 +14,31 @@ const PersonInfo = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
   const [profileImage, setProfileImage] = useState(null);
+  const [myUser, setMyUser] = useState(user);
 
   const edit = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setMyUser({ ...myUser, [name]: value });
   };
+
+  useEffect(() => {
+    setMyUser(user);
+  }, [user]);
 
   const submit = () => {
     let formData = new FormData();
-    formData.append('nickname', user.nickname);
-    formData.append('phone', user.phone);
-    formData.append('email', user.email);
+    formData.append('nickname', myUser.nickname);
+    formData.append('phone', myUser.phone);
+    formData.append('email', myUser.email);
+    console.log(profileImage);
     if (profileImage != null) {
-      formData.append('profileImage', profileImage);
+      formData.append('file', profileImage);
     }
 
     axios
-      .put(`${url}/user/updateUserInfo`, formData, {
+      .post(`${url}/user/updateUserInfo`, formData, {
         headers: {
           Authorization: token,
-          'Content-Type': 'multipart/form-Data',
         },
       })
       .then((res) => {
@@ -81,8 +86,8 @@ const PersonInfo = () => {
             <a href="#">
               <img
                 src={
-                  user.profileImageStr
-                    ? `data:image/png;base64,${user.profileImageStr}`
+                  myUser.profileImageStr
+                    ? `data:image/png;base64,${myUser.profileImageStr}`
                     : profileImgAdd
                 }
                 className={styles.imageFile}
@@ -107,8 +112,8 @@ const PersonInfo = () => {
               type="text"
               name="nickname"
               onChange={edit}
-              value={setUser.nickname}
-              placeholder={user.nickname}
+              // value={myUser.nickname}
+              placeholder={myUser.nickname}
               className={styles.input1}
             />
             <button
@@ -126,7 +131,7 @@ const PersonInfo = () => {
             <input
               type="text"
               name="name"
-              placeholder={user.name}
+              placeholder={myUser.name}
               readOnly
               className={styles.input2}
             />
@@ -139,9 +144,9 @@ const PersonInfo = () => {
             <input
               type="text"
               name="phone"
-              value={setUser.phone}
+              // value={myUser.phone}
               onChange={edit}
-              placeholder={user.phone}
+              placeholder={myUser.phone}
               className={styles.input2}
             />
           </div>
@@ -153,9 +158,9 @@ const PersonInfo = () => {
             <input
               type="text"
               name="email"
-              value={setUser.email}
+              // value={myUser.email}
               onChange={edit}
-              placeholder={user.email}
+              placeholder={myUser.email}
               className={styles.input2}
             />
           </div>
