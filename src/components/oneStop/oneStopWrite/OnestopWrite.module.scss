@@ -40,6 +40,7 @@ section {
   border: 0;
   margin: 20px 0;
 }
+
 .subLabelWrap {
   display: flex;
   flex-direction: column;
@@ -50,18 +51,8 @@ section {
     margin-bottom: 8px;
     font-size: 14px;
   }
-
-  .priceInputWrap {
-    @include flexrow;
-    position: relative;
-
-    p {
-      position: absolute;
-      right: 10px;
-      font-size: 14px;
-    }
-  }
 }
+
 .inputTextWrap {
   @include flexrow;
   position: relative;
@@ -72,7 +63,6 @@ section {
     font-size: 14px;
   }
 }
-
 
 .item {
   @include flexrow;
