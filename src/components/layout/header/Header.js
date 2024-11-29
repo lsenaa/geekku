@@ -124,7 +124,7 @@ const Header = ({ alarms = [] }) => {
       {/* 로그인 유무 헤더 */}
       {isLogin ? (
         <div className={styles.loginMenuWrap}>
-          <button className={styles.btn} onClick={() => setWrite(!write)}>
+          {/* <button className={styles.writeBtn} onClick={() => setWrite(!write)}>
             글쓰기
           </button>
           {write && (
@@ -137,7 +137,7 @@ const Header = ({ alarms = [] }) => {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
 
           {/* 알림 아이콘 버튼 */}
           <a href="#" onClick={() => setIsOpen(!isOpen)}>
@@ -217,9 +217,24 @@ const Header = ({ alarms = [] }) => {
             </p>
           </div>
 
+          <button className={styles.writeBtn} onClick={() => setWrite(!write)}>
+            글쓰기
+          </button>
+          {write && (
+            <ul className={styles.writeWrapper}>
+              {getWriteOptions().map((item, i) => (
+                <li key={i}>
+                  <Link to={item.path} onClick={() => setWrite(!write)}>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+
           {/* 로그아웃버튼 */}
           <button onClick={logout} className={styles.logoutBtn}>
-            Logout
+            로그아웃
           </button>
         </div>
       ) : (
