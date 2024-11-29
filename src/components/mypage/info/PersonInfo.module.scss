@@ -195,10 +195,6 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   background-color: $sub-color;
-
-  &:hover {
-    background-color: #5a9e62;
-  }
 }
 
 .removeUser {
