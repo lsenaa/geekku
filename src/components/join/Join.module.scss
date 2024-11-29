@@ -144,10 +144,39 @@ b {
     position: absolute;
     cursor: pointer;
   }
+  .imageUploadBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    min-height: 100px;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .imageUploadBox img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
 
   .imageUploadBox label {
     color: #6b6969;
     font-size: 14px;
+  }
+
+  .imagePreview {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .previewImage {
+    max-width: 100%;
+    max-height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
   }
 }
 
@@ -158,6 +187,20 @@ b {
 
   span {
     margin-top: 10px;
+  }
+
+  .checkboxGroup {
+    margin-right: 20px;
+
+    input[type='checkbox'] {
+      accent-color: $main-color;
+      padding: 20px;
+    }
+    label {
+      margin-right: 10px;
+      padding: 10px;
+      font-weight: normal;
+    }
   }
 }
 
