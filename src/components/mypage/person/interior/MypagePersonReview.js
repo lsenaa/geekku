@@ -83,7 +83,9 @@ const MypagePersonReview = () => {
                   className={styles.rowWrap}
                   key={review.reviewNum}
                   onClick={() =>
-                    navigate(`/profile/interior/${review.interiorNum}`)
+                    navigate(`/profile/interior/${review.interiorNum}`, {
+                      state: { interiorNum: review.interiorNum },
+                    })
                   }
                 >
                   <td>

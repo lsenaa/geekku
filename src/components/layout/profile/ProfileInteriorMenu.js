@@ -7,13 +7,15 @@ const ProfileInteriorMenu = () => {
   const [selected, setSelected] = useState(location.pathname);
   const locPath = location.pathname;
 
+  console.log(location);
+
   useEffect(() => {
     setSelected(locPath);
   }, [locPath]);
 
   const profileMenu = [
     // { name: '전체보기', path: `/profile/interior/${interiorNum}` },
-    { name: '전체보기', path: '/profile/interior/1' },
+    // { name: '전체보기', path: '/profile/interior/1' },
     { name: `시공사례(${26})`, path: '/profile/interior/sample' },
     { name: `사용자 리뷰(${10})`, path: '/profile/interior/review' },
     { name: '소개글', path: '/profile/interior/introduce' },
