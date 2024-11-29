@@ -59,7 +59,9 @@ const HouseDetailAnswerWrite = ({
     formData.append('title', title);
     formData.append('content', editorRef.current?.getInstance().getHTML());
     formData.append('userId', userId);
-    formData.append('companyId', user.companyId);
+    if (user.companyId !== '') {
+      formData.append('companyId', user.companyId);
+    }
     formData.append('companyName', user.companyName);
 
     axiosInToken(token)
