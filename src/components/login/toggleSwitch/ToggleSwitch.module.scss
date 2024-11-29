@@ -1,0 +1,45 @@
+.toggleDiv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggleInput {
+  display: none;
+}
+
+.toggleLabel {
+  position: relative;
+  width: 56px;
+  height: 30px;
+  background-color: #c6d695;
+  border-radius: 20px; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggleInput:checked + .toggleLabel {
+  background-color: #6d885d;
+}
+
+.toggleLabel::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background-color: #e4ccee;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.toggleInput:checked + .toggleLabel::after {
+  transform: translateX(26px);
+}
+
+.toggleSpan {
+  font-size: 15px;
+  font-weight: 500;
+  color: #6d885d;
+}

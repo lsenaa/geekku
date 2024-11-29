@@ -26,12 +26,12 @@ import MypagePersonCommunity from 'components/mypage/person/community/MypagePers
 import PersonInfo from 'components/mypage/info/PersonInfo';
 import CompanyInfo from 'components/mypage/info/CompanyInfo';
 import Login from 'components/login/Login';
-import SearchId from 'components/login/SearchId';
+import SearchId from 'components/login/utils/SearchId';
 import JoinPerson from 'components/join/JoinPerson';
 import JoinCompany from 'components/join/JoinCompany';
 import JoinInterior from 'components/join/JoinInterior';
-import SearchPwd from 'components/login/SearchPwd';
-import SearchPwdResult from 'components/login/SearchPwdResult';
+import SearchPwd from 'components/login/utils/SearchPwd';
+import SearchPwdResult from 'components/login/utils/SearchPwdResult';
 import SampleList from 'components/interior/sampleList/SampleList';
 import InteriorRegister from 'components/interior/interiorList/InteriorRegister';
 import SampleDetail from 'components/interior/sampleDetail/SampleDetail';
