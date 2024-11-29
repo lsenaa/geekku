@@ -14,7 +14,8 @@ const MypageSubNavbar = () => {
   const houseMenu = { name: '집꾸하기 신청내역', path: '/mypage/person' };
   const interiorMenu = [
     { name: '방꾸하기 신청내역', path: '/mypage/person/interior' },
-    { name: '인테리어 업체 후기', path: '/mypage/person/interior/review' },
+    { name: '인테리어 문의내역', path: '/mypage/person/interior/request' },
+    { name: '인테리어 업체후기', path: '/mypage/person/interior/review' },
   ];
   const onestopMenu = {
     name: '한번에꾸하기 신청내역',

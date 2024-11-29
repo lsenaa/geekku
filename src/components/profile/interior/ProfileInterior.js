@@ -9,7 +9,8 @@ import ProfileInteriorMenu from 'components/layout/profile/ProfileInteriorMenu';
 const ProfileInterior = () => {
   const location = useLocation();
   const allowedPaths = [
-    '/profile/interior',
+    // `/profile/interior/${interiorNum}`,  // 각 인테리어 업체가 등록한 interiorNum 필요
+    `/profile/interior/1`,
     '/profile/interior/sample',
     '/profile/interior/review',
     '/profile/interior/introduce',

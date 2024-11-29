@@ -29,26 +29,34 @@
   margin: 20px 0;
 }
 
-.profile {
+.preview {
   @include flexrow;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  cursor: pointer;
 
-  img {
-    width: 30px;
-    height: 30px;
+  .profile {
+    @include flexrow;
+    width: 20%;
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .companyName {
+      margin-left: 10px;
+      margin-right: 20px;
+    }
   }
 
-  p {
-    font-weight: bold;
-    margin-left: 10px;
-  }
   .createdAt {
+    width: 10%;
     font-weight: normal;
     color: #757575;
-    margin: 0 20px;
+    text-align: center;
   }
 
-  button {
+  .deleteBtn {
     border: none;
     border-radius: 10px;
     padding: 4px 12px;
@@ -57,6 +65,7 @@
 }
 
 .phoneAddWrap {
+  margin-top: 10px;
   .phone,
   .address {
     @include flexrow;
@@ -78,6 +87,7 @@
 
 .title {
   margin: 16px 0;
+  width: 60%;
 }
 
 .editorContent {
