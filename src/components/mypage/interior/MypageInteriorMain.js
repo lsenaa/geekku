@@ -2,8 +2,60 @@ import styles from './MypageInteriorMain.module.scss';
 import { Link } from 'react-router-dom';
 import Button01 from 'components/commons/button/Button01';
 import { Pagination } from 'antd';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { useSetAtom, useAtom, useAtomValue } from 'jotai';
+import {
+  userNameAtom,
+  alarmsAtom,
+  userAtom,
+  tokenAtom,
+} from '../../../store/atoms';
+import { useEffect, useState } from 'react';
 
 const MypageInteriorMain = () => {
+  const [user, setUser] = useAtom(userAtom);
+  const [token, setToken] = useAtom(tokenAtom);
+
+  //디버깅
+  useState(() => {
+    setUser(user);
+  });
+  console.log('마이페이지 인테리어 메인' + user);
+
+  let { num } = useParams();
+  const [onestop, setOnestop] = useState({
+    type: '',
+    address1: '',
+    address2: '',
+    size: '',
+    rentType: '',
+    jeonsePrice: 0,
+    monthlyPrice: 0,
+    buyPrice: 0,
+    depositPrice: 0,
+    requestState: false,
+    allowPhone: false,
+    title: '',
+    content: '',
+    createdAt: '',
+    onestopNum: num || 0,
+  });
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // const fetchData = () => {
+  //   axios
+  //     .get(`${url}/interiorCompanyDetail/${num}`)
+  //     .then((res) => {
+  //       setOnestop({ ...res.data });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   return (
     <>
       <div className={styles.containerbox}>

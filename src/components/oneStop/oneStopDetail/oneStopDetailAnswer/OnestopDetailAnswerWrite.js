@@ -21,6 +21,8 @@ const OnestopDetailAnswerWrite = ({
   const [content, setContent] = useState('');
   const editorRef = useRef();
 
+  console.log(onestopNum);
+
   const onChangeContent = () => {
     const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
     setContent(text === '<p><br><p>' ? '' : text);
@@ -53,7 +55,7 @@ const OnestopDetailAnswerWrite = ({
       return;
     }
 
-    formData.append('houseNum', onestopNum);
+    formData.append('onestopNum', onestopNum);
     formData.append('title', title);
     formData.append('content', editorRef.current?.getInstance().getHTML());
     formData.append('companyId', user.companyId);
@@ -63,7 +65,7 @@ const OnestopDetailAnswerWrite = ({
     formData.append('companyAddress', user.companyAddress);
 
     axiosInToken(token)
-      .post(`/onestopAnswerWrite`, formData)
+      .post(`/company/onestopAnswerWrite`, formData)
       .then((res) => {
         console.log(res);
         Modal.success({
@@ -82,8 +84,6 @@ const OnestopDetailAnswerWrite = ({
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
-          {/* <img src={`data:image/png;base64, ${user.companyProfileImage}`} /> */}
-          {/* <FaUserCircle color="#6D885D" size={30} /> */}
           <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>

@@ -1,17 +1,66 @@
 import styles from './OnestopDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
 import { FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import OnestopDetailAnswerWrite from './OnestopDetailAnswerWrite';
+import { url } from 'lib/axios';
+import { formatDate } from 'utils/utils';
+import { Viewer } from '@toast-ui/react-editor';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
+import axios from 'axios';
 
-const OnestopDetailAnswerList = () => {
+const OnestopDetailAnswerList = ({ onestopNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [onestopAnswerList, setOnestopAnswerList] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [answerIsOpen, setAnswerIsOpen] = useState({});
+  const user = useAtomValue(userAtom);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
+  const fetchData = () => {
+    axios
+      .get(`${url}/onestopAnswerList/${onestopNum}`)
+      .then((res) => {
+        console.log(res.data);
+        setOnestopAnswerList([...res.data.onestopAnswerList]);
+        setTotalCount(res.data.pageInfo.totalCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleDelete = (onestopAnswerNum) => {
+    axios
+      .post(`${url}/onestopAnswerDelete`, { onestopAnswerNum, onestopNum })
+      .then((res) => {
+        console.log(res);
+        Modal.success({
+          content: '답변이 삭제되었습니다.',
+          onOk: () => {
+            fetchData();
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleAnswer = (answerOnestopNum) => {
+    setAnswerIsOpen((prev) => ({
+      ...prev,
+      [answerOnestopNum]: !prev[answerOnestopNum], // 현재 항목의 상태를 토글
+    }));
+  };
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
@@ -22,77 +71,54 @@ const OnestopDetailAnswerList = () => {
       </div>
       <hr className={styles.line} />
       <ul>
-        <li>
-          <div>
-            <div className={styles.profile}>
-              <FaUserCircle color="#6D885D" size={30} />
-              <p>코스타 부동산</p>
-              <p className={styles.createdAt}>2024-10-28</p>
-              <button>삭제</button>
-            </div>
-            <div className={styles.phoneAddWrap}>
-              <div className={styles.phone}>
-                <p>연락처</p>
-                <p>010-1234-5678</p>
+        {onestopAnswerList.map((answer) => (
+          <li
+            className={styles.answerList}
+            key={answer.answerOnestopNum}
+            onClick={() => handleAnswer(answer.answerOnestopNum)}
+          >
+            <div className={styles.preview}>
+              <div className={styles.profile}>
+                <img
+                  src={`data:image/png;base64, ${answer.companyProfileImage}`}
+                  alt="프로필 이미지"
+                />
+                <p className={styles.companyName}>{answer.companyName}</p>
               </div>
-              <div className={styles.address}>
-                <p>주소</p>
-                <p>
-                  강원특별자치도 춘천시 안마산로 131 상가씨동 1층
-                  C-106호(퇴계동)
-                </p>
-              </div>
+              <p className={styles.title}>{answer.title}</p>
+              <p className={styles.createdAt}>{formatDate(answer.createdAt)}</p>
+              {user.companyId === answer.companyId && (
+                <button
+                  className={styles.deleteBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(answer.answerOnestopNum);
+                  }}
+                >
+                  삭제
+                </button>
+              )}
             </div>
-          </div>
-          <div className={styles.editorContent}>
-            <p>
-              에디터 내용 들어갈 자리 Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.
-            </p>
-          </div>
-        </li>
-        <hr className={styles.line} />
-        <li>
-          <div>
-            <div className={styles.profile}>
-              <FaUserCircle color="#6D885D" size={30} />
-              <p>코스타 부동산</p>
-              <p className={styles.createdAt}>2024-10-28</p>
-              <button>삭제</button>
-            </div>
-            <div className={styles.phoneAddWrap}>
-              <div className={styles.phone}>
-                <p>연락처</p>
-                <p>010-1234-5678</p>
+            {answerIsOpen[answer.answerOnestopNum] && (
+              <div>
+                <div className={styles.phoneAddWrap}>
+                  <div className={styles.phone}>
+                    <p>연락처</p>
+                    <p>{answer.companyPhone}</p>
+                  </div>
+                  <div className={styles.address}>
+                    <p>주소</p>
+                    <p>{answer.companyAddress}</p>
+                  </div>
+                </div>
+                <div className={styles.editorContent}>
+                  <Viewer initialValue={answer.content} />
+                </div>
               </div>
-              <div className={styles.address}>
-                <p>주소</p>
-                <p>
-                  강원특별자치도 춘천시 안마산로 131 상가씨동 1층
-                  C-106호(퇴계동)
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className={styles.editorContent}>
-            <p>
-              에디터 내용 들어갈 자리 Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.
-            </p>
-          </div>
-        </li>
+            )}
+            <hr className={styles.line} />
+          </li>
+        ))}
       </ul>
       {isModalOpen && (
         <Modal
@@ -102,7 +128,12 @@ const OnestopDetailAnswerList = () => {
           footer={null}
           className={styles.customModal}
         >
-          <OnestopDetailAnswerWrite toggleModal={toggleModal} />
+          <OnestopDetailAnswerWrite
+            onestopNum={onestopNum}
+            toggleModal={toggleModal}
+            setIsModalOpen={setIsModalOpen}
+            fetchData={fetchData}
+          />
         </Modal>
       )}
     </div>
