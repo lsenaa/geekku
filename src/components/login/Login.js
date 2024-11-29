@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
 import axios from 'axios';
+import { type } from '@testing-library/user-event/dist/type';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -22,13 +23,17 @@ const Login = () => {
   const fcmToken = useAtomValue(fcmTokenAtom);
 
   const navigate = useNavigate();
-  const handleToggle = (checked) => setIsChecked(checked);
+  const handleToggle = (checked) => {
+    console.log('토글 상태 변경 : ', checked);
+    setIsChecked(checked);
+  };
 
   const edit = (e) => {
     setMember({ ...member, [e.target.name]: e.target.value });
   };
 
   const submit = () => {
+    console.log('submit 함수 호출됨');
     const formData = new FormData();
     formData.append('username', member.username);
     formData.append('password', member.password);
@@ -46,6 +51,7 @@ const Login = () => {
         const typeEndPoint = isChecked
           ? '/company/companyInfo'
           : '/user/userInfo';
+        console.log('요청 엔드포인트 :', typeEndPoint);
 
         //로그인 성공 후 사용자 정보 가져오기
         axios

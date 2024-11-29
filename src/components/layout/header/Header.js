@@ -36,16 +36,12 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
-    if (user && token) {
+    if (user != null && user.username != null) {
       setIsLogin(true);
     } else {
       setIsLogin(false);
     }
   }, [user, token]);
-  // =======
-  //     setIsLogin(user !== null && user.username !== '');
-  //   }, [user]);
-  // >>>>>>> 473384f327e6968c76326514a2934cfcee6bb800
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },

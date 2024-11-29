@@ -3,20 +3,135 @@ import checkRadio from '../../assets/images/join/CheckedRadioBtn.png';
 import unCheckRadio from '../../assets/images/join/UncheckedRadioBtn.png';
 import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
+import JoinModal from './JoinModal';
+import { url } from '../../lib/axios';
+import { checkDoubleId } from './checkDoubleId';
+import { useAgreements } from './agreements';
+
+import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import JoinModal from './JoinModal';
 
 const JoinCompany = () => {
+  const [user, setUser] = useState({
+    type: 'estate',
+    username: '',
+    password: '',
+    phone: '',
+    email: '',
+    companyNumber: '',
+    ceoName: '',
+    companyName: '',
+    companyAddress: '',
+    estateNumber: '',
+    companyCertificationImage: '',
+  });
+
   const [isModal, setIsModal] = useState(false);
+  const [usernameChecked, setUsernameChecked] = useState(false);
+  const [estateInfoChecked, setEstateInfoChecked] = useState(false);
+  const { agreements, handleCheckboxChange, validateAgreements } =
+    useAgreements();
+
   const modalOpen = () => {
     setIsModal(true);
+    setEstateInfoChecked(true);
   };
   const modalClose = () => {
     setIsModal(false);
   };
 
   const navigate = useNavigate();
+
+  const edit = (e) => {
+    const { name, value } = e.target;
+    if (name === 'username') {
+      setUsernameChecked(false);
+    }
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckDoubleId = async () => {
+    const isAvailable = await checkDoubleId(user.username, url);
+    setUsernameChecked(isAvailable);
+  };
+
+  const handleModalConfirm = (selectedData) => {
+    console.log('모달에서 전달된 데이터 : ', selectedData);
+    setUser((prevUser) => {
+      const updatedUser = {
+        ...prevUser,
+        estateNumber: selectedData.estateNumber,
+        companyName: selectedData.companyName,
+        ceoName: selectedData.ceoName,
+        companyAddress: selectedData.companyAddress,
+      };
+      console.log('업데이트된 user상태 :', updatedUser);
+      return updatedUser;
+    });
+    setEstateInfoChecked(true);
+    setIsModal(false);
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+
+    // 필수 입력값 확인
+    if (!user.username || !user.password || !user.phone || !user.email) {
+      alert('모든 필수 항목을 입력해주세요.');
+      return;
+    }
+
+    // 아이디 중복확인
+    if (!usernameChecked) {
+      alert('아이디 중복 확인을 눌러주세요.');
+      return;
+    }
+
+    //동의 체크버튼
+    if (!validateAgreements()) {
+      return;
+    }
+
+    //비밀번호 검사
+    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    // if (!passwordRegex.test(user.password)) {
+    //   alert('영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.');
+    //   return;
+    // }
+    if (user.password !== user.confirmPassword) {
+      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
+    // 부동산 정보조회 여부 확인
+    if (user.type === 'estate' && !estateInfoChecked) {
+      alert('부동산 정보를 조회해주세요.');
+      return;
+    }
+
+    let formData = new FormData();
+    formData.append('type', user.type);
+    formData.append('username', user.username);
+    formData.append('password', user.password);
+    formData.append('phone', user.phone);
+    formData.append('email', user.email);
+    formData.append('companyNumber', user.companyNumber);
+    formData.append('ceoName', user.ceoName);
+    formData.append('companyName', user.companyName);
+    formData.append('companyAddress', user.companyAddress);
+    formData.append('estateNumber', user.estateNumber);
+
+    axios
+      .post(`${url}/joinCompany`, formData)
+      .then((res) => {
+        console.log(res.data);
+        navigate('/login');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={styles.login}>
@@ -46,10 +161,19 @@ const JoinCompany = () => {
           <br />
           <input
             type="text"
+            name="username"
+            id="username"
+            onChange={edit}
             placeholder="아이디를 입력해주세요."
             className={styles2.input1}
           />
-          <button className={styles2.checkButton}>중복확인</button>
+          <button
+            className={styles2.checkButton}
+            onClick={handleCheckDoubleId}
+            disabled={usernameChecked}
+          >
+            {usernameChecked ? '확인 완료' : '중복 확인'}
+          </button>
         </div>
 
         <div className={styles2.inputGroup}>
@@ -58,7 +182,10 @@ const JoinCompany = () => {
           </span>
           <br />
           <input
-            type="text"
+            type="password"
+            name="password"
+            id="password"
+            onChange={edit}
             placeholder="영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요."
             className={styles2.input2}
           />
@@ -70,7 +197,10 @@ const JoinCompany = () => {
           </span>
           <br />
           <input
-            type="text"
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            onChange={edit}
             placeholder="비밀번호를 다시 입력해주세요."
             className={styles2.input2}
           />
@@ -81,7 +211,13 @@ const JoinCompany = () => {
             휴대폰 번호<b>*</b>
           </span>
           <br />
-          <input type="text" className={styles2.input2} />
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            onChange={edit}
+            className={styles2.input2}
+          />
         </div>
 
         <div className={styles2.inputGroup}>
@@ -89,7 +225,13 @@ const JoinCompany = () => {
             이메일<b>*</b>
           </span>
           <br />
-          <input type="text" className={styles2.input2} />
+          <input
+            type="text"
+            name="email"
+            id="email"
+            onChange={edit}
+            className={styles2.input2}
+          />
         </div>
       </div>
 
@@ -104,18 +246,25 @@ const JoinCompany = () => {
             className={styles2.input1}
             readOnly
           />
-          <button className={styles2.checkButton} onClick={modalOpen}>
-            조회
+          <button
+            className={`${styles2.checkButton} ${estateInfoChecked ? styles2.checked : ''}`}
+            onClick={() => setIsModal(true)}
+          >
+            {estateInfoChecked ? '확인' : '조회'}
           </button>
         </div>
-        <JoinModal open={isModal} close={modalClose} />
+        <JoinModal
+          open={isModal}
+          close={() => setIsModal(false)}
+          onConfirm={handleModalConfirm}
+        />
 
         <div className={styles2.inputGroup}>
           <span>중개등록 번호</span>
           <br />
           <input
             type="text"
-            placeholder="41220-2016-100009"
+            value={user.estateNumber}
             className={styles2.input2}
             readOnly
           />
@@ -125,7 +274,7 @@ const JoinCompany = () => {
           <br />
           <input
             type="text"
-            placeholder="고덕홍길동공인중개사사무소"
+            value={user.companyName}
             className={styles2.input2}
             readOnly
           />
@@ -135,7 +284,7 @@ const JoinCompany = () => {
           <br />
           <input
             type="text"
-            placeholder="송영선"
+            value={user.ceoName}
             className={styles2.input2}
             readOnly
           />
@@ -145,25 +294,35 @@ const JoinCompany = () => {
           <br />
           <input
             type="text"
-            placeholder="강원특별자치도 춘천시 안마산로 131 상가 1층 C-106호(퇴계동)"
+            value={user.companyAddress}
             className={styles2.input2}
             readOnly
           />
         </div>
         <br />
         <div className={styles2.inputGroup}>
-          <span>
-            사업자 등록 번호<b>*</b>
-          </span>
+          <span>사업자 등록 번호</span>
           <br />
-          <input type="text" placeholder="" className={styles2.input1} />
+          <input
+            type="text"
+            name="estateNumber"
+            id="estateNumber"
+            onChange={edit}
+            placeholder=""
+            className={styles2.input1}
+          />
           <button className={styles2.checkButton}>인증</button>
         </div>
         <div className={styles2.inputGroup}>
-          <span>사업자 등록증 이미지</span>
+          <span>사업자 등록증 이미지 (선택)</span>
           <br />
           <div className={styles2.imageUploadBox}>
-            <input type="file" className={styles2.imageInput} />
+            <input
+              type="file"
+              name="companyCertificationImage"
+              id="companyCertificationImage"
+              className={styles2.imageInput}
+            />
             <label>사업자 등록증 이미지 첨부 (+)</label>
           </div>
         </div>
@@ -171,15 +330,27 @@ const JoinCompany = () => {
 
       <div className={styles2.checkContainer}>
         <span>
-          <input type="checkbox" /> 만 14세 이상만 가입할 수 있습니다.<b>*</b>
+          <input
+            type="checkbox"
+            name="ageConfirmed"
+            onChange={handleCheckboxChange}
+          />{' '}
+          만 14세 이상만 가입할 수 있습니다.<b>*</b>
         </span>
         <span>
-          <input type="checkbox" /> 이용약관 및 개인정보 수집에 동의합니다.
+          <input
+            type="checkbox"
+            name="termsAccepted"
+            onChange={handleCheckboxChange}
+          />{' '}
+          이용약관 및 개인정보 수집에 동의합니다.
           <b>*</b>
         </span>
       </div>
 
-      <button className={styles2.button}>회원가입</button>
+      <button className={styles2.button} onClick={submit}>
+        회원가입
+      </button>
     </div>
   );
 };
