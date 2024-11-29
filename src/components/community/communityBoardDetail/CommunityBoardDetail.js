@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from './CommunityBoardDetail.module.css';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
+import { url } from 'lib/axios';
 
 const CommunityBoardDetail = () => {
-  const [post, setPost] = useState({
-    title:
-      '홈스타일링 전문가와 함께, 블랙 포인트로 세련되게 완성한 집 홈스타일링 전문가와 함께, 블랙 포인트로 세련되게 완성한 집',
-    username: '코스타',
-    type: '아파트',
-    size: '33평',
-    style: '리모델링',
-    family: '신혼부부',
-    location: '경기도',
-    budget: '3000만원',
-    period: '1개월',
-    scope: '세부공사 주방리모델링, 조명시공, 중문, 가벽&파티션, 슬라이딩 도어',
-    content: `거실은 집 안에서 가장 중요한 공간이기 때문에...`,
-    date: '2024-10-24',
-    imageUrl: require('../../../assets/images/communityExam.png'),
-  });
-
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      username: '코스타',
-      content: '여기 너무 예쁘네요~ 따라 만들어봐야겠어요!',
-      date: '2024-10-28',
-    },
-  ]);
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
+  const { CommunityNum } = useParams();
+
+  useEffect(() => {
+    if (!CommunityNum) {
+      console.error('해당 페이지를 찾을 수 없습니다.');
+      return;
+    }
+
+    const fetchPostData = async () => {
+      try {
+        const postResponse = await axios.get(
+          `${url}/communityDetail/${CommunityNum}`
+        );
+        setPost(postResponse.data);
+        // console.log(postResponse.data);
+        const commentsResponse = await axios.get(
+          `${url}/communityComment/${CommunityNum}`
+        );
+        setComments(commentsResponse.data);
+      } catch (error) {
+        console.error('게시글 데이터를 가져오는 데 실패했습니다:', error);
+      }
+    };
+
+    fetchPostData();
+  }, [CommunityNum]);
 
   const handleBackButton = () => {
     navigate('/CommunityMain');
@@ -44,27 +49,55 @@ const CommunityBoardDetail = () => {
     setNewComment(e.target.value);
   };
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (newComment.trim()) {
-      setComments([
-        ...comments,
-        {
-          id: comments.length + 1,
-          username: '코스타',
+      try {
+        const newCommentData = {
+          communityId: CommunityNum,
+          userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1', // 사용자 아이디로 수정해야함
           content: newComment,
-          date: new Date().toISOString().slice(0, 10),
-        },
-      ]);
-      setNewComment('');
+        };
+
+        // POST 요청 전송 (쿼리 매개변수 사용)
+        const response = await axios.post(
+          `${url}/communityCommentWrite`,
+          null,
+          {
+            params: newCommentData,
+          }
+        );
+
+        if (response.status === 201) {
+          console.log('댓글 작성 성공:', response.data);
+          setComments([
+            ...comments,
+            {
+              id: comments.length + 1,
+              userName: '작성한 댓글',
+              content: newComment,
+              createdAt: new Date().toISOString().slice(0, 10),
+            },
+          ]);
+          setNewComment(''); // 입력 필드 초기화
+        } else {
+          console.error('댓글 작성 실패:', response.data);
+        }
+      } catch (error) {
+        console.error('댓글 작성 중 에러 발생:', error);
+      }
     }
   };
+
+  if (!post) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       {/* 상단 이미지 */}
       <div className={styles.postImageContainer}>
         <img
-          src={post.imageUrl}
+          src={`${url}/communityImage/${post.coverImage}`}
           alt="상세 이미지"
           className={styles.postImage}
         />
@@ -96,14 +129,16 @@ const CommunityBoardDetail = () => {
             <div className={styles.iconItem}>🏠 {post.type}</div>
             <div className={styles.iconItem}>📐 {post.size}</div>
             <div className={styles.iconItem}>✏️ {post.style}</div>
-            <div className={styles.iconItem}>👫 {post.family}</div>
+            <div className={styles.iconItem}>👫 {post.familyType}</div>
           </div>
           <hr className={styles.line} />
           <div className={styles.detailContent}>
-            지역: {post.location} | 스타일: {post.style} | 예산: {post.budget} |
-            기간: {post.period}
+            지역: {post.address1} {post.address2} &nbsp;&nbsp;|&nbsp;&nbsp;
+            스타일: {post.style} &nbsp;&nbsp;|&nbsp;&nbsp; 예산: {post.money}
+            &nbsp;&nbsp; |&nbsp;&nbsp; 기간: {post.periodStartDate} ~{' '}
+            {post.periodEndDate}
           </div>
-          <div className={styles.detailContent}>시공 범위: {post.scope}</div>
+          {/* <div className={styles.detailContent}>시공 범위: {post.scope}</div> */}
         </div>
 
         {/* 게시글 내용 */}
@@ -131,21 +166,27 @@ const CommunityBoardDetail = () => {
           </div>
           <div className={styles.commentOutput}>
             <div className={styles.commentsList}>
-              {comments.map((comment) => (
-                <div key={comment.id} className={styles.commentItem}>
-                  <div
-                    className={styles.commentHeader}
-                    style={{ marginBottom: '10px' }}
-                  >
-                    <FaUserCircle color="#6D885D" size={30} />
-                    <span className={styles.commentUsername}>
-                      {comment.username}
-                    </span>
-                    <span className={styles.commentDate}>{comment.date}</span>
+              {comments.length > 0 ? (
+                comments.map((comment) => (
+                  <div key={comment.id} className={styles.commentItem}>
+                    <div
+                      className={styles.commentHeader}
+                      style={{ marginBottom: '10px' }}
+                    >
+                      <FaUserCircle color="#6D885D" size={30} />
+                      <span className={styles.commentUsername}>
+                        {comment.userName}
+                      </span>
+                      <span className={styles.commentDate}>
+                        {comment.createdAt}
+                      </span>
+                    </div>
+                    <p className={styles.commentContent}>{comment.content}</p>
                   </div>
-                  <p className={styles.commentContent}>{comment.content}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p style={{ marginTop: '50px' }}>댓글이 없습니다.</p> // 댓글이 없으면 표시할 메시지
+              )}
             </div>
           </div>
         </div>

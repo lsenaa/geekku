@@ -5,7 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { url } from 'lib/axios';
 
 const CommunityListCard = ({
-  community_num,
+  communityNum,
   title,
   image,
   viewCount,
@@ -14,7 +14,8 @@ const CommunityListCard = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/CommunityBoardDetail/${community_num}`); // community_num 사용
+    console.log(communityNum);
+    navigate(`/CommunityBoardDetail/${communityNum}`); // community_num 사용
   };
 
   return (
@@ -28,7 +29,7 @@ const CommunityListCard = ({
       <div className={styles.cardFooter}>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
-          <span className={styles.profileName}>test_user</span>
+          <span className={styles.profileName}>{profile}</span>
         </div>
         <p className={styles.cardViews}>조회 {viewCount}</p>
       </div>

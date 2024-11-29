@@ -10,6 +10,7 @@ const CommunityBoardWrite = () => {
   const [fileList, setFileList] = useState([]);
   const [textCount, setTextCount] = useState(0);
   const [formData, setFormData] = useState({
+    userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1', //임시 값
     type: '',
     size: '',
     address1: '',
@@ -66,8 +67,9 @@ const CommunityBoardWrite = () => {
           },
         }
       );
+      const communityNum = response.data;
       console.log('등록 성공:', response.data);
-      navigate(`/communityDetail/${response.data}`);
+      navigate(`/CommunityBoardDetail/${communityNum}`);
     } catch (error) {
       console.error('등록 실패:', error);
       alert('등록 중 오류가 발생했습니다.');
