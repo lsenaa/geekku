@@ -1,11 +1,10 @@
-import loginLogo from '../../assets/images/login/loginLogo.png';
-import kakaoIcon from '../../assets/images/login/kakao_login_Btn.png';
-import naverIcon from '../../assets/images/login/naver_login_Btn.png';
-import googleIcon from '../../assets/images/login/google_login_Btn.png';
-import styles from './Login.module.scss';
+import loginLogo from 'assets/images/login/loginLogo.png';
+import kakaoIcon from 'assets/images/login/kakao_login_Btn.png';
+import naverIcon from 'assets/images/login/naver_login_Btn.png';
+import googleIcon from 'assets/images/login/google_login_Btn.png';
+import styles from 'components/login/Login.module.scss';
 import ToggleSwitch from 'components/login/toggleSwitch/ToggleSwitch';
-import { url } from '../../lib/axios';
-
+import { url } from 'lib/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
