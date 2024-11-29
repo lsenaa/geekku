@@ -11,7 +11,7 @@ import axios from 'axios';
 
 const ReqInteriorDetailAnswerWrite = ({
   toggleModal,
-  onestopNum,
+  requestAllNum,
   setIsModalOpen,
   fetchData,
 }) => {
@@ -20,6 +20,8 @@ const ReqInteriorDetailAnswerWrite = ({
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const editorRef = useRef();
+
+  console.log(requestAllNum);
 
   const onChangeContent = () => {
     const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
@@ -53,7 +55,7 @@ const ReqInteriorDetailAnswerWrite = ({
       return;
     }
 
-    formData.append('houseNum', onestopNum);
+    formData.append('requestAllNum', requestAllNum);
     formData.append('title', title);
     formData.append('content', editorRef.current?.getInstance().getHTML());
     formData.append('companyId', user.companyId);
@@ -63,11 +65,11 @@ const ReqInteriorDetailAnswerWrite = ({
     formData.append('companyAddress', user.companyAddress);
 
     axiosInToken(token)
-      .post(`/onestopAnswerWrite`, formData)
+      .post(`/company/interiorAnswerWrite`, formData)
       .then((res) => {
         console.log(res);
         Modal.success({
-          content: '한번에꾸미기 답변이 등록되었습니다.',
+          content: '방꾸미기 답변이 등록되었습니다.',
           onOk: () => {
             setIsModalOpen(false);
             fetchData();
@@ -82,8 +84,6 @@ const ReqInteriorDetailAnswerWrite = ({
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
-          {/* <img src={`data:image/png;base64, ${user.companyProfileImage}`} /> */}
-          {/* <FaUserCircle color="#6D885D" size={30} /> */}
           <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>

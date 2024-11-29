@@ -233,46 +233,14 @@ const OneStopWrite = () => {
         </div>
         <div className={styles.item}>
           <label>
-            예산<span>*</span>
+            총 예산<span>*</span>
           </label>
-          {onestop.rentType === 'jeonse' && (
-            <div className={styles.subLabelWrap}>
-              <label>전세가</label>
-              <div className={styles.inputTextWrap}>
-                <input type="number" name="money" onChange={handleEdit} />
-                <p>만원</p>
-              </div>
+          <div className={styles.subLabelWrap}>
+            <div className={styles.inputTextWrap}>
+              <input type="number" name="money" onChange={handleEdit} />
+              <p>만원</p>
             </div>
-          )}
-          {onestop.rentType === 'monthly' && (
-            <>
-              <div className={styles.subLabelWrap}>
-                <label>보증금</label>
-                <div className={styles.inputTextWrap}>
-                  <input type="number" name="money" onChange={handleEdit} />
-                  <p>만원</p>
-                </div>
-              </div>
-              <div className={styles.subLabelWrap}>
-                <label>월세</label>
-                <div className={styles.inputTextWrap}>
-                  <input type="number" name="money" onChange={handleEdit} />
-                  <p>만원</p>
-                </div>
-              </div>
-            </>
-          )}
-
-          {onestop.type !== 'land' && <></>}
-          {onestop.rentType === 'buy' && (
-            <div className={styles.subLabelWrap}>
-              <label>매매가</label>
-              <div className={styles.inputTextWrap}>
-                <input type="number" name="money" onChange={handleEdit} />
-                <p>만원</p>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
         <div className={styles.item}>
           <label>

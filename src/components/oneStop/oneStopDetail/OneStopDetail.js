@@ -10,8 +10,23 @@ import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
 import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
 import OnestopDetailAnswerList from './oneStopDetailAnswer/OnestopDetailAnswerList';
-
+import { useSetAtom, useAtom, useAtomValue } from 'jotai';
+import {
+  userNameAtom,
+  alarmsAtom,
+  userAtom,
+  tokenAtom,
+} from '../../../store/atoms';
 const OnestopDetail = () => {
+  const [user, setUser] = useAtom(userAtom);
+  const [token, setToken] = useAtom(tokenAtom);
+
+  //디버깅
+  useEffect(() => {
+    setUser(user);
+  });
+  console.log('원스탑 답변 작성', user);
+
   let { num } = useParams();
   const [onestop, setOnestop] = useState({
     type: '',
@@ -44,6 +59,7 @@ const OnestopDetail = () => {
         console.log(err);
       });
   };
+
   return (
     <div className={styles.container}>
       <h2>한번에꾸하기 신청내역</h2>
