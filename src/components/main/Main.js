@@ -141,7 +141,7 @@ const Main = () => {
                       <FaUserCircle color="#6D885D" size={30} />
                       <p>test_유저1</p>
                     </div>
-                    <p>{community.viewCount.toLocaleString()}</p>
+                    {/* <p>{community.viewCount.toLocaleString()}</p> */}
                   </div>
                 </div>
               </Link>

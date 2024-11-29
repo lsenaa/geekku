@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './CommunityListCard.module.css';
 import { useNavigate } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
+import { url } from 'lib/axios';
 
 const CommunityListCard = ({
   community_num,
@@ -18,7 +19,11 @@ const CommunityListCard = ({
 
   return (
     <div className={styles.card} onClick={handleCardClick}>
-      <img src={image} alt={title} className={styles.cardImage} />
+      <img
+        src={`http://localhost:8080/communityImage/${image}`}
+        alt={title}
+        className={styles.cardImage}
+      />
       <h3 className={styles.cardTitle}>{title}</h3>
       <div className={styles.cardFooter}>
         <div className={styles.profile}>
