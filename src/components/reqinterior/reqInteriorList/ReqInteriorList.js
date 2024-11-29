@@ -41,8 +41,8 @@ const ReqInteriorList = ({ interiorAllList }) => {
             <td>{i + 1}</td>
             <td>{interiorAllRequest.title}</td>
             <td>
-              {interiorAllRequest.workType === 0 && '전체'}
-              {interiorAllRequest.workType === 1 && '부분'}
+              {interiorAllRequest.workType == 0 && '전체'}
+              {interiorAllRequest.workType == 1 && '부분'}
             </td>
             <td>{`${processLocation(interiorAllRequest.address1)} ${interiorAllRequest.address2}`}</td>
             <td>

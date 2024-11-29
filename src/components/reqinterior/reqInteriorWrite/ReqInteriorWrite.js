@@ -208,13 +208,15 @@ const ReqInteriorWrite = () => {
             <option value="5">50평 이상</option>
           </select>
         </div>
-        <div className={styles.subLabelWrap}>
+        <div className={styles.item}>
           <label>
             예산<span>*</span>
           </label>
-          <div className={styles.inputTextWrap}>
-            <input type="text" name="money" onChange={handleEdit} />
-            <p>만원</p>
+          <div className={styles.subLabelWrap}>
+            <div className={styles.inputTextWrap}>
+              <input type="number" name="money" onChange={handleEdit} />
+              <p>만원</p>
+            </div>
           </div>
         </div>
         <div className={styles.item}>
