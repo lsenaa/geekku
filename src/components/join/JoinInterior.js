@@ -8,9 +8,10 @@ import { url } from 'lib/axios';
 import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkDoubleId } from './utils/checkDoubleId';
-import { useAgreements } from './utils/agreements';
-import { formatCompanyNum, verifyCompanyNum } from './utils/companyNumCheck';
+import { checkDoubleId } from './utils/CheckDoubleId';
+import { useAgreements } from './utils/Agreements';
+import { formatCompanyNum, verifyCompanyNum } from './utils/CompanyNumCheck';
+import { AddressModal } from './modals/AddressModal';
 
 const JoinInterior = () => {
   const [user, setUser] = useState({
@@ -30,6 +31,7 @@ const JoinInterior = () => {
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
   const [preview, setPreview] = useState(null);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
   const edit = (e) => {
     const { name, value } = e.target;
@@ -57,6 +59,12 @@ const JoinInterior = () => {
   const handleVerifyCompanyNumber = () => {
     const formattedNum = formatCompanyNum(user.companyNumber);
     verifyCompanyNum(user.companyNumber, setUser, user);
+  };
+
+  const handleAddressSelect = (data) => {
+    const address = data.address;
+    setUser((prevUser) => ({ ...prevUser, companyAddress: address }));
+    setIsAddressModalOpen(false);
   };
 
   const submit = (e) => {
@@ -293,11 +301,24 @@ const JoinInterior = () => {
             type="text"
             name="companyAddress"
             id="companyAddress"
+            value={user.companyAddress}
             onChange={edit}
-            placeholder=""
-            className={styles2.input1}
+            placeholder="찾기 버튼을 통해 주소를 찾아주세요."
+            className={`${styles2.input1} ${styles2.companyAddress}`}
+            readOnly
           />
-          <button className={styles2.checkButton}>찾기</button>
+          <button
+            className={styles2.checkButton}
+            onClick={() => setIsAddressModalOpen(true)}
+          >
+            찾기
+          </button>
+          {isAddressModalOpen && (
+            <AddressModal
+              onComplete={handleAddressSelect}
+              onClose={() => setIsAddressModalOpen(false)}
+            />
+          )}
         </div>
         <div className={styles2.inputGroup}>
           <span>사업자 등록증 이미지 (선택)</span>
@@ -326,7 +347,6 @@ const JoinInterior = () => {
           </div>
         </div>
       </div>
-
       <div className={styles2.checkContainer}>
         <span className={styles2.checkboxGroup}>
           <input
