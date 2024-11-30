@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
+import { Modal } from 'antd';
 import axios from 'axios';
 import { type } from '@testing-library/user-event/dist/type';
 
@@ -23,7 +24,6 @@ const Login = () => {
 
   const navigate = useNavigate();
   const handleToggle = (checked) => {
-    console.log('토글 상태 변경 : ', checked);
     setIsChecked(checked);
   };
 
@@ -32,7 +32,6 @@ const Login = () => {
   };
 
   const submit = () => {
-    console.log('submit 함수 호출됨');
     const formData = new FormData();
     formData.append('username', member.username);
     formData.append('password', member.password);
@@ -50,7 +49,6 @@ const Login = () => {
         const typeEndPoint = isChecked
           ? '/company/companyInfo'
           : '/user/userInfo';
-        console.log('요청 엔드포인트 :', typeEndPoint);
 
         //로그인 성공 후 사용자 정보 가져오기
         axios
@@ -61,9 +59,13 @@ const Login = () => {
             setUser(res.data);
 
             if (isChecked) {
-              alert('로그인 성공, [기업]사용자');
+              Modal.success({
+                content: '[기업]사용자로 로그인 성공하였습니다.',
+              });
             } else {
-              alert('로그인 성공, [개인]사용자');
+              Modal.success({
+                content: '[개인]사용자로 로그인 성공하였습니다.',
+              });
               axios
                 .post(
                   `${url}/fcmToken`,
@@ -112,12 +114,17 @@ const Login = () => {
           })
           .catch((err) => {
             console.error(`${isChecked ? '기업' : '개인'}정보 가져오기 실패`);
-            alert(`${isChecked ? '기업' : '개인'} 사용자가 없습니다`);
+            Modal.error({
+              content: `${isChecked ? '기업' : '개인'} 사용자가 없습니다`,
+            });
+            // alert(`${isChecked ? '기업' : '개인'} 사용자가 없습니다`);
           });
       })
       .catch((err) => {
+        Modal.error({
+          content: '로그인 실패',
+        });
         console.error('로그인 실패 : ', err);
-        alert('로그인 실패');
       });
   };
 

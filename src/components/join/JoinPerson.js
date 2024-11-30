@@ -7,6 +7,7 @@ import { checkDoubleId } from 'components/join/utils/checkDoubleId';
 import { useAgreements } from 'components/join/utils/agreements';
 
 import axios from 'axios';
+import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -61,19 +62,25 @@ const JoinPerson = () => {
       !user.phone ||
       !user.email
     ) {
-      alert('모든 필수 항목을 입력해주세요.');
-      return;
-    }
-
-    // 닉네임 중복확인
-    if (!nicknameChecked) {
-      alert('닉네임 중복 확인을 눌러주세요.');
+      Modal.info({
+        content: '필수 항목을 모두 입력해주세요.',
+      });
       return;
     }
 
     // 아이디 중복확인
     if (!usernameChecked) {
-      alert('아이디 중복 확인을 눌러주세요.');
+      Modal.info({
+        content: '아이디 중복 확인을 눌러주세요.',
+      });
+      return;
+    }
+
+    // 닉네임 중복확인
+    if (user.nickname && !nicknameChecked) {
+      Modal.info({
+        content: '닉네임 중복 확인을 눌러주세요.',
+      });
       return;
     }
 
@@ -94,7 +101,9 @@ const JoinPerson = () => {
     //   return;
     // }
     if (user.password !== user.confirmPassword) {
-      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      Modal.error({
+        content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      });
       return;
     }
 

@@ -1,4 +1,4 @@
-import loginLogo from '../../../assets/images/login/loginLogo.png';
+import loginLogo from 'assets/images/login/loginLogo.png';
 import styles from '../Login.module.scss';
 
 const SearchPwd = () => {

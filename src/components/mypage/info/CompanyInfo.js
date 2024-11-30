@@ -1,10 +1,10 @@
 import styles from './PersonInfo.module.scss';
-import profileImg from '../../../assets/images/mypage/profileImg.png';
-import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
-
+import profileImg from 'assets/images/mypage/profileImg.png';
+import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
+import { Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { userAtom, tokenAtom } from '../../../store/atoms';
+import { userAtom, tokenAtom } from 'store/atoms';
 
 const CompanyInfo = () => {
   const [user, setUser] = useAtom(userAtom);

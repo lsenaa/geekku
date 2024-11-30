@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from 'assets/images/logo.png';
-import defaultImg from '../../../assets/images/usericon.png';
+import defaultImg from 'assets/images/usericon.png';
 import styles from './Header.module.scss';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import axios from 'axios';
+import { Modal } from 'antd';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
@@ -93,10 +94,15 @@ const Header = ({ alarms = [] }) => {
     localStorage.removeItem('user');
 
     setIsLogin(false);
-    alert('로그아웃 되었습니다.');
+    Modal.success({
+      content: '로그아웃 되었습니다.',
+    });
     navigate('/');
   };
+
+  //현재 user 상태 콘솔에 출력
   console.log('현재 user 상태 : ', user);
+
   return (
     <header className={styles.Container}>
       <Link to={'/'}>

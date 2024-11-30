@@ -1,3 +1,5 @@
+import { Modal } from 'antd';
+
 export const formatCompanyNum = (companyNumber) => {
   if (!/^\d{10}$/.test(companyNumber)) {
     return null;
@@ -8,9 +10,13 @@ export const formatCompanyNum = (companyNumber) => {
 export const verifyCompanyNum = (companyNumber, setUser, user) => {
   const formattedNum = formatCompanyNum(companyNumber);
   if (formattedNum) {
-    alert(`사업자등록번호 확인 완료 : ${formattedNum}`);
+    Modal.success({
+      content: '사업자등록번호 확인 완료 : ' + `${formattedNum}`,
+    });
     setUser({ ...user, companyNumber: formattedNum });
   } else {
-    alert('사업자등록번호 입력 형식이 맞지 않습니다.');
+    Modal.error({
+      content: '사업자등록번호 입력 형식이 맞지 않습니다.',
+    });
   }
 };
