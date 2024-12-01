@@ -1,7 +1,7 @@
 import styles from './EstateSearch.module.scss';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import EstateList from '../estateList/EstateList';
-import KakaoMap from 'components/map/KakaoMap';
+import KakaoMap from 'components/kakaomap/KakaoMap';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useLocation } from 'react-router';
@@ -17,15 +17,16 @@ const EstateSearch = () => {
   const [estateList, setEstateList] = useState([]);
   const searchResults = searchByKeyword(searchInput);
   const debouncedKeyword = useDebounce(keyword, 1000); //200ms로 설정된 debounce
+  const DEFAULT_KEYWORD = '경기도 광명시'; // 초기 키워드
+  const DEFAULT_COORDS = { latitude: 37.47832, longitude: 126.864303 }; // 경기도 광명시  좌표
 
-  console.log(estateList);
-
-  // 초기 location.state에서 keyword 값 설정
+  // 초기 데이터 로드: 검색어가 없으면 현재 위치를 기반으로 검색
   useEffect(() => {
     if (location.state?.keyword) {
-      const initialKeyword = location.state.keyword;
-      setKeyword(processKeyword(initialKeyword));
-      setSearchInput(initialKeyword);
+      setKeyword(location.state.keyword);
+    } else {
+      setKeyword(DEFAULT_KEYWORD);
+      fetchData(DEFAULT_KEYWORD, type);
     }
   }, [location.state]);
 
@@ -39,6 +40,7 @@ const EstateSearch = () => {
   const processKeyword = (keyword) => {
     const replacements = {
       광역시: '',
+      경기도: '경기',
       충청북도: '충북',
       충청남도: '충남',
       전라북도: '전북',
@@ -55,7 +57,7 @@ const EstateSearch = () => {
     return processedKeyword.trim();
   };
 
-  const fetchData = (searchKeyword = keyword, searchType = type) => {
+  const fetchData = (searchKeyword = '', searchType = '') => {
     const params = {};
     if (searchType) params.type = searchType;
     if (searchKeyword) params.keyword = processKeyword(searchKeyword);
@@ -146,7 +148,7 @@ const EstateSearch = () => {
             
           )} */}
         <EstateList estateList={estateList} />
-        <KakaoMap />
+        <KakaoMap estateList={estateList} currentLocation={DEFAULT_COORDS} />
       </div>
     </div>
   );
