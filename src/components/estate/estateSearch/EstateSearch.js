@@ -148,7 +148,11 @@ const EstateSearch = () => {
             
           )} */}
         <EstateList estateList={estateList} />
-        <KakaoMap estateList={estateList} currentLocation={DEFAULT_COORDS} />
+        <KakaoMap
+          estateList={estateList}
+          currentLocation={DEFAULT_COORDS}
+          keyword={keyword}
+        />
       </div>
     </div>
   );

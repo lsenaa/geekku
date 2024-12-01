@@ -2,7 +2,7 @@ import useGeoLocation from 'hook/useGeoLocation';
 import { useEffect, useRef } from 'react';
 import { formatPrice } from 'utils/utils';
 
-const KakaoMap = ({ estateList, currentLocation }) => {
+const KakaoMap = ({ estateList, currentLocation, keyword }) => {
   const appKey = process.env.REACT_APP_KAKAO_APP_KEY;
   const container = useRef(null);
   const location = useGeoLocation();
@@ -19,7 +19,7 @@ const KakaoMap = ({ estateList, currentLocation }) => {
     // 2. script가 로드되면 실행
     script.onload = () => {
       if (location) {
-        window.kakao.maps.load(() => {
+        window.kakao.maps.load(async () => {
           const options = {
             center: new window.kakao.maps.LatLng(
               currentLocation.latitude,
@@ -38,7 +38,7 @@ const KakaoMap = ({ estateList, currentLocation }) => {
           // 10km 내 매물 필터링
           estateList.forEach((estate) => {
             geocoder.addressSearch(
-              `${estate.address1} ${estate.address2}`,
+              keyword ? keyword : `${estate.address1} ${estate.address2}`,
               (result, status) => {
                 if (status === window.kakao.maps.services.Status.OK) {
                   const estateLatLng = new window.kakao.maps.LatLng(
@@ -69,7 +69,14 @@ const KakaoMap = ({ estateList, currentLocation }) => {
                         }
                       )}</div>`,
                     });
-                    infowindow.open(map, estateMarker);
+
+                    // 마커 클릭 시 인포윈도우 표시
+                    window.kakao.maps.event.addListener(
+                      estateMarker,
+                      'click',
+                      () => infowindow.open(map, estateMarker)
+                    );
+
                     // 지도의 중심을 결과값으로 받은 위치로 이동
                     map.setCenter(estateMarker.getPosition());
                   }
@@ -80,7 +87,7 @@ const KakaoMap = ({ estateList, currentLocation }) => {
         });
       }
     };
-  }, [currentLocation, estateList]);
+  }, [currentLocation, estateList, keyword]);
 
   // 두 위치 사이의 거리를 계산하는 함수 (단위: km)
   const calculateDistance = (loc1, loc2) => {
