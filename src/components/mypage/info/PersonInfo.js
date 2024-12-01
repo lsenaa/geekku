@@ -95,6 +95,7 @@ const PersonInfo = () => {
                     : profileImgAdd
                 }
                 className={styles.imageFile}
+                onClick={imageUpdate}
               />
               <img
                 src={plusIcon}
