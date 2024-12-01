@@ -18,6 +18,7 @@ const JoinCompany = () => {
     type: 'estate',
     username: '',
     password: '',
+    confirmPassword: '',
     phone: '',
     email: '',
     companyNumber: '',

@@ -18,6 +18,7 @@ const JoinInterior = () => {
     type: 'interior',
     username: '',
     password: '',
+    confirmPassword: '',
     phone: '',
     email: '',
     companyNumber: '',

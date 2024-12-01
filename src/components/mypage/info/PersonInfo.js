@@ -13,8 +13,8 @@ import { checkNickname } from 'components/join/utils/CheckNickname';
 const PersonInfo = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
-  const [profileImage, setProfileImage] = useState(null);
   const [myUser, setMyUser] = useState(user);
+  const [profileImage, setProfileImage] = useState(null);
 
   const edit = (e) => {
     const { name, value } = e.target;
