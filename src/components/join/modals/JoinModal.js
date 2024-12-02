@@ -57,6 +57,12 @@ const JoinModal = ({ open, close, onConfirm }) => {
     close();
   };
 
+  const onEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <Modal open={open} onCancel={close} footer={null} width={600}>
       <h4 className={styles2.title}>중개사무소 조회</h4>
@@ -68,6 +74,7 @@ const JoinModal = ({ open, close, onConfirm }) => {
             placeholder="상호명, 대표자명, 부동산중개등록번호로 조회 할 수 있습니다."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={onEnterKey}
             className={styles.searchInput}
           />
           <button className={styles.searchButton} onClick={handleSearch}>
