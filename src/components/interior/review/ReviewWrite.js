@@ -260,8 +260,17 @@ const ReviewWrite = () => {
           </p>
         </div>
         <div className={styles.submitBtnWrap}>
-          <Button01 size="small" onClick={submit}>
+          <Button01 size="small" type="submit" onClick={submit}>
             등록하기
+          </Button01>
+          {/* <div style={{ margin: '0 20px' }}></div> */}
+          <Button01
+            size="small"
+            color="sub"
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            취소하기
           </Button01>
         </div>
       </form>
