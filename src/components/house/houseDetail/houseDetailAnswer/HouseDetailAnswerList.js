@@ -138,12 +138,12 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
                   src={`data:image/png;base64, ${answer.companyProfileImage}`}
                   alt="프로필 이미지"
                 />
-                <p className={styles.companyName}>
-                  {answer.companyName}
+                <div className={styles.profileDateWrap}>
+                  <p className={styles.companyName}>{answer.companyName}</p>
                   <p className={styles.createdAt}>
                     {formatDate(answer.createdAt)}
                   </p>
-                </p>
+                </div>
               </div>
               <p className={styles.title}>{answer.title}</p>
               {user?.companyId === answer.companyId && (
