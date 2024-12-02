@@ -15,6 +15,7 @@ const PersonInfo = () => {
   const [token, setToken] = useAtom(tokenAtom);
   const [myUser, setMyUser] = useState(user);
   const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const edit = (e) => {
     const { name, value } = e.target;
@@ -30,7 +31,7 @@ const PersonInfo = () => {
     formData.append('nickname', myUser.nickname);
     formData.append('phone', myUser.phone);
     formData.append('email', myUser.email);
-    console.log(profileImage);
+
     if (profileImage != null) {
       formData.append('file', profileImage);
     }
@@ -42,7 +43,6 @@ const PersonInfo = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setToken(res.data.token);
         setUser(res.data.user);
         Modal.success({
@@ -73,10 +73,7 @@ const PersonInfo = () => {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUser((prevUser) => ({
-          ...prevUser,
-          profileImageStr: reader.result.split(',')[1],
-        }));
+        setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -90,9 +87,11 @@ const PersonInfo = () => {
             <a href="#">
               <img
                 src={
-                  myUser.profileImageStr
-                    ? `data:image/png;base64,${myUser.profileImageStr}`
-                    : profileImgAdd
+                  previewImage
+                    ? previewImage
+                    : myUser.profileImageStr
+                      ? `data:image/png;base64,${myUser.profileImageStr}`
+                      : profileImgAdd
                 }
                 className={styles.imageFile}
                 onClick={imageUpdate}
