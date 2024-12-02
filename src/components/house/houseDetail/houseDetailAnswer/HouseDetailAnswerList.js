@@ -87,20 +87,54 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   };
 
   const handleDelete = (houseAnswerNum) => {
-    axiosInToken(token)
-      .post(`/company/houseAnswerDelete`, { houseAnswerNum, houseNum })
-      .then((res) => {
-        console.log(res);
-        Modal.success({
-          content: '답변이 삭제되었습니다.',
-          onOk: () => {
-            fetchData();
-          },
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    Modal.confirm({
+      content: '답변을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
+      onOk: () => {
+        axiosInToken(token)
+          .post(`/company/houseAnswerDelete`, { houseAnswerNum, houseNum })
+          .then((res) => {
+            Modal.success({
+              content: '답변이 삭제되었습니다.',
+            });
+            setHouseAnswerList((prev) =>
+              prev.filter((answer) => answer.houseAnswerNum !== houseAnswerNum)
+            );
+            // 현재 페이지 데이터 refetch
+            axios
+              .get(`${url}/houseAnswerList/${houseNum}?page=${page}`)
+              .then((res) => {
+                console.log('Refetching current page data:', res.data);
+                setHouseAnswerList((prev) => [
+                  ...prev.slice(0, (page - 1) * 10), // 이전 페이지 데이터 유지
+                  ...res.data.houseAnswerList,
+                ]);
+                setHasMore(res.data.pageInfo.endPage > page);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
   };
 
   // 답변 클릭시 내용 보여주도록 토글
