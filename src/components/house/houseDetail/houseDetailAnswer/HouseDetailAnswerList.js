@@ -9,6 +9,7 @@ import { formatDate } from 'utils/utils';
 import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
+import { RiQuestionAnswerLine } from 'react-icons/ri';
 
 const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -113,7 +114,10 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
-        <h3>답변</h3>
+        <div className={styles.iconTextWrap}>
+          <RiQuestionAnswerLine size={25} />
+          <h3>답변</h3>
+        </div>
         <Button01 size="x-small" color="sub" onClick={toggleModal}>
           작성하기
         </Button01>
