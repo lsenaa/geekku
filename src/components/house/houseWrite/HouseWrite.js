@@ -243,27 +243,6 @@ const HouseWrite = () => {
         </div>
         <div className={styles.item}>
           <label>
-            희망 평수<span>*</span>
-          </label>
-          <select
-            className={styles.select}
-            name="size"
-            defaultValue=""
-            required="required"
-            onChange={handleEdit}
-          >
-            <option value="" disabled>
-              희망 평수 선택
-            </option>
-            <option value="10">10평 이상</option>
-            <option value="20">20평 이상</option>
-            <option value="30">30평 이상</option>
-            <option value="40">40평 이상</option>
-            <option value="5">기타</option>
-          </select>
-        </div>
-        <div className={styles.item}>
-          <label>
             예산<span>*</span>
           </label>
           {house.rentType === 'jeonse' && (
@@ -310,6 +289,27 @@ const HouseWrite = () => {
               </div>
             </div>
           )}
+        </div>
+        <div className={styles.item}>
+          <label>
+            희망 평수<span>*</span>
+          </label>
+          <select
+            className={styles.select}
+            name="size"
+            defaultValue=""
+            required="required"
+            onChange={handleEdit}
+          >
+            <option value="" disabled>
+              희망 평수 선택
+            </option>
+            <option value="10">10평 이상</option>
+            <option value="20">20평 이상</option>
+            <option value="30">30평 이상</option>
+            <option value="40">40평 이상</option>
+            <option value="5">기타</option>
+          </select>
         </div>
         <div className={styles.item}>
           <label>
