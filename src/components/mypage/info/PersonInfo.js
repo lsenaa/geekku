@@ -1,20 +1,20 @@
+import plusIcon from 'assets/images/mypage/plusIcon.png';
+import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
 import styles from './PersonInfo.module.scss';
-import plusIcon from '../../../assets/images/mypage/plusIcon.png';
-import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
-import { url } from '../../../lib/axios';
-import { checkNickname } from 'components/join/utils/checkNickname';
-
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { Modal } from 'antd';
+import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { userAtom, tokenAtom } from '../../../store/atoms';
-import axios from 'axios';
-import { redirect } from 'react-router';
+import { userAtom, tokenAtom } from 'store/atoms';
+import { checkNickname } from 'components/join/utils/CheckNickname';
 
 const PersonInfo = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
-  const [profileImage, setProfileImage] = useState(null);
   const [myUser, setMyUser] = useState(user);
+  const [profileImage, setProfileImage] = useState(null);
 
   const edit = (e) => {
     const { name, value } = e.target;
@@ -45,12 +45,16 @@ const PersonInfo = () => {
         console.log(res.data);
         setToken(res.data.token);
         setUser(res.data.user);
-        alert('회원정보가 수정되었습니다.');
+        Modal.success({
+          content: '회원정보가 수정되었습니다.',
+        });
         redirect('${url}/user/updateUserInfo');
       })
       .catch((err) => {
         console.log('회원 정보 수정 실패 ');
-        alert('회원 정보 수정에 실패했습니다.');
+        Modal.error({
+          content: '회원 정보 수정에 실패했습니다.',
+        });
         redirect('${url}/user/updateUserInfo');
       });
   };
@@ -91,6 +95,7 @@ const PersonInfo = () => {
                     : profileImgAdd
                 }
                 className={styles.imageFile}
+                onClick={imageUpdate}
               />
               <img
                 src={plusIcon}

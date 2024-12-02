@@ -109,7 +109,7 @@ b {
     background-color: $sub-color;
     color: white;
     font-weight: bold;
-    width: 90px;
+    width: 80px;
     height: 45px;
     border-radius: 10px;
     margin-left: 14px;
@@ -216,4 +216,9 @@ b {
   margin: 10px;
   transition: background-color 0.3s ease;
   background-color: $sub-color;
+}
+
+.companyAddress {
+  width: 300px;
+  margin-right: 10px;
 }

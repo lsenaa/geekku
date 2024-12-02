@@ -1,23 +1,24 @@
-import loginLogo from '../../assets/images/login/loginLogo.png';
-import checkRadio from '../../assets/images/join/CheckedRadioBtn.png';
-import unCheckRadio from '../../assets/images/join/UncheckedRadioBtn.png';
+import loginLogo from 'assets/images/login/loginLogo.png';
+import checkRadio from 'assets/images/join/CheckedRadioBtn.png';
+import unCheckRadio from 'assets/images/join/UncheckedRadioBtn.png';
 import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
 import JoinModal from './modals/JoinModal';
-import { url } from '../../lib/axios';
-import { checkDoubleId } from './utils/checkDoubleId';
-import { useAgreements } from './utils/agreements';
-import { formatCompanyNum, verifyCompanyNum } from './utils/companyNumCheck';
-
 import axios from 'axios';
+import { url } from 'lib/axios';
+import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { checkDoubleId } from './utils/CheckDoubleId';
+import { useAgreements } from './utils/Agreements';
+import { formatCompanyNum, verifyCompanyNum } from './utils/CompanyNumCheck';
 
 const JoinCompany = () => {
   const [user, setUser] = useState({
     type: 'estate',
     username: '',
     password: '',
+    confirmPassword: '',
     phone: '',
     email: '',
     companyNumber: '',
@@ -93,13 +94,17 @@ const JoinCompany = () => {
 
     // 필수 입력값 확인
     if (!user.username || !user.password || !user.phone || !user.email) {
-      alert('모든 필수 항목을 입력해주세요.');
+      Modal.info({
+        content: '필수 항목을 모두 입력해주세요.',
+      });
       return;
     }
 
     // 아이디 중복확인
     if (!usernameChecked) {
-      alert('아이디 중복 확인을 눌러주세요.');
+      Modal.info({
+        content: '아이디 중복 확인을 눌러주세요.',
+      });
       return;
     }
 
@@ -115,13 +120,17 @@ const JoinCompany = () => {
     //   return;
     // }
     if (user.password !== user.confirmPassword) {
-      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      Modal.error({
+        content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      });
       return;
     }
 
     // 부동산 정보조회 여부 확인
     if (user.type === 'estate' && !estateInfoChecked) {
-      alert('부동산 정보를 조회해주세요.');
+      Modal.info({
+        content: '부동산 정보를 조회해주세요.',
+      });
       return;
     }
 

@@ -1,22 +1,24 @@
-import loginLogo from '../../assets/images/login/loginLogo.png';
-import checkRadio from '../../assets/images/join/CheckedRadioBtn.png';
-import unCheckRadio from '../../assets/images/join/UncheckedRadioBtn.png';
+import loginLogo from 'assets/images/login/loginLogo.png';
+import checkRadio from 'assets/images/join/CheckedRadioBtn.png';
+import unCheckRadio from 'assets/images/join/UncheckedRadioBtn.png';
 import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
-import { url } from '../../lib/axios';
-import { checkDoubleId } from './utils/checkDoubleId';
-import { useAgreements } from './utils/agreements';
-import { formatCompanyNum, verifyCompanyNum } from './utils/companyNumCheck';
-
 import axios from 'axios';
+import { url } from 'lib/axios';
+import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { checkDoubleId } from './utils/CheckDoubleId';
+import { useAgreements } from './utils/Agreements';
+import { formatCompanyNum, verifyCompanyNum } from './utils/CompanyNumCheck';
+import { AddressModal } from './modals/AddressModal';
 
 const JoinInterior = () => {
   const [user, setUser] = useState({
     type: 'interior',
     username: '',
     password: '',
+    confirmPassword: '',
     phone: '',
     email: '',
     companyNumber: '',
@@ -30,6 +32,7 @@ const JoinInterior = () => {
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
   const [preview, setPreview] = useState(null);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
   const edit = (e) => {
     const { name, value } = e.target;
@@ -59,6 +62,12 @@ const JoinInterior = () => {
     verifyCompanyNum(user.companyNumber, setUser, user);
   };
 
+  const handleAddressSelect = (data) => {
+    const address = data.address;
+    setUser((prevUser) => ({ ...prevUser, companyAddress: address }));
+    setIsAddressModalOpen(false);
+  };
+
   const submit = (e) => {
     e.preventDefault();
 
@@ -72,13 +81,17 @@ const JoinInterior = () => {
       !user.companyName ||
       !user.ceoName
     ) {
-      alert('모든 필수 항목을 입력해주세요.');
+      Modal.info({
+        content: '필수 항목을 모두 입력해주세요.',
+      });
       return;
     }
 
     // 아이디 중복확인
     if (!usernameChecked) {
-      alert('아이디 중복 확인을 눌러주세요.');
+      Modal.info({
+        content: '아이디 중복 확인을 눌러주세요.',
+      });
       return;
     }
 
@@ -94,7 +107,9 @@ const JoinInterior = () => {
     //   return;
     // }
     if (user.password !== user.confirmPassword) {
-      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      Modal.error({
+        content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      });
       return;
     }
 
@@ -287,11 +302,24 @@ const JoinInterior = () => {
             type="text"
             name="companyAddress"
             id="companyAddress"
+            value={user.companyAddress}
             onChange={edit}
-            placeholder=""
-            className={styles2.input1}
+            placeholder="찾기 버튼을 통해 주소를 찾아주세요."
+            className={`${styles2.input1} ${styles2.companyAddress}`}
+            readOnly
           />
-          <button className={styles2.checkButton}>찾기</button>
+          <button
+            className={styles2.checkButton}
+            onClick={() => setIsAddressModalOpen(true)}
+          >
+            찾기
+          </button>
+          {isAddressModalOpen && (
+            <AddressModal
+              onComplete={handleAddressSelect}
+              onClose={() => setIsAddressModalOpen(false)}
+            />
+          )}
         </div>
         <div className={styles2.inputGroup}>
           <span>사업자 등록증 이미지 (선택)</span>
@@ -320,22 +348,21 @@ const JoinInterior = () => {
           </div>
         </div>
       </div>
-
       <div className={styles2.checkContainer}>
-        <span>
+        <span className={styles2.checkboxGroup}>
           <input
             type="checkbox"
             name="ageConfirmed"
             onChange={handleCheckboxChange}
-          />{' '}
+          />
           만 14세 이상만 가입할 수 있습니다.<b>*</b>
         </span>
-        <span>
+        <span className={styles2.checkboxGroup}>
           <input
             type="checkbox"
             name="termsAccepted"
             onChange={handleCheckboxChange}
-          />{' '}
+          />
           이용약관 및 개인정보 수집에 동의합니다.
           <b>*</b>
         </span>

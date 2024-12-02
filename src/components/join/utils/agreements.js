@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Modal } from 'antd';
 
 export const useAgreements = () => {
   const [agreements, setAgreements] = useState({
@@ -13,11 +14,15 @@ export const useAgreements = () => {
 
   const validateAgreements = () => {
     if (!agreements.ageConfirmed) {
-      alert('만 14세 이상임을 확인해주세요.');
+      Modal.info({
+        content: '만 14세 이상임을 확인해주세요.',
+      });
       return false;
     }
     if (!agreements.termsAccepted) {
-      alert('이용약관 및 개인정보 수집에 동의해주세요.');
+      Modal.info({
+        content: '이용약관 및 개인정보 수집에 동의해주세요.',
+      });
       return false;
     }
     return true;

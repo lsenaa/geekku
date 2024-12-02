@@ -1,6 +1,6 @@
 import { Modal, Spin } from 'antd';
 import { useState } from 'react';
-import { url } from '../../../lib/axios';
+import { url } from 'lib/axios';
 import axios from 'axios';
 import styles from '../modals/JoinModal.module.scss';
 import styles2 from '../Join.module.scss';
@@ -24,20 +24,24 @@ const JoinModal = ({ open, close, onConfirm }) => {
       }
 
       const response = await axios.get(`${url}/searchEstate`, { params });
-      console.log('백엔드 응답 데이터 : ', response.data);
+      //console.log('백엔드 응답 데이터 : ', response.data);
 
       const resultData = response.data?.EDBrokers?.field || [];
       if (!Array.isArray(resultData) || resultData.length === 0) {
-        alert('조회 결과가 없습니다.');
+        Modal.error({
+          content: '조회 결과가 없습니다.',
+        });
         setResults([]);
         return;
       }
 
       setResults(resultData);
     } catch (error) {
-      console.error('조회 실패 : ', error);
+      //console.error('조회 실패 : ', error);
       setResults([]);
-      alert('조회에 실패했습니다. 다시 시도해주세요.');
+      Modal.error({
+        content: '조회에 실패했습니다. 다시 시도해주세요.',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -53,6 +57,12 @@ const JoinModal = ({ open, close, onConfirm }) => {
     close();
   };
 
+  const onEnterKey = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <Modal open={open} onCancel={close} footer={null} width={600}>
       <h4 className={styles2.title}>중개사무소 조회</h4>
@@ -64,6 +74,7 @@ const JoinModal = ({ open, close, onConfirm }) => {
             placeholder="상호명, 대표자명, 부동산중개등록번호로 조회 할 수 있습니다."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={onEnterKey}
             className={styles.searchInput}
           />
           <button className={styles.searchButton} onClick={handleSearch}>

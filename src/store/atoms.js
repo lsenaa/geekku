@@ -15,6 +15,14 @@ export const initUser = {
   socialProfileImage: '',
   createdAt: '',
   type: '',
+
+  companyId: '',
+  companyName: '',
+  companyAddress: '',
+  companyNumber: '',
+  ceoName: '',
+  estateNumber: '',
+  certificationImagePath: '',
 };
 
 export const userAtom = atomWithStorage(

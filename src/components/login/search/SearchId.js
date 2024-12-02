@@ -1,4 +1,4 @@
-import loginLogo from '../../../assets/images/login/loginLogo.png';
+import loginLogo from 'assets/images/login/loginLogo.png';
 import styles from '../Login.module.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';

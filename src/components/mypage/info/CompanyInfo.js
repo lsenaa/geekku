@@ -1,56 +1,151 @@
 import styles from './PersonInfo.module.scss';
-import profileImg from '../../../assets/images/mypage/profileImg.png';
-import profileImgAdd from '../../../assets/images/mypage/profileImgAdd.png';
-
+import styles2 from 'components/join/Join.module.scss';
+import plusIcon from 'assets/images/mypage/plusIcon.png';
+import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
+import axios from 'axios';
+import { url } from 'lib/axios';
+import { Modal } from 'antd';
+import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { userAtom, tokenAtom } from '../../../store/atoms';
+import { userAtom, tokenAtom } from 'store/atoms';
+import {
+  formatCompanyNum,
+  verifyCompanyNum,
+} from 'components/join/utils/CompanyNumCheck';
+import { AddressModal } from 'components/join/modals/AddressModal';
 
 const CompanyInfo = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
+  const [myUser, setMyUser] = useState(user);
+  const [profileImage, setProfileImage] = useState(null);
+  const [certificationImage, setCertificationImage] = useState(null);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+
+  const edit = (e) => {
+    const { name, value } = e.target;
+    setMyUser({ ...myUser, [name]: value });
+  };
 
   useEffect(() => {
-    setUser(user);
-  });
-  console.log(user);
+    setMyUser(user);
+  }, [user]);
+
+  const submit = () => {
+    let formData = new FormData();
+    formData.append('companyAddress', myUser.companyAddress);
+    formData.append('phone', myUser.phone);
+    formData.append('email', myUser.email);
+    //console.log(profileImage);
+    if (profileImage != null) {
+      formData.append('file', profileImage);
+    }
+    //console.log(certificationImage);
+    if (certificationImage != null) {
+      formData.append('certificationFile', certificationImage);
+    }
+
+    axios
+      .post(`${url}/company/updateCompanyInfo`, formData, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        //console.log('서버 응답 데이터 :', res.data);
+        setUser(res.data.company);
+        setMyUser(res.data.company);
+        setToken(res.data.token);
+        Modal.success({
+          content: '회원정보가 수정되었습니다.',
+        });
+        redirect('${url}/company/companyInfo');
+      })
+      .catch((err) => {
+        console.error('회원 정보 수정 실패 :', err);
+        Modal.error({
+          content: '회원 정보 수정에 실패했습니다.',
+        });
+        redirect('${url}/company/companyInfo');
+      });
+  };
+
+  //onsole.log(`${url}${user.certificationImagePath}`);
+  const imageUpdate = () => {
+    document.getElementById('profileImageUpdate').click();
+  };
+
+  const fileChange = (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setProfileImage(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUser((prevUser) => ({
+          ...prevUser,
+          profileImageStr: reader.result.split(',')[1],
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleVerifyCompanyNumber = () => {
+    const formattedNum = formatCompanyNum(user.companyNumber);
+    verifyCompanyNum(user.companyNumber, setUser, user);
+  };
+
+  const handleAddressSelect = (data) => {
+    const address = data.address;
+    setUser((prevUser) => ({ ...prevUser, companyAddress: address }));
+    setIsAddressModalOpen(false);
+  };
+
+  const handleCertificationFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setCertificationImage(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMyUser((prevUser) => ({
+          ...prevUser,
+          certificationImagePreview: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className={styles.container}>
-      {/* <div className={styles.profileSidebar}>
-        <img
-          src={profileImg}
-          alt="프로필이미지"
-          className={styles.profileImage}
-        />
-        <p className={styles.profileName}>호서대 벤처타워 공인중개사무소</p>
-        <p className={styles.profileId}>KostaID123</p>
-        <p className={styles.profileEmail}>KostaID123@gmail.com</p>
-        <hr className={styles.line} />
-        <ul className={styles.menuList}>
-          <li>집꾸하기</li>
-          <li>한번에 꾸하기</li>
-          <li>회원 정보 관리</li>
-        </ul>
-      </div> */}
-
       <div className={styles.profileContent}>
-        {/* <div className={styles.tabLinks}>
-          <a href="/" className={styles.tabA}>
-            회원 정보 수정
-          </a>
-          <a href="/searchPwdResult" className={styles.tabA}>
-            {' '}
-            비밀번호 변경
-          </a>
-        </div>
-        <hr className={styles.line} /> */}
-
         <div className={styles.profileForm}>
           <div className={styles.profileImg}>
-            <a href="/">
-              <img src={profileImgAdd} alt="프로필이미지추가" />
+            <a href="#">
+              <img
+                src={
+                  myUser.profileImageStr
+                    ? `data:image/png;base64, ${myUser.profileImageStr}`
+                    : profileImgAdd
+                }
+                className={styles.imageFile}
+                onClick={imageUpdate}
+              />
+              <img
+                src={plusIcon}
+                className={styles.plusIcon}
+                onClick={imageUpdate}
+              />
             </a>
+            <input
+              type="file"
+              id="profileImageUpdate"
+              style={{ display: 'none' }}
+              onChange={fileChange}
+            />
           </div>
           <div className={styles.inputGroup}>
             <span>
@@ -59,7 +154,7 @@ const CompanyInfo = () => {
             <br />
             <input
               type="text"
-              placeholder="호서대 벤처타워 공인중개사무소"
+              value={user.companyName}
               className={styles.input2}
               readOnly
             />
@@ -71,32 +166,49 @@ const CompanyInfo = () => {
             <br />
             <input
               type="text"
-              placeholder="홍길동"
+              value={user.ceoName}
               className={styles.input2}
               readOnly
             />
           </div>
-          <div className={styles.inputGroup}>
-            <span>
-              중개업등록번호<b>*</b>
-            </span>
-            <br />
-            <input
-              type="text"
-              placeholder="41220-2016-100009"
-              className={styles.input2}
-              readOnly
-            />
-          </div>
+          {user.type === 'estate' ? (
+            <div className={styles.inputGroup}>
+              <span>
+                중개업등록번호<b>*</b>
+              </span>
+              <br />
+              <input
+                type="text"
+                value={user.estateNumber}
+                className={styles.input2}
+                readOnly
+              />
+            </div>
+          ) : (
+            ''
+          )}
           <div className={styles.inputGroup}>
             <span>주소</span>
             <br />
             <input
               type="text"
-              placeholder="강원특별자치도 춘천시 안마산로 131 상가씨동 1층 C-106호(퇴계동)"
+              name="companyAddress"
+              value={user.companyAddress}
+              onChange={edit}
               className={styles.input1}
             />
-            <button className={styles.checkButton}>찾기</button>
+            <button
+              className={styles.checkButton}
+              onClick={() => setIsAddressModalOpen(true)}
+            >
+              찾기
+            </button>
+            {isAddressModalOpen && (
+              <AddressModal
+                onComplete={handleAddressSelect}
+                onClose={() => setIsAddressModalOpen(false)}
+              />
+            )}
           </div>
           <div className={styles.inputGroup}>
             <span>
@@ -105,7 +217,10 @@ const CompanyInfo = () => {
             <br />
             <input
               type="text"
-              placeholder="010-1234-5678"
+              name="phone"
+              value={myUser.phone}
+              placeholder={user.phone}
+              onChange={edit}
               className={styles.input2}
             />
           </div>
@@ -116,17 +231,12 @@ const CompanyInfo = () => {
             <br />
             <input
               type="text"
-              placeholder="kosta123456"
-              className={styles.input3}
+              name="email"
+              onChange={edit}
+              value={myUser.email}
+              placeholder={user.email}
+              className={styles.input2}
             />
-            <span>&nbsp;&nbsp;@&nbsp;&nbsp;</span>
-            <select className={styles.input4}>
-              <option value=" "> 선택하세요</option>
-              <option value="gmail.com"> gmail.com</option>
-              <option value="naver.com"> naver.com</option>
-              <option value="daum.net"> daum.net</option>
-              <option value="직접 입력"> 직접 입력</option>
-            </select>
           </div>
           <div className={styles.inputGroup}>
             <span>
@@ -135,19 +245,40 @@ const CompanyInfo = () => {
             <br />
             <input
               type="text"
-              placeholder="178-53-00459"
-              readOnly
+              value={user.companyNumber}
               className={styles.input2}
+              readOnly
             />
           </div>
           <div className={styles.inputGroup}>
             <span>사업자 등록증 이미지</span>
             <br />
             <div className={styles.imageUploadBox}>
-              <input type="file" readOnly className={styles.imageInput} />
+              {myUser.certificationImagePreview ? (
+                <img
+                  src={myUser.certificationImagePreview}
+                  className={styles.imageFile}
+                />
+              ) : (
+                user.certificationImagePath && (
+                  <img
+                    src={`${url}${user.certificationImagePath}`}
+                    className={styles.imageFile}
+                  />
+                )
+              )}
+              <input
+                type="file"
+                name="certificationImage"
+                onChange={handleCertificationFileChange}
+                className={styles.imageInput}
+                value={user.certificationImage}
+              />
             </div>
           </div>
-          <button className={styles.button}>완료</button>
+          <button className={styles.button} onClick={submit}>
+            완료
+          </button>
 
           <a href="/" className={styles.removeUser}>
             회원탈퇴
