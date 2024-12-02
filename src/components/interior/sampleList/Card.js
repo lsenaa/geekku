@@ -2,23 +2,28 @@ import img from '../../../assets/images/interiorEx.png';
 import styles from './Card.module.scss';
 import { Link } from 'react-router-dom';
 
-const Card = () => {
+const Card = ({ sampleList }) => {
   return (
-    <Link to="/sampleDetail" className={styles.card}>
-      <div className={styles.fix}>
-        <img src={img} style={{ width: '384px', height: '242px' }} />
-        <div className={styles.wrapTitle}>
-          <div className={styles.title}>
-            허름했던 농가주택을 살기좋은 집으로 대변신!
-          </div>
-          <div className={styles.company}>
-            <div style={{ width: '200px' }} className="title">
-              코스타 인테리어
+    <>
+      {sampleList.map((sample) => (
+        <Link to="/sampleDetail" key={sample.sampleNum} className={styles.card}>
+          <div className={styles.fix}>
+            <img
+              src={sample.coverImage}
+              style={{ width: '384px', height: '242px' }}
+            />
+            <div className={styles.wrapTitle}>
+              <div className={styles.title}>{sample.title}</div>
+              <div className={styles.company}>
+                <div style={{ width: '200px' }} className="title">
+                  {sample.companyName}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </Link>
+        </Link>
+      ))}
+    </>
   );
 };
 

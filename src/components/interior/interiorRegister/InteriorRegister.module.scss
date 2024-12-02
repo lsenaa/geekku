@@ -15,23 +15,23 @@
   // }
 
   button {
-      background-color: #6d885d;
-      color: white;
-      border-radius: 10px;
-      width: 170px;
-      height: 60px;
-      border: none;
-      margin: 55px;
+    background-color: #6d885d;
+    color: white;
+    border-radius: 10px;
+    width: 170px;
+    height: 60px;
+    border: none;
+    margin: 55px;
   }
   span {
-      font-size: 18px;
-      font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
   }
 }
 .topText {
   font-weight: normal;
   font-size: 40px;
-  font-family: "Santokki";
+  font-family: 'Santokki';
   margin-top: 110px;
 }
 .midText {
@@ -43,33 +43,33 @@
 }
 .line {
   border: 1px solid #6d885d;
-  width: 1200px; 
+  width: 1200px;
   margin-bottom: 50px;
 }
 .formEdit {
   width: 1200px;
 
   span {
-      width: 150px;
-      margin-right: 120px;
+    width: 150px;
+    margin-right: 120px;
   }
   li {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-right: 30px;
       display: flex;
       align-items: center;
-
-      label {
-          margin-right: 30px;
-          display: flex;
-          align-items: center;
-      }
-      textarea {
-        width: 1020px;
-        height: 200px;
-        resize: none;
-        border: 1px solid #6d885d;
-        border-radius: 10px;
-        padding: 10px;
-      }
+    }
+    textarea {
+      width: 1020px;
+      height: 200px;
+      resize: none;
+      border: 1px solid #6d885d;
+      border-radius: 10px;
+      padding: 10px;
+    }
   }
 }
 .upload {
@@ -82,8 +82,8 @@
   height: 240px;
   margin-bottom: 70px;
   span {
-      width: 400px;
-      margin: 0 auto;
+    width: 354px;
+    margin: 0 auto;
   }
 }
 
@@ -102,8 +102,8 @@
   border-radius: 5px;
   margin-right: 10px;
   &:checked {
-      border-color: transparent;
-      background-color: #6d885d;
+    border-color: transparent;
+    background-color: #6d885d;
   }
 }
 .customLabel {
@@ -115,4 +115,17 @@
   border: 1px solid #6d885d;
   border-radius: 7px;
   padding: 10px;
+}
+.add {
+  border: 1px solid #6d885d;
+  background-color: #6d885d;
+  color: white;
+  width: 330px;
+  height: 60px;
+  border-radius: 10px;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

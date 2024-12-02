@@ -7,7 +7,14 @@ import trueBookmark from '../../../assets/images/bookmarkTrue.png';
 import falseBookmark from '../../../assets/images/bookmarkFalse.png';
 
 const Card = ({ interiorList }) => {
-  const [interiorBookmark, setInteriorBookmark] = useState(false);
+  const [interiorBookmark, setInteriorBookmark] = useState({});
+
+  const handleBookmarkClick = (interiorNum) => {
+    setInteriorBookmark((prev) => ({
+      ...prev,
+      [interiorNum]: !prev[interiorNum],
+    }));
+  };
 
   return (
     <>
@@ -29,7 +36,19 @@ const Card = ({ interiorList }) => {
           <div className="wrap-title">
             <div className="title">
               {interior.companyName}
-              <button id="loc">{interior.possibleLocation}</button>
+              {Array.isArray(interior.possibleLocation)
+                ? interior.possibleLocation.map((location, index) => (
+                    <button key={index} id="loc">
+                      {location}
+                    </button>
+                  ))
+                : interior.possibleLocation
+                    .split(',')
+                    .map((location, index) => (
+                      <button key={index} id="loc">
+                        {location.trim()}
+                      </button>
+                    ))}
             </div>
             <div className="fix">
               <div style={{ width: '200px' }} className="title" id="possible">
@@ -41,8 +60,12 @@ const Card = ({ interiorList }) => {
               </div>
               <span>
                 <img
-                  src={interiorBookmark === true ? trueBookmark : falseBookmark}
-                  onClick={() => setInteriorBookmark(!interiorBookmark)}
+                  onClick={() => handleBookmarkClick(interior.interiorNum)}
+                  src={
+                    interiorBookmark[interior.interiorNum] === true
+                      ? trueBookmark
+                      : falseBookmark
+                  }
                 />
               </span>
             </div>

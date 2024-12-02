@@ -1,36 +1,65 @@
-import styles from './Register.module.scss';
-import { useRef, useState } from 'react';
+import styles from './InteriorRegister.module.scss';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { url } from 'lib/axios';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const interiorRegister = () => {
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const imageInput = useRef();
+  const [fileList, setFileList] = useState([]);
+  const [imageUrl, setImageUrl] = useState();
   const [selectedLoc, setSelectedLoc] = useState([]);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+    companyName: '',
     possiblePart: '',
     period: '',
     recentCount: '',
     repairDate: '',
+    possibleLocation: '',
+    file: '',
     intro: '',
     content: '',
   });
-  const [imageFile, setImageFile] = useState(null);
 
-  const onClickImageUpload = () => {
-    imageInput.current.click();
+  const onClickImageUpload = (e) => {
+    if (e.target.file) {
+      imageInput.current.click();
+    }
+  };
+  const fileChange = (e) => {
+    if (e.target.files.length > 0) {
+      setFileList([...fileList, e.target.files[0]]);
+    }
   };
 
-  const handleLocChange = (event) => {
-    const { value, checked } = event.target;
+  // const handleFileChange = (e) => {
+  //   const selectedFile = e.target.files[0]; // 선택된 파일 가져오기
+  //   if (selectedFile) {
+  //     setFile(selectedFile); // 파일 상태 설정
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       file: selectedFile, // formData에 파일도 추가
+  //     }));
+  //   }
+  // };
+  const getImageUrl = (e) => {
+    let file = e.target.files[0];
+    let url = URL.createObjectURL(file);
+    setImageUrl(url);
+  };
+
+  const handleLocChange = (e) => {
+    const { value, checked } = e.target;
 
     if (checked) {
       if (selectedLoc.length < 3) {
         setSelectedLoc([...selectedLoc, value]);
+        console.log(setSelectedLoc);
       } else {
         alert('최대 3개 지역만 선택할 수 있습니다.');
-        event.target.checked = false;
+        e.target.checked = false;
       }
     } else {
       setSelectedLoc(
@@ -39,50 +68,55 @@ const Register = () => {
     }
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
+  const loginCompany = async () => {
+    const company = '코스타인테리어';
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      companyName: company,
+    }));
+  };
+
+  useEffect(() => {
+    loginCompany();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
-  const submit = async (event) => {
-    event.preventDefault(); // 기본 폼 제출 방지
-
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
     const data = new FormData();
-    data.append('name', formData.name);
+    data.append('companyName', formData.companyName);
     data.append('possiblePart', formData.possiblePart);
     data.append('period', formData.period);
     data.append('recentCount', formData.recentCount);
     data.append('repairDate', formData.repairDate);
-    data.append('selectedLoc', JSON.stringify(selectedLoc)); // 배열을 JSON 문자열로 변환
+    selectedLoc.forEach((location) => {
+      data.append('possibleLocation', location);
+    });
     data.append('intro', formData.intro);
-    data.append('description', formData.description);
-    if (imageFile) {
-      data.append('image', imageFile); // 이미지 파일 추가
+    data.append('content', formData.content);
+    for (let file of fileList) {
+      data.append('file', file);
     }
-
-    try {
-      const response = await axios.post(`${url}/interiorRegister`, data, {
+    await axios
+      .post(`${url}/interiorRegister`, data, {
         headers: {
-          'Content-Type': 'multipart/form-data', // 파일 업로드를 위한 헤더
+          'Content-Type': 'multipart/form-data',
         },
+      })
+      .then((res) => {
+        console.log(res.data);
+        alert('인테리어 등록이 완료되었습니다.');
+        navigate('/interiorList');
+      })
+      .catch(function () {
+        alert('등록을 실패했습니다.');
       });
-
-      if (response.status === 200) {
-        // 성공적으로 전송된 경우
-        alert('등록이 완료되었습니다.');
-      } else {
-        // 오류 처리
-        alert('등록에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('서버와의 통신 중 오류가 발생했습니다.');
-    }
-  };
-  const handleFileChange = (event) => {
-    setImageFile(event.target.files[0]);
   };
 
   return (
@@ -93,14 +127,15 @@ const Register = () => {
         <span>필수입력항목</span>
       </div>
       <div className={styles.line}></div>
-      <form className={styles.formEdit} onSubmit={submit}>
+      <form className={styles.formEdit} onSubmit={handleOnSubmit}>
         <ul>
           <li>
             <span>업체명</span>{' '}
             <input
               name="name"
               className={styles.customSelect}
-              onChange={handleInputChange}
+              value={formData.companyName}
+              readOnly
             />
           </li>
           <li>
@@ -111,6 +146,7 @@ const Register = () => {
                 name="possiblePart"
                 value="true"
                 onChange={handleInputChange}
+                required
               />
               가능
             </label>
@@ -173,17 +209,29 @@ const Register = () => {
             <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
             <input
               type="file"
+              id="fileAdd"
               accept="image/*"
+              // onChange={handleFileChange}
+              onChange={fileChange}
               style={{ display: 'none' }}
               ref={imageInput}
-              onChange={handleFileChange}
             />
-            <button
-              onClick={onClickImageUpload}
-              style={{ margin: '20px auto', width: '330px', height: '60px' }}
+            <div
+              className={styles.add}
+              onClick={() => {
+                imageInput.current.click();
+              }}
             >
               추가하기
-            </button>
+              {/* <button
+                type="button"
+                onClick={onClickImageUpload}
+                style={{ margin: '20px auto', width: '330px', height: '60px' }}
+              >
+                추가하기
+              </button>
+              <img src={imageUrl} /> */}
+            </div>
           </div>
         </div>
         <div>
@@ -209,10 +257,12 @@ const Register = () => {
             </li>
           </ul>
         </div>
+        <button type="submit" style={{ marginLeft: '504px' }}>
+          등록하기
+        </button>
       </form>
-      <button onClick={submit}>등록하기</button>
     </div>
   );
 };
 
-export default Register;
+export default interiorRegister;

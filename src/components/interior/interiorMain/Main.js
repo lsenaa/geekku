@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router';
-import CompanyList from './CompanyList';
 import InteriorBar from './InteriorBar';
 import Sample from './Sample';
+import InteriorList from './InteriorList';
 
 const InteriorMain = () => {
   return (
     <>
       <InteriorBar />
-      <CompanyList />
+      <InteriorList />
       <Sample />
       <Outlet />
     </>

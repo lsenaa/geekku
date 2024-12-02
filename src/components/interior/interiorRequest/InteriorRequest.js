@@ -5,7 +5,7 @@ import Step3 from './Step3';
 import Step4 from './Step4';
 import Step5 from './Step5';
 
-const InteriorRegister = () => {
+const InteriorRequest = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
 
@@ -64,4 +64,4 @@ const InteriorRegister = () => {
     </>
   );
 };
-export default InteriorRegister;
+export default InteriorRequest;

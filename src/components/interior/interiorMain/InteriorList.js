@@ -3,12 +3,12 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import img from '../../../assets/images/interiorEx.png';
-import './CompanyList.css';
+import './InteriorList.css';
 import { Link } from 'react-router-dom';
 import { url } from 'lib/axios';
 import axios from 'axios';
 
-const CompanyList = () => {
+const InteriorList = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -55,7 +55,19 @@ const CompanyList = () => {
               <div className="wrap-title">
                 <div className="title">
                   {interior.companyName}
-                  <button id="loc">{interior.possibleLocation}</button>
+                  {Array.isArray(interior.possibleLocation)
+                    ? interior.possibleLocation.map((location, index) => (
+                        <button key={index} id="loc">
+                          {location}
+                        </button>
+                      ))
+                    : interior.possibleLocation
+                        .split(',')
+                        .map((location, index) => (
+                          <button key={index} id="loc">
+                            {location.trim()}
+                          </button>
+                        ))}
                 </div>
                 <div className="title" id="possible">
                   {interior.possiblePart === false ? (
@@ -73,4 +85,4 @@ const CompanyList = () => {
   );
 };
 
-export default CompanyList;
+export default InteriorList;

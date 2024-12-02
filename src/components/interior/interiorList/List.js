@@ -10,7 +10,7 @@ const List = ({ loc, setLoc }) => {
   const [interiorList, setInteriorList] = useState([]);
 
   const moveRegister = () => {
-    navigate('/CompanyRegister');
+    navigate('/interiorRegister');
   };
 
   useEffect(() => {

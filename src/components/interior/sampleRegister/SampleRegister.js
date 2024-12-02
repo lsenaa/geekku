@@ -1,13 +1,37 @@
 import styles from './SampleRegister.module.scss';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/toastui-editor.css';
+import color from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 
 const SampleRegister = () => {
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
+  const [selectedLoc, setSelectedLoc] = useState([]);
 
   const imageInput = useRef();
 
   const onClickImageUpload = () => {
     imageInput.current.click();
+  };
+
+  const handleLocChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      if (selectedLoc.length < 3) {
+        setSelectedLoc([...selectedLoc, value]);
+        console.log(setSelectedLoc);
+      } else {
+        alert('최대 3개 지역만 선택할 수 있습니다.');
+        e.target.checked = false;
+      }
+    } else {
+      setSelectedLoc(
+        selectedLoc.filter((possibleLocation) => possibleLocation !== value)
+      );
+    }
   };
 
   return (
@@ -45,14 +69,20 @@ const SampleRegister = () => {
           </li>
           <li>
             <span>지역</span>
-            {area.map((area) => (
-              <label key={area} className={styles.customLabel} htmlFor={area}>
+            {area.map((possibleLocation) => (
+              <label
+                key={possibleLocation}
+                className={styles.customLabel}
+                htmlFor={possibleLocation}
+              >
                 <input
                   type="checkbox"
                   className={styles.customCheck}
-                  id={area}
+                  id={possibleLocation}
+                  value={possibleLocation}
+                  onChange={handleLocChange}
                 />
-                {area}
+                {possibleLocation}
               </label>
             ))}
           </li>
@@ -74,7 +104,15 @@ const SampleRegister = () => {
             </button>
           </div>
         </div>
-        <div className={styles.edt}>에디터 내용~~~~</div>
+        {/* <Editor
+          initialValue="내용을 입력해주세요."
+          previewStyle="vertical"
+          height="300px"
+          initialEditType="wysiwyg"
+          useCommandShortcut={false}
+          hideModeSwitch={true}
+          plugins={[color]}
+        /> */}
       </form>
       <button type="submit">등록하기</button>
     </div>
