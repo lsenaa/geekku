@@ -296,7 +296,7 @@ const OneStopWrite = () => {
               value="1"
               onChange={handleEdit}
             />
-            <label>도배</label>
+            <label htmlFor="interiorType">도배</label>
             <input
               type="checkbox"
               name="interiorType"

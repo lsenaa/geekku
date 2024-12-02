@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'antd';
 import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
 import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
-import { userAtom } from 'store/atoms';
+import { tokenAtom, userAtom } from 'store/atoms';
 
 const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +19,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [hasMore, setHasMore] = useState(true);
   const user = useAtomValue(userAtom);
   const elementRef = useRef(null);
+  const token = useAtomValue(tokenAtom);
 
   // 답변 작성 모달 토글
   const toggleModal = () => {
@@ -85,8 +86,8 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   };
 
   const handleDelete = (houseAnswerNum) => {
-    axios
-      .post(`${url}/houseAnswerDelete`, { houseAnswerNum, houseNum })
+    axiosInToken(token)
+      .post(`/company/houseAnswerDelete`, { houseAnswerNum, houseNum })
       .then((res) => {
         console.log(res);
         Modal.success({
