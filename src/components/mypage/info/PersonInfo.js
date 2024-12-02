@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
 import { checkNickname } from 'utils/CheckNickname';
+import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 const PersonInfo = () => {
   const [user, setUser] = useAtom(userAtom);
@@ -19,12 +20,26 @@ const PersonInfo = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 11) {
+        return;
+      }
+      setUser({ ...user, phone: cleaned });
+    } else {
+      setUser({ ...user, [name]: value });
+    }
     setMyUser({ ...myUser, [name]: value });
   };
 
   useEffect(() => {
     setMyUser(user);
   }, [user]);
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    applyPhoneFormat(name, value, setUser, user);
+  };
 
   const submit = () => {
     let formData = new FormData();
@@ -148,8 +163,11 @@ const PersonInfo = () => {
             <input
               type="text"
               name="phone"
-              // value={myUser.phone}
+              id="phone"
               onChange={edit}
+              onBlur={handleBlur}
+              value={myUser.phone}
+              maxLength={13}
               placeholder={myUser.phone}
               className={styles.input2}
             />

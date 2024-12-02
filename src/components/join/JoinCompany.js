@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { checkDoubleId } from 'utils/CheckDoubleId';
 import { useAgreements } from 'utils/Agreements';
 import { formatCompanyNum, verifyCompanyNum } from 'utils/CompanyNumCheck';
+import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 const JoinCompany = () => {
   const [user, setUser] = useState({
@@ -48,6 +49,15 @@ const JoinCompany = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 11) {
+        return;
+      }
+      setUser({ ...user, phone: cleaned });
+    } else {
+      setUser({ ...user, [name]: value });
+    }
     if (name === 'username') {
       setUsernameChecked(false);
     }
@@ -87,6 +97,11 @@ const JoinCompany = () => {
   const handleVerifyCompanyNumber = () => {
     const formattedNum = formatCompanyNum(user.companyNumber);
     verifyCompanyNum(user.companyNumber, setUser, user);
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    applyPhoneFormat(name, value, setUser, user);
   };
 
   const submit = (e) => {
@@ -244,7 +259,10 @@ const JoinCompany = () => {
             type="text"
             name="phone"
             id="phone"
+            placeholder="숫자만 입력해주세요."
             onChange={edit}
+            onBlur={handleBlur}
+            value={user.phone}
             className={styles2.input2}
           />
         </div>

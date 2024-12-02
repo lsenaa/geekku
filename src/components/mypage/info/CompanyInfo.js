@@ -11,6 +11,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
 import { formatCompanyNum, verifyCompanyNum } from 'utils/CompanyNumCheck';
 import { AddressModal } from 'components/join/modals/AddressModal';
+import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 const CompanyInfo = () => {
   const [user, setUser] = useAtom(userAtom);
@@ -22,12 +23,26 @@ const CompanyInfo = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 11) {
+        return;
+      }
+      setUser({ ...user, phone: cleaned });
+    } else {
+      setUser({ ...user, [name]: value });
+    }
     setMyUser({ ...myUser, [name]: value });
   };
 
   useEffect(() => {
     setMyUser(user);
   }, [user]);
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    applyPhoneFormat(name, value, setUser, user);
+  };
 
   const submit = () => {
     let formData = new FormData();
@@ -215,9 +230,12 @@ const CompanyInfo = () => {
             <input
               type="text"
               name="phone"
-              value={myUser.phone}
+              id="phone"
               placeholder={user.phone}
               onChange={edit}
+              onBlur={handleBlur}
+              value={myUser.phone}
+              maxLength={13}
               className={styles.input2}
             />
           </div>

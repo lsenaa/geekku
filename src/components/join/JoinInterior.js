@@ -12,6 +12,7 @@ import { checkDoubleId } from 'utils/CheckDoubleId';
 import { useAgreements } from 'utils/Agreements';
 import { formatCompanyNum, verifyCompanyNum } from 'utils/CompanyNumCheck';
 import { AddressModal } from './modals/AddressModal';
+import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 const JoinInterior = () => {
   const [user, setUser] = useState({
@@ -36,6 +37,15 @@ const JoinInterior = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 11) {
+        return;
+      }
+      setUser({ ...user, phone: cleaned });
+    } else {
+      setUser({ ...user, [name]: value });
+    }
     if (name === 'username') {
       setUsernameChecked(false);
     }
@@ -66,6 +76,11 @@ const JoinInterior = () => {
     const address = data.address;
     setUser((prevUser) => ({ ...prevUser, companyAddress: address }));
     setIsAddressModalOpen(false);
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    applyPhoneFormat(name, value, setUser, user);
   };
 
   const submit = (e) => {
@@ -222,7 +237,11 @@ const JoinInterior = () => {
             type="text"
             name="phone"
             id="phone"
+            placeholder="숫자만 입력해주세요."
             onChange={edit}
+            onBlur={handleBlur}
+            value={user.phone}
+            maxLength={13}
             className={styles2.input2}
           />
         </div>
