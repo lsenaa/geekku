@@ -8,6 +8,7 @@ import Step5 from './Step5';
 const InteriorRequest = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
+  const [data, setData] = useState({});
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -21,6 +22,17 @@ const InteriorRequest = () => {
     }
   };
 
+  const handleDataChange = (newData) => {
+    setData((prevData) => ({
+      ...prevData,
+      ...newData,
+    }));
+  };
+
+  const handleSubmit = () => {
+    console.log('제출 데이터:', data);
+  };
+
   return (
     <>
       {currentStep === 1 && (
@@ -28,6 +40,7 @@ const InteriorRequest = () => {
           currentStep={currentStep}
           totalSteps={totalSteps}
           nextStep={nextStep}
+          onDataChange={handleDataChange}
         />
       )}
       {currentStep === 2 && (
@@ -36,6 +49,7 @@ const InteriorRequest = () => {
           totalSteps={totalSteps}
           nextStep={nextStep}
           prevStep={prevStep}
+          onDataChange={handleDataChange}
         />
       )}
       {currentStep === 3 && (
@@ -44,6 +58,7 @@ const InteriorRequest = () => {
           totalSteps={totalSteps}
           nextStep={nextStep}
           prevStep={prevStep}
+          onDataChange={handleDataChange}
         />
       )}
       {currentStep === 4 && (
@@ -52,6 +67,7 @@ const InteriorRequest = () => {
           totalSteps={totalSteps}
           nextStep={nextStep}
           prevStep={prevStep}
+          onDataChange={handleDataChange}
         />
       )}
       {currentStep === 5 && (
@@ -59,6 +75,8 @@ const InteriorRequest = () => {
           currentStep={currentStep}
           totalSteps={totalSteps}
           prevStep={prevStep}
+          onSubmit={handleSubmit}
+          data={data}
         />
       )}
     </>

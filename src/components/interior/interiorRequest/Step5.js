@@ -2,8 +2,24 @@ import styles from './Step5.module.scss';
 import pro1Img from './../../../assets/images/procedure1.png';
 import pro2Img from './../../../assets/images/procedure2.png';
 import ProgressBar from './ProgressBar';
+import { useState } from 'react';
 
-const Step5 = ({ currentStep, totalSteps, prevStep }) => {
+const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
+  const handleSubmit = () => {
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [callTime, setCallTime] = useState('option1');
+    const [requestInfo, setRequsetInfo] = useState('');
+
+    const submissionData = {
+      ...data,
+
+      phone,
+      callTime,
+      requestInfo,
+    };
+    onSubmit(submissionData);
+  };
   return (
     <div className={styles.deco}>
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
@@ -63,7 +79,7 @@ const Step5 = ({ currentStep, totalSteps, prevStep }) => {
       </div>
       <div className={styles.btn}>
         <button onClick={prevStep}>뒤로</button>
-        <button type="submit" id={styles.nextBtn}>
+        <button onClick={handleSubmit} id={styles.nextBtn}>
           신청완료
         </button>
       </div>

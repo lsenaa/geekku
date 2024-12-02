@@ -9,7 +9,7 @@ import { url } from 'lib/axios';
 import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkDoubleId } from './utils/CheckDoubleId';
+import { CheckDoubleId } from './utils/CheckDoubleId';
 import { useAgreements } from './utils/Agreements';
 import { formatCompanyNum, verifyCompanyNum } from './utils/CompanyNumCheck';
 
@@ -55,7 +55,7 @@ const JoinCompany = () => {
   };
 
   const handleCheckDoubleId = async () => {
-    const isAvailable = await checkDoubleId(user.username, url);
+    const isAvailable = await CheckDoubleId(user.username, url);
     setUsernameChecked(isAvailable);
   };
 

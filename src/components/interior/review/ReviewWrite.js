@@ -2,12 +2,15 @@ import styles from './ReviewWrite.module.scss';
 import { useRef, useState } from 'react';
 import minus from '../../../assets/images/minus.png';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken } from 'lib/axios';
 import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
 
 const ReviewWrite = () => {
   const navigate = useNavigate();
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
+  const token = useAtomValue(tokenAtom);
   const [selectedLoc, setSelectedLoc] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [review, setReview] = useState({
@@ -26,11 +29,11 @@ const ReviewWrite = () => {
     const { value, checked } = e.target;
 
     if (checked) {
-      if (selectedLoc.length < 3) {
+      if (selectedLoc.length < 1) {
         setSelectedLoc([...selectedLoc, value]);
         console.log(setSelectedLoc);
       } else {
-        alert('최대 3개 지역만 선택할 수 있습니다.');
+        alert('1개 지역만 선택할 수 있습니다.');
         e.target.checked = false;
       }
     } else {
@@ -61,14 +64,14 @@ const ReviewWrite = () => {
     data.append('content', review.content);
     data.append('type', type);
     data.append('style', style);
-    selectedLoc.forEach((location) => data.append('location', location));
+    data.append('location', selectedLoc);
     for (let file of fileList) {
       data.append('file', file);
     }
     console.log(type);
     console.log([...data]);
-    await axios
-      .post(`${url}/interiorReviewWrite`, data, {
+    await axiosInToken(token)
+      .post(`/user/interiorReviewWrite`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -76,6 +79,7 @@ const ReviewWrite = () => {
       .then((res) => {
         console.log(res.data);
         alert('리뷰등록이 완료되었습니다.');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
@@ -173,9 +177,11 @@ const ReviewWrite = () => {
         </ul>
         <div>
           <div className={styles.upload}>
-            <span>
-              추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
-            </span>
+            {fileList.length === 0 && (
+              <span id={styles.info}>
+                추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
+              </span>
+            )}
             <input
               type="file"
               id="file"
@@ -191,36 +197,38 @@ const ReviewWrite = () => {
             >
               추가하기
             </button>
-            {fileList.map((file, index) => (
-              <span key={index}>
-                <div style={{ display: 'inline-block', textAlign: 'center' }}>
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer',
-                    }}
-                    src={minus}
-                    alt=""
-                    onClick={() => delFile(file)}
-                  />
-                  <br />
-                  <img
-                    src={URL.createObjectURL(file)}
-                    width="100px"
-                    alt=""
-                    style={{ marginRight: '10px' }}
-                  />
-                </div>
-                {(index + 1) % 3 === 0 && (
-                  <>
+            <div className={styles.imageView}>
+              {fileList.map((file, index) => (
+                <span key={index}>
+                  <div style={{ display: 'inline-block', textAlign: 'center' }}>
+                    <img
+                      style={{
+                        display: 'inline-block',
+                        width: '20px',
+                        height: '20px',
+                        cursor: 'pointer',
+                      }}
+                      src={minus}
+                      alt=""
+                      onClick={() => delFile(file)}
+                    />
                     <br />
-                    <br />
-                  </>
-                )}
-              </span>
-            ))}
+                    <img
+                      src={URL.createObjectURL(file)}
+                      width="80px"
+                      alt=""
+                      // style={{ marginRight: '10px' }}
+                    />
+                  </div>
+                  {/* {(index + 1) % 3 === 0 && (
+                    <>
+                      <br />
+                      <br />
+                    </>
+                  )} */}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         <div className={styles.reviewTitle}>리뷰(500자 제한)</div>
@@ -232,7 +240,9 @@ const ReviewWrite = () => {
           onChange={edit}
           maxLength={500}
         ></textarea>
-        <button onClick={submit}>등록하기</button>
+        <button onClick={submit} style={{ marginLeft: '504px' }}>
+          등록하기
+        </button>
       </form>
     </div>
   );
