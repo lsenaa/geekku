@@ -115,7 +115,7 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
         }
       });
     };
-  }, [currentLocation, estateList, keyword]);
+  }, [estateList, keyword]);
 
   // 두 위치 사이의 거리를 계산하는 함수 (단위: km)
   const calculateDistance = (loc1, loc2) => {

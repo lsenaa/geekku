@@ -28,12 +28,11 @@ const EstateSearch = () => {
     } else {
       setKeyword(DEFAULT_KEYWORD);
       fetchData(DEFAULT_KEYWORD, type);
-      console.log(estateList);
     }
   }, [location.state]);
 
   useEffect(() => {
-    if (debouncedKeyword || type) {
+    if (debouncedKeyword) {
       fetchData(debouncedKeyword, type);
     }
   }, [debouncedKeyword, type]);
