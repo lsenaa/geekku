@@ -147,7 +147,9 @@ const JoinInterior = () => {
     axios
       .post(`${url}/joinCompany`, formData)
       .then((res) => {
-        console.log(res.data);
+        Modal.success({
+          content: '기업회원가입에 성공하였습니다.',
+        });
         navigate('/login');
       })
       .catch((err) => {
