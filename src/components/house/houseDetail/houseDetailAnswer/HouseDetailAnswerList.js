@@ -118,9 +118,11 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
           <RiQuestionAnswerLine size={25} />
           <h3>답변</h3>
         </div>
-        <Button01 size="x-small" color="sub" onClick={toggleModal}>
-          작성하기
-        </Button01>
+        {user.companyId && (
+          <Button01 size="x-small" color="sub" onClick={toggleModal}>
+            작성하기
+          </Button01>
+        )}
       </div>
       <hr className={styles.line} />
       <ul>
@@ -136,10 +138,14 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
                   src={`data:image/png;base64, ${answer.companyProfileImage}`}
                   alt="프로필 이미지"
                 />
-                <p className={styles.companyName}>{answer.companyName}</p>
+                <p className={styles.companyName}>
+                  {answer.companyName}
+                  <p className={styles.createdAt}>
+                    {formatDate(answer.createdAt)}
+                  </p>
+                </p>
               </div>
               <p className={styles.title}>{answer.title}</p>
-              <p className={styles.createdAt}>{formatDate(answer.createdAt)}</p>
               {user?.companyId === answer.companyId && (
                 <button
                   className={styles.deleteBtn}
