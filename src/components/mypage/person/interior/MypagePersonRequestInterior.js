@@ -22,7 +22,7 @@ const MypagePersonRequestInterior = () => {
     axiosInToken(token)
       .get('/user/mypageUserInteriorRequestList')
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         setRequestList([...res.data.content]);
         setTotalCount(res.data.totalElements);
       })
@@ -31,7 +31,6 @@ const MypagePersonRequestInterior = () => {
       });
   };
 
-  // /user/mypageUserRequestInteriorDelete/${requestNum} -> 백엔드 기능 구현 필요
   const handleDelete = (requestNum) => {
     Modal.confirm({
       content: '인테리어 문의내역을 삭제하시겠습니까?',
@@ -55,7 +54,6 @@ const MypagePersonRequestInterior = () => {
         axiosInToken(token)
           .post(`/user/mypageUserRequestInteriorDelete/${requestNum}`)
           .then((res) => {
-            console.log(res);
             if (res.data) {
               Modal.success({
                 content: '인테리어 문의내역이 삭제되었습니다.',
