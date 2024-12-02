@@ -156,6 +156,8 @@ section {
     input[type='checkbox'] {
       accent-color: $main-color;
       padding: 20px;
+      width: 15px;
+      height: 15px;
     }
     label {
       margin-right: 10px;
