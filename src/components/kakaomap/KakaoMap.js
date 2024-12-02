@@ -1,92 +1,119 @@
-import useGeoLocation from 'hook/useGeoLocation';
 import { useEffect, useRef } from 'react';
 import { formatPrice } from 'utils/utils';
 
 const KakaoMap = ({ estateList, currentLocation, keyword }) => {
   const appKey = process.env.REACT_APP_KAKAO_APP_KEY;
   const container = useRef(null);
-  const location = useGeoLocation();
 
   useEffect(() => {
     if (!container.current) return;
 
-    // 1. Kakao SDK 불러오기
     const script = document.createElement('script');
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&libraries=services&autoload=false`;
     script.async = true;
     document.head.appendChild(script);
 
-    // 2. script가 로드되면 실행
     script.onload = () => {
-      if (location) {
-        window.kakao.maps.load(async () => {
-          const options = {
-            center: new window.kakao.maps.LatLng(
-              currentLocation.latitude,
-              currentLocation.longitude
-            ), // 초기 위치
+      window.kakao.maps.load(() => {
+        const mapOptions = {
+          center: new window.kakao.maps.LatLng(
+            currentLocation.latitude,
+            currentLocation.longitude
+          ),
+          level: 3,
+        };
 
-            level: 3,
-          };
+        const map = new window.kakao.maps.Map(container.current, mapOptions);
+        const geocoder = new window.kakao.maps.services.Geocoder();
+        const bounds = new window.kakao.maps.LatLngBounds();
 
-          // 지도 생성
-          const map = new window.kakao.maps.Map(container.current, options);
+        const calculateLatLng = (estate) => {
+          const estateAddress = estate.address2
+            ? `${estate.address1} ${estate.address2}`
+            : estate.address1;
 
-          // Geocoder 생성
-          const geocoder = new window.kakao.maps.services.Geocoder();
-
-          // 10km 내 매물 필터링
-          estateList.forEach((estate) => {
-            geocoder.addressSearch(
-              // keyword ? keyword : `${estate.address1} ${estate.address2}`,
-              keyword,
-              (result, status) => {
-                if (status === window.kakao.maps.services.Status.OK) {
-                  const estateLatLng = new window.kakao.maps.LatLng(
-                    result[0].y,
-                    result[0].x
-                  );
-                  const distance = calculateDistance(location, {
-                    latitude: result[0].y,
-                    longitude: result[0].x,
-                  });
-
-                  if (distance <= 10) {
-                    // 10km 이내의 매물만 마커 생성
-                    const estateMarker = new window.kakao.maps.Marker({
-                      position: estateLatLng,
-                      map: map,
-                      title: estate.title,
-                    });
-
-                    // 인포윈도우로 장소에 대한 설명을 표시
-                    let infowindow = new window.kakao.maps.InfoWindow({
-                      content: `<div style="width:150px;text-align:center;padding:6px 0;">${formatPrice(
-                        {
-                          jeonsePrice: estate.jeonsePrice,
-                          monthlyPrice: estate.monthlyPrice,
-                          depositPrice: estate.depositPrice,
-                          buyPrice: estate.buyPrice,
-                        }
-                      )}</div>`,
-                    });
-
-                    // 마커 클릭 시 인포윈도우 표시
-                    window.kakao.maps.event.addListener(
-                      estateMarker,
-                      'click',
-                      () => infowindow.open(map, estateMarker)
-                    );
-
-                    // 지도의 중심을 결과값으로 받은 위치로 이동
-                    map.setCenter(estateMarker.getPosition());
-                  }
-                }
-              }
-            );
+          return new Promise((resolve, reject) => {
+            geocoder.addressSearch(estateAddress, (result, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                const latLng = new window.kakao.maps.LatLng(
+                  result[0].y,
+                  result[0].x
+                );
+                resolve(latLng);
+              } else reject();
+            });
           });
-        });
-      }
+        };
+
+        const createMarkers = async (centerLatLng) => {
+          if (estateList.length === 0) return;
+
+          for (const estate of estateList) {
+            try {
+              const estateLatLng = await calculateLatLng(estate);
+              const distance = calculateDistance(
+                {
+                  latitude: centerLatLng.getLat(),
+                  longitude: centerLatLng.getLng(),
+                },
+                {
+                  latitude: estateLatLng.getLat(),
+                  longitude: estateLatLng.getLng(),
+                }
+              );
+
+              if (distance <= 10) {
+                const estateMarker = new window.kakao.maps.Marker({
+                  position: estateLatLng,
+                  map: map,
+                  title: estate.title,
+                });
+
+                const infowindow = new window.kakao.maps.InfoWindow({
+                  content: `<div style="width:150px;text-align:center;padding:6px 0;font-size:14px">${formatPrice(
+                    {
+                      jeonsePrice: estate.jeonsePrice,
+                      monthlyPrice: estate.monthlyPrice,
+                      depositPrice: estate.depositPrice,
+                      buyPrice: estate.buyPrice,
+                    }
+                  )}</div>`,
+                });
+
+                window.kakao.maps.event.addListener(
+                  estateMarker,
+                  'click',
+                  () => {
+                    infowindow.open(map, estateMarker);
+                  }
+                );
+
+                bounds.extend(estateLatLng);
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          }
+
+          map.setBounds(bounds);
+        };
+
+        if (keyword) {
+          geocoder.addressSearch(keyword, (result, status) => {
+            if (status === window.kakao.maps.services.Status.OK) {
+              const keywordLatLng = new window.kakao.maps.LatLng(
+                result[0].y,
+                result[0].x
+              );
+              map.setCenter(keywordLatLng);
+              createMarkers(keywordLatLng);
+            }
+          });
+        } else {
+          const centerLatLng = map.getCenter();
+          createMarkers(centerLatLng);
+        }
+      });
     };
   }, [currentLocation, estateList, keyword]);
 

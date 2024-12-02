@@ -52,7 +52,7 @@ const EstateWrite = () => {
       ...estate,
       address: data.address,
       addressDetail: data.buildingName,
-      jibunAddress: `${data.sido} ${data.sigungu} ${data.bname}`,
+      jibunAddress: `${data.sido} ${data.sigungu} ${data.hname}`,
     });
     onToggleAddress();
   };
@@ -248,7 +248,10 @@ const EstateWrite = () => {
                   centered
                   className={styles.customModal}
                 >
-                  <DaumPostcode onComplete={handleComplete} />
+                  <DaumPostcode
+                    onComplete={handleComplete}
+                    showMoreHName="true"
+                  />
                 </Modal>
               )}
             </div>
