@@ -5,7 +5,7 @@ import InteriorMain from 'components/interior/interiorMain/Main';
 import CommunityMain from 'components/community/communityMain/CommunityMain';
 import CommunityBoardWrite from 'components/community/communityWrite/CommunityBoardWrite';
 import CommunityBoardDetail from 'components/community/communityBoardDetail/CommunityBoardDetail';
-import CompanyList from 'components/interior/companyList/Main';
+import CompanyList from 'components/interior/interiorList/Main';
 import ProfilePerson from 'components/profile/person/ProfilePerson';
 import EstateWrite from 'components/estate/estateWrite/EstateWrite';
 import HouseMain from 'components/house/HouseMain';
@@ -33,7 +33,6 @@ import JoinInterior from 'components/join/JoinInterior';
 import SearchPwd from 'components/login/SearchPwd';
 import SearchPwdResult from 'components/login/SearchPwdResult';
 import SampleList from 'components/interior/sampleList/SampleList';
-import InteriorRegister from 'components/interior/interiorList/InteriorRegister';
 import SampleDetail from 'components/interior/sampleDetail/SampleDetail';
 import SampleRegister from 'components/interior/sampleRegister/SampleRegister';
 import InteriorAnswer from 'components/interior/interiorAnswer/InteriorAnswer';
@@ -49,7 +48,7 @@ import MypageEstateHouseAnswer from 'components/mypage/estate/house/MypageEstate
 import MypageEstateOnestopAnswer from 'components/mypage/estate/onestop/MypageEstateOnestopAnswer';
 import NotFound from 'components/notfound/NotFound';
 import ReviewWrite from 'components/interior/review/ReviewWrite';
-import Register from 'components/interior/interiorRegister/Register';
+import InteriorRegister from 'components/interior/interiorRegister/InteriorRegister';
 import ModifyPwd from 'components/mypage/info/ModifyPwd';
 import MypageInteriorLayout from 'components/layout/mypage/interior/MypageInteriorLayout';
 import MypageInteriorMain from 'components/mypage/interior/MypageInteriorMain';
@@ -65,6 +64,7 @@ import ReqInteriorDetail from 'components/reqinterior/reqInteriordetail/ReqInter
 import SendAlarm from 'components/layout/notification/SendAlarm';
 import OneStopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import MypagePersonRequestInterior from 'components/mypage/person/interior/MypagePersonRequestInterior';
+import InteriorRequest from 'components/interior/interiorRequest/InteriorRequest';
 
 const Router = () => {
   return (
@@ -80,9 +80,9 @@ const Router = () => {
       {/* Interior */}
       <Route path="/interiorMain" element={<InteriorMain />} />
       <Route path="/interiorList" element={<CompanyList />} />
-      <Route path="/companyRegister" element={<Register />} />
-      <Route path="/sampleList" element={<SampleList />} />
       <Route path="/interiorRegister" element={<InteriorRegister />} />
+      <Route path="/sampleList" element={<SampleList />} />
+      <Route path="/interiorRequest" element={<InteriorRequest />} />
       <Route path="/sampleDetail" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer/:num" element={<InteriorAnswer />} />
