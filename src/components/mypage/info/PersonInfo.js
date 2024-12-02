@@ -8,7 +8,7 @@ import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
-import { checkNickname } from 'components/join/utils/CheckNickname';
+import { checkNickname } from 'utils/CheckNickname';
 
 const PersonInfo = () => {
   const [user, setUser] = useAtom(userAtom);

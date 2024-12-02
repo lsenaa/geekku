@@ -9,10 +9,7 @@ import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
-import {
-  formatCompanyNum,
-  verifyCompanyNum,
-} from 'components/join/utils/CompanyNumCheck';
+import { formatCompanyNum, verifyCompanyNum } from 'utils/CompanyNumCheck';
 import { AddressModal } from 'components/join/modals/AddressModal';
 
 const CompanyInfo = () => {

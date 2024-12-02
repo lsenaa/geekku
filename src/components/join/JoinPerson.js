@@ -2,9 +2,9 @@ import styles from 'components/login/Login.module.scss';
 import styles2 from 'components/join/Join.module.scss';
 import loginLogo from 'assets/images/login/loginLogo.png';
 import { url } from 'lib/axios';
-import { checkNickname } from 'components/join/utils/CheckNickname';
-import { checkDoubleId } from 'components/join/utils/CheckDoubleId';
-import { useAgreements } from 'components/join/utils/Agreements';
+import { checkNickname } from 'utils/CheckNickname';
+import { checkDoubleId } from 'utils/CheckDoubleId';
+import { useAgreements } from 'utils/Agreements';
 
 import axios from 'axios';
 import { Modal } from 'antd';
