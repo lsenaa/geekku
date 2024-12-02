@@ -38,7 +38,8 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
           // 10km 내 매물 필터링
           estateList.forEach((estate) => {
             geocoder.addressSearch(
-              keyword ? keyword : `${estate.address1} ${estate.address2}`,
+              // keyword ? keyword : `${estate.address1} ${estate.address2}`,
+              keyword,
               (result, status) => {
                 if (status === window.kakao.maps.services.Status.OK) {
                   const estateLatLng = new window.kakao.maps.LatLng(

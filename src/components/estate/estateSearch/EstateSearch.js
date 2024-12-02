@@ -151,7 +151,7 @@ const EstateSearch = () => {
         <KakaoMap
           estateList={estateList}
           currentLocation={DEFAULT_COORDS}
-          keyword={keyword}
+          keyword={processKeyword(keyword)}
         />
       </div>
     </div>
