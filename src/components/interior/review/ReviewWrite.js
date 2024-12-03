@@ -2,13 +2,16 @@ import styles from './ReviewWrite.module.scss';
 import { useRef, useState } from 'react';
 import minus from '../../../assets/images/minus.png';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken } from 'lib/axios';
 import { useNavigate } from 'react-router';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
 import Button01 from 'components/commons/button/Button01';
 
 const ReviewWrite = () => {
   const navigate = useNavigate();
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
+  const token = useAtomValue(tokenAtom);
   const [selectedLoc, setSelectedLoc] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [review, setReview] = useState({
@@ -20,7 +23,6 @@ const ReviewWrite = () => {
   const [style, setStyle] = useState('');
   const [textCount, setTextCount] = useState(0);
   const fRef = useRef();
-
   const edit = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });
 
@@ -33,11 +35,11 @@ const ReviewWrite = () => {
     const { value, checked } = e.target;
 
     if (checked) {
-      if (selectedLoc.length < 3) {
+      if (selectedLoc.length < 1) {
         setSelectedLoc([...selectedLoc, value]);
         console.log(setSelectedLoc);
       } else {
-        alert('최대 3개 지역만 선택할 수 있습니다.');
+        alert('1개 지역만 선택할 수 있습니다.');
         e.target.checked = false;
       }
     } else {
@@ -62,22 +64,20 @@ const ReviewWrite = () => {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
-
     const data = new FormData();
     data.append('companyName', review.companyName);
     data.append('size', review.size);
     data.append('content', review.content);
     data.append('type', type);
     data.append('style', style);
-    selectedLoc.forEach((location) => data.append('location', location));
+    data.append('location', selectedLoc);
     for (let file of fileList) {
       data.append('file', file);
     }
     console.log(type);
     console.log([...data]);
-    await axios
-      .post(`${url}/interiorReviewWrite`, data, {
+    await axiosInToken(token)
+      .post(`/user/interiorReviewWrite`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -85,6 +85,7 @@ const ReviewWrite = () => {
       .then((res) => {
         console.log(res.data);
         alert('리뷰등록이 완료되었습니다.');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
@@ -193,7 +194,9 @@ const ReviewWrite = () => {
           </li>
         </ul>
         <div className={styles.upload}>
-          <span>추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)</span>
+          <span id={styles.info}>
+            추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
+          </span>
           <input
             type="file"
             id="file"
@@ -227,10 +230,12 @@ const ReviewWrite = () => {
                   <br />
                   <img
                     src={URL.createObjectURL(file)}
-                    width="100px"
-                    height="60px"
                     alt="리뷰 이미지"
-                    style={{ marginRight: '10px' }}
+                    style={{
+                      width: '100px',
+                      height: '60px',
+                      marginRight: '10px',
+                    }}
                   />
                 </div>
                 {(index + 1) % 4 === 0 && (
@@ -260,10 +265,9 @@ const ReviewWrite = () => {
           </p>
         </div>
         <div className={styles.submitBtnWrap}>
-          <Button01 size="small" type="submit" onClick={submit}>
+          <Button01 size="small" onClick={submit}>
             등록하기
           </Button01>
-          {/* <div style={{ margin: '0 20px' }}></div> */}
           <Button01
             size="small"
             color="sub"
