@@ -4,6 +4,8 @@ import styles from './CommunityBoardDetail.module.css';
 import { useNavigate, useParams } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
 import { url } from 'lib/axios';
+import { userAtom } from 'store/atoms';
+import { useAtomValue } from 'jotai';
 
 const CommunityBoardDetail = () => {
   const [post, setPost] = useState(null);
@@ -12,6 +14,8 @@ const CommunityBoardDetail = () => {
   const navigate = useNavigate();
   const { CommunityNum } = useParams();
   const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태
+  const [isOwner, setIsOwner] = useState(false); // 게시글 소유 여부 상태 추가
+  const user = useAtomValue(userAtom); // 현재 로그인된 사용자 정보
 
   useEffect(() => {
     if (!CommunityNum) {
@@ -19,38 +23,28 @@ const CommunityBoardDetail = () => {
       return;
     }
 
-    const fetchPostData = async () => {
-      try {
-        const postResponse = await axios.get(
-          `${url}/communityDetail/${CommunityNum}`
-        );
-        setPost(postResponse.data);
+    const fetchPostData = () => {
+      console.log(user);
+      axios
+        .post(`${url}/communityDetail/${CommunityNum}`, { userId: user.userId })
+        .then((res) => {
+          setPost(res.data.communityDetail); //상세
+          setComments([...res.data.commentList]); //댓글
 
-        const commentsResponse = await axios.get(
-          `${url}/communityComment/${CommunityNum}`
-        );
-        setComments(commentsResponse.data);
-
-        // 북마크 상태 가져오기
-        const bookmarkResponse = await axios.get(`${url}/communityBookmark`, {
-          params: {
-            userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1', // 사용자 ID
-            communityNum: CommunityNum, // 커뮤니티 번호
-          },
+          if (user?.userId) {
+            setIsBookmarked(res.data.bookmark); //북마크(로그인 시에만)
+            setIsOwner(user.userId === res.data.communityDetail.userId);
+          } else {
+            console.error('현재 로그인된 사용자가 없습니다.');
+            setIsOwner(false); // 로그인이 안 되어 있다면 소유자 아님으로 처리
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setIsBookmarked(bookmarkResponse.data.isBookmarked); // 북마크 상태 설정
-      } catch (error) {
-        console.error('데이터를 가져오는 중 오류 발생:', error);
-      }
     };
 
     fetchPostData();
-
-    axios
-      .post(`http://localhost:8080/increaseViewCount/${CommunityNum}`)
-      .catch((error) => {
-        console.error('조회수 증가 중 오류 발생:', error);
-      });
   }, [CommunityNum]);
 
   const handleBackButton = () => {
@@ -63,12 +57,16 @@ const CommunityBoardDetail = () => {
 
   const handleBookmarkClick = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/test7`, null, {
-        params: {
-          userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1',
-          communityNum: CommunityNum,
-        },
-      });
+      const response = await axios.post(
+        `http://localhost:8080/communityBookmark`,
+        null,
+        {
+          params: {
+            userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1',
+            communityNum: CommunityNum,
+          },
+        }
+      );
 
       if (response.status === 200) {
         console.log('북마크 상태 변경 성공:', response.data);
@@ -113,7 +111,7 @@ const CommunityBoardDetail = () => {
               createdAt: new Date().toISOString().slice(0, 10),
             },
           ]);
-          setNewComment(''); // 입력 필드 초기화
+          setNewComment('');
         } else {
           console.error('댓글 작성 실패:', response.data);
         }
@@ -152,29 +150,11 @@ const CommunityBoardDetail = () => {
             <span className={styles.commentDate}>{post.date}</span>
           </div>
           <div className={styles.actions}>
-            {/* {post.owner ? (
-          <button className={styles.editButton} onClick={handleWriteButton}>
-            수정하기
-          </button>
-        ) : isBookmarked ? (
-          <button
-            className={styles.bookmarkedButton} // 활성화된 북마크 스타일
-            onClick={handleBookmarkClick}
-          >
-            북마크 해제
-          </button>
-        ) : (
-          <button
-            className={styles.bookmarkButton} // 기본 북마크 스타일
-            onClick={handleBookmarkClick}
-          >
-            북마크
-          </button>
-        )} */}
-            <button className={styles.editButton} onClick={handleWriteButton}>
-              수정하기
-            </button>
-            {isBookmarked ? (
+            {isOwner ? (
+              <button className={styles.editButton} onClick={handleWriteButton}>
+                수정하기
+              </button>
+            ) : isBookmarked ? (
               <button
                 className={styles.bookmarkedButton}
                 onClick={handleBookmarkClick}

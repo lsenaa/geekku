@@ -22,6 +22,25 @@ const Header = ({ alarms = [] }) => {
   const navigate = useNavigate();
   const [username, setUserName] = useAtom(userNameAtom);
   const setAlarms = useSetAtom(alarmsAtom);
+  // 알림 모달 테스트용
+  const [selectedAlarm, setSelectedAlarm] = useState(null); // 선택된 알림 데이터
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
+  // 알림 확장 테스트용
+  const [expandedNotification, setExpandedNotification] = useState(null); // 확장된 알림 ID 관리
+
+  const openModal = (alarm) => {
+    setSelectedAlarm(alarm); // 선택된 알림 데이터 저장
+    setIsModalOpen(true); // 모달 열기
+  };
+
+  const closeModal = () => {
+    setSelectedAlarm(null); // 선택된 알림 데이터 초기화
+    setIsModalOpen(false); // 모달 닫기
+  };
+
+  const toggleNotification = (num) => {
+    setExpandedNotification((prev) => (prev === num ? null : num));
+  };
 
   const confirm = (num) => {
     axios
@@ -29,6 +48,7 @@ const Header = ({ alarms = [] }) => {
       .then((res) => {
         if (res.data === true) {
           setAlarms(alarms.filter((item) => item.num !== num));
+          console.log(alarms);
         }
       })
       .catch((err) => {
@@ -103,6 +123,43 @@ const Header = ({ alarms = [] }) => {
   //현재 user 상태 콘솔에 출력
   console.log('현재 user 상태 : ', user);
 
+  const navigateToDetail = (type, detailPath) => {
+    let path = '';
+
+    switch (type) {
+      case 'house': // 예: 집꾸하기
+        path = `/house/detail/${detailPath}`;
+        break;
+      case 'interior': // 예: 방꾸하기
+        path = `/interior/detail/${detailPath}`;
+        break;
+      case 'onestop': // 예: 한번에꾸하기
+        path = `/onestop/detail/${detailPath}`;
+        break;
+      default:
+        path = '/';
+        break;
+    }
+
+    navigate(path);
+  };
+
+  // 알림 상세 내용 스타일
+  const notificationDetailsStyle = {
+    backgroundColor: '#f9f9f9',
+    padding: '10px',
+    marginTop: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+  };
+
+  // 알림 액션 버튼 컨테이너 스타일
+  const notificationActionsStyle = {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    marginTop: '10px',
+  };
+
   return (
     <header className={styles.Container}>
       <Link to={'/'}>
@@ -159,17 +216,27 @@ const Header = ({ alarms = [] }) => {
                   닫기
                 </button>
               </div>
+
               <ul className={styles.notificationList}>
                 {alarms.length === 0 ? (
-                  <div>내용이 없습니다</div>
+                  <div style={{ height: '100px' }}>내용이 없습니다</div>
                 ) : (
                   alarms.map((item) => (
-                    <li key={item.num} className={styles.notificationItem}>
-                      <div style={{ fontWeight: 'bold' }}>{item.sender}</div>
-                      &nbsp;&nbsp;
-                      {item.title}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <li
+                      key={item.num}
+                      className={styles.notificationItem}
+                      onClick={() => openModal(item)} // 알림 클릭 시 모달 열기
+                    >
+                      <div style={{ fontWeight: 'bold' }}>
+                        {item.companyName}
+                      </div>
+                      &nbsp;&nbsp;{item.title}
                       <button
-                        onClick={() => confirm(item.num)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // 클릭 이벤트 전파 방지
+                          confirm(item.num); // 확인 처리
+                        }}
+                        className={styles.confirmBtn}
                         style={{
                           width: '50px',
                           height: '30px',
@@ -177,14 +244,87 @@ const Header = ({ alarms = [] }) => {
                           borderWidth: 0,
                           backgroundColor: '#c6d695',
                           color: '#ffffff',
+                          marginLeft: '10px',
                         }}
                       >
                         확인
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // 클릭 이벤트 전파 방지
+                          navigateToDetail(item.type, item.detailPath); // 바로 이동
+                        }}
+                        className={styles.moveBtn}
+                        style={{
+                          width: '50px',
+                          height: '30px',
+                          borderRadius: '5px',
+                          borderWidth: 0,
+                          backgroundColor: '#6d885d',
+                          color: '#ffffff',
+                          marginLeft: '10px',
+                        }}
+                      >
+                        이동
                       </button>
                     </li>
                   ))
                 )}
               </ul>
+
+              <Modal
+                open={isModalOpen}
+                onCancel={closeModal} // 모달 닫기
+                footer={[
+                  <button
+                    key="move"
+                    onClick={() => {
+                      navigateToDetail(
+                        selectedAlarm.type,
+                        selectedAlarm.detailPath
+                      ); // 이동 처리
+                      closeModal();
+                    }}
+                    className={styles.moveModalBtn}
+                    style={{
+                      width: '50px',
+                      height: '30px',
+                      borderRadius: '5px',
+                      borderWidth: 0,
+                      backgroundColor: '#6d885d',
+                      color: '#ffffff',
+                      marginLeft: '10px',
+                    }}
+                  >
+                    이동
+                  </button>,
+                  <button
+                    key="close"
+                    onClick={closeModal}
+                    className={styles.closeModalBtn}
+                    style={{
+                      width: '50px',
+                      height: '30px',
+                      borderRadius: '5px',
+                      borderWidth: 0,
+                      backgroundColor: '#6d885d',
+                      color: '#ffffff',
+                      marginLeft: '10px',
+                    }}
+                  >
+                    닫기
+                  </button>,
+                ]}
+              >
+                {selectedAlarm && (
+                  <div>
+                    <h2>{selectedAlarm.title}</h2>
+                    <p>{selectedAlarm.message}</p>
+                    <p>회사: {selectedAlarm.companyName || 'N/A'}</p>
+                    <p>생성 시간: {selectedAlarm.createAt}</p>
+                  </div>
+                )}
+              </Modal>
             </div>
           )}
 
