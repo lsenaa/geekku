@@ -19,6 +19,7 @@ const SampleDetail = () => {
   const { num } = useParams();
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const param = { id: user.userId, num: num };
@@ -68,7 +69,6 @@ const SampleDetail = () => {
             <span>
               <img src={area} alt="지역" /> {sampleInfo.location}
             </span>
-
           </div>
           <div className={styles.content}>{sampleInfo.content}</div>
         </div>
