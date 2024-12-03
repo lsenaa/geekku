@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const useHandleToken = ({ url, setToken, setUser }) => {
+const UseHandleToken = ({ url, setToken, setUser }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,8 +11,8 @@ const useHandleToken = ({ url, setToken, setUser }) => {
     const token = searchParams.get('token');
 
     if (token) {
-      setToken(token); // Jotai 상태에 저장
-      console.log('Token set to Jotai state:', token);
+      setToken(token);
+      //console.log('token:', token);
 
       // 사용자 정보 가져오기
       axios
@@ -21,8 +21,8 @@ const useHandleToken = ({ url, setToken, setUser }) => {
         })
         .then((res) => {
           console.log('User info received:', res.data);
-          setUser(res.data); // Jotai 사용자 상태 업데이트
-          navigate('/'); // 메인 페이지로 리다이렉트
+          setUser(res.data);
+          navigate('/');
         })
         .catch((err) => {
           console.error('Failed to fetch user info:', err);
@@ -36,4 +36,4 @@ const useHandleToken = ({ url, setToken, setUser }) => {
   }, [navigate, setToken, setUser, url]);
 };
 
-export default useHandleToken;
+export default UseHandleToken;
