@@ -12,7 +12,7 @@ import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
 import { Modal } from 'antd';
 import axios from 'axios';
 import { type } from '@testing-library/user-event/dist/type';
-import useHandleToken from './useHandleToken';
+import useHandleToken from './UseHandleToken';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -204,8 +204,16 @@ const Login = () => {
                 className={styles.icon}
               />
             </a>
-            <img src={naverIcon} alt="네이버 로그인" className={styles.icon} />
-            <img src={googleIcon} alt="구글 로그인" className={styles.icon} />
+            <a href={`${url}/oauth2/authorization/naver`}>
+              <img
+                src={naverIcon}
+                alt="네이버 로그인"
+                className={styles.icon}
+              />
+            </a>
+            <a href={`${url}/oauth2/authorization/google`}>
+              <img src={googleIcon} alt="구글 로그인" className={styles.icon} />
+            </a>
           </div>
         </div>
       )}
