@@ -1,7 +1,9 @@
 import loginLogo from 'assets/images/login/loginLogo.png';
 import styles from '../Login.module.scss';
+import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+// import { setUpRecaptcha, auth } from 'store/firebaseAuthConfig';
 
 const SearchId = () => {
   const [isPhone, setIsPhone] = useState(true);
@@ -9,6 +11,7 @@ const SearchId = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
+  // const [confirmationResult, setConfirmationResult] = useState(null);
   const navigate = useNavigate();
 
   const confirmClick = () => {
@@ -22,6 +25,46 @@ const SearchId = () => {
     setEmail('');
     setVerificationCode('');
   };
+
+  // const sendVerificationCode = async () => {
+  //   console.log('sendVerificationCode 호출됨 ');
+  //   try {
+  //     const recaptchaVerifier = setUpRecaptcha('recaptcha-container');
+  //     console.log('RecaptchaVerifier 생성:', recaptchaVerifier);
+
+  //     const formattedPhoneNumber = `+82${phoneNumber.replace(/^0/, '')}`;
+  //     console.log('Formatted Phone Number :', formattedPhoneNumber);
+
+  //     const confirmationResult = await auth.signInWithPhoneNumber(
+  //       formattedPhoneNumber,
+  //       recaptchaVerifier
+  //     );
+  //     console.log('인증번호 전송 성공 :', confirmationResult);
+
+  //     Modal.success({
+  //       content: '인증번호가 발송되었습니다.',
+  //     });
+  //   } catch (error) {
+  //     console.error('인증번호 전송 실패 :', error);
+  //     Modal.error({
+  //       content: `인증번호 전송 실패 : ${error.message}`,
+  //     });
+  //   }
+  // };
+
+  // const verifyCode = async () => {
+  //   try {
+  //     if (!confirmationResult) {
+  //       Modal.error({ content: '인증번호를 먼저 발송하세요.' });
+  //       return;
+  //     }
+  //     await confirmationResult.confirm(verificationCode);
+  //     Modal.success({ content: '전화번호 인증 성공!' });
+  //   } catch (error) {
+  //     console.error('인증 실패:', error);
+  //     Modal.error({ content: `인증 실패: ${error.message}` });
+  //   }
+  // };
 
   return (
     <div className={styles.login}>
@@ -93,7 +136,12 @@ const SearchId = () => {
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       className={styles.input}
                     />
-                    <button className={styles.button}>인증번호 발송</button>
+                    <button
+                      className={styles.button}
+                      // onClick={sendVerificationCode}
+                    >
+                      인증번호 발송
+                    </button>
                   </div>
                   <div className={styles.inputGroup}>
                     <span>인증 번호</span>
@@ -101,7 +149,7 @@ const SearchId = () => {
                       type="text"
                       placeholder="인증 번호를 입력하세요."
                       value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
+                      // onChange={(e) => setVerificationCode(e.target.value)}
                       className={styles.input}
                     />
                     <button className={styles.button} onClick={confirmClick}>
@@ -141,6 +189,7 @@ const SearchId = () => {
           )}
         </div>
       </div>
+      {/* <div id="recaptcha-container"></div> */}
     </div>
   );
 };

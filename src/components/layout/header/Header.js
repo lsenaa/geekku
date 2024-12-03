@@ -72,7 +72,6 @@ const Header = ({ alarms = [] }) => {
   };
 
   const onClickMypage = () => {
-    console.log(user);
     if (!user.type) return;
     switch (user.type) {
       case 'user':
@@ -194,15 +193,20 @@ const Header = ({ alarms = [] }) => {
           <div className={styles.userProfile} onClick={onClickMypage}>
             {user && (
               <img
-                src={
-                  user.socialProfileImage
-                    ? user.socialProfileImage
-                    : user.profileImage
-                      ? `data:image/png;base64,${user.profileImage}`
-                      : defaultImg
-                }
+                src={`data:image/png;base64,${user.profileImageStr}`}
+                alt="프로필이미지"
                 className={styles.profileImage}
               />
+              // <img
+              //   src={
+              //     user.socialProfileImage
+              //       ? user.socialProfileImage
+              //       : user.profileImage
+              //         ? `data:image/png;base64,${user.profileImageStr}`
+              //         : defaultImg
+              //   }
+              //   className={styles.profileImage}
+              // />
             )}
             {/* <FaUserCircle size="30" color="#6D885D" /> */}
             <p className={styles.name}>

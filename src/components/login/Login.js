@@ -5,13 +5,14 @@ import googleIcon from 'assets/images/login/google_login_Btn.png';
 import styles from 'components/login/Login.module.scss';
 import ToggleSwitch from 'components/login/toggleSwitch/ToggleSwitch';
 import { url } from 'lib/axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
 import { Modal } from 'antd';
 import axios from 'axios';
 import { type } from '@testing-library/user-event/dist/type';
+import useHandleToken from './useHandleToken';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -117,7 +118,6 @@ const Login = () => {
             Modal.error({
               content: `${isChecked ? '기업' : '개인'} 사용자가 없습니다`,
             });
-            // alert(`${isChecked ? '기업' : '개인'} 사용자가 없습니다`);
           });
       })
       .catch((err) => {
@@ -133,6 +133,8 @@ const Login = () => {
       submit();
     }
   };
+
+  useHandleToken({ url, setToken, setUser });
 
   return (
     <div className={styles.login}>
@@ -195,7 +197,13 @@ const Login = () => {
         <div className={styles.divider2}>
           SNS로 간편 로그인 / 회원가입
           <div className={styles.iconContainer}>
-            <img src={kakaoIcon} alt="카카오 로그인" className={styles.icon} />
+            <a href={`${url}/oauth2/authorization/kakao`}>
+              <img
+                src={kakaoIcon}
+                alt="카카오 로그인"
+                className={styles.icon}
+              />
+            </a>
             <img src={naverIcon} alt="네이버 로그인" className={styles.icon} />
             <img src={googleIcon} alt="구글 로그인" className={styles.icon} />
           </div>

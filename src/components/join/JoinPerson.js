@@ -5,6 +5,7 @@ import { url } from 'lib/axios';
 import { checkNickname } from 'utils/CheckNickname';
 import { checkDoubleId } from 'utils/CheckDoubleId';
 import { useAgreements } from 'utils/Agreements';
+import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 import axios from 'axios';
 import { Modal } from 'antd';
@@ -32,6 +33,16 @@ const JoinPerson = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 11) {
+        return;
+      }
+      setUser({ ...user, phone: cleaned });
+    } else {
+      setUser({ ...user, [name]: value });
+    }
+
     if (name === 'username') {
       setUsernameChecked(false);
     }
@@ -49,6 +60,11 @@ const JoinPerson = () => {
   const handleCheckDoubleId = async () => {
     const isAvailable = await checkDoubleId(user.username, url);
     setUsernameChecked(isAvailable);
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    applyPhoneFormat(name, value, setUser, user);
   };
 
   const submit = (e) => {
@@ -118,7 +134,9 @@ const JoinPerson = () => {
     axios
       .post(`${url}/joinPerson`, formData)
       .then((res) => {
-        console.log(res.data);
+        Modal.success({
+          content: '개인회원가입에 성공하였습니다.',
+        });
         navigate('/login');
       })
       .catch((err) => {
@@ -209,7 +227,11 @@ const JoinPerson = () => {
             type="text"
             name="phone"
             id="phone"
+            placeholder="숫자만 입력해주세요."
             onChange={edit}
+            onBlur={handleBlur}
+            value={user.phone}
+            maxLength={13}
             className={styles2.input2}
           />
         </div>

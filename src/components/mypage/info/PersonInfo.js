@@ -9,15 +9,26 @@ import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
 import { checkNickname } from 'utils/CheckNickname';
+import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 const PersonInfo = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
   const [myUser, setMyUser] = useState(user);
   const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const edit = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 11) {
+        return;
+      }
+      setUser({ ...user, phone: cleaned });
+    } else {
+      setUser({ ...user, [name]: value });
+    }
     setMyUser({ ...myUser, [name]: value });
   };
 
@@ -25,12 +36,17 @@ const PersonInfo = () => {
     setMyUser(user);
   }, [user]);
 
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    applyPhoneFormat(name, value, setUser, user);
+  };
+
   const submit = () => {
     let formData = new FormData();
     formData.append('nickname', myUser.nickname);
     formData.append('phone', myUser.phone);
     formData.append('email', myUser.email);
-    console.log(profileImage);
+
     if (profileImage != null) {
       formData.append('file', profileImage);
     }
@@ -42,7 +58,6 @@ const PersonInfo = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setToken(res.data.token);
         setUser(res.data.user);
         Modal.success({
@@ -73,10 +88,7 @@ const PersonInfo = () => {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUser((prevUser) => ({
-          ...prevUser,
-          profileImageStr: reader.result.split(',')[1],
-        }));
+        setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -90,9 +102,11 @@ const PersonInfo = () => {
             <a href="#">
               <img
                 src={
-                  myUser.profileImageStr
-                    ? `data:image/png;base64,${myUser.profileImageStr}`
-                    : profileImgAdd
+                  previewImage
+                    ? previewImage
+                    : myUser.profileImageStr
+                      ? `data:image/png;base64,${myUser.profileImageStr}`
+                      : profileImgAdd
                 }
                 className={styles.imageFile}
                 onClick={imageUpdate}
@@ -149,8 +163,11 @@ const PersonInfo = () => {
             <input
               type="text"
               name="phone"
-              // value={myUser.phone}
+              id="phone"
               onChange={edit}
+              onBlur={handleBlur}
+              value={myUser.phone}
+              maxLength={13}
               placeholder={myUser.phone}
               className={styles.input2}
             />
