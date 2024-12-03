@@ -1,4 +1,5 @@
 module.exports = {
+
   root: true,
   env: {
     browser: true,
@@ -16,6 +17,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  
   plugins: ['react'],
   rules: {
     'prettier/prettier': 'error',
@@ -29,4 +31,5 @@ module.exports = {
       version: 'detect',
     },
   },
+  
 };

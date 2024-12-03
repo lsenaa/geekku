@@ -1,46 +1,95 @@
 import styles from './ReqInteriorDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
-import { FaUserCircle } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'antd';
 import ReqInteriorDetailAnswerWrite from './ReqInteriorDetailAnswerWrite';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
 import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
-import { userAtom } from 'store/atoms';
+import { tokenAtom, userAtom } from 'store/atoms';
 import axios from 'axios';
-const ReqInteriorDetailAnswerList = ({ requestAllNum }) => {
+
+const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [onestopAnswerList, setOnestopAnswerList] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
+  const [interiorAnswerList, setInteriorAllAnswerList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [answerIsOpen, setAnswerIsOpen] = useState({});
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
+  const elementRef = useRef(null);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(page);
+  }, [page]);
 
-  const fetchData = () => {
+  // 답변 무한 스크롤
+  const onIntersection = (entries) => {
+    const firstEntry = entries[0];
+    if (firstEntry.isIntersecting && hasMore && !isLoading) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  // Intersection Observer 설정
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersection, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    // 컴포넌트가 언마운트되거나 더 이상 관찰할 필요가 없을 때(observer를 해제할 때)반환
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [hasMore, isLoading]);
+
+  // 답변 데이터 요청
+  const fetchData = (page) => {
+    if (isLoading) return; //이미 데이터를 요청중인 경우 return
+
+    setIsLoading(true);
     axios
-      .get(`${url}/interiorAnswerList/${requestAllNum}`)
+      .get(`${url}/interiorAnswerList/${requestAllNum}?page=${page}`)
       .then((res) => {
         console.log(res.data);
-        setOnestopAnswerList([...res.data.onestopAnswerList]);
-        setTotalCount(res.data.pageInfo.totalCount);
+
+        if (res.data.interiorAnswerList.length === 0) {
+          setHasMore(false);
+        } else {
+          setInteriorAllAnswerList((prev) => [
+            ...prev,
+            ...res.data.interiorAnswerList,
+          ]);
+          if (page === res.data.pageInfo.endPage) {
+            setHasMore(false);
+          }
+        }
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
-  const handleDelete = (interiorAllAnswerNum) => {
-    axios
-      .post(`${url}/interiorAnswerDelete`, {
-        interiorAllAnswerNum,
+  const handleDelete = (requestAllAnswerNum) => {
+    axiosInToken(token)
+      .post(`/company/interiorAnswerDelete`, {
+        requestAllAnswerNum,
         requestAllNum,
       })
       .then((res) => {
@@ -57,12 +106,14 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum }) => {
       });
   };
 
-  const handleAnswer = (answerInteriorNum) => {
+  // 답변 클릭시 내용 보여주도록 토글
+  const handleAnswer = (answerRequestAllNum) => {
     setAnswerIsOpen((prev) => ({
       ...prev,
-      [answerInteriorNum]: !prev[answerInteriorNum], // 현재 항목의 상태를 토글
+      [answerRequestAllNum]: !prev[answerRequestAllNum],
     }));
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
@@ -73,11 +124,11 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum }) => {
       </div>
       <hr className={styles.line} />
       <ul>
-        {onestopAnswerList.map((answer) => (
+        {interiorAnswerList.map((answer) => (
           <li
             className={styles.answerList}
-            key={answer.answerOnestopNum}
-            onClick={() => handleAnswer(answer.answerInteriorNum)}
+            key={answer.answerRequestAllNum}
+            onClick={() => handleAnswer(answer.answerRequestAllNum)}
           >
             <div className={styles.preview}>
               <div className={styles.profile}>
@@ -94,14 +145,14 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum }) => {
                   className={styles.deleteBtn}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete(answer.answerOnestopNum);
+                    handleDelete(answer.answerRequestAllNum);
                   }}
                 >
                   삭제
                 </button>
               )}
             </div>
-            {answerIsOpen[answer.answerOnestopNum] && (
+            {answerIsOpen[answer.answerRequestAllNum] && (
               <div>
                 <div className={styles.phoneAddWrap}>
                   <div className={styles.phone}>
@@ -129,14 +180,21 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum }) => {
           width={857}
           footer={null}
           className={styles.customModal}
+          centered
         >
           <ReqInteriorDetailAnswerWrite
+            userId={userId}
             requestAllNum={requestAllNum}
             toggleModal={toggleModal}
             setIsModalOpen={setIsModalOpen}
             fetchData={fetchData}
           />
         </Modal>
+      )}
+      {hasMore && (
+        <div ref={elementRef} style={{ textAlign: 'center' }}>
+          Load More Items
+        </div>
       )}
     </div>
   );

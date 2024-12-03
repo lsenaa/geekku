@@ -73,11 +73,15 @@ const ReqInteriorDetail = () => {
           <p>{`${processLocation(interiorAll.address1)} ${interiorAll.address2}`}</p>
         </div>
         <div className={styles.item}>
-          <label>시공 종류</label>
+          <label>시공 유형</label>
           <p>
             {interiorAll.workType == 0 && '전체시공'}
             {interiorAll.workType == 1 && '부분시공'}
           </p>
+        </div>
+        <div className={styles.item}>
+          <label>시공 종류</label>
+          <p>{interiorAll.interiorType}</p>
         </div>
         <div className={styles.item}>
           <label>시공 평수</label>

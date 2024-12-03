@@ -6,23 +6,27 @@ import axios from 'axios';
 import { url } from 'lib/axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { hangjungdong } from 'utils/hangjungdong';
+import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from 'store/atoms';
 
 const ReqInteriorWrite = () => {
   const navigate = useNavigate();
   const [textCount, setTextCount] = useState(0);
   const { sido, sigugun } = hangjungdong;
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
   const [interiorall, setInteriorall] = useState({
-    name: '',
+    name: user.name,
     title: '',
     phone: '',
     addContent: '',
     address1: '',
     address2: '',
-    allowPhone: '',
+    allowPhone: true,
     interiorType: '',
     money: '',
     movePersons: '',
-    rentType: '',
+    rentType: true,
     size: '',
     type: '',
     workType: '',
@@ -71,6 +75,7 @@ const ReqInteriorWrite = () => {
       address2: selectedSigugun?.codeNm, // 구/군 이름 저장
     }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -105,7 +110,7 @@ const ReqInteriorWrite = () => {
       <h2>방꾸미기 신청하기</h2>
       <section>
         <div className={styles.title}>
-          <h3>원하는 매물 정보</h3>
+          <h3>원하는 시공 정보</h3>
           <p>
             <span>*</span>필수 입력 항목
           </p>
@@ -114,7 +119,7 @@ const ReqInteriorWrite = () => {
         <div className={styles.item}>
           <label>신청자 이름</label>
           <div className={styles.subLabelWrap}>
-            <input type="text" value="코스타" />
+            <input type="text" value={user.name} />
           </div>
         </div>
         <div className={styles.item}>
@@ -184,8 +189,21 @@ const ReqInteriorWrite = () => {
               name="rentType"
               value="buy"
               onChange={handleEdit}
+              defaultChecked
             />
             <label htmlFor="buy">매매</label>
+          </div>
+        </div>
+
+        <div className={styles.item}>
+          <label>
+            예산<span>*</span>
+          </label>
+          <div className={styles.subLabelWrap}>
+            <div className={styles.inputTextWrap}>
+              <input type="number" name="money" onChange={handleEdit} />
+              <p>만원</p>
+            </div>
           </div>
         </div>
         <div className={styles.item}>
@@ -210,17 +228,6 @@ const ReqInteriorWrite = () => {
         </div>
         <div className={styles.item}>
           <label>
-            예산<span>*</span>
-          </label>
-          <div className={styles.subLabelWrap}>
-            <div className={styles.inputTextWrap}>
-              <input type="number" name="money" onChange={handleEdit} />
-              <p>만원</p>
-            </div>
-          </div>
-        </div>
-        <div className={styles.item}>
-          <label>
             시공 종류<span>*</span>
           </label>
           <div className={styles.radioGroup}>
@@ -230,6 +237,7 @@ const ReqInteriorWrite = () => {
               name="workType"
               value="0"
               onChange={handleEdit}
+              defaultChecked
             />
             <label htmlFor="전체">전체 시공</label>
             <input
@@ -246,82 +254,103 @@ const ReqInteriorWrite = () => {
           <label>
             인테리어 시공<span>*</span>
           </label>
+
           <div className={styles.checkboxGroup}>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="1"
-              onChange={handleEdit}
-            />
-            <label>도배</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="2"
-              onChange={handleEdit}
-            />
-            <label>바닥</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="3"
-              onChange={handleEdit}
-            />
-            <label>몰딩</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="1"
-              onChange={handleEdit}
-            />
-            <label>샷시</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="2"
-              onChange={handleEdit}
-            />
-            <label>페인트</label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="1"
+                onChange={handleEdit}
+              />
+              도배
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="2"
+                onChange={handleEdit}
+              />
+              바닥
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="3"
+                onChange={handleEdit}
+              />
+              몰딩
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="1"
+                onChange={handleEdit}
+              />
+              샷시
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="2"
+                onChange={handleEdit}
+              />
+              페인트
+            </label>
           </div>
         </div>
         <div className={styles.items}>
           <label></label>
           <div className={styles.checkboxGroup}>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="1"
-              onChange={handleEdit}
-            />
-            <label>조명</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="2"
-              onChange={handleEdit}
-            />
-            <label>욕실</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="3"
-              onChange={handleEdit}
-            />
-            <label>주방</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="1"
-              onChange={handleEdit}
-            />
-            <label>문/현관</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="2"
-              onChange={handleEdit}
-            />
-            <label>베란다</label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="1"
+                onChange={handleEdit}
+              />
+              조명
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="2"
+                onChange={handleEdit}
+              />
+              욕실
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="3"
+                onChange={handleEdit}
+              />
+              주방
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="1"
+                onChange={handleEdit}
+              />
+              문/현관
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="interiorType"
+                value="2"
+                onChange={handleEdit}
+              />
+              베란다
+            </label>
           </div>
         </div>
         <div className={styles.item}>
@@ -335,6 +364,7 @@ const ReqInteriorWrite = () => {
               name="allowPhone"
               value="true"
               onChange={handleEdit}
+              defaultChecked
             />
             <label htmlFor="true">공개</label>
             <input
