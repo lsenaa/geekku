@@ -45,7 +45,7 @@ const EstateList = ({ estateList }) => {
         <li key={estate.estateNum} onClick={onClickModal(estate.estateNum)}>
           <div className={styles.imgWrapper}>
             <img
-              src={`${url}/estateImage/${estate.estateImageNums?.slice(0, 1)}`}
+              src={`${url}/estateImage/${estate.estateImageNums?.split(',')[0] || ''}`}
               alt="리스트 이미지"
             />
           </div>

@@ -32,21 +32,6 @@ const ReviewWrite = () => {
     }
   };
 
-  const handleLocChange = (e) => {
-    const { value, checked } = e.target;
-
-    if (checked) {
-      if (selectedLoc.length < 1) {
-        setSelectedLoc([...selectedLoc, value]);
-      } else {
-        alert('1개 지역만 선택할 수 있습니다.');
-        e.target.checked = false;
-      }
-    } else {
-      setSelectedLoc(selectedLoc.filter((location) => location !== value));
-    }
-  };
-
   const fileChange = (e) => {
     if (e.target.files.length > 0) {
       if (fileList.length < 8) {

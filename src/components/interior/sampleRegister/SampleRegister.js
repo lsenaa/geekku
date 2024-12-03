@@ -7,34 +7,97 @@ import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import Button01 from 'components/commons/button/Button01';
 import { useNavigate } from 'react-router';
+import { axiosInToken, url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
+import { Modal } from 'antd';
+import ToastEditor from 'components/commons/ToastEditor';
+import axios from 'axios';
+import minus from 'assets/images/minus.png';
 
 const SampleRegister = () => {
-  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
-  const [selectedLoc, setSelectedLoc] = useState([]);
   const navigate = useNavigate();
-
+  const token = useAtomValue(tokenAtom);
+  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const imageInput = useRef();
+  const editorRef = useRef();
+  const [content, setContent] = useState('');
+  const [sample, setSample] = useState({
+    type: '',
+    style: '',
+    size: '',
+    location: '',
+    title: '',
+  });
+  const [coverImg, setCoverImg] = useState(null);
+
+  const handleChange = (e) => {
+    setSample({ ...sample, [e.target.name]: e.target.value });
+  };
+
+  const onChangeContent = () => {
+    const text = editorRef.current?.getInstance().getHTML();
+    setContent(text === '<p><br><p>' ? '' : text);
+  };
 
   const onClickImageUpload = () => {
     imageInput.current.click();
   };
 
-  const handleLocChange = (e) => {
-    const { value, checked } = e.target;
-
-    if (checked) {
-      if (selectedLoc.length < 3) {
-        setSelectedLoc([...selectedLoc, value]);
-        console.log(setSelectedLoc);
-      } else {
-        alert('최대 3개 지역만 선택할 수 있습니다.');
-        e.target.checked = false;
-      }
-    } else {
-      setSelectedLoc(
-        selectedLoc.filter((possibleLocation) => possibleLocation !== value)
-      );
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCoverImg(file);
     }
+  };
+
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setCoverImg(null);
+    imageInput.current.value = '';
+  };
+
+  // 에디터 이미지 url 받아오기
+  const handleImage = async (blob, callback) => {
+    try {
+      let formData = new FormData();
+      formData.append('image', blob);
+
+      const response = await axios.post(`${url}/editorImageUpload`, formData);
+
+      if (response.status === 200) {
+        const imageUrl = response.data;
+        callback(imageUrl);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('type', sample.type);
+    formData.append('style', sample.style);
+    formData.append('size', sample.size);
+    formData.append('location', sample.location);
+    formData.append('title', sample.title);
+    formData.append('content', content);
+    formData.append('coverImg', coverImg);
+
+    axiosInToken(token)
+      .post(`/company/interiorSampleRegister`, formData)
+      .then((res) => {
+        console.log(res.data);
+        Modal.success({
+          content: '시공사례 등록이 완료되었습니다.',
+        });
+        navigate(`/sampleDetail/${res.data}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -53,7 +116,11 @@ const SampleRegister = () => {
             <label htmlFor="type">
               주거형태<span>*</span>
             </label>
-            <select className={styles.customSelect}>
+            <select
+              className={styles.customSelect}
+              name="type"
+              onChange={handleChange}
+            >
               <option>농가주택</option>
               <option>전원주택</option>
               <option>아파트/빌라</option>
@@ -63,7 +130,11 @@ const SampleRegister = () => {
             <label htmlFor="style">
               스타일<span>*</span>
             </label>
-            <select className={styles.customSelect}>
+            <select
+              className={styles.customSelect}
+              name="style"
+              onChange={handleChange}
+            >
               <option>모던</option>
               <option>우드</option>
               <option>내추럴</option>
@@ -76,27 +147,28 @@ const SampleRegister = () => {
             <label htmlFor="size">
               평수<span>*</span>
             </label>
-            <input name="size" className={styles.customSelect} />
+            <input
+              type="number"
+              name="size"
+              className={styles.customSelect}
+              onChange={handleChange}
+            />
           </li>
           <li>
             <label htmlFor="style">
               지역<span>*</span>
             </label>
-            <div className={styles.checkboxGroup}>
-              {area.map((possibleLocation) => (
-                <label
-                  key={possibleLocation}
-                  className={styles.customLabel}
-                  htmlFor={possibleLocation}
-                >
+            <div className={styles.radioGroup}>
+              {area.map((location) => (
+                <label htmlFor={location} key={location}>
                   <input
-                    type="checkbox"
-                    className={styles.customCheck}
-                    id={possibleLocation}
-                    value={possibleLocation}
-                    onChange={handleLocChange}
+                    type="radio"
+                    id={location}
+                    name="location"
+                    value={location}
+                    onChange={handleChange}
                   />
-                  {possibleLocation}
+                  {location}
                 </label>
               ))}
             </div>
@@ -109,6 +181,7 @@ const SampleRegister = () => {
             accept="image/*"
             style={{ display: 'none' }}
             ref={imageInput}
+            onChange={handleImageChange}
           />
           <button
             type="button"
@@ -117,18 +190,62 @@ const SampleRegister = () => {
           >
             추가하기
           </button>
+          {coverImg && (
+            <div style={{ display: 'inline-block', textAlign: 'center' }}>
+              <img
+                style={{
+                  display: 'inline-block',
+                  width: '20px',
+                  height: '20px',
+                  cursor: 'pointer',
+                }}
+                src={minus}
+                alt="삭제 아이콘"
+                onClick={handleRemoveImage}
+              />
+              <br />
+              <img
+                src={URL.createObjectURL(coverImg)}
+                alt="커버 이미지"
+                style={{
+                  width: '100px',
+                  height: '60px',
+                  marginRight: '10px',
+                }}
+              />
+            </div>
+          )}
         </div>
-        {/* <Editor
-          initialValue="내용을 입력해주세요."
-          previewStyle="vertical"
-          height="300px"
-          initialEditType="wysiwyg"
-          useCommandShortcut={false}
-          hideModeSwitch={true}
-          plugins={[color]}
-        /> */}
+        <div className={styles.titleWrap}>
+          <label>
+            제목<span>*</span>
+          </label>
+          <input
+            type="text"
+            name="title"
+            className={styles.titleInput}
+            placeholder="제목을 입력해주세요.(40자 이내)"
+            maxLength="40"
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.editorWrap}>
+          <label>
+            내용<span>*</span>
+          </label>
+          <ToastEditor
+            editorRef={editorRef}
+            height="800px"
+            handleImage={handleImage}
+            onChange={onChangeContent}
+          />
+        </div>
         <div>
-          <button type="submit" className={styles.submitBtn}>
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            onClick={handleSubmit}
+          >
             등록하기
           </button>
           <Button01

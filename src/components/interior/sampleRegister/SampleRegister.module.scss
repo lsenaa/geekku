@@ -7,12 +7,8 @@
   li {
     margin-bottom: 30px;
   }
-
-  span {
-    font-size: 18px;
-    font-weight: bold;
-  }
 }
+
 .topText {
   font-weight: normal;
   font-size: 40px;
@@ -92,6 +88,7 @@
   span {
     margin: 0 auto;
     font-size: 16px;
+    font-weight: bold;
   }
 }
 
@@ -109,13 +106,6 @@
   text-align: center;
 }
 
-// .edt {
-//   padding: 10px;
-//   margin-top: 50px;
-//   border: 1px solid #6d885d;
-//   border-radius: 10px;
-//   height: 500px;
-// }
 .customSelect {
   padding: 10px;
   border-radius: 5px;
@@ -126,23 +116,7 @@
     box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
   }
 }
-.checkboxGroup {
-  margin-right: 20px;
-  display: flex;
 
-  .customCheck {
-    accent-color: #6d885d;
-    padding: 20px;
-    width: 15px;
-    height: 15px;
-  }
-
-  label {
-    margin-right: 10px;
-    font-weight: normal;
-    width: initial;
-  }
-}
 .customLabel {
   cursor: pointer;
 }
@@ -158,4 +132,79 @@
   padding: 10px 0;
   margin-top: 40px;
   margin-right: 40px;
+}
+
+.titleWrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    font-weight: bold;
+
+    span {
+      color: red;
+    }
+  }
+
+  .titleInput {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #6d885d;
+    border-radius: 10px;
+    margin: 0 auto 0px;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    margin-top: 10px;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+}
+
+.editorWrap {
+  width: 100%;
+  margin-top: 40px;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 10px;
+
+    span {
+      color: red;
+    }
+  }
+}
+
+.radioGroup {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+
+  label {
+    margin-right: 8px;
+    font-weight: normal;
+    cursor: pointer;
+    width: initial;
+  }
+
+  input[type='radio'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #6d885d;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  input[type='radio']:checked {
+    background-color: white;
+    border: 4px solid #6d885d;
+    box-shadow: 0 0 0 1px #6d885d;
+  }
 }
