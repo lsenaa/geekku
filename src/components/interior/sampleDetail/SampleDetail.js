@@ -36,15 +36,15 @@ const SampleDetail = () => {
 
   return (
     <div>
-      <img
-        src={sampleInfo.coverImage}
-        alt="커버사진"
-        width="100%"
-        height="595px"
-      />
+      <div className={styles.coverImgWrap}>
+        <img
+          src={`${url}/sampleImage/${sampleInfo.coverImage}`}
+          alt="커버사진"
+        />
+      </div>
       <div className={styles.all}>
         <div className={styles.title}>{sampleInfo.title}</div>
-        <div>
+        <div className={styles.contentWrap}>
           <div className={styles.user}>
             <img
               src={user.profileImage}
