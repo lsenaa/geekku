@@ -151,7 +151,7 @@ const Router = () => {
       <Route path="/joinCompany" element={<JoinCompany />} />
       <Route path="/joinInterior" element={<JoinInterior />} />
       {/* Profile */}
-      <Route path="/profile/person" element={<ProfilePerson />} />
+      <Route path="/profile/person/:userId" element={<ProfilePerson />} />
       <Route path="/profile/interior/*" element={<ProfileInterior />}>
         <Route index element={<ProfileInteriorAll />} />
         <Route path="sample" element={<ProfileInteriorSample />} />
@@ -159,7 +159,8 @@ const Router = () => {
         <Route path="introduce" element={<ProfileInteriorIntroduce />} />
         <Route path="*" element={<NotFound />} />
       </Route>
-      <Route path="/profile/estate" element={<ProfileEstate />} />
+      <Route path="/profile/estate/:companyId" element={<ProfileEstate />} />
+
       {/* RequestInterior */}
       <Route path="/requestInterior" element={<ReqInteriorMain />} />
       <Route path="/requestInterior/write" element={<ReqInteriorWrite />} />

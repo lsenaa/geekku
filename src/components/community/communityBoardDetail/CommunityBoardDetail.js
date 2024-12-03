@@ -11,6 +11,7 @@ const CommunityBoardDetail = () => {
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
   const { CommunityNum } = useParams();
+  const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태
 
   useEffect(() => {
     if (!CommunityNum) {
@@ -24,17 +25,32 @@ const CommunityBoardDetail = () => {
           `${url}/communityDetail/${CommunityNum}`
         );
         setPost(postResponse.data);
-        // console.log(postResponse.data);
+
         const commentsResponse = await axios.get(
           `${url}/communityComment/${CommunityNum}`
         );
         setComments(commentsResponse.data);
+
+        // 북마크 상태 가져오기
+        const bookmarkResponse = await axios.get(`${url}/communityBookmark`, {
+          params: {
+            userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1', // 사용자 ID
+            communityNum: CommunityNum, // 커뮤니티 번호
+          },
+        });
+        setIsBookmarked(bookmarkResponse.data.isBookmarked); // 북마크 상태 설정
       } catch (error) {
-        console.error('게시글 데이터를 가져오는 데 실패했습니다:', error);
+        console.error('데이터를 가져오는 중 오류 발생:', error);
       }
     };
 
     fetchPostData();
+
+    axios
+      .post(`http://localhost:8080/increaseViewCount/${CommunityNum}`)
+      .catch((error) => {
+        console.error('조회수 증가 중 오류 발생:', error);
+      });
   }, [CommunityNum]);
 
   const handleBackButton = () => {
@@ -43,6 +59,27 @@ const CommunityBoardDetail = () => {
 
   const handleWriteButton = () => {
     navigate('/CommunityBoardWrite');
+  };
+
+  const handleBookmarkClick = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8080/test7`, null, {
+        params: {
+          userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1',
+          communityNum: CommunityNum,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('북마크 상태 변경 성공:', response.data);
+        setIsBookmarked(!isBookmarked); // 상태 토글
+      } else {
+        console.error('북마크 상태 변경 실패:', response.data);
+      }
+    } catch (error) {
+      console.error('북마크 상태 변경 중 오류 발생:', error);
+      alert('북마크 상태 변경 중 오류가 발생했습니다.');
+    }
   };
 
   const handleCommentChange = (e) => {
@@ -58,7 +95,6 @@ const CommunityBoardDetail = () => {
           content: newComment,
         };
 
-        // POST 요청 전송 (쿼리 매개변수 사용)
         const response = await axios.post(
           `${url}/communityCommentWrite`,
           null,
@@ -68,7 +104,6 @@ const CommunityBoardDetail = () => {
         );
 
         if (response.status === 201) {
-          console.log('댓글 작성 성공:', response.data);
           setComments([
             ...comments,
             {
@@ -117,9 +152,43 @@ const CommunityBoardDetail = () => {
             <span className={styles.commentDate}>{post.date}</span>
           </div>
           <div className={styles.actions}>
+            {/* {post.owner ? (
+          <button className={styles.editButton} onClick={handleWriteButton}>
+            수정하기
+          </button>
+        ) : isBookmarked ? (
+          <button
+            className={styles.bookmarkedButton} // 활성화된 북마크 스타일
+            onClick={handleBookmarkClick}
+          >
+            북마크 해제
+          </button>
+        ) : (
+          <button
+            className={styles.bookmarkButton} // 기본 북마크 스타일
+            onClick={handleBookmarkClick}
+          >
+            북마크
+          </button>
+        )} */}
             <button className={styles.editButton} onClick={handleWriteButton}>
               수정하기
             </button>
+            {isBookmarked ? (
+              <button
+                className={styles.bookmarkedButton}
+                onClick={handleBookmarkClick}
+              >
+                북마크 해제
+              </button>
+            ) : (
+              <button
+                className={styles.bookmarkButton}
+                onClick={handleBookmarkClick}
+              >
+                북마크
+              </button>
+            )}
           </div>
         </div>
 
@@ -138,7 +207,6 @@ const CommunityBoardDetail = () => {
             &nbsp;&nbsp; |&nbsp;&nbsp; 기간: {post.periodStartDate} ~{' '}
             {post.periodEndDate}
           </div>
-          {/* <div className={styles.detailContent}>시공 범위: {post.scope}</div> */}
         </div>
 
         {/* 게시글 내용 */}
@@ -185,7 +253,7 @@ const CommunityBoardDetail = () => {
                   </div>
                 ))
               ) : (
-                <p style={{ marginTop: '50px' }}>댓글이 없습니다.</p> // 댓글이 없으면 표시할 메시지
+                <p style={{ marginTop: '50px' }}>댓글이 없습니다.</p>
               )}
             </div>
           </div>
