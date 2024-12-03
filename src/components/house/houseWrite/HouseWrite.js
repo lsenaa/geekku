@@ -204,7 +204,7 @@ const HouseWrite = () => {
                 id="buy"
                 name="rentType"
                 value="buy"
-                checked
+                defaultChecked
                 readOnly
               />
               <label htmlFor="buy">매매</label>

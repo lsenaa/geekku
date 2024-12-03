@@ -8,7 +8,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
-import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
+import {
+  formatEstateType,
+  formatPrice,
+  processLocation,
+  formatDate,
+} from 'utils/utils';
 import OnestopDetailAnswerList from './oneStopDetailAnswer/OnestopDetailAnswerList';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import {
@@ -34,10 +39,7 @@ const OnestopDetail = () => {
     address2: '',
     size: '',
     rentType: '',
-    jeonsePrice: 0,
-    monthlyPrice: 0,
-    buyPrice: 0,
-    depositPrice: 0,
+    money: 0,
     requestState: false,
     allowPhone: false,
     title: '',
@@ -66,8 +68,8 @@ const OnestopDetail = () => {
       <section>
         <div className={styles.profile}>
           <FaUserCircle color="#6D885D" size={30} />
-          <p>홍길동</p>
-          <p className={styles.createdAt}>2024-10-28</p>
+          <p>{onestop.name}</p>
+          <p className={styles.createdAt}>{formatDate(onestop.createAt)}</p>
         </div>
         <hr className={styles.line} />
       </section>
@@ -85,22 +87,14 @@ const OnestopDetail = () => {
           <p>{`${processLocation(onestop.address1)} ${onestop.address2}`}</p>
         </div>
         <div className={styles.item}>
-          <label>거래 종류</label>
-          <p>
-            {onestop.rentType === 'jeonse' && '전세'}
-            {onestop.rentType === 'monthly' && '월세'}
-            {onestop.rentType === 'buy' && '매매'}
-          </p>
-        </div>
-        <div className={styles.item}>
-          <label>희망 평수</label>
-          <p>{onestop.size === 5 ? '기타' : `${onestop.size}평 이상`}</p>
-        </div>
-        <div className={styles.item}>
           <label>예산</label>
           <div>
             <p>{onestop.money + ' 만원'}</p>
           </div>
+        </div>
+        <div className={styles.item}>
+          <label>희망 평수</label>
+          <p>{onestop.size === 5 ? '기타' : `${onestop.size}평 이상`}</p>
         </div>
 
         {onestop.allowPhone && (

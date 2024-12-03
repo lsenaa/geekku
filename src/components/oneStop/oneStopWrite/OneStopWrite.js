@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { DatePicker, Modal } from 'antd';
 import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { hangjungdong } from 'utils/hangjungdong';
 import axios from 'axios';
 import { url } from 'lib/axios';
@@ -13,23 +12,46 @@ const OneStopWrite = () => {
   const [textCount, setTextCount] = useState(0);
   const [isManage, setIsManage] = useState(false);
   const { sido, sigugun } = hangjungdong;
+  const type = [
+    '도배',
+    '바닥',
+    '몰딩',
+    '샷시',
+    '페인트',
+    '조명',
+    '욕실',
+    '주방',
+    '문/현관',
+    '베란다',
+  ];
+  const [selectType, setSelectType] = useState([]);
+
+  const handleChk = (e, interiorType) => {
+    const newselectType = [...selectType];
+    newselectType[interiorType] = !newselectType[interiorType];
+    setSelectType(newselectType);
+
+    //체크박스에 체크됐으면 interiorType를 indexChk에 저장
+    if (newselectType[interiorType]) {
+      setSelectType((selectType) => [...selectType, interiorType]);
+    } else {
+      setSelectType((selectType) =>
+        selectType.filter((num) => num !== interiorType)
+      );
+    }
+  };
   const [onestop, setOnestop] = useState({
     title: '',
     content: '',
     address1: '',
     address2: '',
-    allowPhone: false,
-    interiorType: false,
+    allowPhone: true,
     money: '',
-    jeonsePrice: 0,
-    monthlyPrice: 0,
-    buyPrice: 0,
-    depositPrice: 0,
     movePersons: '',
     rentType: 'buy',
     size: '',
-    type: '',
-    workType: false,
+    type: 'farmHouse',
+    workType: true,
   });
 
   const onChangeDate = (date, dateString) => {
@@ -89,13 +111,15 @@ const OneStopWrite = () => {
     formData.append('address1', onestop.address1);
     formData.append('address2', onestop.address2);
     formData.append('allowPhone', onestop.allowPhone);
-    formData.append('interiorType', onestop.interiorType);
     formData.append('money', onestop.money);
     formData.append('movePersons', onestop.movePersons);
     formData.append('rentType', onestop.rentType);
     formData.append('size', onestop.size);
     formData.append('type', onestop.type);
     formData.append('workType', onestop.workType);
+    selectType.forEach((interiorType) =>
+      formData.append('interiorType', onestop.interiorType)
+    );
 
     axios
       .post(`${url}/onestopWrite`, formData)
@@ -194,7 +218,7 @@ const OneStopWrite = () => {
                 id="buy"
                 name="rentType"
                 value="buy"
-                checked
+                defaultChecked
                 readOnly
               />
               <label htmlFor="buy">매매</label>
@@ -280,6 +304,7 @@ const OneStopWrite = () => {
               id="1"
               name="workType"
               value="1"
+              defaultChecked
               onChange={handleEdit}
             />
             <label htmlFor="부분">부분시공</label>
@@ -290,81 +315,23 @@ const OneStopWrite = () => {
             인테리어 시공<span>*</span>
           </label>
           <div className={styles.checkboxGroup}>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="1"
-              onChange={handleEdit}
-            />
-            <label htmlFor="interiorType">도배</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="2"
-              onChange={handleEdit}
-            />
-            <label>바닥</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="3"
-              onChange={handleEdit}
-            />
-            <label>몰딩</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="4"
-              onChange={handleEdit}
-            />
-            <label>샷시</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="5"
-              onChange={handleEdit}
-            />
-            <label>페인트</label>
-          </div>
-        </div>
-        <div className={styles.items}>
-          <label></label>
-          <div className={styles.checkboxGroup}>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="6"
-              onChange={handleEdit}
-            />
-            <label>조명</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="7"
-              onChange={handleEdit}
-            />
-            <label> 욕실</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="8"
-              onChange={handleEdit}
-            />
-            <label>주방</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="9"
-              onChange={handleEdit}
-            />
-            <label>문/현관</label>
-            <input
-              type="checkbox"
-              name="interiorType"
-              value="10"
-              onChange={handleEdit}
-            />
-            <label>베란다</label>
+            {type.map((interiorType) => (
+              <label
+                key={interiorType}
+                className={styles.customLabel}
+                htmlFor={interiorType}
+              >
+                <input
+                  type="checkbox"
+                  className={styles.customCheck}
+                  id={interiorType}
+                  value={interiorType}
+                  checked={selectType[interiorType]}
+                  onChange={handleChk}
+                />
+                {interiorType}
+              </label>
+            ))}
           </div>
         </div>
         <div className={styles.item}>
@@ -399,6 +366,7 @@ const OneStopWrite = () => {
               id="true"
               name="allowPhone"
               value="true"
+              defaultChecked
               onChange={handleEdit}
             />
             <label htmlFor="true">공개</label>
