@@ -202,37 +202,40 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.coverUploadContainer}>
-          <p>
-            드래그 앤 드롭이나 추가하기 버튼으로 커버 사진을 업로드해주세요.
-          </p>
-          <label htmlFor="fileUpload" className={styles.uploadButton}>
-            커버 사진 추가하기
-          </label>
-          <input
-            id="fileUpload"
-            type="file"
-            className={styles.fileInput}
-            onChange={handleFileChange}
-            ref={fRef}
-          />
-          <div className={styles.filePreview}>
-            {fileList.map((file, index) => (
-              <div key={index} className={styles.fileItem}>
-                <button
-                  type="button"
-                  className={styles.fileRemoveButton}
-                  onClick={() => handleFileDelete(file)}
-                >
-                  삭제
-                </button>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Preview"
-                  className={styles.filePreviewImage}
-                />
-              </div>
-            ))}
-          </div>
+          {fileList.length === 0 ? (
+            // 파일이 없는 경우 버튼 표시
+            <>
+              <p>
+                드래그 앤 드롭이나 추가하기 버튼으로 커버 사진을 업로드해주세요.
+              </p>
+              <label htmlFor="fileUpload" className={styles.uploadButton}>
+                커버 사진 추가하기
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                className={styles.fileInput}
+                onChange={handleFileChange}
+                ref={fRef}
+              />
+            </>
+          ) : (
+            // 파일이 있는 경우 이미지와 삭제 버튼 표시
+            <div className={styles.filePreview}>
+              <button
+                type="button"
+                className={styles.fileRemoveButton}
+                onClick={() => setFileList([])} // 업로드된 파일 초기화
+              >
+                ×
+              </button>
+              <img
+                src={URL.createObjectURL(fileList[0])}
+                alt="Preview"
+                className={styles.filePreviewImage}
+              />
+            </div>
+          )}
         </div>
 
         <div className={styles.titleWrap}>

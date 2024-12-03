@@ -34,7 +34,7 @@
 .filterBar {
   display: flex;
   gap: 10px;
-  padding: 100px 0 86px 0;
+  padding: 100px 0 40px 0;
   background-color: #fffaf4;
 }
 
@@ -50,12 +50,20 @@
   font-size: 16px;
   color: #6d885d;
   margin-top: 8px;
+  transition: border-radius 0.2s; /* 부드러운 전환 효과 */
 }
 
 .filterButton:hover {
   background-color: #c6d695;
   color: white;
   border: none;
+  border-bottom-left-radius: 0; /* 아래쪽 둥근 모서리 제거 */
+  border-bottom-right-radius: 0; /* 아래쪽 둥근 모서리 제거 */
+}
+
+.filterButtonWrapper:hover .dropdown {
+  visibility: visible; /* 호버 시 드롭다운 표시 */
+  opacity: 1; /* 투명도 1 */
 }
 
 /* 등록 버튼 스타일 */
@@ -68,5 +76,55 @@
   font-weight: bold;
   cursor: pointer;
   margin-left: auto;
+  font-size: 16px;
+}
+
+.filterButtonWrapper {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #c6d695;
+  border: 1px solid #ddd;
+  padding: 10px;
+  z-index: 10;
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  visibility: hidden; 
+  opacity: 0; 
+  transition: opacity 0.2s, visibility 0.2s;
+  border-radius: 0 0 25px 25px;
+}
+
+.filterTag {
+  background: #c6d695;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+}
+
+.filterRemoveButton {
+  background: none;
+  border: none;
+  color: #6d885d;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.resetButton {
+  background: #6d885d;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
   font-size: 16px;
 }
