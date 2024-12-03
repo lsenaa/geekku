@@ -1,30 +1,16 @@
 .regDesign {
-  font-weight: bold;
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
 
   li {
-    margin: 32px;
+    margin-bottom: 30px;
   }
-  // input {
-  //   margin-left: 100px;
-  //   border-color: #6d885d;
-  //   border-radius: 10px;
-  //   height: 43px;
-  // }
 
-  button {
-    background-color: #6d885d;
-    color: white;
-    border-radius: 10px;
-    width: 170px;
-    height: 60px;
-    border: none;
-    margin: 55px;
-  }
   span {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
   }
 }
@@ -37,29 +23,40 @@
 }
 .midText {
   font-size: 14px;
+  margin-bottom: 20px;
 }
 .reviewInfo {
   list-style: disc;
   font-size: 14px;
   color: #757575;
+  li {
+    margin: 0;
+    margin-bottom: 10px;
+  }
 }
 .formEdit {
-  width: 1200px;
+  width: 800px;
   display: flex;
   flex-direction: column;
-  span {
-    width: 150px;
-    margin-right: 60px;
+  align-items: center;
+  margin-top: 40px;
+  padding-bottom: 100px;
+
+  ul {
+    width: 100%;
   }
+
+  label {
+    width: 140px;
+    font-weight: bold;
+    span {
+      color: red;
+    }
+  }
+
   li {
     display: flex;
     align-items: center;
-
-    label {
-      margin-right: 6px;
-      display: flex;
-      align-items: center;
-    }
   }
 }
 .upload {
@@ -69,33 +66,70 @@
   justify-content: center;
   border: 1px solid #6d885d;
   border-radius: 10px;
-  height: 240px;
-  width: 1200px;
+  margin: 40px 0;
+  padding: 40px 0;
+  width: 100%;
 
   #info {
-    width: 436px;
     margin: 0 auto;
   }
 }
+
+.checkboxGroup {
+  margin-right: 20px;
+  display: flex;
+  input[type='checkbox'] {
+    accent-color: #6d885d;
+    width: 15px;
+    height: 15px;
+  }
+  label {
+    margin-right: 10px;
+    font-weight: normal;
+    width: initial;
+  }
+}
+
+.addImgBtn {
+  margin: 20px auto;
+  width: 230px;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  background-color: #6d885d;
+}
+
+.imgsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  width: 440px;
+
+  .reviewImg {
+    width: 100px;
+    height: 60px;
+    margin-right: 10px;
+  }
+}
+
 .customSelect {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #6d885d;
   width: 200px;
-  font-weight: bold;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
 }
 .customCheck {
-  background-color: white;
-  appearance: none;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1.5px solid #6d885d;
-  border-radius: 5px;
-  margin-right: 10px;
-  &:checked {
-    border-color: transparent;
-    background-color: #6d885d;
-  }
+  accent-color: #6d885d;
+  padding: 20px;
+  width: 15px;
+  height: 15px;
 }
 .customLabel {
   cursor: pointer;
@@ -103,15 +137,68 @@
 .reviewTitle {
   margin-top: 50px;
 }
-.edt {
-  padding: 10px;
-  margin-top: 20px;
-  border: 1px solid #6d885d;
-  border-radius: 10px;
-  width: 1200px;
-  height: 300px;
-  background-color: white;
-  resize: none;
+
+.textAreaWrap {
+  position: relative;
+  margin-bottom: 80px;
+  width: 100%;
+
+  .detailTextarea {
+    border: 1px solid #6d885d;
+    border-radius: 10px;
+    width: 100%;
+    height: 200px;
+    padding: 16px;
+    resize: none;
+    margin-top: 10px;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+  p {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    color: #757575;
+
+    .textCount {
+      font-weight: normal;
+    }
+  }
 }
-.imageView {
+
+.submitBtnWrap {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  justify-content: space-between;
+}
+
+.radioGroup {
+  margin-right: 20px;
+
+  label {
+    margin-right: 8px;
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  input[type='radio'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #6d885d;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  input[type='radio']:checked {
+    background-color: white;
+    border: 4px solid #6d885d;
+    box-shadow: 0 0 0 1px #6d885d;
+  }
 }

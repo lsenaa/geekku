@@ -152,7 +152,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
           <RiQuestionAnswerLine size={25} />
           <h3>답변</h3>
         </div>
-        {user.companyId && (
+        {user.type === 'estate' && (
           <Button01 size="x-small" color="sub" onClick={toggleModal}>
             작성하기
           </Button01>

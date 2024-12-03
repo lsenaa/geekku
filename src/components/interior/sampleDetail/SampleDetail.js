@@ -5,6 +5,8 @@ import houseType from '../../../assets/images/houseType.png';
 import size from '../../../assets/images/size.png';
 import possible from '../../../assets/images/possible.png';
 import area from '../../../assets/images/area.png';
+import Button01 from 'components/commons/button/Button01';
+import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
@@ -66,10 +68,13 @@ const SampleDetail = () => {
             <span>
               <img src={area} alt="지역" /> {sampleInfo.location}
             </span>
+
           </div>
           <div className={styles.content}>{sampleInfo.content}</div>
         </div>
-        <div></div>
+        <Button01 size="small" onClick={() => navigate('/sampleList')}>
+          목록으로
+        </Button01>
       </div>
     </div>
   );

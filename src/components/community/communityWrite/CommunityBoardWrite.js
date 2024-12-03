@@ -88,7 +88,9 @@ const CommunityBoardWrite = () => {
 
       <form className={styles.infoForm} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
-          <label>주거 형태</label>
+          <label>
+            주거 형태<span>*</span>
+          </label>
           <select
             name="type"
             className={styles.formControl}
@@ -101,7 +103,9 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>평수</label>
+          <label>
+            평수<span>*</span>
+          </label>
           <input
             type="number"
             name="size"
@@ -112,7 +116,9 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>지역</label>
+          <label>
+            지역<span>*</span>
+          </label>
           <div className={styles.regionInput}>
             <select
               name="address1"
@@ -134,7 +140,9 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>가족 형태</label>
+          <label>
+            가족 형태<span>*</span>
+          </label>
           <select
             name="familyType"
             className={styles.formControl}
@@ -147,7 +155,9 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>기간</label>
+          <label>
+            기간<span>*</span>
+          </label>
           <input
             type="date"
             name="periodStartDate"
@@ -164,7 +174,9 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>예산</label>
+          <label>
+            예산<span>*</span>
+          </label>
           <input
             type="number"
             name="money"
@@ -175,7 +187,9 @@ const CommunityBoardWrite = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label>스타일</label>
+          <label>
+            스타일<span>*</span>
+          </label>
           <select
             name="style"
             className={styles.formControl}
@@ -221,17 +235,24 @@ const CommunityBoardWrite = () => {
           </div>
         </div>
 
-        <div className={styles.formGroup}>
+        <div className={styles.titleWrap}>
+          <label>
+            제목<span>*</span>
+          </label>
           <input
             type="text"
             name="title"
             className={styles.titleInput}
-            placeholder="제목을 입력해주세요."
+            placeholder="제목을 입력해주세요.(40자 이내)"
+            maxLength="40"
             onChange={handleChange}
           />
         </div>
 
         <div className={styles.textareaWrap}>
+          <label>
+            내용<span>*</span>
+          </label>
           <textarea
             name="content"
             minLength="5"
