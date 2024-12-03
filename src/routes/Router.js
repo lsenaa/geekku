@@ -83,7 +83,7 @@ const Router = () => {
       <Route path="/interiorRegister" element={<InteriorRegister />} />
       <Route path="/sampleList" element={<SampleList />} />
       <Route path="/interiorRequest" element={<InteriorRequest />} />
-      <Route path="/sampleDetail" element={<SampleDetail />} />
+      <Route path="/sampleDetail/:num" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer/:num" element={<InteriorAnswer />} />
       <Route path="/interiorReviewWrite" element={<ReviewWrite />} />

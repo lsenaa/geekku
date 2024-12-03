@@ -65,10 +65,10 @@ const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
           onChange={(e) => setAllowTime(e.target.value)}
           defaultChecked
         >
-          <option value="option1">오전(9~12시)</option>
-          <option value="option2">오후(12시~6시)</option>
-          <option value="option3">저녁(6시이후)</option>
-          <option value="option4">상관없어요</option>
+          <option value="오전(9~12시)">오전(9~12시)</option>
+          <option value="오후(12시~6시)">오후(12시~6시)</option>
+          <option value="저녁(6시이후)">저녁(6시이후)</option>
+          <option value="상관없어요">상관없어요</option>
         </select>
       </div>
       <div>
