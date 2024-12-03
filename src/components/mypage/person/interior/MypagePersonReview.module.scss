@@ -48,6 +48,7 @@
           }
         }
         &:nth-child(2) {
+          @include ellipse;
           text-align: left;
         }
         &:last-of-type {

@@ -65,6 +65,7 @@ import SendAlarm from 'components/layout/notification/SendAlarm';
 import OneStopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import MypagePersonRequestInterior from 'components/mypage/person/interior/MypagePersonRequestInterior';
 import InteriorRequest from 'components/interior/interiorRequest/InteriorRequest';
+import ReviewModify from 'components/interior/review/ReviewModify';
 
 const Router = () => {
   return (
@@ -87,6 +88,7 @@ const Router = () => {
       <Route path="/sampleRegister" element={<SampleRegister />} />
       <Route path="/interiorAnswer/:num" element={<InteriorAnswer />} />
       <Route path="/interiorReviewWrite" element={<ReviewWrite />} />
+      <Route path="/interiorReviewModify" element={<ReviewModify />} />
       {/* Onestop */}
       <Route path="/onestop" element={<OnestopMain />} />
       <Route path="/onestop/write" element={<OneStopWrite />} />

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import { useEffect, useState } from 'react';
-import { axiosInToken } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
 
 const MypagePersonReview = () => {
@@ -107,8 +107,13 @@ const MypagePersonReview = () => {
                   // }
                 >
                   <td>
-                    {/* <img src={review.imageNums && review.imageNums.split(",")[0]} alt="후기 이미지" /> */}
-                    <img src={reviewImg} alt="후기 이미지" />
+                    <img
+                      src={
+                        review.imageNums &&
+                        `${url}/reviewImage/${review.imageNums.split(',')[0]}`
+                      }
+                      alt="후기 이미지"
+                    />
                   </td>
                   <td>{review.content}</td>
                   <td>{formatDate(review.createdAt)}</td>
@@ -117,7 +122,9 @@ const MypagePersonReview = () => {
                       className={styles.editBtn}
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate('/reviewWrite');
+                        navigate('/interiorReviewModify', {
+                          state: { reviewNum: review.reviewNum },
+                        });
                       }}
                     >
                       수정
