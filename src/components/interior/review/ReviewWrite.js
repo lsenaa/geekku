@@ -58,6 +58,7 @@ const ReviewWrite = () => {
   };
 
   const submit = async (e) => {
+    e.preventDefault();
     const data = new FormData();
     data.append('companyName', review.companyName);
     data.append('size', review.size);
