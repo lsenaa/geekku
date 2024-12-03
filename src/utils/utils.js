@@ -7,7 +7,7 @@ export const formatEstateType = (type) => {
     case 'countryHouse':
       return '전원주택';
     case 'apt':
-      return '아파트/오피스텔';
+      return '아파트/빌라';
     case 'land':
       return '농장/토지';
     default:

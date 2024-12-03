@@ -3,10 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useNavigate } from 'react-router-dom';
+import Button01 from 'components/commons/button/Button01';
 
 const interiorRegister = () => {
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const imageInput = useRef();
+  const [textCount, setTextCount] = useState(0);
   const [fileList, setFileList] = useState([]);
   const [imageUrl, setImageUrl] = useState();
   const [selectedLoc, setSelectedLoc] = useState([]);
@@ -86,6 +88,10 @@ const interiorRegister = () => {
       ...formData,
       [name]: value,
     });
+
+    if (e.target.name === 'content') {
+      setTextCount(e.target.value.length);
+    }
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -122,15 +128,19 @@ const interiorRegister = () => {
   return (
     <div className={styles.regDesign}>
       <div className={styles.topText}>업체 등록하기</div>
-      <div className={styles.midText}>
-        <span>업체정보</span>
-        <span>필수입력항목</span>
+      <div className={styles.title}>
+        <h3>업체 정보</h3>
+        <p>
+          <span>*</span>필수 입력 항목
+        </p>
       </div>
       <div className={styles.line}></div>
       <form className={styles.formEdit} onSubmit={handleOnSubmit}>
-        <ul>
+        <ul style={{ width: '100%' }}>
           <li>
-            <span>업체명</span>{' '}
+            <label htmlFor="companyName">
+              업체명<span>*</span>
+            </label>
             <input
               name="name"
               className={styles.customSelect}
@@ -138,9 +148,11 @@ const interiorRegister = () => {
               readOnly
             />
           </li>
-          <li>
-            <span>부분시공 가능여부</span>
-            <label>
+          <li className={styles.possiblePart}>
+            <label htmlFor="possiblePart">
+              부분시공 가능여부<span>*</span>
+            </label>
+            <label className={styles.radioGroup}>
               <input
                 type="radio"
                 name="possiblePart"
@@ -150,7 +162,7 @@ const interiorRegister = () => {
               />
               가능
             </label>
-            <label>
+            <label className={styles.radioGroup}>
               <input
                 type="radio"
                 name="possiblePart"
@@ -161,7 +173,9 @@ const interiorRegister = () => {
             </label>
           </li>
           <li>
-            <span>경력</span>
+            <label htmlFor="period">
+              경력<span>*</span>
+            </label>
             <input
               name="period"
               className={styles.customSelect}
@@ -169,7 +183,9 @@ const interiorRegister = () => {
             />
           </li>
           <li>
-            <span>최근 계약</span>
+            <label htmlFor="recentCount">
+              최근 계약<span>*</span>
+            </label>
             <input
               name="recentCount"
               className={styles.customSelect}
@@ -177,7 +193,9 @@ const interiorRegister = () => {
             />
           </li>
           <li>
-            <span>보수 기간</span>
+            <label htmlFor="repairDate">
+              보수 기간<span>*</span>
+            </label>
             <input
               name="repairDate"
               className={styles.customSelect}
@@ -185,45 +203,48 @@ const interiorRegister = () => {
             />
           </li>
           <li>
-            <span>지역</span>
-            {area.map((possibleLocation) => (
-              <label
-                key={possibleLocation}
-                className={styles.customLabel}
-                htmlFor={possibleLocation}
-              >
-                <input
-                  type="checkbox"
-                  className={styles.customCheck}
-                  id={possibleLocation}
-                  value={possibleLocation}
-                  onChange={handleLocChange}
-                />
-                {possibleLocation}
-              </label>
-            ))}
+            <label>
+              지역<span>*</span>
+            </label>
+            <div className={styles.checkboxGroup}>
+              {area.map((possibleLocation) => (
+                <label
+                  key={possibleLocation}
+                  className={styles.customLabel}
+                  htmlFor={possibleLocation}
+                >
+                  <input
+                    type="checkbox"
+                    className={styles.customCheck}
+                    id={possibleLocation}
+                    value={possibleLocation}
+                    onChange={handleLocChange}
+                  />
+                  {possibleLocation}
+                </label>
+              ))}
+            </div>
           </li>
         </ul>
-        <div>
-          <div className={styles.upload}>
-            <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-            <input
-              type="file"
-              id="fileAdd"
-              accept="image/*"
-              // onChange={handleFileChange}
-              onChange={fileChange}
-              style={{ display: 'none' }}
-              ref={imageInput}
-            />
-            <div
-              className={styles.add}
-              onClick={() => {
-                imageInput.current.click();
-              }}
-            >
-              추가하기
-              {/* <button
+        <div className={styles.upload}>
+          <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
+          <input
+            type="file"
+            id="fileAdd"
+            accept="image/*"
+            // onChange={handleFileChange}
+            onChange={fileChange}
+            style={{ display: 'none' }}
+            ref={imageInput}
+          />
+          <div
+            className={styles.add}
+            onClick={() => {
+              imageInput.current.click();
+            }}
+          >
+            추가하기
+            {/* <button
                 type="button"
                 onClick={onClickImageUpload}
                 style={{ margin: '20px auto', width: '330px', height: '60px' }}
@@ -231,33 +252,40 @@ const interiorRegister = () => {
                 추가하기
               </button>
               <img src={imageUrl} /> */}
-            </div>
           </div>
         </div>
-        <div>
-          <span>소개글 작성</span>
-          <hr />
+        <div style={{ width: '100%' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>소개글 작성</h3>
+          <div className={styles.line}></div>
           <ul>
-            <li>
-              <span>한줄소개</span>{' '}
+            <li className={styles.textSection}>
+              <label>
+                한줄소개<span>*</span>
+              </label>
               <input
                 name="intro"
                 className={styles.intro}
-                placeholder="한줄 소개를 작성해주세요"
+                placeholder="한줄 소개를 작성해주세요."
                 onChange={handleInputChange}
               />
             </li>
-            <li>
-              <span>소개글</span>
+            <li className={styles.textAreaWrap}>
+              <label>
+                소개글<span>*</span>
+              </label>
               <textarea
                 name="content"
-                placeholder="500자 이내로 소개글을 작성해주세요"
+                placeholder="500자 이내로 소개글을 작성해주세요."
                 onChange={handleInputChange}
-              ></textarea>
+                maxLength={500}
+              />
+              <p>
+                <span className={styles.textCount}>{textCount}</span> / 500
+              </p>
             </li>
           </ul>
         </div>
-        <button type="submit" style={{ marginLeft: '504px' }}>
+        <button type="submit" className={styles.submitBtn}>
           등록하기
         </button>
       </form>

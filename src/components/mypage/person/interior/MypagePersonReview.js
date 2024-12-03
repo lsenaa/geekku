@@ -55,7 +55,6 @@ const MypagePersonReview = () => {
         axiosInToken(token)
           .post(`/user/mypageUserReviewDelete/${reviewNum}`)
           .then((res) => {
-            console.log(res);
             if (res.data) {
               Modal.success({
                 content: '인테리어 업체 후기가 삭제되었습니다.',

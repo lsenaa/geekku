@@ -4,6 +4,7 @@ import minus from '../../../assets/images/minus.png';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useNavigate } from 'react-router';
+import Button01 from 'components/commons/button/Button01';
 
 const ReviewWrite = () => {
   const navigate = useNavigate();
@@ -17,9 +18,15 @@ const ReviewWrite = () => {
   });
   const [type, setType] = useState('');
   const [style, setStyle] = useState('');
+  const [textCount, setTextCount] = useState(0);
   const fRef = useRef();
+
   const edit = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });
+
+    if (e.target.name === 'content') {
+      setTextCount(e.target.value.length);
+    }
   };
 
   const handleLocChange = (e) => {
@@ -55,6 +62,8 @@ const ReviewWrite = () => {
   };
 
   const submit = async (e) => {
+    e.preventDefault();
+
     const data = new FormData();
     data.append('companyName', review.companyName);
     data.append('size', review.size);
@@ -100,7 +109,9 @@ const ReviewWrite = () => {
       <form className={styles.formEdit}>
         <ul>
           <li>
-            <span>시공업체명</span>
+            <label htmlFor="companyName">
+              시공업체명<span>*</span>
+            </label>
             <input
               type="text"
               name="companyName"
@@ -111,7 +122,9 @@ const ReviewWrite = () => {
             />
           </li>
           <li>
-            <span>주거형태</span>
+            <label>
+              주거형태<span>*</span>
+            </label>
             <select
               className={styles.customSelect}
               name="type"
@@ -125,7 +138,9 @@ const ReviewWrite = () => {
             </select>
           </li>
           <li>
-            <span>스타일</span>
+            <label>
+              스타일<span>*</span>
+            </label>
             <select
               className={styles.customSelect}
               name="style"
@@ -142,7 +157,9 @@ const ReviewWrite = () => {
             </select>
           </li>
           <li>
-            <span>평수</span>
+            <label>
+              평수<span>*</span>
+            </label>
             <input
               name="size"
               id="size"
@@ -152,47 +169,49 @@ const ReviewWrite = () => {
             />
           </li>
           <li>
-            <span>지역</span>
-            {area.map((location) => (
-              <label
-                key={location}
-                className={styles.customLabel}
-                htmlFor={location}
-              >
-                <input
-                  type="checkbox"
-                  className={styles.customCheck}
-                  id={location}
-                  value={location}
-                  onChange={handleLocChange}
-                />
-                {location}
-              </label>
-            ))}
+            <label>
+              지역<span>*</span>
+            </label>
+            <div className={styles.checkboxGroup}>
+              {area.map((location) => (
+                <label
+                  key={location}
+                  className={styles.customLabel}
+                  htmlFor={location}
+                >
+                  <input
+                    type="checkbox"
+                    className={styles.customCheck}
+                    id={location}
+                    value={location}
+                    onChange={handleLocChange}
+                  />
+                  {location}
+                </label>
+              ))}
+            </div>
           </li>
         </ul>
-        <div>
-          <div className={styles.upload}>
-            <span>
-              추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
-            </span>
-            <input
-              type="file"
-              id="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={fileChange}
-              ref={fRef}
-            />
-            <button
-              type="button"
-              onClick={onClickImageUpload}
-              style={{ margin: '20px auto', width: '330px', height: '60px' }}
-            >
-              추가하기
-            </button>
+        <div className={styles.upload}>
+          <span>추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)</span>
+          <input
+            type="file"
+            id="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={fileChange}
+            ref={fRef}
+          />
+          <button
+            type="button"
+            onClick={onClickImageUpload}
+            className={styles.addImgBtn}
+          >
+            추가하기
+          </button>
+          <div className={styles.imgsWrap}>
             {fileList.map((file, index) => (
-              <span key={index}>
+              <div key={index}>
                 <div style={{ display: 'inline-block', textAlign: 'center' }}>
                   <img
                     style={{
@@ -209,30 +228,51 @@ const ReviewWrite = () => {
                   <img
                     src={URL.createObjectURL(file)}
                     width="100px"
-                    alt=""
+                    height="60px"
+                    alt="리뷰 이미지"
                     style={{ marginRight: '10px' }}
                   />
                 </div>
-                {(index + 1) % 3 === 0 && (
+                {(index + 1) % 4 === 0 && (
                   <>
                     <br />
                     <br />
                   </>
                 )}
-              </span>
+              </div>
             ))}
           </div>
         </div>
-        <div className={styles.reviewTitle}>리뷰(500자 제한)</div>
-        <textarea
-          className={styles.edt}
-          name="content"
-          id="content"
-          placeholder="500자 이내로 리뷰를 작성해주세요."
-          onChange={edit}
-          maxLength={500}
-        ></textarea>
-        <button onClick={submit}>등록하기</button>
+        <div className={styles.textAreaWrap}>
+          <label className={styles.reviewTitle}>
+            리뷰(500자 제한)<span>*</span>
+          </label>
+          <textarea
+            className={styles.detailTextarea}
+            name="content"
+            id="content"
+            placeholder="500자 이내로 리뷰를 작성해주세요."
+            onChange={edit}
+            maxLength={500}
+          />
+          <p>
+            <span className={styles.textCount}>{textCount}</span> / 500
+          </p>
+        </div>
+        <div className={styles.submitBtnWrap}>
+          <Button01 size="small" type="submit" onClick={submit}>
+            등록하기
+          </Button01>
+          {/* <div style={{ margin: '0 20px' }}></div> */}
+          <Button01
+            size="small"
+            color="sub"
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            취소하기
+          </Button01>
+        </div>
       </form>
     </div>
   );

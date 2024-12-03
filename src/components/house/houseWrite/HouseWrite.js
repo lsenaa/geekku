@@ -249,7 +249,7 @@ const HouseWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
               <div className={styles.inputTextWrap}>
-                <input type="text" name="jeonsePrice" onChange={handleEdit} />
+                <input type="number" name="jeonsePrice" onChange={handleEdit} />
                 <p>만원</p>
               </div>
             </div>
@@ -260,7 +260,7 @@ const HouseWrite = () => {
                 <label>보증금</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="depositPrice"
                     onChange={handleEdit}
                   />
@@ -271,7 +271,7 @@ const HouseWrite = () => {
                 <label>월세</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="monthlyPrice"
                     onChange={handleEdit}
                   />
@@ -284,7 +284,7 @@ const HouseWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
               <div className={styles.inputTextWrap}>
-                <input type="text" name="buyPrice" onChange={handleEdit} />
+                <input type="number" name="buyPrice" onChange={handleEdit} />
                 <p>만원</p>
               </div>
             </div>

@@ -111,7 +111,9 @@ const Header = ({ alarms = [] }) => {
       <nav className={`${styles.navWrapper} ${isLogin ? styles.loggedIn : ''}`}>
         <ul>
           <li>
-            <Link to={'/estate'}>매물검색</Link>
+            <Link to={'/estate'} state={{ keyword: '' }}>
+              매물검색
+            </Link>
           </li>
           <li>
             <Link to={'/house'}>집꾸하기</Link>
