@@ -110,7 +110,11 @@ const SampleRegister = () => {
             style={{ display: 'none' }}
             ref={imageInput}
           />
-          <button onClick={onClickImageUpload} className={styles.addBtn}>
+          <button
+            type="button"
+            onClick={onClickImageUpload}
+            className={styles.addBtn}
+          >
             추가하기
           </button>
         </div>
