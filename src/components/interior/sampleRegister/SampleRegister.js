@@ -113,6 +113,12 @@ const SampleRegister = () => {
       <form className={styles.formEdit}>
         <ul>
           <li>
+            <label htmlFor="title">
+              제목<span>*</span>
+            </label>
+            <input name="title" className={styles.customSelect} />
+          </li>
+          <li>
             <label htmlFor="type">
               주거형태<span>*</span>
             </label>

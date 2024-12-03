@@ -39,7 +39,11 @@ const InteriorRequest = () => {
   const handleSubmit = async (submissionData) => {
     console.log('제출 데이터:', submissionData);
     await axiosInToken(token)
-      .post(`/user/interiorRequest`, submissionData)
+      .post(`/user/interiorRequest`, submissionData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then((res) => {
         console.log(res.data);
         alert('해당 업체에 문의가 완료되었습니다.');
