@@ -1,54 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './ProfilePerson.module.css';
 import userProfileImage from 'assets/images/person.jpg';
 import ProfilePersonCardList from 'components/profile/person/ProfilePersonCardList';
-import { Outlet } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const ProfilePerson = () => {
-  // 카드 리스트 데이터
-  const [houseCards, setHouseCards] = useState([
-    {
-      id: 1,
-      likeCount: 535,
-      title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 1',
-    },
-    {
-      id: 2,
-      likeCount: 535,
-      title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 2',
-    },
-    {
-      id: 3,
-      likeCount: 535,
-      title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 3',
-    },
-    {
-      id: 4,
-      likeCount: 535,
-      title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 4',
-    },
-    {
-      id: 5,
-      likeCount: 535,
-      title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 5',
-    },
-    {
-      id: 6,
-      likeCount: 535,
-      title: '색감 맞춤 브랜드 총 집합! 럭셔리 컬러템 6',
-    },
-  ]);
+  const { userId } = useParams(); // URL에서 userId 추출
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    username: '',
+    email: '',
+  });
+  const [houseCards, setHouseCards] = useState([]); // 게시글 데이터 상태
+
+  useEffect(() => {
+    // 사용자 정보 가져오기
+    axios
+      .get(`http://localhost:8080/personProfile/${userId}`)
+      .then((response) => {
+        setUserInfo(response.data); // 사용자 정보 설정
+      })
+      .catch((error) => {
+        console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+      });
+
+    // 작성 게시글 가져오기
+    axios
+      .get(`http://localhost:8080/personCommunities/${userId}`)
+      .then((response) => {
+        setHouseCards(response.data); // 데이터 상태 설정
+      })
+      .catch((error) => {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      });
+  }, [userId]); // userId가 변경되면 재요청
 
   return (
     <div className={style.profilePage}>
       {/* 사용자 정보 카드 */}
       <div className={style.profile}>
         <FaUserCircle color="#6D885D" size={100} />
-        <h4>홍길동</h4>
-        <p>kosta123</p>
-        <p>kosta@gmail.com</p>
+        <h4>{userInfo.name || '홍길동'}</h4>
+        <p>{userInfo.username || 'kosta123'}</p>
+        <p>{userInfo.email || 'kosta@gmail.com'}</p>
         <hr />
         <ul className={style.sidebar}>
           <p className={style.sectionTitle}>집들이</p>

@@ -8,8 +8,9 @@ const ProfilePersonCardList = ({ houseCards }) => {
       {houseCards &&
         houseCards.map((card) => (
           <ProfilePersonCard
-            key={card.id}
-            likeCount={card.likeCount}
+            key={card.communityNum}
+            id={card.communityNum}
+            likeCount={card.viewCount}
             title={card.title}
           />
         ))}
