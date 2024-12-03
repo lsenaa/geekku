@@ -1,92 +1,84 @@
 .user {
-    display: flex;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .nameInfo {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    width: 150px;
+  display: flex;
 
-    span {
-        margin-top: -3px;
-        margin-bottom: 3px;
-    }
+  span {
+    margin-top: -3px;
+    margin-bottom: 3px;
+  }
 }
 #name {
-    height: 20px;
-    font-weight: bold;
-    font-family: 'Noto Sans KR';
+  font-size: 16px;
+  margin: 0 10px;
 }
-#info {
-    height: 18px;
-    font-weight: bold;
-    font-family: "Noto Sans KR";
+.upDate {
+  color: #abaaaa;
+  margin-left: 20px;
 }
 .line {
-    border: 1px solid #6d885d;
-    width: 1200px; 
-    margin-bottom: 50px;
-  }
-  .all {
-    width: 1200px;
-    margin: 0 auto;
+  background: #6d885d;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+.all {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  li {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 40px;
+  }
 
-    li {
-        display: flex;
-        margin-bottom: 40px;
-    }
-
-    textarea {
-        width: 950px;
-        height: 200px;
-        resize: none;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #6d885d;
-    }
-    button {
-        width: 140px;
-        height: 44px;
-        border-radius: 10px;
-        color: white;
-        background-color: #6d885d;
-        border: none;
-        font-weight: bold;
-        margin-bottom: 80px;
-    }
+  textarea {
+    width: 950px;
+    height: 200px;
+    resize: none;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #6d885d;
   }
-  .title {
-    font-size: 40px;
-    font-family: 'Santokki';
-    margin-bottom: 90px;
-    margin-top: 80px;
-  }
-  .semiTitle {
-    font-size: 20px;
+  button {
+    width: 130px;
+    height: 44px;
+    border-radius: 10px;
+    color: white;
+    background-color: #6d885d;
+    border: none;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
   }
-  .upDate {
-    color: #ABAAAA;
-    font-weight: bold;
-    margin-left: 900px;
+}
+.title {
+  font-size: 40px;
+  font-family: 'Santokki';
+  margin-bottom: 90px;
+  margin-top: 80px;
+}
+.semiTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 .category {
-    font-weight: bold;
-    width: 150px;
-    margin-right: 50px;
+  font-weight: bold;
+  width: 150px;
 }
 .content {
-    font-weight: bold;
-    padding-left: 2rem;
-    width: 150px;
-    margin-right: 70px;
+  font-weight: bold;
+  width: 150px;
 }
 .contentDeco {
-    display: flex;
-    margin-bottom: 90px;
+  display: flex;
+  margin-bottom: 80px;
+}
+.sectionWrap {
+  margin-top: 40px;
 }

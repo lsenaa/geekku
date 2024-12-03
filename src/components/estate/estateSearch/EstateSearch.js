@@ -15,10 +15,11 @@ const EstateSearch = () => {
   const [searchInput, setSearchInput] = useState('');
   const [type, setType] = useState('');
   const [estateList, setEstateList] = useState([]);
+  const [isOpenResults, setIsOpenReseults] = useState(false);
   const searchResults = searchByKeyword(searchInput);
   const debouncedKeyword = useDebounce(keyword, 1000); //200ms로 설정된 debounce
   const DEFAULT_KEYWORD = '경기도 광명시'; // 초기 키워드
-  const DEFAULT_COORDS = { latitude: 37.47832, longitude: 126.864303 }; // 경기도 광명시  좌표
+  const DEFAULT_COORDS = { latitude: 37.47832, longitude: 126.864303 }; // 초기 키워드  좌표
 
   // 초기 데이터 로드: 검색어가 없으면 현재 위치를 기반으로 검색
   useEffect(() => {
@@ -31,7 +32,7 @@ const EstateSearch = () => {
   }, [location.state]);
 
   useEffect(() => {
-    if (debouncedKeyword || type) {
+    if (debouncedKeyword) {
       fetchData(debouncedKeyword, type);
     }
   }, [debouncedKeyword, type]);
@@ -80,13 +81,15 @@ const EstateSearch = () => {
 
   // 키워드 입력
   const handleKeywordChange = (e) => {
+    setIsOpenReseults((prev) => !prev);
     setSearchInput(e.target.value);
   };
 
   // 검색 리스트 항목 클릭
   const handleKeywordClick = (selectedKeyword) => {
+    setIsOpenReseults((prev) => !prev);
     setKeyword(selectedKeyword);
-    setSearchInput(selectedKeyword);
+    setSearchInput('');
     setType('');
     fetchData(selectedKeyword);
   };
@@ -127,8 +130,8 @@ const EstateSearch = () => {
             value={searchInput}
             onChange={handleKeywordChange}
           />
-          <button>검색</button>
-          {keyword !== '' && searchResults.length !== 0 && (
+          {/* <button>검색</button> */}
+          {searchResults.length !== 0 && isOpenResults && (
             <ul className={styles.searchList}>
               {searchResults.map((search, i) => (
                 <li key={i} onClick={() => handleKeywordClick(search)}>
@@ -142,12 +145,11 @@ const EstateSearch = () => {
       </div>
 
       <div className={styles.bodyWrapper}>
-        {/* {estateList.length === 0 ? (
-            <div className={styles.noEstate}>등록된 매물 목록이 없습니다.</div>
-          ) : (
-            
-          )} */}
-        <EstateList estateList={estateList} />
+        {estateList.length === 0 ? (
+          <div className={styles.noEstate}>등록된 매물 목록이 없습니다.</div>
+        ) : (
+          <EstateList estateList={estateList} />
+        )}
         <KakaoMap
           estateList={estateList}
           currentLocation={DEFAULT_COORDS}

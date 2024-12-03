@@ -45,8 +45,19 @@ const HouseList = ({ houseList }) => {
             <td>{`${processLocation(house.address1)} ${house.address2}`}</td>
             <td>
               <span className={styles.writer}>
-                <FaUserCircle color="#6D885D" size={30} />
-                &nbsp;홍길동
+                {house.userProfileImage ? (
+                  <img
+                    src={`data:image/png;base64, ${house.userProfileImage}`}
+                    alt="사용자 프로필 이미지"
+                    width="30px"
+                    height="30px"
+                    style={{ borderRadius: '50px' }}
+                  />
+                ) : (
+                  <FaUserCircle size="30" color="#6D885D" />
+                )}
+                &nbsp;
+                <p>{house.nickname ? house.nickname : house.name}</p>
               </span>
             </td>
             <td>{formatDate(house.createdAt)}</td>

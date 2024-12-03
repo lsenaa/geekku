@@ -52,7 +52,7 @@ const EstateWrite = () => {
       ...estate,
       address: data.address,
       addressDetail: data.buildingName,
-      jibunAddress: `${data.sido} ${data.sigungu} ${data.bname}`,
+      jibunAddress: `${data.sido} ${data.sigungu} ${data.hname}`,
     });
     onToggleAddress();
   };
@@ -248,7 +248,10 @@ const EstateWrite = () => {
                   centered
                   className={styles.customModal}
                 >
-                  <DaumPostcode onComplete={handleComplete} />
+                  <DaumPostcode
+                    onComplete={handleComplete}
+                    showMoreHName="true"
+                  />
                 </Modal>
               )}
             </div>
@@ -272,7 +275,7 @@ const EstateWrite = () => {
                   <label>전용면적</label>
                   <div className={styles.inputTextWrap}>
                     <input
-                      type="text"
+                      type="number"
                       name="size1"
                       required
                       onChange={handleEdit}
@@ -284,7 +287,7 @@ const EstateWrite = () => {
                   <label>공급면적</label>
                   <div className={styles.inputTextWrap}>
                     <input
-                      type="text"
+                      type="number"
                       name="size2"
                       required
                       onChange={handleEdit}
@@ -297,7 +300,7 @@ const EstateWrite = () => {
               <div className={styles.flexRow}>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="size1"
                     required
                     onChange={handleEdit}
@@ -308,7 +311,7 @@ const EstateWrite = () => {
                 <p style={{ margin: '0 8px' }}>=</p>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="size2"
                     required
                     onChange={handleEdit}
@@ -327,7 +330,7 @@ const EstateWrite = () => {
             </label>
             <div className={styles.inputTextWrap}>
               <input
-                type="text"
+                type="number"
                 name="roomCount"
                 required
                 onChange={handleEdit}
@@ -396,7 +399,7 @@ const EstateWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
               <div className={styles.inputTextWrap}>
-                <input type="text" name="jeonsePrice" onChange={handleEdit} />
+                <input type="number" name="jeonsePrice" onChange={handleEdit} />
                 <p>만원</p>
               </div>
             </div>
@@ -407,7 +410,7 @@ const EstateWrite = () => {
                 <label>보증금</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="depositPrice"
                     onChange={handleEdit}
                   />
@@ -418,7 +421,7 @@ const EstateWrite = () => {
                 <label>월세</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="monthlyPrice"
                     onChange={handleEdit}
                   />
@@ -431,7 +434,7 @@ const EstateWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
               <div className={styles.inputTextWrap}>
-                <input type="text" name="buyPrice" onChange={handleEdit} />
+                <input type="number" name="buyPrice" onChange={handleEdit} />
                 <p>만원</p>
               </div>
             </div>
@@ -466,7 +469,7 @@ const EstateWrite = () => {
               {isManage && (
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="text"
+                    type="number"
                     name="managePrice"
                     required
                     onChange={handleEdit}
@@ -511,7 +514,7 @@ const EstateWrite = () => {
               <label>전체 층수</label>
               <div className={styles.inputTextWrap}>
                 <input
-                  type="text"
+                  type="number"
                   name="totalFloor"
                   required
                   onChange={handleEdit}
@@ -523,7 +526,7 @@ const EstateWrite = () => {
               <label>해당 층수</label>
               <div className={styles.inputTextWrap}>
                 <input
-                  type="text"
+                  type="number"
                   name="floor"
                   required
                   onChange={handleEdit}
@@ -538,7 +541,7 @@ const EstateWrite = () => {
             </label>
             <div className={styles.inputTextWrap}>
               <input
-                type="text"
+                type="number"
                 name="bathCount"
                 required
                 onChange={handleEdit}
@@ -590,7 +593,7 @@ const EstateWrite = () => {
               type="text"
               name="utility"
               placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
-              style={{ width: '100%', textAlign: 'left' }}
+              style={{ width: '1060px', textAlign: 'left' }}
               required
               onChange={handleEdit}
             />

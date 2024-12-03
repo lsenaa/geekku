@@ -5,10 +5,13 @@ import '@toast-ui/editor/toastui-editor.css';
 import color from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import Button01 from 'components/commons/button/Button01';
+import { useNavigate } from 'react-router';
 
 const SampleRegister = () => {
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const [selectedLoc, setSelectedLoc] = useState([]);
+  const navigate = useNavigate();
 
   const imageInput = useRef();
 
@@ -37,15 +40,19 @@ const SampleRegister = () => {
   return (
     <div className={styles.regDesign}>
       <div className={styles.topText}>시공사례 등록하기</div>
-      <div className={styles.midText}>
-        <span>카테고리 선택</span>
-        <span>필수입력항목</span>
+      <div className={styles.title}>
+        <h3>카테고리 선택</h3>
+        <p>
+          <span>*</span>필수 입력 항목
+        </p>
       </div>
       <div className={styles.line}></div>
       <form className={styles.formEdit}>
         <ul>
           <li>
-            <span>주거형태</span>
+            <label htmlFor="type">
+              주거형태<span>*</span>
+            </label>
             <select className={styles.customSelect}>
               <option>농가주택</option>
               <option>전원주택</option>
@@ -53,7 +60,9 @@ const SampleRegister = () => {
             </select>
           </li>
           <li>
-            <span>스타일</span>
+            <label htmlFor="style">
+              스타일<span>*</span>
+            </label>
             <select className={styles.customSelect}>
               <option>모던</option>
               <option>우드</option>
@@ -64,45 +73,46 @@ const SampleRegister = () => {
             </select>
           </li>
           <li>
-            <span>평수</span>
+            <label htmlFor="size">
+              평수<span>*</span>
+            </label>
             <input name="size" className={styles.customSelect} />
           </li>
           <li>
-            <span>지역</span>
-            {area.map((possibleLocation) => (
-              <label
-                key={possibleLocation}
-                className={styles.customLabel}
-                htmlFor={possibleLocation}
-              >
-                <input
-                  type="checkbox"
-                  className={styles.customCheck}
-                  id={possibleLocation}
-                  value={possibleLocation}
-                  onChange={handleLocChange}
-                />
-                {possibleLocation}
-              </label>
-            ))}
+            <label htmlFor="style">
+              지역<span>*</span>
+            </label>
+            <div className={styles.checkboxGroup}>
+              {area.map((possibleLocation) => (
+                <label
+                  key={possibleLocation}
+                  className={styles.customLabel}
+                  htmlFor={possibleLocation}
+                >
+                  <input
+                    type="checkbox"
+                    className={styles.customCheck}
+                    id={possibleLocation}
+                    value={possibleLocation}
+                    onChange={handleLocChange}
+                  />
+                  {possibleLocation}
+                </label>
+              ))}
+            </div>
           </li>
         </ul>
-        <div>
-          <div className={styles.upload}>
-            <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              ref={imageInput}
-            />
-            <button
-              onClick={onClickImageUpload}
-              style={{ margin: '20px auto', width: '330px', height: '60px' }}
-            >
-              추가하기
-            </button>
-          </div>
+        <div className={styles.upload}>
+          <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            ref={imageInput}
+          />
+          <button onClick={onClickImageUpload} className={styles.addBtn}>
+            추가하기
+          </button>
         </div>
         {/* <Editor
           initialValue="내용을 입력해주세요."
@@ -113,8 +123,20 @@ const SampleRegister = () => {
           hideModeSwitch={true}
           plugins={[color]}
         /> */}
+        <div>
+          <button type="submit" className={styles.submitBtn}>
+            등록하기
+          </button>
+          <Button01
+            type="button"
+            size="small"
+            color="sub"
+            onClick={() => navigate('/sampleList')}
+          >
+            취소하기
+          </Button01>
+        </div>
       </form>
-      <button type="submit">등록하기</button>
     </div>
   );
 };

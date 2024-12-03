@@ -7,7 +7,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
-import { formatEstateType, formatPrice, processLocation } from 'utils/utils';
+import {
+  formatDate,
+  formatEstateType,
+  formatPrice,
+  processLocation,
+} from 'utils/utils';
 import TopButton from 'components/layout/topbutton/TopButton';
 
 const HouseDetail = () => {
@@ -54,9 +59,19 @@ const HouseDetail = () => {
       <h2>집꾸 신청내역</h2>
       <section>
         <div className={styles.profile}>
-          <FaUserCircle color="#6D885D" size={30} />
-          <p>{house.nickname}</p>
-          <p className={styles.createdAt}>2024-10-28</p>
+          {house.userProfileImage ? (
+            <img
+              src={`data:image/png;base64, ${house.userProfileImage}`}
+              alt="사용자 프로필 이미지"
+              width="30px"
+              height="30px"
+              style={{ borderRadius: '50px' }}
+            />
+          ) : (
+            <FaUserCircle size="30" color="#6D885D" />
+          )}
+          <p>{house.nickname ? house.nickname : house.name}</p>
+          <p className={styles.createdAt}>{formatDate(house.createdAt)}</p>
         </div>
         <hr className={styles.line} />
       </section>

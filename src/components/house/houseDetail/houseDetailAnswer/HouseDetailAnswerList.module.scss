@@ -8,9 +8,14 @@
     justify-content: space-between;
   }
 
+  .iconTextWrap {
+    @include flexrow;
+  }
+
   h3 {
     font-size: 20px;
     font-weight: bold;
+    margin-left: 8px;
   }
 }
 
@@ -36,24 +41,23 @@
 
   .profile {
     @include flexrow;
-    width: 20%;
+    width: 15%;
 
     img {
       width: 30px;
       height: 30px;
     }
+  }
 
-    .companyName {
-      margin-left: 10px;
-      margin-right: 20px;
-    }
+  .profileDateWrap {
+    margin: 0 10px;
   }
 
   .createdAt {
-    width: 10%;
     font-weight: normal;
     color: #757575;
-    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
   }
 
   .deleteBtn {
@@ -87,7 +91,7 @@
 
 .title {
   margin: 16px 0;
-  width: 60%;
+  width: 75%;
 }
 
 .editorContent {

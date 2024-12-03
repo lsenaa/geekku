@@ -1,13 +1,17 @@
 import styles from './HouseMain.module.scss';
 import Button01 from '../commons/button/Button01';
 import HouseList from './houseList/HouseList';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { url } from 'lib/axios';
 import axios from 'axios';
-import { Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
 
 const HouseMain = () => {
+  const navigate = useNavigate();
+  const user = useAtomValue(userAtom);
   const [houseList, setHouseList] = useState([]);
   const [type, setType] = useState('location');
   const [keyword, setKeyword] = useState('');
@@ -28,6 +32,18 @@ const HouseMain = () => {
   const onChangePage = (value) => {
     setCurrentPage(value);
     fetchData(value);
+  };
+
+  // 작성 버튼
+  const onClickWrite = () => {
+    if (user.userId) {
+      navigate('/house/write');
+    } else {
+      Modal.info({
+        content: '로그인 후 이용하세요.',
+      });
+      navigate('/login');
+    }
   };
 
   const fetchData = (page) => {
@@ -83,8 +99,8 @@ const HouseMain = () => {
             검색
           </button>
         </div>
-        <Button01 size="small">
-          <Link to={'/house/write'}>작성하기</Link>
+        <Button01 size="small" onClick={onClickWrite}>
+          작성하기
         </Button01>
       </div>
       <HouseList houseList={houseList} />
