@@ -53,8 +53,8 @@ const Header = ({ alarms = [] }) => {
   ];
   const estateWrite = [{ name: '매물 등록하기', path: '/estate/write' }];
   const interiorWrite = [
-    { name: '시공업체 등록하기', path: '/companyRegister' },
-    { name: '시공사례 등록하기', path: '/' },
+    { name: '시공업체 등록하기', path: '/interiorRegister' },
+    { name: '시공사례 등록하기', path: '/sampleRegister' },
   ];
 
   const getWriteOptions = () => {

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import Button01 from 'components/commons/button/Button01';
+import { Modal } from 'antd';
 
 const ReviewWrite = () => {
   const navigate = useNavigate();
@@ -37,7 +38,6 @@ const ReviewWrite = () => {
     if (checked) {
       if (selectedLoc.length < 1) {
         setSelectedLoc([...selectedLoc, value]);
-        console.log(setSelectedLoc);
       } else {
         alert('1개 지역만 선택할 수 있습니다.');
         e.target.checked = false;
@@ -64,6 +64,8 @@ const ReviewWrite = () => {
   };
 
   const submit = async (e) => {
+    e.preventDefault();
+
     const data = new FormData();
     data.append('companyName', review.companyName);
     data.append('size', review.size);
@@ -74,8 +76,7 @@ const ReviewWrite = () => {
     for (let file of fileList) {
       data.append('file', file);
     }
-    console.log(type);
-    console.log([...data]);
+
     await axiosInToken(token)
       .post(`/user/interiorReviewWrite`, data, {
         headers: {
@@ -84,16 +85,18 @@ const ReviewWrite = () => {
       })
       .then((res) => {
         console.log(res.data);
-        alert('리뷰등록이 완료되었습니다.');
+        Modal.success({
+          content: '인테리어 업체 리뷰등록이 완료되었습니다.',
+        });
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
-        alert(
-          err.response.data
+        Modal.error({
+          content: err.response.data
             ? err.response.data
-            : '알 수 없는 오류가 발생했습니다.'
-        );
+            : '알 수 없는 오류가 발생했습니다.',
+        });
       });
   };
 
@@ -265,7 +268,7 @@ const ReviewWrite = () => {
           </p>
         </div>
         <div className={styles.submitBtnWrap}>
-          <Button01 size="small" onClick={submit}>
+          <Button01 size="small" type="submit" onClick={submit}>
             등록하기
           </Button01>
           <Button01
