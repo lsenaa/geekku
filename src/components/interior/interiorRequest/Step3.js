@@ -14,7 +14,7 @@ const Step3 = ({
   console.log(selectedCondition);
   const handleRadioChange = (e) => {
     setSelectedCondition(e.target.value);
-    onDataChange({ condition: e.target.value });
+    onDataChange({ status: e.target.value });
   };
 
   const handleNextStep = (e) => {

@@ -5,18 +5,18 @@ import ProgressBar from './ProgressBar';
 import { useState } from 'react';
 
 const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
-  const handleSubmit = () => {
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [callTime, setCallTime] = useState('option1');
-    const [requestInfo, setRequsetInfo] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [allowTime, setAllowTime] = useState('');
+  const [content, setContent] = useState('');
 
+  const handleSubmit = () => {
     const submissionData = {
       ...data,
-
+      name,
       phone,
-      callTime,
-      requestInfo,
+      allowTime,
+      content,
     };
     onSubmit(submissionData);
   };
@@ -33,22 +33,38 @@ const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
         <input
           type="text"
           className={styles.input1}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="이름 입력"
           required
         />
       </div>
       <div className={styles.phone}>
-        <input type="text" className={styles.input2} placeholder="010" />
+        <input
+          type="text"
+          className={styles.input2}
+          placeholder="010"
+          value="010"
+          readOnly
+        />
         <input
           type="text"
           className={styles.input3}
           placeholder="나머지 번호를 입력해주세요"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           required
         />
       </div>
       <div className={styles.callback}>통화 희망시간</div>
       <div>
-        <select id="options" className={styles.callbackPick} defaultChecked>
+        <select
+          id="options"
+          className={styles.callbackPick}
+          value={allowTime}
+          onChange={(e) => setAllowTime(e.target.value)}
+          defaultChecked
+        >
           <option value="option1">오전(9~12시)</option>
           <option value="option2">오후(12시~6시)</option>
           <option value="option3">저녁(6시이후)</option>
@@ -60,6 +76,8 @@ const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
         <textarea
           className={styles.content}
           placeholder="특이사항, 세부시공내역, 원하는 스타일 등"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
       </div>
       <div>

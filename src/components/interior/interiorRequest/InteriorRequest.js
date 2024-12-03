@@ -4,11 +4,18 @@ import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4 from './Step4';
 import Step5 from './Step5';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
+import { axiosInToken } from 'lib/axios';
+import { useNavigate } from 'react-router';
 
 const InteriorRequest = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
   const [data, setData] = useState({});
+
+  const navigate = useNavigate();
+  const token = useAtomValue(tokenAtom);
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -29,8 +36,18 @@ const InteriorRequest = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log('제출 데이터:', data);
+  const handleSubmit = async (submissionData) => {
+    console.log('제출 데이터:', submissionData);
+    await axiosInToken(token)
+      .post(`/user/interiorRequest`, submissionData)
+      .then((res) => {
+        console.log(res.data);
+        alert('해당 업체에 문의가 완료되었습니다.');
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

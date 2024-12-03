@@ -8,7 +8,7 @@ const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
   console.log(selectedSchedule);
   const handleRadioChange = (e) => {
     setSelectedSchedule(e.target.value);
-    onDataChange({ schedule: e.target.value });
+    onDataChange({ period: e.target.value });
   };
 
   const handleNextStep = (e) => {
