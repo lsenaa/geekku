@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Modal } from 'antd';
 
-export const checkDoubleId = async (username, url) => {
+export const CheckDoubleId = async (username, url) => {
   if (!username) {
     Modal.info({
       content: '아이디를 입력해주세요.',

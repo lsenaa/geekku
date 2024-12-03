@@ -8,7 +8,7 @@ import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
-import { checkNickname } from 'utils/CheckNickname';
+import { CheckNickname } from 'utils/CheckNickname';
 import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 const PersonInfo = () => {
@@ -74,7 +74,7 @@ const PersonInfo = () => {
       });
   };
   const handleCheckNickname = () => {
-    checkNickname(myUser.nickname, url);
+    CheckNickname(myUser.nickname, url);
   };
 
   const imageUpdate = () => {
