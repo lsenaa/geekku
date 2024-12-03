@@ -6,106 +6,103 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import {
-  userNameAtom,
-  alarmsAtom,
-  userAtom,
-  tokenAtom,
-} from '../../../store/atoms';
+import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import { useEffect, useState } from 'react';
 
 const MypageInteriorMain = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
+  const [isLoading, setIsLoading] = useState(true);
 
-  //디버깅
-  useState(() => {
-    setUser(user);
+  const [myInterior, setMyInterior] = useState({
+    interior: {
+      intro: '',
+      content: '',
+      possiblePart: '',
+      possibleLocation: '',
+      period: '',
+      recentCount: '',
+      repairDate: '',
+      onestopNum: 0,
+    },
   });
-  console.log('마이페이지 인테리어 메인' + user);
 
-  let { num } = useParams();
-  const [onestop, setOnestop] = useState({
-    type: '',
-    address1: '',
-    address2: '',
-    size: '',
-    rentType: '',
-    jeonsePrice: 0,
-    monthlyPrice: 0,
-    buyPrice: 0,
-    depositPrice: 0,
-    requestState: false,
-    allowPhone: false,
-    title: '',
-    content: '',
-    createdAt: '',
-    onestopNum: num || 0,
-  });
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`${url}/company/interiorCompanyDetail`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setMyInterior(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  }, []);
 
-  // const fetchData = () => {
-  //   axios
-  //     .get(`${url}/interiorCompanyDetail/${num}`)
-  //     .then((res) => {
-  //       setOnestop({ ...res.data });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <div className={styles.containerbox}>
-        <div className={styles.title}>내 업체 정보</div>
-        <br />
-        <tbody>
-          <tr>
-            <td className={styles.leftcol}>업체명</td>
-            <td className={styles.rightcol}>코스타 인테리어</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>부분시공 가능 여부</td>
-            <td className={styles.rightcol}>가능</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>경력</td>
-            <td className={styles.rightcol}>5년</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>최근계약</td>
-            <td className={styles.rightcol}>20241029</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>a/s보수기간</td>
-            <td className={styles.rightcol}>24개월</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>시공 가능 지역</td>
-            <td className={styles.rightcol}>경기 전라</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>한 줄 소개</td>
-            <td className={styles.rightcol}>모던...isdone</td>
-          </tr>
-          <tr>
-            <td className={styles.leftcol}>소개글</td>
-            <td className={styles.rightcol}>
-              300자이내소개글을표현해봐요 구구절절이
-              아파트아파트아파트아파트아파트아파트어허어허
-              소개글예시500자이내로작성
-            </td>
-          </tr>
-        </tbody>
-      </div>
-      <div className={styles.btncontain}>
-        <Button01 size="small">
-          <Link to={'/mypageInterior/modify'}>수정하기</Link>
-        </Button01>
-      </div>
-    </>
+    <div className={styles.containerbox}>
+      <div className={styles.title}>내 업체 정보</div>
+      <br />
+      <tbody>
+        <tr>
+          <td className={styles.leftcol}>업체명</td>
+          <td className={styles.rightcol}>
+            <p>{user.companyName}</p>
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>부분시공 가능 여부</td>
+          <td className={styles.rightcol}>
+            <p>{myInterior.interior?.possiblePart ? '가능' : '불가능'}</p>
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>경력</td>
+          <td className={styles.rightcol}>
+            {myInterior.interior?.period || 'N/A'}
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>최근계약</td>
+          <td className={styles.rightcol}>
+            {myInterior.interior?.recentCount || 0}
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>a/s보수기간</td>
+          <td className={styles.rightcol}>
+            {myInterior.interior?.repairDate || 'N/A'}
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>시공 가능 지역</td>
+          <td className={styles.rightcol}>
+            {myInterior.interior?.possibleLocation || 'N/A'}
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>한 줄 소개</td>
+          <td className={styles.rightcol}>
+            {myInterior.interior?.intro || 'N/A'}
+          </td>
+        </tr>
+        <tr>
+          <td className={styles.leftcol}>소개글</td>
+          <td className={styles.rightcol}>
+            <p>{myInterior.interior?.content || 'N/A'}</p>
+          </td>
+        </tr>
+      </tbody>
+    </div>
   );
 };
 export default MypageInteriorMain;

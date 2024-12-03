@@ -47,8 +47,23 @@ const ReqInteriorList = ({ interiorAllList }) => {
             <td>{`${processLocation(interiorAllRequest.address1)} ${interiorAllRequest.address2}`}</td>
             <td>
               <span className={styles.writer}>
-                <FaUserCircle color="#6D885D" size={30} />
-                &nbsp;홍길동
+                {interiorAllRequest.userProfileImage ? (
+                  <img
+                    src={`data:image/png;base64, ${interiorAllRequest.userProfileImage}`}
+                    alt="사용자 프로필 이미지"
+                    width="30px"
+                    height="30px"
+                    style={{ borderRadius: '50px' }}
+                  />
+                ) : (
+                  <FaUserCircle size="30" color="#6D885D" />
+                )}
+                &nbsp;
+                <p>
+                  {interiorAllRequest.nickname
+                    ? interiorAllRequest.nickname
+                    : interiorAllRequest.name}
+                </p>
               </span>
             </td>
             <td>{formatDate(interiorAllRequest.createAt)}</td>

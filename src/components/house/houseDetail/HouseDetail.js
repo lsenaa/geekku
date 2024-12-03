@@ -80,6 +80,8 @@ const HouseDetail = () => {
           <h3 className={styles.sectionTitle}>원하는 매물 정보</h3>
         </div>
         <hr className={styles.line} />
+      </section>
+      <section>
         <div className={styles.item}>
           <label>매물 유형</label>
           <p>{formatEstateType(house.type)}</p>
