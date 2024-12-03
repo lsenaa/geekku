@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Modal } from 'antd';
 
-export const checkNickname = async (nickname, url) => {
+export const CheckNickname = async (nickname, url) => {
   if (!nickname) {
     Modal.info({
       content: '닉네임을 입력해주세요.',

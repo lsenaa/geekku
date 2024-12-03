@@ -2,13 +2,15 @@ import styles from './ReviewWrite.module.scss';
 import { useRef, useState } from 'react';
 import minus from '../../../assets/images/minus.png';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken } from 'lib/axios';
 import { useNavigate } from 'react-router';
-import Button01 from 'components/commons/button/Button01';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
 
 const ReviewWrite = () => {
   const navigate = useNavigate();
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
+  const token = useAtomValue(tokenAtom);
   const [selectedLoc, setSelectedLoc] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [review, setReview] = useState({
@@ -18,26 +20,20 @@ const ReviewWrite = () => {
   });
   const [type, setType] = useState('');
   const [style, setStyle] = useState('');
-  const [textCount, setTextCount] = useState(0);
   const fRef = useRef();
-
   const edit = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });
-
-    if (e.target.name === 'content') {
-      setTextCount(e.target.value.length);
-    }
   };
 
   const handleLocChange = (e) => {
     const { value, checked } = e.target;
 
     if (checked) {
-      if (selectedLoc.length < 3) {
+      if (selectedLoc.length < 1) {
         setSelectedLoc([...selectedLoc, value]);
         console.log(setSelectedLoc);
       } else {
-        alert('최대 3개 지역만 선택할 수 있습니다.');
+        alert('1개 지역만 선택할 수 있습니다.');
         e.target.checked = false;
       }
     } else {
@@ -62,22 +58,20 @@ const ReviewWrite = () => {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
-
     const data = new FormData();
     data.append('companyName', review.companyName);
     data.append('size', review.size);
     data.append('content', review.content);
     data.append('type', type);
     data.append('style', style);
-    selectedLoc.forEach((location) => data.append('location', location));
+    data.append('location', selectedLoc);
     for (let file of fileList) {
       data.append('file', file);
     }
     console.log(type);
     console.log([...data]);
-    await axios
-      .post(`${url}/interiorReviewWrite`, data, {
+    await axiosInToken(token)
+      .post(`/user/interiorReviewWrite`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -85,6 +79,7 @@ const ReviewWrite = () => {
       .then((res) => {
         console.log(res.data);
         alert('리뷰등록이 완료되었습니다.');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
@@ -109,9 +104,7 @@ const ReviewWrite = () => {
       <form className={styles.formEdit}>
         <ul>
           <li>
-            <label htmlFor="companyName">
-              시공업체명<span>*</span>
-            </label>
+            <span>시공업체명</span>
             <input
               type="text"
               name="companyName"
@@ -122,9 +115,7 @@ const ReviewWrite = () => {
             />
           </li>
           <li>
-            <label>
-              주거형태<span>*</span>
-            </label>
+            <span>주거형태</span>
             <select
               className={styles.customSelect}
               name="type"
@@ -138,9 +129,7 @@ const ReviewWrite = () => {
             </select>
           </li>
           <li>
-            <label>
-              스타일<span>*</span>
-            </label>
+            <span>스타일</span>
             <select
               className={styles.customSelect}
               name="style"
@@ -157,9 +146,7 @@ const ReviewWrite = () => {
             </select>
           </li>
           <li>
-            <label>
-              평수<span>*</span>
-            </label>
+            <span>평수</span>
             <input
               name="size"
               id="size"
@@ -169,110 +156,93 @@ const ReviewWrite = () => {
             />
           </li>
           <li>
-            <label>
-              지역<span>*</span>
-            </label>
-            <div className={styles.checkboxGroup}>
-              {area.map((location) => (
-                <label
-                  key={location}
-                  className={styles.customLabel}
-                  htmlFor={location}
-                >
-                  <input
-                    type="checkbox"
-                    className={styles.customCheck}
-                    id={location}
-                    value={location}
-                    onChange={handleLocChange}
-                  />
-                  {location}
-                </label>
-              ))}
-            </div>
+            <span>지역</span>
+            {area.map((location) => (
+              <label
+                key={location}
+                className={styles.customLabel}
+                htmlFor={location}
+              >
+                <input
+                  type="checkbox"
+                  className={styles.customCheck}
+                  id={location}
+                  value={location}
+                  onChange={handleLocChange}
+                />
+                {location}
+              </label>
+            ))}
           </li>
         </ul>
-        <div className={styles.upload}>
-          <span>추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)</span>
-          <input
-            type="file"
-            id="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={fileChange}
-            ref={fRef}
-          />
-          <button
-            type="button"
-            onClick={onClickImageUpload}
-            className={styles.addImgBtn}
-          >
-            추가하기
-          </button>
-          <div className={styles.imgsWrap}>
-            {fileList.map((file, index) => (
-              <div key={index}>
-                <div style={{ display: 'inline-block', textAlign: 'center' }}>
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer',
-                    }}
-                    src={minus}
-                    alt=""
-                    onClick={() => delFile(file)}
-                  />
-                  <br />
-                  <img
-                    src={URL.createObjectURL(file)}
-                    width="100px"
-                    height="60px"
-                    alt="리뷰 이미지"
-                    style={{ marginRight: '10px' }}
-                  />
-                </div>
-                {(index + 1) % 4 === 0 && (
-                  <>
+        <div>
+          <div className={styles.upload}>
+            {fileList.length === 0 && (
+              <span id={styles.info}>
+                추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
+              </span>
+            )}
+            <input
+              type="file"
+              id="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={fileChange}
+              ref={fRef}
+            />
+            <button
+              type="button"
+              onClick={onClickImageUpload}
+              style={{ margin: '20px auto', width: '330px', height: '60px' }}
+            >
+              추가하기
+            </button>
+            <div className={styles.imageView}>
+              {fileList.map((file, index) => (
+                <span key={index}>
+                  <div style={{ display: 'inline-block', textAlign: 'center' }}>
+                    <img
+                      style={{
+                        display: 'inline-block',
+                        width: '20px',
+                        height: '20px',
+                        cursor: 'pointer',
+                      }}
+                      src={minus}
+                      alt=""
+                      onClick={() => delFile(file)}
+                    />
                     <br />
-                    <br />
-                  </>
-                )}
-              </div>
-            ))}
+                    <img
+                      src={URL.createObjectURL(file)}
+                      width="80px"
+                      alt=""
+                      // style={{ marginRight: '10px' }}
+                    />
+                  </div>
+                  {/* {(index + 1) % 3 === 0 && (
+                    <>
+                      <br />
+                      <br />
+                    </>
+                  )} */}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-        <div className={styles.textAreaWrap}>
-          <label className={styles.reviewTitle}>
-            리뷰(500자 제한)<span>*</span>
-          </label>
-          <textarea
-            className={styles.detailTextarea}
-            name="content"
-            id="content"
-            placeholder="500자 이내로 리뷰를 작성해주세요."
-            onChange={edit}
-            maxLength={500}
-          />
-          <p>
-            <span className={styles.textCount}>{textCount}</span> / 500
-          </p>
-        </div>
-        <div className={styles.submitBtnWrap}>
-          <Button01 size="small" type="submit" onClick={submit}>
-            등록하기
-          </Button01>
-          {/* <div style={{ margin: '0 20px' }}></div> */}
-          <Button01
-            size="small"
-            color="sub"
-            type="button"
-            onClick={() => navigate('/')}
-          >
-            취소하기
-          </Button01>
-        </div>
+        <div className={styles.reviewTitle}>리뷰(500자 제한)</div>
+        <textarea
+          className={styles.edt}
+          name="content"
+          id="content"
+          placeholder="500자 이내로 리뷰를 작성해주세요."
+          onChange={edit}
+          maxLength={500}
+        ></textarea>
+        <button onClick={submit} style={{ marginLeft: '504px' }}>
+          등록하기
+        </button>
       </form>
     </div>
   );
