@@ -8,30 +8,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
-import {
-  formatEstateType,
-  formatPrice,
-  processLocation,
-  formatDate,
-} from 'utils/utils';
+import { formatEstateType, processLocation, formatDate } from 'utils/utils';
 import OnestopDetailAnswerList from './oneStopDetailAnswer/OnestopDetailAnswerList';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import {
-  userNameAtom,
-  alarmsAtom,
-  userAtom,
-  tokenAtom,
-} from '../../../store/atoms';
+
 const OnestopDetail = () => {
-  const [user, setUser] = useAtom(userAtom);
-  const [token, setToken] = useAtom(tokenAtom);
-
-  //디버깅
-  useEffect(() => {
-    setUser(user);
-  });
-  console.log('원스탑 답변 작성', user);
-
   let { num } = useParams();
   const [onestop, setOnestop] = useState({
     type: '',
@@ -40,11 +21,13 @@ const OnestopDetail = () => {
     size: '',
     rentType: '',
     money: 0,
-    requestState: false,
+    workType: false,
+    interiorType: '',
     allowPhone: false,
     title: '',
     content: '',
     createdAt: '',
+    userId: '',
     onestopNum: num || 0,
   });
   useEffect(() => {
@@ -67,9 +50,19 @@ const OnestopDetail = () => {
       <h2>한번에꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
-          <FaUserCircle color="#6D885D" size={30} />
-          <p>{onestop.name}</p>
-          <p className={styles.createdAt}>{formatDate(onestop.createAt)}</p>
+          {onestop.userProfileImage ? (
+            <img
+              src={`data:image/png;base64, ${onestop.userProfileImage}`}
+              alt="사용자 프로필 이미지"
+              width="30px"
+              height="30px"
+              style={{ borderRadius: '50px' }}
+            />
+          ) : (
+            <FaUserCircle size="30" color="#6D885D" />
+          )}
+          <p>{onestop.nickname ? onestop.nickname : onestop.name}</p>
+          <p className={styles.createdAt}>{formatDate(onestop.createdAt)}</p>
         </div>
         <hr className={styles.line} />
       </section>
@@ -95,6 +88,17 @@ const OnestopDetail = () => {
         <div className={styles.item}>
           <label>희망 평수</label>
           <p>{onestop.size === 5 ? '기타' : `${onestop.size}평 이상`}</p>
+        </div>
+        <div className={styles.item}>
+          <label>시공 종류</label>
+          <p>
+            {onestop.workType == 0 && '전체 시공'}
+            {onestop.workType == 1 && '부분 시공'}
+          </p>
+        </div>
+        <div className={styles.item}>
+          <label>인테리어 시공 종류</label>
+          <p>{onestop.interiorType}</p>
         </div>
 
         {onestop.allowPhone && (

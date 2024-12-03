@@ -1,14 +1,18 @@
 import styles from './OnestopMain.module.scss';
 import Button01 from '../commons/button/Button01';
-import { Pagination } from 'antd';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { Modal, Pagination } from 'antd';
 import OnestopList from './onestopList/OnestopList';
+import { userAtom } from 'store/atoms';
 
 const OnestopMain = () => {
   const [onestopList, setOnestopList] = useState([]);
+  const user = useAtomValue(userAtom);
+  const navigate = useNavigate();
   const [type, setType] = useState('location');
   const [keyword, setKeyword] = useState('');
   const [pageInfo, setPageInfo] = useState({});
@@ -28,6 +32,17 @@ const OnestopMain = () => {
   const onChangePage = (value) => {
     setCurrentPage(value);
     fetchData(value);
+  };
+  // 작성 버튼
+  const onClickWrite = () => {
+    if (user.userId) {
+      navigate('/onestop/write');
+    } else {
+      Modal.info({
+        content: '로그인 후 이용하세요.',
+      });
+      navigate('/login');
+    }
   };
 
   const fetchData = (page) => {
@@ -76,8 +91,8 @@ const OnestopMain = () => {
           />
           <button className={styles.searchBtn}>검색</button>
         </div>
-        <Button01 size="small">
-          <Link to={'write'}>작성하기</Link>
+        <Button01 size="small" onClick={onClickWrite}>
+          작성하기
         </Button01>
       </div>
       <OnestopList onestopList={onestopList} />

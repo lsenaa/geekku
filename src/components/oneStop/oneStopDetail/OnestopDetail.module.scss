@@ -2,6 +2,7 @@
 
 .container {
   @include container;
+  width: 800px;
   padding: 100px 0;
 
   h2 {

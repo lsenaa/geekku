@@ -5,10 +5,13 @@ import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { hangjungdong } from 'utils/hangjungdong';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
 
 const OneStopWrite = () => {
   const navigate = useNavigate();
+  const token = useAtomValue(tokenAtom);
   const [textCount, setTextCount] = useState(0);
   const [isManage, setIsManage] = useState(false);
   const { sido, sigugun } = hangjungdong;
@@ -25,21 +28,18 @@ const OneStopWrite = () => {
     '베란다',
   ];
   const [selectType, setSelectType] = useState([]);
+  console.log(selectType);
 
-  const handleChk = (e, interiorType) => {
-    const newselectType = [...selectType];
-    newselectType[interiorType] = !newselectType[interiorType];
-    setSelectType(newselectType);
+  const handleChk = (e) => {
+    const { value, checked } = e.target;
 
-    //체크박스에 체크됐으면 interiorType를 indexChk에 저장
-    if (newselectType[interiorType]) {
-      setSelectType((selectType) => [...selectType, interiorType]);
+    if (checked) {
+      setSelectType([...selectType, value]);
     } else {
-      setSelectType((selectType) =>
-        selectType.filter((num) => num !== interiorType)
-      );
+      setSelectType(selectType.filter((type) => type !== value));
     }
   };
+
   const [onestop, setOnestop] = useState({
     title: '',
     content: '',
@@ -48,9 +48,9 @@ const OneStopWrite = () => {
     allowPhone: true,
     money: '',
     movePersons: '',
-    rentType: 'buy',
+    rentType: 'jeonse',
     size: '',
-    type: 'farmHouse',
+    type: '',
     workType: true,
   });
 
@@ -118,14 +118,14 @@ const OneStopWrite = () => {
     formData.append('type', onestop.type);
     formData.append('workType', onestop.workType);
     selectType.forEach((interiorType) =>
-      formData.append('interiorType', onestop.interiorType)
+      formData.append('interiorType', interiorType)
     );
 
-    axios
-      .post(`${url}/onestopWrite`, formData)
+    axiosInToken(token)
+      .post(`/user/onestopWrite`, formData)
       .then((res) => {
         Modal.success({
-          content: '집꾸 등록이 완료되었습니다.',
+          content: '한번에 꾸미기 등록이 완료되었습니다.',
         });
         console.log(res.data);
         navigate(`/oneStop/detail/${res.data}`);
@@ -219,7 +219,6 @@ const OneStopWrite = () => {
                 name="rentType"
                 value="buy"
                 defaultChecked
-                readOnly
               />
               <label htmlFor="buy">매매</label>
             </div>
@@ -326,7 +325,6 @@ const OneStopWrite = () => {
                   className={styles.customCheck}
                   id={interiorType}
                   value={interiorType}
-                  checked={selectType[interiorType]}
                   onChange={handleChk}
                 />
                 {interiorType}

@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { DatePicker, Modal } from 'antd';
 import Button01 from '../../commons/button/Button01';
 import axios from 'axios';
-import { url } from 'lib/axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { hangjungdong } from 'utils/hangjungdong';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
+import { axiosInToken, url } from 'lib/axios';
 
 const ReqInteriorWrite = () => {
   const navigate = useNavigate();
@@ -15,6 +15,30 @@ const ReqInteriorWrite = () => {
   const { sido, sigugun } = hangjungdong;
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
+  const type = [
+    '도배',
+    '바닥',
+    '몰딩',
+    '샷시',
+    '페인트',
+    '조명',
+    '욕실',
+    '주방',
+    '문/현관',
+    '베란다',
+  ];
+  const [selectType, setSelectType] = useState([]);
+  console.log(selectType);
+
+  const handleChk = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setSelectType([...selectType, value]);
+    } else {
+      setSelectType(selectType.filter((type) => type !== value));
+    }
+  };
   const [interiorall, setInteriorall] = useState({
     name: user.name,
     title: '',
@@ -23,7 +47,6 @@ const ReqInteriorWrite = () => {
     address1: '',
     address2: '',
     allowPhone: true,
-    interiorType: '',
     money: '',
     movePersons: '',
     rentType: true,
@@ -90,10 +113,12 @@ const ReqInteriorWrite = () => {
     formData.append('addContent', interiorall.addContent);
     formData.append('money', interiorall.money);
     formData.append('phone', interiorall.phone);
-    formData.append('interiorType', interiorall.interiorType);
+    selectType.forEach((interiorType) =>
+      formData.append('interiorType', interiorType)
+    );
     formData.append('workType', interiorall.workType);
-    axios
-      .post(`${url}/interiorAllWrite`, formData)
+    axiosInToken(token)
+      .post(`/user/interiorAllWrite`, formData)
       .then((res) => {
         Modal.success({
           content: '방꾸 등록이 완료되었습니다.',
@@ -194,7 +219,6 @@ const ReqInteriorWrite = () => {
             <label htmlFor="buy">매매</label>
           </div>
         </div>
-
         <div className={styles.item}>
           <label>
             예산<span>*</span>
@@ -254,103 +278,23 @@ const ReqInteriorWrite = () => {
           <label>
             인테리어 시공<span>*</span>
           </label>
-
           <div className={styles.checkboxGroup}>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="1"
-                onChange={handleEdit}
-              />
-              도배
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="2"
-                onChange={handleEdit}
-              />
-              바닥
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="3"
-                onChange={handleEdit}
-              />
-              몰딩
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="1"
-                onChange={handleEdit}
-              />
-              샷시
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="2"
-                onChange={handleEdit}
-              />
-              페인트
-            </label>
-          </div>
-        </div>
-        <div className={styles.items}>
-          <label></label>
-          <div className={styles.checkboxGroup}>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="1"
-                onChange={handleEdit}
-              />
-              조명
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="2"
-                onChange={handleEdit}
-              />
-              욕실
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="3"
-                onChange={handleEdit}
-              />
-              주방
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="1"
-                onChange={handleEdit}
-              />
-              문/현관
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="interiorType"
-                value="2"
-                onChange={handleEdit}
-              />
-              베란다
-            </label>
+            {type.map((interiorType) => (
+              <label
+                key={interiorType}
+                className={styles.customLabel}
+                htmlFor={interiorType}
+              >
+                <input
+                  type="checkbox"
+                  className={styles.customCheck}
+                  id={interiorType}
+                  value={interiorType}
+                  onChange={handleChk}
+                />
+                {interiorType}
+              </label>
+            ))}
           </div>
         </div>
         <div className={styles.item}>

@@ -45,7 +45,8 @@ const OnestopList = ({ onestopList }) => {
             <td>
               <span className={styles.writer}>
                 <FaUserCircle color="#6D885D" size={30} />
-                &nbsp;홍길동
+                &nbsp;
+                <p>{onestop.nickname ? onestop.nickname : onestop.name}</p>
               </span>
             </td>
             <td>{formatDate(onestop.createdAt)}</td>
