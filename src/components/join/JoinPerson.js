@@ -2,8 +2,8 @@ import styles from 'components/login/Login.module.scss';
 import styles2 from 'components/join/Join.module.scss';
 import loginLogo from 'assets/images/login/loginLogo.png';
 import { url } from 'lib/axios';
-import { checkNickname } from 'utils/CheckNickname';
-import { checkDoubleId } from 'utils/CheckDoubleId';
+import { CheckNickname } from 'utils/CheckNickname';
+import { CheckDoubleId } from 'utils/CheckDoubleId';
 import { useAgreements } from 'utils/Agreements';
 import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
@@ -53,12 +53,12 @@ const JoinPerson = () => {
   };
 
   const handleCheckNickname = async () => {
-    const isAvailable = await checkNickname(user.nickname, url);
+    const isAvailable = await CheckNickname(user.nickname, url);
     setNicknameChecked(isAvailable);
   };
 
   const handleCheckDoubleId = async () => {
-    const isAvailable = await checkDoubleId(user.username, url);
+    const isAvailable = await CheckDoubleId(user.username, url);
     setUsernameChecked(isAvailable);
   };
 

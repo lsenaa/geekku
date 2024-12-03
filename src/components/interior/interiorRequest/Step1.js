@@ -1,7 +1,25 @@
 import styles from './Step1.module.scss';
 import ProgressBar from './ProgressBar';
+import { useState } from 'react';
 
-const Step1 = ({ currentStep, totalSteps, nextStep }) => {
+const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
+  const [selectedSchedule, setSelectedSchedule] = useState('');
+
+  console.log(selectedSchedule);
+  const handleRadioChange = (e) => {
+    setSelectedSchedule(e.target.value);
+    onDataChange({ period: e.target.value });
+  };
+
+  const handleNextStep = (e) => {
+    e.preventDefault();
+    if (!selectedSchedule) {
+      alert('일정을 선택해주세요.');
+      return;
+    }
+    nextStep();
+  };
+
   return (
     <div className={styles.deco}>
       <ProgressBar currentStep={currentStep} totalSteps={totalSteps} />
@@ -11,23 +29,48 @@ const Step1 = ({ currentStep, totalSteps, nextStep }) => {
       </div>
       <form className={styles.scheduleForm}>
         <label>
-          <input type="radio" name="schedule" value="2주~1달이내" />
+          <input
+            type="radio"
+            name="schedule"
+            value="2주~1달이내"
+            onChange={handleRadioChange}
+          />
           2주~1달이내
         </label>
         <label>
-          <input type="radio" name="schedule" value="1달~2달이내" />
+          <input
+            type="radio"
+            name="schedule"
+            value="1달~2달이내"
+            onChange={handleRadioChange}
+          />
           1달~2달이내
         </label>
         <label>
-          <input type="radio" name="schedule" value="2주~3달이내" />
+          <input
+            type="radio"
+            name="schedule"
+            value="2주~3달이내"
+            onChange={handleRadioChange}
+          />
           2주~3달이내
         </label>
         <label>
-          <input type="radio" name="schedule" value="3달이후" />
+          <input
+            type="radio"
+            name="schedule"
+            value="3달이후"
+            onChange={handleRadioChange}
+          />
           3달이후
         </label>
         <label>
-          <input type="radio" name="schedule" value="상담 이후 결정" />
+          <input
+            type="radio"
+            name="schedule"
+            value="상담 이후 결정"
+            onChange={handleRadioChange}
+          />
           상담 이후 결정
         </label>
       </form>
@@ -42,7 +85,7 @@ const Step1 = ({ currentStep, totalSteps, nextStep }) => {
       </div>
       <div className={styles.btn}>
         <button>뒤로</button>
-        <button onClick={nextStep} id={styles.nextBtn}>
+        <button onClick={handleNextStep} id={styles.nextBtn}>
           다음
         </button>
       </div>
