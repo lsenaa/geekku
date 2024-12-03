@@ -192,11 +192,13 @@ const Header = ({ alarms = [] }) => {
           {/* 사용자 프로필 이미지와 이름 */}
           <div className={styles.userProfile} onClick={onClickMypage}>
             {user && (
-              <img
-                src={`data:image/png;base64,${user.profileImageStr}`}
-                alt="프로필이미지"
-                className={styles.profileImage}
-              />
+              <div className={styles.profileImageWrap}>
+                <img
+                  src={`data:image/png;base64,${user.profileImageStr}`}
+                  alt="프로필이미지"
+                  className={styles.profileImage}
+                />
+              </div>
               // <img
               //   src={
               //     user.socialProfileImage
