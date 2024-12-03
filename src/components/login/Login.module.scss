@@ -195,6 +195,11 @@
   padding: 20px;
 }
 
+.userCard {
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
 .inputGroup {
   display: flex;
   align-items: center;
@@ -268,5 +273,11 @@
     border-radius: 10px;
     cursor: pointer;
     margin-top: 10px;
+  }
+
+  .line {
+    width: 90%;
+    margin : 10 auto;
+    border: 1px dashed $main-color;
   }
 }
