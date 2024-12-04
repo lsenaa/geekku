@@ -7,7 +7,7 @@ import { url } from 'lib/axios';
 import { useLocation } from 'react-router';
 import { CiLocationOn } from 'react-icons/ci';
 import { searchByKeyword } from 'utils/utils';
-import useDebounce from 'hook/useDebounce';
+import { useDebounce } from 'hook/useDebounce';
 
 const EstateSearch = () => {
   const location = useLocation();

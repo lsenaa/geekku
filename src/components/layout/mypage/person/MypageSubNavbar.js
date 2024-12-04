@@ -22,8 +22,8 @@ const MypageSubNavbar = () => {
     path: '/mypage/person/onestop',
   };
   const bookmarkMenu = [
-    { name: '집꾸하기 북마크', path: '/mypage/person/bookmark' },
-    { name: '방꾸하기 북마크', path: '/mypage/person/bookmark/interior' },
+    { name: '매물 북마크', path: '/mypage/person/bookmark' },
+    { name: '인테리어 업체 북마크', path: '/mypage/person/bookmark/interior' },
     { name: '집들이 북마크', path: '/mypage/person/bookmark/community' },
   ];
   const communityMenu = {
