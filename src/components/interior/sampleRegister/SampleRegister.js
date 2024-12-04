@@ -1,6 +1,5 @@
 import styles from './SampleRegister.module.scss';
 import { useRef, useState } from 'react';
-import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
 import color from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
@@ -13,7 +12,7 @@ import { tokenAtom } from 'store/atoms';
 import { Modal } from 'antd';
 import ToastEditor from 'components/commons/ToastEditor';
 import axios from 'axios';
-import minus from 'assets/images/minus.png';
+import { MdCancel } from 'react-icons/md';
 
 const SampleRegister = () => {
   const navigate = useNavigate();
@@ -54,7 +53,6 @@ const SampleRegister = () => {
   // 이미지 제거 핸들러
   const handleRemoveImage = () => {
     setCoverImg(null);
-    imageInput.current.value = '';
   };
 
   // 에디터 이미지 url 받아오기
@@ -112,12 +110,6 @@ const SampleRegister = () => {
       <div className={styles.line}></div>
       <form className={styles.formEdit}>
         <ul>
-          <li>
-            <label htmlFor="title">
-              제목<span>*</span>
-            </label>
-            <input name="title" className={styles.customSelect} />
-          </li>
           <li>
             <label htmlFor="type">
               주거형태<span>*</span>
@@ -181,45 +173,37 @@ const SampleRegister = () => {
           </li>
         </ul>
         <div className={styles.upload}>
-          <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            ref={imageInput}
-            onChange={handleImageChange}
-          />
-          <button
-            type="button"
-            onClick={onClickImageUpload}
-            className={styles.addBtn}
-          >
-            추가하기
-          </button>
-          {coverImg && (
-            <div style={{ display: 'inline-block', textAlign: 'center' }}>
-              <img
-                style={{
-                  display: 'inline-block',
-                  width: '20px',
-                  height: '20px',
-                  cursor: 'pointer',
-                }}
-                src={minus}
-                alt="삭제 아이콘"
+          {coverImg ? (
+            <div className={styles.imgCancelBtnWrap}>
+              <MdCancel
+                size={30}
+                className={styles.cancelBtn}
                 onClick={handleRemoveImage}
               />
-              <br />
               <img
                 src={URL.createObjectURL(coverImg)}
                 alt="커버 이미지"
-                style={{
-                  width: '100px',
-                  height: '60px',
-                  marginRight: '10px',
-                }}
+                className={styles.uploadImg}
               />
             </div>
+          ) : (
+            <>
+              <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={imageInput}
+                onChange={handleImageChange}
+              />
+              <button
+                type="button"
+                onClick={onClickImageUpload}
+                className={styles.addBtn}
+              >
+                추가하기
+              </button>
+            </>
           )}
         </div>
         <div className={styles.titleWrap}>
