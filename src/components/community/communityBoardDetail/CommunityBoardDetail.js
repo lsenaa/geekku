@@ -62,7 +62,7 @@ const CommunityBoardDetail = () => {
         null,
         {
           params: {
-            userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1',
+            userId: user.userId,
             communityNum: CommunityNum,
           },
         }
