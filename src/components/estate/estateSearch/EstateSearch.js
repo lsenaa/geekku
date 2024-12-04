@@ -14,8 +14,11 @@ const EstateSearch = () => {
   const [keyword, setKeyword] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [type, setType] = useState('');
+  const [page, setPage] = useState(1);
   const [estateList, setEstateList] = useState([]);
   const [isOpenResults, setIsOpenReseults] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
   const searchResults = searchByKeyword(searchInput);
   const debouncedKeyword = useDebounce(keyword, 1000); //200ms로 설정된 debounce
   const DEFAULT_KEYWORD = '경기도 광명시'; // 초기 키워드
@@ -62,15 +65,27 @@ const EstateSearch = () => {
     const params = {};
     if (searchType) params.type = searchType;
     if (searchKeyword) params.keyword = processKeyword(searchKeyword);
+    params.page = page;
 
     axios
       .get(`${url}/estateList`, { params })
       .then((res) => {
         console.log(res.data);
-        setEstateList([...res.data.estateList]);
+
+        if (res.data.estateList.length === 0) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
+          setEstateList((prev) => [...prev, ...res.data.estateList]);
+          setTotalPages(res.data.pageInfo.allPage);
+          if (page === totalPages) {
+            setHasMore(false);
+          }
+        }
       })
       .catch((err) => {
         console.log(err);
+        setHasMore(false);
       });
   };
 
@@ -148,7 +163,13 @@ const EstateSearch = () => {
         {estateList.length === 0 ? (
           <div className={styles.noEstate}>등록된 매물 목록이 없습니다.</div>
         ) : (
-          <EstateList estateList={estateList} />
+          <EstateList
+            estateList={estateList}
+            hasMore={hasMore}
+            totalPages={totalPages}
+            page={page}
+            setPage={setPage}
+          />
         )}
         <KakaoMap
           estateList={estateList}
