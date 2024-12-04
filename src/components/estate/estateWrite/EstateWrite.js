@@ -121,6 +121,29 @@ const EstateWrite = () => {
         availableState: e.target.checked,
       }));
     }
+
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (
+      e.target.name === 'jeonsePrice' ||
+      e.target.name === 'monthlyPrice' ||
+      e.target.name === 'buyPrice' ||
+      e.target.name === 'depositPrice' ||
+      e.target.name === 'managePrice' ||
+      e.target.name === 'size1' ||
+      e.target.name === 'size2' ||
+      e.target.name === 'roomCount' ||
+      e.target.name === 'totalFloor' ||
+      e.target.name === 'floor' ||
+      e.target.name === 'bathCount' ||
+      e.target.name === 'parking'
+    ) {
+      setEstate((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -275,10 +298,11 @@ const EstateWrite = () => {
                   <label>전용면적</label>
                   <div className={styles.inputTextWrap}>
                     <input
-                      type="number"
+                      type="text"
                       name="size1"
                       required
                       onChange={handleEdit}
+                      value={estate.size1 || ''}
                     />
                     <p>㎡</p>
                   </div>
@@ -287,10 +311,11 @@ const EstateWrite = () => {
                   <label>공급면적</label>
                   <div className={styles.inputTextWrap}>
                     <input
-                      type="number"
+                      type="text"
                       name="size2"
                       required
                       onChange={handleEdit}
+                      value={estate.size2 || ''}
                     />
                     <p>㎡</p>
                   </div>
@@ -300,7 +325,7 @@ const EstateWrite = () => {
               <div className={styles.flexRow}>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="size1"
                     required
                     onChange={handleEdit}
@@ -311,7 +336,7 @@ const EstateWrite = () => {
                 <p style={{ margin: '0 8px' }}>=</p>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="size2"
                     required
                     onChange={handleEdit}
@@ -330,10 +355,11 @@ const EstateWrite = () => {
             </label>
             <div className={styles.inputTextWrap}>
               <input
-                type="number"
+                type="text"
                 name="roomCount"
                 required
                 onChange={handleEdit}
+                value={estate.roomCount || ''}
               />
               <p>개</p>
             </div>
@@ -399,7 +425,12 @@ const EstateWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
               <div className={styles.inputTextWrap}>
-                <input type="number" name="jeonsePrice" onChange={handleEdit} />
+                <input
+                  type="text"
+                  name="jeonsePrice"
+                  onChange={handleEdit}
+                  value={estate.jeonsePrice || ''}
+                />
                 <p>만원</p>
               </div>
             </div>
@@ -410,9 +441,10 @@ const EstateWrite = () => {
                 <label>보증금</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="depositPrice"
                     onChange={handleEdit}
+                    value={estate.depositPrice || ''}
                   />
                   <p>만원</p>
                 </div>
@@ -421,9 +453,10 @@ const EstateWrite = () => {
                 <label>월세</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="monthlyPrice"
                     onChange={handleEdit}
+                    value={estate.monthlyPrice || ''}
                   />
                   <p>만원</p>
                 </div>
@@ -434,7 +467,12 @@ const EstateWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
               <div className={styles.inputTextWrap}>
-                <input type="number" name="buyPrice" onChange={handleEdit} />
+                <input
+                  type="text"
+                  name="buyPrice"
+                  onChange={handleEdit}
+                  value={estate.buyPrice || ''}
+                />
                 <p>만원</p>
               </div>
             </div>
@@ -469,10 +507,11 @@ const EstateWrite = () => {
               {isManage && (
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="managePrice"
                     required
                     onChange={handleEdit}
+                    value={estate.managePrice || ''}
                   />
                   <p>만원</p>
                 </div>
@@ -493,7 +532,6 @@ const EstateWrite = () => {
                   type="checkbox"
                   id="availableState"
                   name="availableState"
-                  // checked={false}
                   onChange={handleEdit}
                 />
                 <label htmlFor="availableState">협의 가능</label>
@@ -514,10 +552,11 @@ const EstateWrite = () => {
               <label>전체 층수</label>
               <div className={styles.inputTextWrap}>
                 <input
-                  type="number"
+                  type="text"
                   name="totalFloor"
                   required
                   onChange={handleEdit}
+                  value={estate.totalFloor || ''}
                 />
                 <p>층</p>
               </div>
@@ -526,10 +565,11 @@ const EstateWrite = () => {
               <label>해당 층수</label>
               <div className={styles.inputTextWrap}>
                 <input
-                  type="number"
+                  type="text"
                   name="floor"
                   required
                   onChange={handleEdit}
+                  value={estate.floor || ''}
                 />
                 <p>층</p>
               </div>
@@ -541,10 +581,11 @@ const EstateWrite = () => {
             </label>
             <div className={styles.inputTextWrap}>
               <input
-                type="number"
+                type="text"
                 name="bathCount"
                 required
                 onChange={handleEdit}
+                value={estate.bathCount || ''}
               />
               <p>개</p>
             </div>
@@ -580,6 +621,7 @@ const EstateWrite = () => {
                   name="parking"
                   required
                   onChange={handleEdit}
+                  value={estate.parking || ''}
                 />
                 <p>대</p>
               </div>
@@ -596,6 +638,7 @@ const EstateWrite = () => {
               style={{ width: '1060px', textAlign: 'left' }}
               required
               onChange={handleEdit}
+              value={estate.utility || ''}
             />
           </div>
         </section>
@@ -667,10 +710,11 @@ const EstateWrite = () => {
             type="text"
             name="title"
             minLength="5"
-            maxLength="40"
-            placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
+            maxLength="20"
+            placeholder="리스트에 노출되는 문구입니다. 20자 이내로 작성해주세요."
             style={{ width: '100%', textAlign: 'left' }}
             onChange={handleEdit}
+            value={estate.title || ''}
           />
         </div>
         <div className={styles.item}>
@@ -685,6 +729,7 @@ const EstateWrite = () => {
               className={styles.detailTextarea}
               placeholder="매물 상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
               onChange={handleEdit}
+              value={estate.content || ''}
             />
             <p>
               <span>{textCount}</span> / 1000
