@@ -14,13 +14,18 @@ const MypagePersonInterior = () => {
   const [interiorAllList, setInteriorAllList] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
+  console.log(token);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = () => {
     axiosInToken(token)
-      .get('/user/mypageUserInteriorAllList')
+      .get('/user/mypageUserInteriorAllList', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setInteriorAllList([...res.data.content]);
