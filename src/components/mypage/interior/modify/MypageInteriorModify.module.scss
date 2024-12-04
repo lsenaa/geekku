@@ -190,14 +190,31 @@ section {
 }
 
 /* 커버 이미지 업로드 스타일 */
-.coverUploadContainer {
-  max-width: 1200px;
-  height: 400px;
-  margin: 40px auto;
-  padding: 150px 20px;
+.upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border: 1px solid #6d885d;
   border-radius: 10px;
-  background-color: #ffffff;
+  margin: 40px 0;
+  padding: 60px 0;
+  width: 100%;
+  span {
+    margin: 0 auto;
+  }
+}
+.add {
+  border: none;
+  background-color: #6d885d;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 20px auto;
+  width: 230px;
+  padding: 16px 0;
+  font-size: 16px;
+  font-weight: bold;
   text-align: center;
 }
 
