@@ -28,19 +28,26 @@
 
     .textWrapper {
       @include flexrow;
+      justify-content: space-between;
 
       .name {
         font-weight: bold;
         font-size: 16px;
       }
-      .loc {
-        width: 60px;
-        padding: 10px 0;
-        background-color: $main-color;
-        color: white;
-        border-radius: 20px;
-        margin-left: 20px;
-        text-align: center;
+
+      .locationWrap {
+        @include flexrow;
+
+        .loc {
+          font-size: 12px;
+          width: 40px;
+          padding: 8px 0;
+          background-color: $main-color;
+          color: white;
+          border-radius: 20px;
+          margin-left: 5px;
+          text-align: center;
+        }
       }
     }
   }

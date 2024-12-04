@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-const useInfiniteScroll = (onIntersect, hasMore, setPage) => {
+const useInfiniteScroll = (onIntersect) => {
   const ref = useRef(null);
 
   const handleIntersect = useCallback(

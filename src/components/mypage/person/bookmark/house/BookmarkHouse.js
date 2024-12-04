@@ -4,7 +4,7 @@ import bookmarkImg from 'assets/images/bookmarkTrue.png';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import { axiosInToken, url } from 'lib/axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatEstateType, formatPrice } from 'utils/utils';
 import { Modal } from 'antd';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
@@ -22,7 +22,7 @@ const BookmarkHouse = () => {
 
   const fetchData = async (page) => {
     await axiosInToken(token)
-      .get(`/user/mypagebookmark?page=${page}`)
+      .get(`/user/mypagebookmarkEstate?page=${page}`)
       .then((res) => {
         console.log(res.data);
 
@@ -120,7 +120,7 @@ const BookmarkHouse = () => {
           </>
         )}
       </ul>
-      {hasMore && <div ref={elementRef} style={{ textAlign: 'center' }}></div>}
+      {hasMore && <div ref={elementRef}></div>}
     </>
   );
 };
