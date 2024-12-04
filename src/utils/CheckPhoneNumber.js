@@ -1,9 +1,15 @@
 export const formatPhoneNumber = (phone) => {
-  return phone
-    .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/, (_, p1, p2, p3) =>
-      [p1, p2, p3].filter(Boolean).join('-')
-    )
-    .trim();
+  if (!phone) return '';
+
+  const cleaned = phone.replace(/\D/g, '');
+
+  if (cleaned.length <= 3) {
+    return cleaned;
+  } else if (cleaned.length <= 7) {
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+  } else {
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(7, 11)}`;
+  }
 };
 
 export const applyPhoneFormat = (name, value, setUser, user) => {

@@ -4,6 +4,7 @@ import { url } from 'lib/axios';
 import { Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { formatPhoneNumber } from 'utils/CheckPhoneNumber';
 import axios from 'axios';
 
 const SearchId = () => {
@@ -27,6 +28,7 @@ const SearchId = () => {
     setVerificationCode('');
   };
 
+  //이메일 인증코드 보내기
   const sendEmail = () => {
     if (!email) {
       Modal.error({ content: '이메일 주소를 입력하세오.' });
@@ -52,7 +54,37 @@ const SearchId = () => {
       });
   };
 
-  const verifyCode = () => {
+  //휴대폰 인증코드 보내기
+  const sendSms = () => {
+    if (!phoneNumber) {
+      Modal.error({
+        content: '휴대폰 번호를 입력하세요.',
+      });
+      return;
+    }
+
+    axios
+      .post(`${url}/sendSms`, null, {
+        params: {
+          phone: phoneNumber,
+        },
+      })
+      .then((res) => {
+        Modal.success({
+          content:
+            '인증번호가 발송되었습니다. 입력하신 휴대폰 번호를 확인해주세요.',
+        });
+      })
+      .catch((error) => {
+        console.log('인증번호 발송 실패 : ', error);
+        Modal.error({
+          content: '인증번호 발송에 실패했습니다.',
+        });
+      });
+  };
+
+  //이메일 인증코드 확인
+  const verifyEmail = () => {
     if (!email || !verificationCode) {
       Modal.error({
         content: '이메일과 인증번호를 입력하세요.',
@@ -80,6 +112,35 @@ const SearchId = () => {
       });
   };
 
+  // 휴대폰 인증 코드 확인
+  const verifySms = () => {
+    if (!phoneNumber || !verificationCode) {
+      Modal.error({
+        content: '휴대폰 번호와 인증번호를 입력하세요.',
+      });
+      return;
+    }
+
+    axios
+      .post(`${url}/verifySms`, null, {
+        params: {
+          phone: phoneNumber,
+          certificationCode: verificationCode,
+        },
+      })
+      .then((res) => {
+        console.log('인증번호 확인 성공 : ', res.data);
+        getUserInfoByPhone(phoneNumber);
+      })
+      .catch((error) => {
+        console.error('인증번호 확인 실패 :', error);
+        Modal.error({
+          content: '인증번호 확인에 실패했습니다.',
+        });
+      });
+  };
+
+  // 이메일로 사용자 정보 가져오기
   const getUserInfo = (email) => {
     axios
       .post(`${url}/findUserByEmail`, { email: email })
@@ -108,6 +169,44 @@ const SearchId = () => {
           content: '사용자 정보 조회에 실패했습니다.',
         });
       });
+  };
+
+  // 휴대폰 번호로 사용자 정보 가져오기
+  const getUserInfoByPhone = (phone) => {
+    axios
+      .post(`${url}/findUserByPhone`, { phone: phone })
+      .then((personRes) => {
+        const userData = personRes.data;
+
+        axios
+          .post(`${url}/findCompanyByPhone`, { phone: phone })
+          .then((companyRes) => {
+            const companyData = companyRes.data;
+            const combinedData = [...userData, ...companyData];
+
+            setUserList(combinedData);
+            setIsConfirm(true);
+          })
+          .catch((error) => {
+            console.error('회사 사용자 정보 조회 실패 : ', error);
+            Modal.error({
+              content: '회사 사용자 정보 조회에 실패했습니다.',
+            });
+          });
+      })
+      .catch((error) => {
+        console.error('사용자 정보 조회 실패 : ', error);
+        Modal.error({
+          content: '사용자 정보 조회에 실패했습니다.',
+        });
+      });
+  };
+
+  // 휴대폰 번호 입력 시 포맷 적용
+  const handlePhoneNumberChange = (e) => {
+    const inputValue = e.target.value.replace(/\D/g, '');
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setPhoneNumber(formattedPhoneNumber);
   };
 
   return (
@@ -190,15 +289,15 @@ const SearchId = () => {
                     <span>휴대폰 번호</span>
                     <input
                       type="text"
-                      placeholder="휴대폰 번호를 입력하세요."
+                      name="phone"
+                      placeholder="회원가입시 등록했던 휴대폰 번호를 입력하세요."
                       value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      // onChange={(e) => setPhoneNumber(e.target.value)}
+                      onChange={handlePhoneNumberChange}
+                      maxLength={13}
                       className={styles.input}
                     />
-                    <button
-                      className={styles.button}
-                      // onClick={sendVerificationCode}
-                    >
+                    <button className={styles.button} onClick={sendSms}>
                       인증번호 발송
                     </button>
                   </div>
@@ -208,10 +307,10 @@ const SearchId = () => {
                       type="text"
                       placeholder="인증 번호를 입력하세요."
                       value={verificationCode}
-                      // onChange={(e) => setVerificationCode(e.target.value)}
+                      onChange={(e) => setVerificationCode(e.target.value)}
                       className={styles.input}
                     />
-                    <button className={styles.button} onClick={confirmClick}>
+                    <button className={styles.button} onClick={verifySms}>
                       확인
                     </button>
                   </div>
@@ -240,7 +339,7 @@ const SearchId = () => {
                       onChange={(e) => setVerificationCode(e.target.value)}
                       className={styles.input}
                     />
-                    <button className={styles.button} onClick={verifyCode}>
+                    <button className={styles.button} onClick={verifyEmail}>
                       확인
                     </button>
                   </div>
