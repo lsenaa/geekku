@@ -66,6 +66,7 @@ const CommunityBoardDetail = () => {
     try {
       const response = await axiosInToken(token).post(
         `${url}/user/communityBookmark?communityNum=${CommunityNum}`
+
       );
 
       if (response.status === 200) {

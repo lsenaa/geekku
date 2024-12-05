@@ -113,7 +113,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
             </td>
             <td className={styles.title}>관리비</td>
             <td className={styles.content}>
-              {estate.managePrice !== 0 ? estate.managePrice : '없음'}
+              {estate.managePrice !== 0 ? `${estate.managePrice}만원` : '없음'}
             </td>
           </tr>
           <tr>

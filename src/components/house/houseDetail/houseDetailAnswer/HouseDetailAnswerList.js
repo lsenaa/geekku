@@ -1,6 +1,6 @@
 import styles from './HouseDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import HouseDetailAnswerWrite from './HouseDetailAnswerWrite';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { RiQuestionAnswerLine } from 'react-icons/ri';
+import useInfiniteScroll from 'hook/useInfiniteScroll';
 
 const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,9 +18,9 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [answerIsOpen, setAnswerIsOpen] = useState({});
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
   const user = useAtomValue(userAtom);
-  const elementRef = useRef(null);
   const token = useAtomValue(tokenAtom);
 
   // 답변 작성 모달 토글
@@ -30,34 +31,6 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   useEffect(() => {
     fetchData(page);
   }, [page]);
-
-  // 답변 무한 스크롤
-  const onIntersection = (entries) => {
-    const firstEntry = entries[0];
-    if (firstEntry.isIntersecting && hasMore && !isLoading) {
-      setPage((prev) => prev + 1);
-    }
-  };
-
-  // Intersection Observer 설정
-  useEffect(() => {
-    const observer = new IntersectionObserver(onIntersection, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
-    // 컴포넌트가 언마운트되거나 더 이상 관찰할 필요가 없을 때(observer를 해제할 때)반환
-    return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
-      }
-    };
-  }, [hasMore, isLoading]);
 
   // 답변 데이터 요청
   const fetchData = (page) => {
@@ -72,7 +45,9 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
         if (res.data.houseAnswerList.length === 0) {
           setHasMore(false);
         } else {
+          setHasMore(true);
           setHouseAnswerList((prev) => [...prev, ...res.data.houseAnswerList]);
+          setTotalPages(res.data.pageInfo.endPage);
           if (page === res.data.pageInfo.endPage) {
             setHasMore(false);
           }
@@ -136,6 +111,12 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
       },
     });
   };
+
+  const elementRef = useInfiniteScroll(async (entry, observer) => {
+    if (hasMore && totalPages !== page) {
+      setPage((prev) => prev + 1);
+    }
+  });
 
   // 답변 클릭시 내용 보여주도록 토글
   const handleAnswer = (answerHouseNum) => {
@@ -231,11 +212,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
           />
         </Modal>
       )}
-      {hasMore && (
-        <div ref={elementRef} style={{ textAlign: 'center' }}>
-          Load More Items
-        </div>
-      )}
+      {hasMore && <div ref={elementRef}></div>}
     </div>
   );
 };

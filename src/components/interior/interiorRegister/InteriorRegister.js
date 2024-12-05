@@ -1,21 +1,25 @@
 import styles from './InteriorRegister.module.scss';
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { url } from 'lib/axios';
+import { useRef, useState } from 'react';
+import { axiosInToken } from 'lib/axios';
 import { useNavigate } from 'react-router-dom';
 import Button01 from 'components/commons/button/Button01';
+import { Modal } from 'antd';
+import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from 'store/atoms';
+import { MdCancel } from 'react-icons/md';
 
 const interiorRegister = () => {
-  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
-  const imageInput = useRef();
-  const [textCount, setTextCount] = useState(0);
-  const [fileList, setFileList] = useState([]);
-  const [imageUrl, setImageUrl] = useState();
-  const [selectedLoc, setSelectedLoc] = useState([]);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    companyName: '',
-    possiblePart: '',
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
+  const imageInput = useRef();
+  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
+  const [textCount, setTextCount] = useState(0);
+  const [selectedLoc, setSelectedLoc] = useState([]);
+  const [coverImg, setCoverImg] = useState(null);
+  const [interior, setInterior] = useState({
+    companyName: user.companyName,
+    possiblePart: false,
     period: '',
     recentCount: '',
     repairDate: '',
@@ -25,31 +29,20 @@ const interiorRegister = () => {
     content: '',
   });
 
-  const onClickImageUpload = (e) => {
-    if (e.target.file) {
-      imageInput.current.click();
-    }
+  const onClickImageUpload = () => {
+    imageInput.current.click();
   };
-  const fileChange = (e) => {
-    if (e.target.files.length > 0) {
-      setFileList([...fileList, e.target.files[0]]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCoverImg(file);
     }
   };
 
-  // const handleFileChange = (e) => {
-  //   const selectedFile = e.target.files[0]; // 선택된 파일 가져오기
-  //   if (selectedFile) {
-  //     setFile(selectedFile); // 파일 상태 설정
-  //     setFormData((prevFormData) => ({
-  //       ...prevFormData,
-  //       file: selectedFile, // formData에 파일도 추가
-  //     }));
-  //   }
-  // };
-  const getImageUrl = (e) => {
-    let file = e.target.files[0];
-    let url = URL.createObjectURL(file);
-    setImageUrl(url);
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setCoverImg(null);
   };
 
   const handleLocChange = (e) => {
@@ -58,9 +51,10 @@ const interiorRegister = () => {
     if (checked) {
       if (selectedLoc.length < 3) {
         setSelectedLoc([...selectedLoc, value]);
-        console.log(setSelectedLoc);
       } else {
-        alert('최대 3개 지역만 선택할 수 있습니다.');
+        Modal.info({
+          content: '최대 3개 지역만 선택할 수 있습니다',
+        });
         e.target.checked = false;
       }
     } else {
@@ -70,58 +64,66 @@ const interiorRegister = () => {
     }
   };
 
-  const loginCompany = async () => {
-    const company = '코스타인테리어';
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      companyName: company,
-    }));
-  };
-
-  useEffect(() => {
-    loginCompany();
-  }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+
+    // 숫자 소수점 1자리까지만 입력가능하도록 처리
+    const sanitizedValue = value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..{1}).*/g, '$1')
+      .replace(/(\..*)\./g, '$1');
+
+    if (name === 'period' || name === 'repairDate') {
+      setInterior({
+        ...interior,
+        [name]: sanitizedValue,
+      });
+    } else if (name === 'recentCount') {
+      setInterior({
+        ...interior,
+        [name]: value.replace(/[^0-9]/g, ''),
+      });
+    } else {
+      setInterior({
+        ...interior,
+        [name]: value,
+      });
+    }
 
     if (e.target.name === 'content') {
       setTextCount(e.target.value.length);
     }
   };
-  const handleOnSubmit = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const data = new FormData();
-    data.append('companyName', formData.companyName);
-    data.append('possiblePart', formData.possiblePart);
-    data.append('period', formData.period);
-    data.append('recentCount', formData.recentCount);
-    data.append('repairDate', formData.repairDate);
+    data.append('companyName', user.companyName);
+    data.append('possiblePart', interior.possiblePart);
+    data.append('period', interior.period);
+    data.append('recentCount', interior.recentCount);
+    data.append('repairDate', interior.repairDate);
+
     selectedLoc.forEach((location) => {
       data.append('possibleLocation', location);
     });
-    data.append('intro', formData.intro);
-    data.append('content', formData.content);
-    for (let file of fileList) {
-      data.append('file', file);
-    }
-    await axios
-      .post(`${url}/interiorRegister`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+
+    data.append('coverImg', coverImg);
+    data.append('intro', interior.intro);
+    data.append('content', interior.content);
+
+    await axiosInToken(token)
+      .post(`/company/interiorRegister`, data)
       .then((res) => {
         console.log(res.data);
-        alert('인테리어 등록이 완료되었습니다.');
+        Modal.success({
+          content: '인테리어 업체등록이 완료되었습니다.',
+        });
         navigate('/interiorList');
       })
-      .catch(function () {
-        alert('등록을 실패했습니다.');
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -135,7 +137,7 @@ const interiorRegister = () => {
         </p>
       </div>
       <div className={styles.line}></div>
-      <form className={styles.formEdit} onSubmit={handleOnSubmit}>
+      <form className={styles.formEdit}>
         <ul style={{ width: '100%' }}>
           <li>
             <label htmlFor="companyName">
@@ -144,13 +146,24 @@ const interiorRegister = () => {
             <input
               name="name"
               className={styles.customSelect}
-              value={formData.companyName}
+              value={user.companyName}
               readOnly
+              style={{ background: 'rgb(227 224 224)' }}
             />
           </li>
           <li className={styles.possiblePart}>
             <label htmlFor="possiblePart">
               부분시공 가능여부<span>*</span>
+            </label>
+            <label className={styles.radioGroup}>
+              <input
+                type="radio"
+                name="possiblePart"
+                value="false"
+                onChange={handleInputChange}
+                defaultChecked
+              />
+              불가능
             </label>
             <label className={styles.radioGroup}>
               <input
@@ -162,45 +175,51 @@ const interiorRegister = () => {
               />
               가능
             </label>
-            <label className={styles.radioGroup}>
-              <input
-                type="radio"
-                name="possiblePart"
-                value="false"
-                onChange={handleInputChange}
-              />
-              불가능
-            </label>
           </li>
           <li>
             <label htmlFor="period">
               경력<span>*</span>
             </label>
-            <input
-              name="period"
-              className={styles.customSelect}
-              onChange={handleInputChange}
-            />
+            <div className={styles.inputTextWrap}>
+              <input
+                type="text"
+                name="period"
+                className={styles.customSelect}
+                onChange={handleInputChange}
+                value={interior.period || ''}
+              />
+              <p>년</p>
+            </div>
           </li>
           <li>
             <label htmlFor="recentCount">
               최근 계약<span>*</span>
             </label>
-            <input
-              name="recentCount"
-              className={styles.customSelect}
-              onChange={handleInputChange}
-            />
+            <div className={styles.inputTextWrap}>
+              <input
+                type="text"
+                name="recentCount"
+                className={styles.customSelect}
+                onChange={handleInputChange}
+                value={interior.recentCount || ''}
+              />
+              <p>건</p>
+            </div>
           </li>
           <li>
             <label htmlFor="repairDate">
               보수 기간<span>*</span>
             </label>
-            <input
-              name="repairDate"
-              className={styles.customSelect}
-              onChange={handleInputChange}
-            />
+            <div className={styles.inputTextWrap}>
+              <input
+                type="text"
+                name="repairDate"
+                className={styles.customSelect}
+                onChange={handleInputChange}
+                value={interior.repairDate || ''}
+              />
+              <p>년</p>
+            </div>
           </li>
           <li>
             <label>
@@ -227,32 +246,38 @@ const interiorRegister = () => {
           </li>
         </ul>
         <div className={styles.upload}>
-          <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-          <input
-            type="file"
-            id="fileAdd"
-            accept="image/*"
-            // onChange={handleFileChange}
-            onChange={fileChange}
-            style={{ display: 'none' }}
-            ref={imageInput}
-          />
-          <div
-            className={styles.add}
-            onClick={() => {
-              imageInput.current.click();
-            }}
-          >
-            추가하기
-            {/* <button
+          {coverImg ? (
+            <div className={styles.imgCancelBtnWrap}>
+              <MdCancel
+                size={30}
+                className={styles.cancelBtn}
+                onClick={handleRemoveImage}
+              />
+              <img
+                src={URL.createObjectURL(coverImg)}
+                alt="커버 이미지"
+                className={styles.uploadImg}
+              />
+            </div>
+          ) : (
+            <>
+              <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={imageInput}
+                onChange={handleImageChange}
+              />
+              <button
                 type="button"
                 onClick={onClickImageUpload}
-                style={{ margin: '20px auto', width: '330px', height: '60px' }}
+                className={styles.addBtn}
               >
                 추가하기
               </button>
-              <img src={imageUrl} /> */}
-          </div>
+            </>
+          )}
         </div>
         <div style={{ width: '100%' }}>
           <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>소개글 작성</h3>
@@ -265,7 +290,8 @@ const interiorRegister = () => {
               <input
                 name="intro"
                 className={styles.intro}
-                placeholder="한줄 소개를 작성해주세요."
+                placeholder="한줄 소개를 작성해주세요. (20자 이내)"
+                maxLength={20}
                 onChange={handleInputChange}
               />
             </li>
@@ -285,9 +311,23 @@ const interiorRegister = () => {
             </li>
           </ul>
         </div>
-        <button type="submit" className={styles.submitBtn}>
-          등록하기
-        </button>
+        <div className={styles.btnWrap}>
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            onClick={handleSubmit}
+          >
+            등록하기
+          </button>
+          <Button01
+            type="button"
+            size="small"
+            color="sub"
+            onClick={() => navigate(-1)}
+          >
+            취소하기
+          </Button01>
+        </div>
       </form>
     </div>
   );

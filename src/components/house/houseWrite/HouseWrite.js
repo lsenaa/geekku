@@ -20,10 +20,10 @@ const HouseWrite = () => {
     addressDetail: '',
     size: '',
     rentType: 'jeonse',
-    jeonsePrice: 0,
-    monthlyPrice: 0,
-    buyPrice: 0,
-    depositPrice: 0,
+    jeonsePrice: '',
+    monthlyPrice: '',
+    buyPrice: '',
+    depositPrice: '',
     requestDate: '2000-01-01',
     requestState: false,
     allowPhone: false,
@@ -55,6 +55,21 @@ const HouseWrite = () => {
       setHouse((prev) => ({
         ...prev,
         rentType: 'buy',
+      }));
+    }
+
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (
+      e.target.name === 'jeonsePrice' ||
+      e.target.name === 'monthlyPrice' ||
+      e.target.name === 'buyPrice' ||
+      e.target.name === 'depositPrice'
+    ) {
+      setHouse((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
       }));
     }
 
@@ -249,7 +264,12 @@ const HouseWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>전세가</label>
               <div className={styles.inputTextWrap}>
-                <input type="number" name="jeonsePrice" onChange={handleEdit} />
+                <input
+                  type="text"
+                  name="jeonsePrice"
+                  onChange={handleEdit}
+                  value={house.jeonsePrice || ''}
+                />
                 <p>만원</p>
               </div>
             </div>
@@ -260,9 +280,10 @@ const HouseWrite = () => {
                 <label>보증금</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="depositPrice"
                     onChange={handleEdit}
+                    value={house.depositPrice || ''}
                   />
                   <p>만원</p>
                 </div>
@@ -271,9 +292,10 @@ const HouseWrite = () => {
                 <label>월세</label>
                 <div className={styles.inputTextWrap}>
                   <input
-                    type="number"
+                    type="text"
                     name="monthlyPrice"
                     onChange={handleEdit}
+                    value={house.monthlyPrice || ''}
                   />
                   <p>만원</p>
                 </div>
@@ -284,7 +306,12 @@ const HouseWrite = () => {
             <div className={styles.subLabelWrap}>
               <label>매매가</label>
               <div className={styles.inputTextWrap}>
-                <input type="number" name="buyPrice" onChange={handleEdit} />
+                <input
+                  type="text"
+                  name="buyPrice"
+                  onChange={handleEdit}
+                  value={house.buyPrice || ''}
+                />
                 <p>만원</p>
               </div>
             </div>
