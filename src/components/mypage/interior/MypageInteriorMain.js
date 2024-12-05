@@ -2,7 +2,8 @@ import styles from './MypageInteriorMain.module.scss';
 import { Link } from 'react-router-dom';
 import Button01 from 'components/commons/button/Button01';
 import { Pagination } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
@@ -13,7 +14,11 @@ const MypageInteriorMain = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const interior = { ...location.state };
+  const navigate = useNavigate();
 
+  console.log('마이페이지 인테리어 메인 토큰 : ', token);
   const [myInterior, setMyInterior] = useState({
     intro: '',
     content: '',
@@ -22,7 +27,6 @@ const MypageInteriorMain = () => {
     period: '',
     recentCount: '',
     repairDate: '',
-    onestopNum: 0,
   });
 
   useEffect(() => {
@@ -33,18 +37,26 @@ const MypageInteriorMain = () => {
         },
       })
       .then((res) => {
+        console.log('res.data :', res.data);
         setMyInterior(res.data);
+        console.log(myInterior.interior);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
       });
-  }, []);
+  }, [token]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  const clicked = ({ myInterior }) => {
+    navigate('/mypageInterior/modify', {
+      state: { content: `${interior.content}` },
+    });
+  };
 
   return (
     <div>
@@ -97,13 +109,13 @@ const MypageInteriorMain = () => {
           <tr>
             <td className={styles.leftcol}>소개글</td>
             <td className={styles.rightcol}>
-              <p>{myInterior.content || 'N/A'}</p>
+              <p>{myInterior.interior?.content || 'N/A'}</p>
             </td>
           </tr>
         </tbody>
       </div>
       <div className={styles.btncontain}>
-        <Button01 size="small">
+        <Button01 size="small" onClick={clicked}>
           <Link to={'/mypageInterior/modify'}>수정하기</Link>
         </Button01>
       </div>

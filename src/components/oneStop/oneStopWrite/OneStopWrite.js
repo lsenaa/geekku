@@ -50,7 +50,7 @@ const OneStopWrite = () => {
     movePersons: '',
     rentType: 'jeonse',
     size: '',
-    type: '',
+    type: 'farmHouse',
     workType: true,
   });
 
