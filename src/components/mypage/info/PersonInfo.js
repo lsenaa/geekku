@@ -25,11 +25,10 @@ const PersonInfo = () => {
       if (cleaned.length > 11) {
         return;
       }
-      setUser({ ...user, phone: cleaned });
+      setMyUser({ ...myUser, phone: cleaned });
     } else {
-      setUser({ ...user, [name]: value });
+      setMyUser({ ...myUser, [name]: value });
     }
-    setMyUser({ ...myUser, [name]: value });
   };
 
   useEffect(() => {
@@ -189,10 +188,6 @@ const PersonInfo = () => {
           <button className={styles.button} onClick={submit}>
             완료
           </button>
-
-          <a href="/" className={styles.removeUser}>
-            회원탈퇴
-          </a>
         </div>
       </div>
     </div>
