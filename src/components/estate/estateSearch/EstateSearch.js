@@ -1,5 +1,5 @@
 import styles from './EstateSearch.module.scss';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import EstateList from '../estateList/EstateList';
 import KakaoMap from 'components/kakaomap/KakaoMap';
 import axios from 'axios';
@@ -61,37 +61,40 @@ const EstateSearch = () => {
     return processedKeyword.trim();
   };
 
-  const fetchData = (searchKeyword = '', searchType = '') => {
+  const fetchData = async (searchKeyword = '', searchType = '') => {
     const params = {};
     if (searchType) params.type = searchType;
     if (searchKeyword) params.keyword = processKeyword(searchKeyword);
     params.page = page;
 
-    axios
-      .get(`${url}/estateList`, { params })
-      .then((res) => {
-        console.log(res.data);
+    try {
+      const res = await axios.get(`${url}/estateList`, { params });
+      console.log(res.data);
 
-        if (res.data.estateList.length === 0) {
-          setHasMore(false);
-        } else {
-          setHasMore(true);
-          setEstateList((prev) => [...prev, ...res.data.estateList]);
-          setTotalPages(res.data.pageInfo.allPage);
-          if (page === totalPages) {
-            setHasMore(false);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setHasMore(false);
-      });
+      setEstateList([...res.data.estateList]);
+      // if (res.data.estateList.length === 0) {
+      //   setHasMore(false);
+      // } else {
+      //   setHasMore(true);
+      //   //  setEstateList((prev) => [...prev, ...res.data.estateList]);
+      //   const fetchedList = res.data.estateList;
+      //   setEstateList((prev) =>
+      //     page === 1 ? fetchedList : [...prev, ...fetchedList]
+      //   );
+      //   setTotalPages(res.data.pageInfo.allPage);
+      //   if (page === totalPages) {
+      //     setHasMore(false);
+      //   }
+      // }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // 타입 선택
   const handleType = (type) => {
     setType(type);
+    setPage(1);
   };
 
   // 키워드 입력
@@ -106,6 +109,7 @@ const EstateSearch = () => {
     setKeyword(selectedKeyword);
     setSearchInput('');
     setType('');
+    setPage(1);
     fetchData(selectedKeyword);
   };
 
