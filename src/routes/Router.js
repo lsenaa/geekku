@@ -156,7 +156,7 @@ const Router = () => {
       <Route path="/joinInterior" element={<JoinInterior />} />
       {/* Profile */}
       <Route path="/profile/person/:userId" element={<ProfilePerson />} />
-      <Route path="/profile/interior/*" element={<ProfileInterior />}>
+      <Route path="/profile/interior/:num" element={<ProfileInterior />}>
         <Route index element={<ProfileInteriorAll />} />
         <Route path="sample" element={<ProfileInteriorSample />} />
         <Route path="review" element={<ProfileInteriorReview />} />

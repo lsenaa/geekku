@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './ProfileInteriorMenu.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 
-const ProfileInteriorMenu = () => {
+const ProfileInteriorMenu = ({ detailInfo }) => {
   const location = useLocation();
   const [selected, setSelected] = useState(location.pathname);
   const locPath = location.pathname;
@@ -18,11 +18,11 @@ const ProfileInteriorMenu = () => {
       path: `/profile/interior`,
     },
     {
-      name: `시공사례(${26})`,
+      name: `시공사례(${detailInfo.sampleCount})`,
       path: `/profile/interior/sample`,
     },
     {
-      name: `사용자 리뷰(${10})`,
+      name: `사용자 리뷰(${detailInfo.reviewCount})`,
       path: `/profile/interior/review`,
     },
     { name: '소개글', path: `/profile/interior/introduce` },
