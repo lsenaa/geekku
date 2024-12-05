@@ -4,7 +4,7 @@ $body-color: #fffaf4;
 $sub-font: 'Santokki';
 
 @mixin container {
-  width: 800px;
+  width: 1200px;
   margin: 0 auto;
   min-height: calc(100vh - 200px);
   padding: 100px 0;
@@ -16,8 +16,8 @@ $sub-font: 'Santokki';
   }
 }
 
-@mixin tableContainer {
-  width: 1200px;
+@mixin formContainer {
+  width: 800px;
   margin: 0 auto;
   min-height: calc(100vh - 200px);
   padding: 100px 0;

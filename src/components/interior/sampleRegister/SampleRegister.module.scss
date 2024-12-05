@@ -1,8 +1,7 @@
 @import 'variables.scss';
 
 .regDesign {
-  @include container;
-  width: 800px;
+  @include formContainer;
 
   li {
     margin-bottom: 30px;

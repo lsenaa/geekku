@@ -1,8 +1,7 @@
 @import '../../../variables.scss';
 
 .container {
-  @include container;
-  padding: 100px 0;
+  @include formContainer;
 
   h2 {
     font-family: $sub-font;
@@ -87,11 +86,11 @@ section {
       box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
     }
   }
-  input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   .select {
     width: 235px;
     padding: 10px;

@@ -132,7 +132,7 @@ const ReqInteriorWrite = () => {
   };
   return (
     <div className={styles.container}>
-      <h2>방꾸미기 신청하기</h2>
+      <h2>방꾸하기 신청하기</h2>
       <section>
         <div className={styles.title}>
           <h3>원하는 시공 정보</h3>

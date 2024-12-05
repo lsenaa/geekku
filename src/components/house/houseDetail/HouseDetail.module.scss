@@ -1,7 +1,7 @@
 @import '../../../variables.scss';
 
 .container {
-  @include container;
+  @include formContainer;
   padding: 100px 0;
 
   .sectionTitleWrp {
