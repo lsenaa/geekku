@@ -3,12 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { DatePicker } from 'antd';
 import Button01 from 'components/commons/button/Button01';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { useAtom, useAtomValue } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
 import { redirect } from 'react-router';
 import { axiosInToken, url } from 'lib/axios';
 import { Modal } from 'antd';
+
 import axios from 'axios';
 
 const MypageInteriorModify = () => {
@@ -32,6 +33,8 @@ const MypageInteriorModify = () => {
     intro: '',
     content: '',
   });
+  const location = useLocation();
+
   const handlemodifySuccess = (event) => {
     event.preventDefault(); // 폼 제출 방지
     navigate('/mypageInterior');
@@ -41,13 +44,14 @@ const MypageInteriorModify = () => {
     console.log(date, dateString);
   };
 
-  const onTextareaHandler = (e) => {
-    setTextCount(e.target.value.length);
-  };
   const edit = (e) => {
     const { name, value } = e.target;
 
-    setInterior({ ...interior, [name]: value });
+    setInterior((prev) => ({ ...prev, [name]: value }));
+
+    if (name === 'content') {
+      setTextCount(value.length);
+    }
   };
   const fileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -55,28 +59,38 @@ const MypageInteriorModify = () => {
     }
   };
   useEffect(() => {
-    axiosInToken(token)
+    axios
       .get(`${url}/company/interiorCompanyDetail`, {
         headers: {
           Authorization: token,
         },
       })
       .then((res) => {
-        setInterior(res.data);
+        setInterior({ ...res.data.interior });
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response) {
+          // 서버가 응답을 반환한 경우
+          console.log('Error Response:', err.response.data);
+          console.log('Status Code:', err.response.status);
+          console.log('Headers:', err.response.headers);
+        } else if (err.request) {
+          // 요청이 전송되었으나 응답이 없는 경우
+          console.log('Error Request:', err.request);
+        } else {
+          // 요청 설정 중 에러 발생
+          console.log('Error Message:', err.message);
+        }
       });
   }, []);
-  const handleInputChange = (e) => {
-    setInterior({ ...interior, [e.target.name]: e.target.value });
-  };
-  const submit = (e) => {
+
+  const submit = async (e) => {
     e.preventDefault();
+    console.log('interior', interior);
     let formData = new FormData();
-    formData.append('intro', interior.nickname);
-    formData.append('content', interior.phone);
-    formData.append('period', interior.email);
+    formData.append('intro', interior.intro);
+    formData.append('content', interior.content);
+    formData.append('period', interior.period);
     formData.append('possibleLocation', interior.possibleLocation);
     formData.append('possiblePart', interior.possiblePart);
     formData.append('recentCount', interior.recentCount);
@@ -86,7 +100,7 @@ const MypageInteriorModify = () => {
     //   formData.append('file', coverImage);
     // }
 
-    axiosInToken(token)
+    await axiosInToken(token)
       .post(`${url}/company/interiorModify`, formData, {
         headers: {
           Authorization: token,
@@ -97,7 +111,7 @@ const MypageInteriorModify = () => {
         Modal.success({
           content: '업체 정보가 수정되었습니다.',
         });
-        redirect('${url}/user/updateUserInfo');
+        navigate(-1);
       })
       .catch((err) => {
         console.log('정보 수정 실패 ');
@@ -135,9 +149,9 @@ const MypageInteriorModify = () => {
             부분시공 가능 여부<span>*</span>
           </label>
           <div className={styles.radioGroup}>
-            <input type="radio" id="all" name="InteriorType" value="0" />
+            <input type="radio" id="all" name="possiblePart" value="0" />
             <label htmlFor="가능">가능</label>
-            <input type="radio" id="part" name="InteriorType" value="1" />
+            <input type="radio" id="part" name="possiblePart" value="1" />
             <label htmlFor="불가능">불가능</label>
           </div>
         </div>
@@ -145,39 +159,49 @@ const MypageInteriorModify = () => {
           <label>
             경력<span>*</span>
           </label>
-          <div>
-            <input
-              type="text"
-              name="period"
-              value={interior.period}
-              onChange={edit}
-              placeholder="년"
-            />
+          <div className={styles.subLabelWrap}>
+            <div className={styles.inputTextWrap}>
+              <input
+                type="number"
+                name="period"
+                value={interior.period}
+                onChange={edit}
+              />
+              <p>년</p>
+            </div>
           </div>
         </div>
         <div className={styles.item}>
           <label>
             최근 계약<span>*</span>
           </label>
-          <input
-            type="date"
-            id="start"
-            name="trip-start"
-            value={interior.recentCount}
-            onChange={edit}
-            min="2020-01-01"
-            max="2030-12-31"
-          />
+          <div className={styles.subLabelWrap}>
+            <div className={styles.inputTextWrap}>
+              <input
+                type="number"
+                name="recentCount"
+                value={interior.recentCount}
+                onChange={edit}
+              />
+              <p>건</p>
+            </div>
+          </div>
         </div>
         <div className={styles.item}>
           <label htmlFor="repairDate">
             보수 기간<span>*</span>
           </label>
-          <input
-            name="repairDate"
-            className={styles.customSelect}
-            onChange={handleInputChange}
-          />
+          <div className={styles.subLabelWrap}>
+            <div className={styles.inputTextWrap}>
+              <input
+                type="number"
+                name="repairDate"
+                value={interior.repairDate}
+                onChange={edit}
+              />
+              <p>개월</p>
+            </div>
+          </div>
         </div>
 
         <div className={styles.items}>
@@ -191,9 +215,9 @@ const MypageInteriorModify = () => {
                   type="checkbox"
                   id={location}
                   name="location"
-                  value={location}
+                  value={interior.location}
                   onChange={edit}
-                  checked={interior.location === location}
+                  checked={interior.possibleLocation === location}
                 />
                 {location}
               </label>
@@ -206,7 +230,6 @@ const MypageInteriorModify = () => {
             type="file"
             id="fileAdd"
             accept="image/*"
-            // onChange={handleFileChange}
             onChange={fileChange}
             style={{ display: 'none' }}
             ref={imageInput}
@@ -230,6 +253,7 @@ const MypageInteriorModify = () => {
           </label>
           <input
             type="text"
+            name="intro"
             minLength="5"
             maxLength="40"
             onChange={edit}
@@ -249,8 +273,10 @@ const MypageInteriorModify = () => {
               minLength="5"
               maxLength="1000"
               className={styles.detailTextarea}
+              value={interior.content}
               placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
-              onChange={onTextareaHandler}
+              onChange={edit}
+              name="content"
             />
             <p>
               <span>{textCount}</span> / 1000

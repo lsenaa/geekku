@@ -46,13 +46,13 @@ const ReqInteriorWrite = () => {
     addContent: '',
     address1: '',
     address2: '',
-    allowPhone: true,
+    allowPhone: 0,
     money: '',
     movePersons: '',
-    rentType: true,
+    rentType: 'jeonse',
     size: '',
-    type: '',
-    workType: '',
+    type: 'farmHouse',
+    workType: 0,
   });
 
   const onTextareaHandler = (e) => {
