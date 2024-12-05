@@ -40,7 +40,7 @@ const HouseMain = () => {
       navigate('/house/write');
     } else {
       Modal.info({
-        content: '로그인 후 이용하세요.',
+        content: '로그인 후 이용가능합니다.',
       });
       navigate('/login');
     }
@@ -99,9 +99,11 @@ const HouseMain = () => {
             검색
           </button>
         </div>
-        <Button01 size="small" onClick={onClickWrite}>
-          작성하기
-        </Button01>
+        {user.userId && (
+          <Button01 size="small" onClick={onClickWrite}>
+            작성하기
+          </Button01>
+        )}
       </div>
       <HouseList houseList={houseList} />
       <Pagination
