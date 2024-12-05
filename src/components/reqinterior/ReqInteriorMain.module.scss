@@ -1,9 +1,9 @@
 @import '../../variables.scss';
 
 .container {
-  @include container;
-  padding-right: 50px;
-  padding-left: 50px;
+  @include tableContainer;
+  // padding-right: 50px;
+  // padding-left: 50px;
 }
 
 .topWrap {

@@ -41,7 +41,7 @@
 
   .profile {
     @include flexrow;
-    width: 15%;
+    width: 25%;
 
     img {
       width: 30px;
@@ -91,7 +91,7 @@
 
 .title {
   margin: 16px 0;
-  width: 75%;
+  width: 65%;
 }
 
 .editorContent {
