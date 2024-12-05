@@ -26,7 +26,7 @@ const CommunityFilterBar = ({ communityList, setCommunityList }) => {
 
   // 커뮤니티글 작성 폼 이동
   const handleCommunityBoardWrite = () => {
-    if (user?.userId) {
+    if ((user && user.userId) || user.companyId) {
       navigate('/CommunityBoardWrite');
     } else {
       alert('로그인이 필요합니다.');

@@ -29,13 +29,13 @@ const CommunityBoardDetail = () => {
       console.log(user);
       axios
         .post(`${url}/communityDetail/${CommunityNum}`, {
-          userId: user.userId,
+          userId: user?.userId || '1f95ebff-7367-4386-b04b-bd8b57697dc0',
         })
         .then((res) => {
           setPost(res.data.communityDetail); //상세
           setComments([...res.data.commentList]); //댓글
 
-          if (user?.userId) {
+          if (user?.userId || user?.companyId) {
             setIsBookmarked(res.data.bookmark); //북마크(로그인 시에만)
             setIsOwner(user.userId === res.data.communityDetail.userId);
           } else {
@@ -63,10 +63,18 @@ const CommunityBoardDetail = () => {
   };
 
   const handleBookmarkClick = async () => {
+    if (!user?.userId && !user?.companyId) {
+      console.log(user.companyId);
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
     try {
       const response = await axiosInToken(token).post(
-        `${url}/user/communityBookmark?communityNum=${CommunityNum}`
-
+        `${url}/user/communityBookmark?communityNum=${CommunityNum}`,
+        {
+          userId: user.userId,
+        }
       );
 
       if (response.status === 200) {
@@ -86,11 +94,16 @@ const CommunityBoardDetail = () => {
   };
 
   const handleCommentSubmit = async () => {
+    if (!user?.userId && !user?.companyId) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
     if (newComment.trim()) {
       try {
         const newCommentData = {
           communityId: CommunityNum,
-          userId: user.userId, // 사용자 아이디로 수정해야함
+          userId: user.userId,
           content: newComment,
         };
 

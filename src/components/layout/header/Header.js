@@ -10,6 +10,7 @@ import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import axios from 'axios';
 import { Modal } from 'antd';
+import { url } from 'lib/axios';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
@@ -44,7 +45,7 @@ const Header = ({ alarms = [] }) => {
 
   const confirm = (num) => {
     axios
-      .get(`http://localhost:8080/confirm/${num}`)
+      .get(`${url}/confirm/${num}`)
       .then((res) => {
         if (res.data === true) {
           setAlarms(alarms.filter((item) => item.num !== num));
