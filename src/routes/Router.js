@@ -147,7 +147,7 @@ const Router = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/searchId" element={<SearchId />} />
       <Route path="/searchPwd" element={<SearchPwd />} />
-      <Route path="/searchPwdResult" element={<SearchPwdResult />} />
+      <Route path="/resetPassword" element={<SearchPwdResult />} />
       {/* Join */}
       <Route path="/joinPerson" element={<JoinPerson />} />
       <Route path="/joinCompany" element={<JoinCompany />} />
