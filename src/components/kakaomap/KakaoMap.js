@@ -91,8 +91,8 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
 
                 const customOverlay = new window.kakao.maps.CustomOverlay({
                   content: `<div style="width:100px;text-align:center;padding:6px 0;border:1px solid #6d885d;border-radius:10px;background-color:white;display:flex;flex-direction:column;align-items:flex-end;">
-                  <button id="closeOverlay" style="margin-top: 5px; padding: 5px 10px;">X</button>
-                  <div style="display:flex;flex-direction:column;align-items:center;">
+                  <button id="closeOverlay" style="margin-right:4px;border:none;background-color: transparent;">×</button>
+                  <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
                   <p style="font-size:10px;margin-bottom:8px;">
                   ${formatEstateType(estate.type)}
                   </p>
