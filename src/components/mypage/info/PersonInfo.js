@@ -17,8 +17,14 @@ const PersonInfo = () => {
   const [myUser, setMyUser] = useState(user);
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [isSocial, setIsSocial] = useState(false);
+
+  useEffect(() => {
+    setIsSocial(user.provider);
+  }, [user]);
 
   const edit = (e) => {
+    if (isSocial) return;
     const { name, value } = e.target;
     if (name === 'phone') {
       const cleaned = value.replace(/\D+/g, '');
@@ -133,6 +139,7 @@ const PersonInfo = () => {
               // value={myUser.nickname}
               placeholder={myUser.nickname}
               className={styles.input1}
+              readOnly={isSocial}
             />
             <button
               className={styles.checkButton}
@@ -179,10 +186,10 @@ const PersonInfo = () => {
             <input
               type="text"
               name="email"
-              // value={myUser.email}
               onChange={edit}
               placeholder={myUser.email}
               className={styles.input2}
+              readOnly={isSocial}
             />
           </div>
           <button className={styles.button} onClick={submit}>
