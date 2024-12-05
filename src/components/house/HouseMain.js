@@ -38,6 +38,10 @@ const HouseMain = () => {
   const onClickWrite = () => {
     if (user.userId) {
       navigate('/house/write');
+    } else if (user.companyId) {
+      Modal.info({
+        content: '일반회원만 이용가능합니다.',
+      });
     } else {
       Modal.info({
         content: '로그인 후 이용가능합니다.',
@@ -99,11 +103,9 @@ const HouseMain = () => {
             검색
           </button>
         </div>
-        {user.userId && (
-          <Button01 size="small" onClick={onClickWrite}>
-            작성하기
-          </Button01>
-        )}
+        <Button01 size="small" onClick={onClickWrite}>
+          작성하기
+        </Button01>
       </div>
       <HouseList houseList={houseList} />
       <Pagination
