@@ -66,6 +66,7 @@ import OneStopWrite from 'components/oneStop/oneStopWrite/OneStopWrite';
 import MypagePersonRequestInterior from 'components/mypage/person/interior/MypagePersonRequestInterior';
 import InteriorRequest from 'components/interior/interiorRequest/InteriorRequest';
 import ReviewModify from 'components/interior/review/ReviewModify';
+import CommunityBoardEdit from 'components/community/communityWrite/CommunityBoardEdit';
 
 const Router = () => {
   return (
@@ -97,6 +98,7 @@ const Router = () => {
       {/* Communnity */}
       <Route path="/community" element={<CommunityMain />} />
       <Route path="/communityBoardWrite" element={<CommunityBoardWrite />} />
+      <Route path="/communityBoardEdit/:id" element={<CommunityBoardEdit />} />
       <Route
         path="/communityBoardDetail/:CommunityNum"
         element={<CommunityBoardDetail />}

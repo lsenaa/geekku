@@ -6,6 +6,7 @@ import { Outlet, useParams } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { url } from 'lib/axios';
 
 const ProfilePerson = () => {
   const { userId } = useParams(); // URL에서 userId 추출
@@ -19,7 +20,7 @@ const ProfilePerson = () => {
   useEffect(() => {
     // 사용자 정보 가져오기
     axios
-      .get(`http://localhost:8080/personProfile/${userId}`)
+      .get(`${url}/personProfile/${userId}`)
       .then((response) => {
         setUserInfo(response.data); // 사용자 정보 설정
       })
@@ -29,7 +30,7 @@ const ProfilePerson = () => {
 
     // 작성 게시글 가져오기
     axios
-      .get(`http://localhost:8080/personCommunities/${userId}`)
+      .get(`${url}/personCommunities/${userId}`)
       .then((response) => {
         setHouseCards(response.data); // 데이터 상태 설정
       })

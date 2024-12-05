@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './CommunityFilterBar.module.css';
 import { url } from 'lib/axios';
+import { userAtom } from 'store/atoms';
+import { useAtomValue } from 'jotai';
 
 const CommunityFilterBar = ({ communityList, setCommunityList }) => {
   const navigate = useNavigate();
   const [totalCount, setTotalCount] = useState(0); // 전체 게시글 개수 상태 추가
+  const user = useAtomValue(userAtom);
   const [filters, setFilters] = useState({
     housingType: null,
     roomCount: null,
@@ -23,20 +26,13 @@ const CommunityFilterBar = ({ communityList, setCommunityList }) => {
 
   // 커뮤니티글 작성 폼 이동
   const handleCommunityBoardWrite = () => {
-    navigate('/CommunityBoardWrite');
+    if (user?.userId) {
+      navigate('/CommunityBoardWrite');
+    } else {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    }
   };
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(`${url}/communityList`, {
-  //       params: filters,
-  //     });
-  //     setCommunityList(response.data.content);
-  //     setTotalCount(response.data.content.length);
-  //   } catch (error) {
-  //     console.error('데이터를 가져오는데 실패했습니다:', error);
-  //   }
-  // };
 
   const fetchData = async () => {
     try {
