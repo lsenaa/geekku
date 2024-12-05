@@ -49,7 +49,6 @@
 .item {
   @include flexrow;
   margin-bottom: 30px;
-  padding-right: 20px;
   width: 100%;
 
   label {
@@ -60,8 +59,7 @@
 
 .content {
   @include border;
-  width: 90%;
-  height: 200px;
+  width: 660px;
   padding: 16px;
 }
 
