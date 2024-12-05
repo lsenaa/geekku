@@ -21,7 +21,7 @@ const CommunityListCard = ({
   return (
     <div className={styles.card} onClick={handleCardClick}>
       <img
-        src={`http://localhost:8080/communityImage/${image}`}
+        src={`${url}/communityImage/${image}`}
         alt={title}
         className={styles.cardImage}
       />

@@ -2,17 +2,18 @@ import React from 'react';
 import MypageEstateCard from './MypageEstateCard';
 import styles from './MypageEstateCardList.module.css';
 
-const MypageEstateCardList = ({ houseCards }) => {
+const MypageEstateCardList = ({ estateList }) => {
+  //console.log(estateList);
   return (
     <div className={styles.houseList}>
-      {houseCards.map((card) => (
+      {estateList.map((card) => (
         <MypageEstateCard
-          key={card.id}
+          key={card.estateNum}
           type={card.type}
-          rent={card.rent}
-          location={card.location}
-          description={card.description}
-          imageUrl={card.imageUrl}
+          rent={card.rentType}
+          location={`${card.address1}, ${card.address2} | ${card.size1}㎡`}
+          description={card.content} // 설명
+          imageUrl={card.imageUrl || 'defaultImage.jpg'} // 이미지 URL
         />
       ))}
     </div>
