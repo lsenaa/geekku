@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './CustomLocFilter.module.scss';
 // import { imgUrl } from "../../../constants/path";
 import loc_all from '../../../assets/images/loc_all.png';
@@ -11,6 +11,8 @@ import loc_gyangsang from '../../../assets/images/loc_gyangsang.png';
 import loc_jeju from '../../../assets/images/loc_jeju.png';
 
 const CustomLocFilter = () => {
+  const [selectedLoc, setSelectedLoc] = useState(null);
+
   const categories = [
     { id: 1, name: '전체', imgSrc: loc_all },
     { id: 2, name: '경기', imgSrc: loc_gyunggy },
@@ -23,6 +25,7 @@ const CustomLocFilter = () => {
   ];
 
   const filterCategory = (category) => {
+    setSelectedLoc(category.name);
     console.log(`Filtering: ${category}`);
   };
 
@@ -34,6 +37,7 @@ const CustomLocFilter = () => {
             id={styles.sub}
             key={index}
             onClick={() => filterCategory(category.name)}
+            className={selectedLoc === category.name ? styles.selected : ''}
           >
             <img src={category.imgSrc} alt={category.name} />
             {category.name}
