@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { axiosInToken, url } from 'lib/axios';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
 import { Modal } from 'antd';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const BookmarkCommunity = () => {
   const token = useAtomValue(tokenAtom);
@@ -112,6 +113,7 @@ const BookmarkCommunity = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
+      <TopButton />
     </>
   );
 };

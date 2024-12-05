@@ -54,43 +54,49 @@ const MypagePersonCommunity = () => {
 
   return (
     <ul className={styles.Container}>
-      {communityData.map((community) => (
-        <li key={community.communityNum}>
-          <div className={styles.imgWrapper}>
-            <img
-              src={`${url}/communityImage/${community.coverImage}`}
-              alt="집들이 이미지"
-            />
-          </div>
-          <div className={styles.textWrapper}>
-            <p className={styles.title}>{community.title}</p>
-            <p className={styles.view}>
-              조회수 {community.viewCount?.toLocaleString() || 0}
-            </p>
-          </div>
-          <div className={styles.contentWrapper}>
-            {/* 상세보기 버튼 */}
-            <Button01
-              size="x-small"
-              color="sub"
-              onClick={() =>
-                navigate(`/communityBoardDetail/${community.communityNum}`)
-              }
-            >
-              상세보기
-            </Button01>
-            <br />
-            <br />
-            {/* 삭제 버튼 */}
-            <Button01
-              size="x-small"
-              onClick={() => handleDelete(community.communityNum)}
-            >
-              삭제
-            </Button01>
-          </div>
-        </li>
-      ))}
+      {communityData.length === 0 ? (
+        <div style={{ margin: '0 auto' }}>집들이 작성내역이 없습니다.</div>
+      ) : (
+        <>
+          {communityData.map((community) => (
+            <li key={community.communityNum}>
+              <div className={styles.imgWrapper}>
+                <img
+                  src={`${url}/communityImage/${community.coverImage}`}
+                  alt="집들이 이미지"
+                />
+              </div>
+              <div className={styles.textWrapper}>
+                <p className={styles.title}>{community.title}</p>
+                <p className={styles.view}>
+                  조회수 {community.viewCount?.toLocaleString() || 0}
+                </p>
+              </div>
+              <div className={styles.contentWrapper}>
+                {/* 상세보기 버튼 */}
+                <Button01
+                  size="x-small"
+                  color="sub"
+                  onClick={() =>
+                    navigate(`/communityBoardDetail/${community.communityNum}`)
+                  }
+                >
+                  상세보기
+                </Button01>
+                <br />
+                <br />
+                {/* 삭제 버튼 */}
+                <Button01
+                  size="x-small"
+                  onClick={() => handleDelete(community.communityNum)}
+                >
+                  삭제
+                </Button01>
+              </div>
+            </li>
+          ))}
+        </>
+      )}
     </ul>
   );
 };

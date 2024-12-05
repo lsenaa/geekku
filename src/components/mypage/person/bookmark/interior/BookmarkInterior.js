@@ -7,6 +7,7 @@ import { axiosInToken } from 'lib/axios';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
 import { Modal } from 'antd';
 import { Link } from 'react-router-dom';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const BookmarkInterior = () => {
   const token = useAtomValue(tokenAtom);
@@ -118,6 +119,7 @@ const BookmarkInterior = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
+      <TopButton />
     </>
   );
 };
