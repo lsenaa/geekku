@@ -17,7 +17,7 @@ const MypagePersonReview = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   const fetchData = () => {
     axiosInToken(token)

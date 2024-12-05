@@ -17,28 +17,27 @@ const EstateSearch = () => {
   const [page, setPage] = useState(1);
   const [estateList, setEstateList] = useState([]);
   const [isOpenResults, setIsOpenReseults] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
   const searchResults = searchByKeyword(searchInput);
   const debouncedKeyword = useDebounce(keyword, 1000); //200ms로 설정된 debounce
   const DEFAULT_KEYWORD = '경기도 광명시'; // 초기 키워드
   const DEFAULT_COORDS = { latitude: 37.47832, longitude: 126.864303 }; // 초기 키워드  좌표
 
-  // 초기 데이터 로드: 검색어가 없으면 현재 위치를 기반으로 검색
+  // 초기 마운트 시 mainKeyword 설정
   useEffect(() => {
-    if (location.state?.keyword) {
-      setKeyword(location.state.keyword);
-    } else {
-      setKeyword(DEFAULT_KEYWORD);
-      fetchData(DEFAULT_KEYWORD, type);
+    if (!keyword) {
+      const mainKeyword = location.state?.keyword || DEFAULT_KEYWORD;
+      setKeyword(mainKeyword);
+      fetchData(mainKeyword, type, page);
     }
-  }, [location.state]);
+  }, []);
 
+  // type이나 page가 변경될 때 데이터 fetch
   useEffect(() => {
-    if (debouncedKeyword) {
-      fetchData(debouncedKeyword, type);
+    if (keyword) {
+      fetchData(keyword, type, page);
     }
-  }, [debouncedKeyword, type]);
+  }, [keyword, type, page]);
 
   // 검색어 전처리 함수
   const processKeyword = (keyword) => {
@@ -72,20 +71,7 @@ const EstateSearch = () => {
       console.log(res.data);
 
       setEstateList([...res.data.estateList]);
-      // if (res.data.estateList.length === 0) {
-      //   setHasMore(false);
-      // } else {
-      //   setHasMore(true);
-      //   //  setEstateList((prev) => [...prev, ...res.data.estateList]);
-      //   const fetchedList = res.data.estateList;
-      //   setEstateList((prev) =>
-      //     page === 1 ? fetchedList : [...prev, ...fetchedList]
-      //   );
-      //   setTotalPages(res.data.pageInfo.allPage);
-      //   if (page === totalPages) {
-      //     setHasMore(false);
-      //   }
-      // }
+      setTotalCount(res.data.pageInfo.totalCount);
     } catch (err) {
       console.log(err);
     }
@@ -106,11 +92,15 @@ const EstateSearch = () => {
   // 검색 리스트 항목 클릭
   const handleKeywordClick = (selectedKeyword) => {
     setIsOpenReseults((prev) => !prev);
-    setKeyword(selectedKeyword);
     setSearchInput('');
+    setKeyword(selectedKeyword);
     setType('');
     setPage(1);
-    fetchData(selectedKeyword);
+  };
+
+  // 페이지 변경
+  const onChangePage = (value) => {
+    setPage(value);
   };
 
   return (
@@ -169,10 +159,9 @@ const EstateSearch = () => {
         ) : (
           <EstateList
             estateList={estateList}
-            hasMore={hasMore}
-            totalPages={totalPages}
+            totalCount={totalCount}
             page={page}
-            setPage={setPage}
+            onChangePage={onChangePage}
           />
         )}
         <KakaoMap

@@ -52,7 +52,6 @@ const ReviewModify = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
-    console.log(name, value); // 이벤트 발생 확인
 
     setReview((prev) => ({
       ...prev,
