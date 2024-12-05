@@ -1,15 +1,15 @@
-import React, { useState, useRef } from 'react';
-import styles from './CommunityBoardWrite.module.css';
+import React, { useState, useEffect, useRef } from 'react';
+import styles from './CommunityBoardEdit.module.css';
 import axios from 'axios';
-import { axiosInToken, url } from 'lib/axios';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Button01 from 'components/commons/button/Button01';
-import { useAtom } from 'jotai';
 import { useAtomValue } from 'jotai';
+import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 
-const CommunityBoardWrite = () => {
+const CommunityBoardEdit = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [fileList, setFileList] = useState([]);
   const [textCount, setTextCount] = useState(0);
   const user = useAtomValue(userAtom);
@@ -32,6 +32,46 @@ const CommunityBoardWrite = () => {
 
   const fRef = useRef();
 
+  // 기존 데이터 불러오기
+  useEffect(() => {
+    const fetchData = () => {
+      return axios.get(`${url}/communityCall/${id}`);
+    };
+    fetchData()
+      .then((response) => {
+        const communityData = response.data.communityDetail;
+        setFormData({
+          userId: communityData.userId,
+          type: communityData.type,
+          size: communityData.size,
+          address1: communityData.address1,
+          address2: communityData.address2,
+          familyType: communityData.familyType,
+          interiorType: communityData.interiorType,
+          periodStartDate: communityData.periodStartDate,
+          periodEndDate: communityData.periodEndDate,
+          money: communityData.money,
+          style: communityData.style,
+          title: communityData.title,
+          content: communityData.content,
+        });
+        console.log(formData);
+        if (communityData.coverImage) {
+          if (typeof communityData.coverImage === 'string') {
+            setFileList([communityData.coverImage]); // 문자열 경로인 경우
+          } else {
+            setFileList([URL.createObjectURL(communityData.coverImage)]); // 파일 객체인 경우
+          }
+        } else {
+          setFileList([]); // 커버 이미지가 없는 경우
+        }
+      })
+      .catch((error) => {
+        console.error('기존 데이터를 불러오는 중 오류 발생:', error);
+      });
+    fetchData();
+  }, []);
+
   // 입력 필드 업데이트
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,30 +81,31 @@ const CommunityBoardWrite = () => {
   // 파일 선택
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
-      setFileList([...fileList, e.target.files[0]]);
+      setFileList([e.target.files[0]]);
     }
   };
 
   // 파일 삭제
-  const handleFileDelete = (file) => {
-    setFileList(fileList.filter((f) => f !== file));
+  const handleFileDelete = () => {
+    setFileList([]);
   };
 
   // 폼 제출
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key]);
+      if (formData[key] !== null && formData[key] !== undefined) {
+        formDataToSend.append(key, formData[key]);
+      }
     });
-    fileList.forEach((file) => {
-      formDataToSend.append('coverImage', file);
-    });
+    if (fileList.length > 0) {
+      formDataToSend.append('file', fileList[0]);
+    }
 
     try {
-      const response = await axiosInToken(token).post(
-        `${url}/user/communityCreate`,
+      await axiosInToken(token).put(
+        `${url}/user/communityUpdate/${id}`,
         formDataToSend,
         {
           headers: {
@@ -72,12 +113,11 @@ const CommunityBoardWrite = () => {
           },
         }
       );
-      const communityNum = response.data;
-      console.log('등록 성공:', response.data);
-      navigate(`/CommunityBoardDetail/${communityNum}`);
+      console.log('수정 성공');
+      navigate(`/CommunityBoardDetail/${id}`);
     } catch (error) {
-      console.error('등록 실패:', error);
-      alert('등록 중 오류가 발생했습니다.');
+      console.error('수정 실패:', error);
+      alert('수정 중 오류가 발생했습니다.');
     }
   };
 
@@ -99,6 +139,7 @@ const CommunityBoardWrite = () => {
           <select
             name="type"
             className={styles.formControl}
+            value={formData.type}
             onChange={handleChange}
           >
             <option value="">주거 형태 선택</option>
@@ -117,6 +158,7 @@ const CommunityBoardWrite = () => {
             type="number"
             name="size"
             className={styles.formControl}
+            value={formData.size}
             placeholder="평수 입력"
             onChange={handleChange}
           />
@@ -131,6 +173,7 @@ const CommunityBoardWrite = () => {
               name="address1"
               className={styles.formControl}
               onChange={handleChange}
+              value={formData.address1}
             >
               <option value="">지역 선택</option>
               <option value="서울특별시">서울특별시</option>
@@ -156,6 +199,7 @@ const CommunityBoardWrite = () => {
               name="address2"
               className={styles.formControl}
               placeholder="선택 (아파트/건물명)"
+              value={formData.address2}
               onChange={handleChange}
             />
           </div>
@@ -169,6 +213,7 @@ const CommunityBoardWrite = () => {
             name="familyType"
             className={styles.formControl}
             onChange={handleChange}
+            value={formData.familyType}
           >
             <option value="">선택해주세요.</option>
             <option value="싱글라이프">싱글라이프</option>
@@ -187,6 +232,7 @@ const CommunityBoardWrite = () => {
             type="date"
             name="periodStartDate"
             className={styles.formControl}
+            value={formData.periodStartDate}
             onChange={handleChange}
           />
           <span className={styles.dateSeparator}>~</span>
@@ -208,6 +254,7 @@ const CommunityBoardWrite = () => {
             className={styles.formControl}
             placeholder="예산 입력 (만원)"
             onChange={handleChange}
+            value={formData.money}
           />
         </div>
 
@@ -219,6 +266,7 @@ const CommunityBoardWrite = () => {
             name="style"
             className={styles.formControl}
             onChange={handleChange}
+            value={formData.style}
           >
             <option value="">선택해주세요.</option>
             <option value="모던">모던</option>
@@ -264,7 +312,11 @@ const CommunityBoardWrite = () => {
                 ×
               </button>
               <img
-                src={URL.createObjectURL(fileList[0])}
+                src={
+                  typeof fileList[0] === 'string'
+                    ? `${url}/communityImage/${fileList[0]}` // 문자열 경로일 경우: 서버 경로를 조합
+                    : URL.createObjectURL(fileList[0]) // 파일 객체일 경우: createObjectURL 사용
+                }
                 alt="Preview"
                 className={styles.filePreviewImage}
               />
@@ -283,6 +335,7 @@ const CommunityBoardWrite = () => {
             placeholder="제목을 입력해주세요.(40자 이내)"
             maxLength="40"
             onChange={handleChange}
+            value={formData.title}
           />
         </div>
 
@@ -296,6 +349,7 @@ const CommunityBoardWrite = () => {
             maxLength="1000"
             className={styles.contentInput}
             placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
+            value={formData.content}
             onChange={(e) => {
               handleChange(e);
               setTextCount(e.target.value.length);
@@ -322,4 +376,4 @@ const CommunityBoardWrite = () => {
   );
 };
 
-export default CommunityBoardWrite;
+export default CommunityBoardEdit;

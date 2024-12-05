@@ -3,8 +3,8 @@ import axios from 'axios';
 import styles from './CommunityBoardDetail.module.css';
 import { useNavigate, useParams } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';
-import { url } from 'lib/axios';
-import { userAtom } from 'store/atoms';
+import { axiosInToken, url } from 'lib/axios';
+import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
 
 const CommunityBoardDetail = () => {
@@ -16,6 +16,8 @@ const CommunityBoardDetail = () => {
   const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태
   const [isOwner, setIsOwner] = useState(false); // 게시글 소유 여부 상태 추가
   const user = useAtomValue(userAtom); // 현재 로그인된 사용자 정보
+  const { id } = useParams();
+  const token = useAtomValue(tokenAtom);
 
   useEffect(() => {
     if (!CommunityNum) {
@@ -26,7 +28,9 @@ const CommunityBoardDetail = () => {
     const fetchPostData = () => {
       console.log(user);
       axios
-        .post(`${url}/communityDetail/${CommunityNum}`, { userId: user.userId })
+        .post(`${url}/communityDetail/${CommunityNum}`, {
+          userId: user.userId,
+        })
         .then((res) => {
           setPost(res.data.communityDetail); //상세
           setComments([...res.data.commentList]); //댓글
@@ -54,18 +58,14 @@ const CommunityBoardDetail = () => {
   const handleWriteButton = () => {
     navigate('/CommunityBoardWrite');
   };
+  const handleEditButtonClick = () => {
+    navigate(`/communityBoardEdit/${CommunityNum}`);
+  };
 
   const handleBookmarkClick = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/communityBookmark`,
-        null,
-        {
-          params: {
-            userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1',
-            communityNum: CommunityNum,
-          },
-        }
+      const response = await axiosInToken(token).post(
+        `${url}/user/communityBookmark?communityNum=${CommunityNum}`
       );
 
       if (response.status === 200) {
@@ -89,12 +89,12 @@ const CommunityBoardDetail = () => {
       try {
         const newCommentData = {
           communityId: CommunityNum,
-          userId: '1f95ebff-7367-4386-b04b-bd8b57697dc1', // 사용자 아이디로 수정해야함
+          userId: user.userId, // 사용자 아이디로 수정해야함
           content: newComment,
         };
 
-        const response = await axios.post(
-          `${url}/communityCommentWrite`,
+        const response = await axiosInToken(token).post(
+          `${url}/user/communityCommentWrite`,
           null,
           {
             params: newCommentData,
@@ -151,7 +151,10 @@ const CommunityBoardDetail = () => {
           </div>
           <div className={styles.actions}>
             {isOwner ? (
-              <button className={styles.editButton} onClick={handleWriteButton}>
+              <button
+                className={styles.editButton}
+                onClick={handleEditButtonClick}
+              >
                 수정하기
               </button>
             ) : isBookmarked ? (
