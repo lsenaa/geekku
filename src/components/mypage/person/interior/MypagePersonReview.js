@@ -1,7 +1,6 @@
 import Button01 from 'components/commons/button/Button01';
 import styles from './MypagePersonReview.module.scss';
 import { Modal, Pagination } from 'antd';
-import reviewImg from 'assets/images/InteriorExam.jpg';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
@@ -100,11 +99,11 @@ const MypagePersonReview = () => {
                 <tr
                   className={styles.rowWrap}
                   key={review.reviewNum}
-                  // onClick={() =>
-                  //   navigate(`/profile/interior/${review.interiorNum}`, {
-                  //     state: { interiorNum: review.interiorNum },
-                  //   })
-                  // }
+                  onClick={() =>
+                    navigate(`/profile/interior/${review.interiorNum}/review`, {
+                      state: { interiorNum: review.interiorNum },
+                    })
+                  }
                 >
                   <td>
                     <img
