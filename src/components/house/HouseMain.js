@@ -1,7 +1,7 @@
 import styles from './HouseMain.module.scss';
 import Button01 from '../commons/button/Button01';
 import HouseList from './houseList/HouseList';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { url } from 'lib/axios';
 import axios from 'axios';

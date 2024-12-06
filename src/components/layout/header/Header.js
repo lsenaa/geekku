@@ -7,7 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
+import {
+  userNameAtom,
+  alarmsAtom,
+  userAtom,
+  tokenAtom,
+  initUser,
+} from 'store/atoms';
 import axios from 'axios';
 import { Modal } from 'antd';
 
@@ -106,7 +112,7 @@ const Header = ({ alarms = [] }) => {
   };
 
   const logout = () => {
-    setUser(null);
+    setUser(initUser);
     setToken(null);
 
     localStorage.removeItem('token');
