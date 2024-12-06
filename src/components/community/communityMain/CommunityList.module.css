@@ -50,3 +50,11 @@
     max-width: 400px;
   }
 }
+
+.emptyMessage {
+  padding-top: 100px;
+  height: 161px;
+  text-align: center;
+  /* font-weight: bold; */
+  font-size: 24px;
+}
