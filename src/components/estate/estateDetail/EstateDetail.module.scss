@@ -6,7 +6,7 @@
 
 .textWrapper {
   width: 40%;
-  padding: 20px;
+  padding: 0 20px;
 
   p {
     &:nth-child(3) {
@@ -54,11 +54,9 @@
 
 .btnWrapper {
   @include flexrow;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: flex-end;
 
   img {
-    margin-right: 20px;
     cursor: pointer;
   }
 }

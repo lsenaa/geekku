@@ -69,6 +69,15 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           ))}
         </Carousel>
         <div className={styles.textWrapper}>
+          <div className={styles.btnWrapper}>
+            {user.type === 'user' && user.username && (
+              <img
+                src={bookmark ? bookmarkTrueImg : bookmarkFalseImg}
+                alt="북마크 이미지"
+                onClick={handleBookmark}
+              />
+            )}
+          </div>
           <p>{formatEstateType(estate.type)}</p>
           <p className={styles.price}>
             {' '}
@@ -88,7 +97,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
               <p>{estate.companyPhone}</p>
             </div>
           </div>
-          <div className={styles.btnWrapper}>
+          {/* <div className={styles.btnWrapper}>
             {user.type === 'user' && user.username && (
               <img
                 src={bookmark ? bookmarkTrueImg : bookmarkFalseImg}
@@ -96,8 +105,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
                 onClick={handleBookmark}
               />
             )}
-            <Button01 size="medium">문의하기</Button01>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* 상세 테이블 */}
