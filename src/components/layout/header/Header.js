@@ -10,6 +10,8 @@ import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
 import { FaUserCircle } from 'react-icons/fa';
 import defaultImg from 'assets/images/usericon.png';
 import axios from 'axios';
+import { Modal } from 'antd';
+import { url } from 'lib/axios';
 
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
@@ -42,7 +44,7 @@ const Header = ({ alarms = [] }) => {
 
   const confirm = (num) => {
     axios
-      .get(`http://localhost:8080/confirm/${num}`)
+      .get(`${url}/confirm/${num}`)
       .then((res) => {
         if (res.data === true) {
           setAlarms(alarms.filter((item) => item.num !== num));

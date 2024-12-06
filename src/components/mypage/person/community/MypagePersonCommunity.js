@@ -23,7 +23,7 @@ const MypagePersonCommunity = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/personCommunities/${user.userId}`
+          `${url}/personCommunities/${user.userId}`
         );
         setCommunityData(response.data);
         console.log(response.data);
@@ -39,9 +39,7 @@ const MypagePersonCommunity = () => {
     if (!window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
 
     try {
-      await axios.delete(
-        `http://localhost:8080/communityDelete/${communityNum}`
-      );
+      await axios.delete(`${url}/communityDelete/${communityNum}`);
       alert('삭제되었습니다.');
       setCommunityData((prevData) =>
         prevData.filter((community) => community.communityNum !== communityNum)
