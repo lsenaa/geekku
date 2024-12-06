@@ -2,52 +2,83 @@ import styles from './MypageInteriorCase.module.scss';
 import { Link } from 'react-router-dom';
 import interiorImg from 'assets/images/InteriorExam.jpg';
 import Button01 from 'components/commons/button/Button01';
+import { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { tokenAtom } from 'store/atoms';
+import { axiosInToken } from 'lib/axios';
+import useInfiniteScroll from 'hook/useInfiniteScroll';
+import { Modal } from 'antd';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const MypageInteriorCase = () => {
-  const communityData = [
-    {
-      title: '신혼집 스타일링으로 꾸미며 수납은 넉넉하게!',
-      viewCount: 1059,
-      image: interiorImg,
-    },
-    {
-      title: '디자이너의 철학을 담아, 부드럽고 편안한 분위기의 인테리어',
-      viewCount: 994,
-      image: interiorImg,
-    },
-    {
-      title: '🌕아이와 함께할 집, 수납이 필수이면서도 깔끔한 공간',
-      viewCount: 2039,
-      image: interiorImg,
-    },
-  ];
+  const token = useAtomValue(tokenAtom);
+  const [page, setPage] = useState(1);
+  const [sampleData, setSampleData] = useState([]);
+  const [hasMore, setHasMore] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
 
+  useEffect(() => {
+    fetchData(page);
+  }, [page, token]);
+
+  const fetchData = async (page) => {
+    await axiosInToken(token)
+      .get(`/company/myInteriorSampleList?page=${page}`)
+      .then((res) => {
+        console.log(res.data);
+
+        if (res.data.estateList.length === 0) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
+          setSampleData((prev) => [...prev, ...res.data.estateList]);
+          setTotalPages(res.data.totalPages);
+          if (page === res.data.totalPages) {
+            setHasMore(false);
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setHasMore(false);
+      });
+  };
+  const elementRef = useInfiniteScroll(async (entry, observer) => {
+    if (hasMore && totalPages !== page) {
+      setPage((prev) => prev + 1);
+    }
+  });
   return (
-    <ul className={styles.Container}>
-      {communityData.map((community, i) => (
-        <li key={i}>
-          <Link to={'#'}>
-            <div className={styles.imgWrapper}>
-              <img src={community.image} alt="집들이 이미지" />
-            </div>
-            <div className={styles.textWrapper}>
-              <p className={styles.title}>{community.title}</p>
-              <p className={styles.view}>
-                조회수 {community.viewCount.toLocaleString()}
-              </p>
-            </div>
-            <div className={styles.contentWrapper}>
-              <Button01 size="x-small" color="sub">
-                상세보기
-              </Button01>
-              <br />
-              <br />
-              <Button01 size="x-small">삭제</Button01>
-            </div>
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={styles.bookmarkContainer}>
+        {sampleData.length === 0 ? (
+          <div style={{ margin: '0 auto' }}>등록한 시공사례가 없습니다.</div>
+        ) : (
+          <>
+            {sampleData.map((interior, i) => (
+              <li key={i}>
+                <Link to={`/profile/interior`}>
+                  <div className={styles.imgWrapper}>
+                    <img
+                      src={`data:image/png;base64, ${interior.interiorImageStr}`}
+                      alt="인테리어 업체 이미지"
+                    />
+                  </div>
+                  <div className={styles.contentWrapper}>
+                    <p className={styles.name}>{interior.title}</p>
+                    <div className={styles.textWrapper}>
+                      <p className={styles.name}>{interior.companyName}</p>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </>
+        )}
+      </ul>
+      {hasMore && <div ref={elementRef}></div>}
+      <TopButton />
+    </>
   );
 };
 

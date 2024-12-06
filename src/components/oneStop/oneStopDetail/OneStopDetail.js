@@ -126,7 +126,10 @@ const OnestopDetail = () => {
         </Button01>
       </div>
       {/* 답변 리스트 */}
-      <OnestopDetailAnswerList onestopNum={onestop.onestopNum} />
+      <OnestopDetailAnswerList
+        onestopNum={onestop.onestopNum}
+        userId={onestop.userId}
+      />
     </div>
   );
 };

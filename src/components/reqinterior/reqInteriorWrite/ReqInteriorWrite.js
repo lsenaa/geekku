@@ -286,6 +286,7 @@ const ReqInteriorWrite = () => {
                   value={interiorType}
                   onChange={handleChk}
                 />
+                &nbsp;
                 {interiorType}
               </label>
             ))}
