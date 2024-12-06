@@ -6,11 +6,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
+import {
+  userNameAtom,
+  alarmsAtom,
+  userAtom,
+  tokenAtom,
+  initUser,
+} from 'store/atoms';
 import { FaUserCircle } from 'react-icons/fa';
 import defaultImg from 'assets/images/usericon.png';
 import axios from 'axios';
-import { Modal } from 'antd';
 import { url } from 'lib/axios';
 
 const Header = ({ alarms = [] }) => {
@@ -106,8 +111,8 @@ const Header = ({ alarms = [] }) => {
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
+    setUser(initUser);
+    setToken('');
 
     localStorage.removeItem('token');
     localStorage.removeItem('user');

@@ -132,7 +132,7 @@ const ReqInteriorWrite = () => {
   };
   return (
     <div className={styles.container}>
-      <h2>방꾸미기 신청하기</h2>
+      <h2>방꾸하기 신청하기</h2>
       <section>
         <div className={styles.title}>
           <h3>원하는 시공 정보</h3>
@@ -336,7 +336,7 @@ const ReqInteriorWrite = () => {
             maxLength="40"
             onChange={handleEdit}
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
-            style={{ width: '100%', textAlign: 'left' }}
+            style={{ width: '860px', textAlign: 'left' }}
           />
         </div>
         <div className={styles.item}>
@@ -353,6 +353,9 @@ const ReqInteriorWrite = () => {
               placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
               onChange={(onTextareaHandler, handleEdit)}
             />
+            <p>
+              <span>{textCount}</span> / 1000
+            </p>
           </div>
         </div>
       </section>

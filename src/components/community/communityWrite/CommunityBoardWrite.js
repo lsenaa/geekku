@@ -239,9 +239,7 @@ const CommunityBoardWrite = () => {
           {fileList.length === 0 ? (
             // 파일이 없는 경우 버튼 표시
             <>
-              <p>
-                드래그 앤 드롭이나 추가하기 버튼으로 커버 사진을 업로드해주세요.
-              </p>
+              <p>추가하기 버튼으로 커버 사진을 업로드해주세요.</p>
               <label htmlFor="fileUpload" className={styles.uploadButton}>
                 커버 사진 추가하기
               </label>

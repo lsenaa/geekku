@@ -16,11 +16,11 @@ const MypagePersonRequestInterior = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   const fetchData = () => {
     axiosInToken(token)
-      .get('/user/mypageUserInteriorRequestList')
+      .get('/user/myPageUserInteriorRequestList')
       .then((res) => {
         console.log(res.data);
         setRequestList([...res.data.content]);

@@ -394,7 +394,7 @@ const OneStopWrite = () => {
             id="title"
             onChange={handleEdit}
             placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
-            style={{ width: '100%', textAlign: 'left' }}
+            style={{ width: '860px', textAlign: 'left' }}
           />
         </div>
         <div className={styles.item}>
@@ -411,6 +411,9 @@ const OneStopWrite = () => {
               placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
               onChange={(onTextareaHandler, handleEdit)}
             />
+            <p>
+              <span>{textCount}</span> / 1000
+            </p>
           </div>
         </div>
       </section>

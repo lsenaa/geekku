@@ -5,6 +5,7 @@ import styles from './CommunityMain.module.css';
 
 function CommunityMain() {
   const [communityList, setCommunityList] = useState([]);
+
   return (
     <div className={styles.app}>
       <CommunityFilterBar

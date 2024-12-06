@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { formatPrice } from 'utils/utils';
+import { formatEstateType, formatPrice } from 'utils/utils';
 
 const KakaoMap = ({ estateList, currentLocation, keyword }) => {
   const appKey = process.env.REACT_APP_KAKAO_APP_KEY;
   const container = useRef(null);
+  const markers = useRef([]);
 
   useEffect(() => {
     if (!container.current) return;
@@ -27,6 +28,14 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
         const geocoder = new window.kakao.maps.services.Geocoder();
         const bounds = new window.kakao.maps.LatLngBounds();
 
+        // 기존 마커 제거 함수
+        const removeMarkers = () => {
+          markers.current.forEach((marker) => {
+            marker.setMap(null);
+          });
+          markers.current = [];
+        };
+
         const calculateLatLng = (estate) => {
           const estateAddress = estate.address2
             ? `${estate.address1} ${estate.address2}`
@@ -40,13 +49,24 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
                   result[0].x
                 );
                 resolve(latLng);
-              } else reject();
+              } else {
+                console.error('Address Not Found:', estateAddress);
+                reject(new Error(`Address search failed: ${status}`));
+              }
             });
           });
         };
 
         const createMarkers = async (centerLatLng) => {
-          if (estateList.length === 0) return;
+          // 기존 마커 제거
+          removeMarkers();
+
+          console.log('Creating markers, Estate List:', estateList);
+
+          if (!estateList || estateList.length === 0) {
+            console.log('No estates to create markers for');
+            return;
+          }
 
           for (const estate of estateList) {
             try {
@@ -69,25 +89,48 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
                   title: estate.title,
                 });
 
-                const infowindow = new window.kakao.maps.InfoWindow({
-                  content: `<div style="width:150px;text-align:center;padding:6px 0;font-size:14px">${formatPrice(
-                    {
-                      jeonsePrice: estate.jeonsePrice,
-                      monthlyPrice: estate.monthlyPrice,
-                      depositPrice: estate.depositPrice,
-                      buyPrice: estate.buyPrice,
-                    }
-                  )}</div>`,
+                const customOverlay = new window.kakao.maps.CustomOverlay({
+                  content: `<div style="width:100px;text-align:center;padding:6px 0;border:1px solid #6d885d;border-radius:10px;background-color:white;display:flex;flex-direction:column;align-items:flex-end;">
+                  <button id="closeOverlay" style="margin-right:4px;border:none;background-color: transparent;">×</button>
+                  <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+                  <p style="font-size:10px;margin-bottom:8px;">
+                  ${formatEstateType(estate.type)}
+                  </p>
+                  <p style="font-size:12px;font-weight:bold;color:#696969;">
+                  ${formatPrice({
+                    jeonsePrice: estate.jeonsePrice,
+                    monthlyPrice: estate.monthlyPrice,
+                    depositPrice: estate.depositPrice,
+                    buyPrice: estate.buyPrice,
+                  })}
+                  </p>
+                  </div>
+                  </div>`,
+                  position: estateLatLng,
+                  yAnchor: 1.2,
                 });
 
                 window.kakao.maps.event.addListener(
                   estateMarker,
                   'click',
                   () => {
-                    infowindow.open(map, estateMarker);
+                    customOverlay.setMap(map);
                   }
                 );
+                window.kakao.maps.event.addListener(
+                  customOverlay,
+                  'click',
+                  () => {
+                    customOverlay.setMap(null);
+                  }
+                );
+                document.addEventListener('click', (event) => {
+                  if (event.target.id === 'closeOverlay') {
+                    customOverlay.setMap(null);
+                  }
+                });
 
+                markers.current.push(estateMarker);
                 bounds.extend(estateLatLng);
               }
             } catch (err) {
@@ -98,20 +141,33 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
           map.setBounds(bounds);
         };
 
-        if (keyword) {
-          geocoder.addressSearch(keyword, (result, status) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              const keywordLatLng = new window.kakao.maps.LatLng(
-                result[0].y,
-                result[0].x
-              );
-              map.setCenter(keywordLatLng);
-              createMarkers(keywordLatLng);
-            }
-          });
+        // 검색어에 따른 지도 중심 설정 및 마커 생성
+        console.log('keyword: ' + keyword);
+
+        // 지도 중심 설정 및 마커 생성
+        const setCenterAndMarkers = (searchKeyword) => {
+          if (searchKeyword) {
+            geocoder.addressSearch(searchKeyword, (result, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                const centerLatLng = new window.kakao.maps.LatLng(
+                  result[0].y,
+                  result[0].x
+                );
+                map.setCenter(centerLatLng);
+                createMarkers(centerLatLng);
+              }
+            });
+          } else {
+            const centerLatLng = map.getCenter();
+            createMarkers(centerLatLng);
+          }
+        };
+
+        // 조건에 따라 지도 중심 및 마커 설정
+        if (keyword !== '') {
+          setCenterAndMarkers(keyword); // 키워드로 검색
         } else {
-          const centerLatLng = map.getCenter();
-          createMarkers(centerLatLng);
+          createMarkers(map.getCenter()); // 기본 위치로 검색
         }
       });
     };

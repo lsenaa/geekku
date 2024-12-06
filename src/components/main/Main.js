@@ -128,7 +128,7 @@ const Main = () => {
               <Link to={'/'}>
                 <div className={styles.imgWrapper}>
                   <img
-                    src={`${url}/image/${community.coverImage}`}
+                    src={`${url}/communityImage/${community.coverImage}`}
                     alt="집들이 이미지"
                   />
                 </div>

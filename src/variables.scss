@@ -16,6 +16,19 @@ $sub-font: 'Santokki';
   }
 }
 
+@mixin formContainer {
+  width: 1000px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  padding: 100px 0;
+
+  h2 {
+    font-size: 40px;
+    font-family: $sub-font;
+    text-align: center;
+  }
+}
+
 @mixin ellipse {
   text-overflow: ellipsis;
   overflow: hidden;

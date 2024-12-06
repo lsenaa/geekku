@@ -16,7 +16,7 @@ const MypagePerson = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   const fetchData = () => {
     axiosInToken(token)
