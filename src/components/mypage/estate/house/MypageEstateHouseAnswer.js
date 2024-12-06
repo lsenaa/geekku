@@ -1,8 +1,48 @@
+import React, { useState, useEffect } from 'react';
 import { Pagination } from 'antd';
-import styles from './MypageEstateHouseAnswer.module.scss';
 import { FaUserCircle } from 'react-icons/fa';
+import { axiosInToken, url } from 'lib/axios';
+import { tokenAtom, userAtom } from 'store/atoms';
+import { useAtomValue } from 'jotai';
+import styles from './MypageEstateHouseAnswer.module.scss';
 
 const MypageEstateHouseAnswer = () => {
+  const [data, setData] = useState([]); // 데이터 초기값 빈 배열
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
+  const token = useAtomValue(tokenAtom); // Jotai로 관리 중인 토큰
+  const user = useAtomValue(userAtom); // Jotai로 관리 중인 사용자 정보
+  const user2 = '3e1ec3cd-fc5c-4c24-9673-963db487e52d';
+  // 데이터 가져오기
+  useEffect(() => {
+    fetchAnswers(currentPage);
+  }, [currentPage]);
+
+  // 백엔드에서 데이터 가져오는 함수
+  const fetchAnswers = async (page) => {
+    try {
+      const response = await axiosInToken(token).get(
+        `${url}/company/estateAnswered/${user.companyId}`,
+        {
+          params: { page },
+        }
+      );
+      // 데이터가 존재할 경우에만 상태 업데이트
+      setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
+      setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
+      console.log(response.data.content);
+    } catch (error) {
+      console.error('데이터를 가져오는 중 오류 발생:', error);
+      setData([]);
+      setTotalPages(0);
+    }
+  };
+
+  // 페이지 변경 처리
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
       <table className={styles.customTable}>
@@ -27,61 +67,42 @@ const MypageEstateHouseAnswer = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className={styles.rowWrap}>
-            <td>3</td>
-            <td>
-              지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-              같아요.
-            </td>
-            <td>매매</td>
-            <td>경남 사천</td>
-            <td>
-              <span className={styles.writer}>
-                <FaUserCircle color="#6D885D" size={30} />
-                &nbsp;홍길동
-              </span>
-            </td>
-            <td>2024-10-27</td>
-            <td>32</td>
-          </tr>
-          <tr className={styles.rowWrap}>
-            <td>2</td>
-            <td>
-              지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-              같아요.
-            </td>
-            <td>매매</td>
-            <td>경남 사천</td>
-            <td>
-              <span className={styles.writer}>
-                <FaUserCircle color="#6D885D" size={30} />
-                &nbsp;홍길동
-              </span>
-            </td>
-            <td>2024-10-27</td>
-            <td>32</td>
-          </tr>
-          <tr className={styles.rowWrap}>
-            <td>1</td>
-            <td>
-              지방 빈 집 찾습니다. 경상남도 위주로 찾아요. 사천쪽이면 더 좋을거
-              같아요.
-            </td>
-            <td>매매</td>
-            <td>경남 사천</td>
-            <td>
-              <span className={styles.writer}>
-                <FaUserCircle color="#6D885D" size={30} />
-                &nbsp;홍길동
-              </span>
-            </td>
-            <td>2024-10-27</td>
-            <td>32</td>
-          </tr>
+          {data && data.length > 0 ? (
+            data.map((item) => (
+              <tr key={item.answerHouseNum} className={styles.rowWrap}>
+                <td>{item.answerHouseNum}</td>
+                <td>{item.title}</td>
+                <td>{item.type}</td>
+                <td>
+                  {item.address1} {item.address1}
+                </td>
+                <td>
+                  <span className={styles.writer}>
+                    <FaUserCircle color="#6D885D" size={30} />
+                    &nbsp;{item.userName}
+                  </span>
+                </td>
+                <td>{new Date(item.createdAt).toLocaleDateString()}</td>{' '}
+                <td>{item.viewCount}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" style={{ textAlign: 'center' }}>
+                데이터가 없습니다.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
-      <Pagination defaultCurrent={1} total={50} />
+      <Pagination
+        current={currentPage}
+        total={totalPages * 10} // 페이지 수 * 10 (페이지당 아이템 수)
+        onChange={handlePageChange}
+        pageSize={10}
+      />
     </>
   );
 };
+
 export default MypageEstateHouseAnswer;

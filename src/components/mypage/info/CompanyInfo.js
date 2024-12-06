@@ -294,10 +294,6 @@ const CompanyInfo = () => {
           <button className={styles.button} onClick={submit}>
             완료
           </button>
-
-          <a href="/" className={styles.removeUser}>
-            회원탈퇴
-          </a>
         </div>
       </div>
     </div>

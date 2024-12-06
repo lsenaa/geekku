@@ -22,7 +22,7 @@ const MypagePersonCommunity = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/personCommunities/${user.userId}`
+          `${url}/personCommunities/${user.userId}`
         );
         setCommunityData(response.data);
         console.log(response.data);
@@ -56,7 +56,6 @@ const MypagePersonCommunity = () => {
       onOk: () => {
         try {
           axios.delete(`http://localhost:8080/communityDelete/${communityNum}`);
-
           setCommunityData((prevData) =>
             prevData.filter(
               (community) => community.communityNum !== communityNum
