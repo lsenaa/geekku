@@ -29,9 +29,9 @@ const JoinModal = ({ open, close, onConfirm }) => {
       }
 
       const response = await axios.get(`${url}/searchEstate`, { params });
-      console.log('백엔드 응답 데이터 : ', response.data); //totalCount : 34, size : 10 으로 나옴
-      console.log('백엔드 응답 데이터 page : ', response.data.EDBrokers.pageNo); //1로 나옴
-      console.log('데이터 totalCount : ', response.data.EDBrokers.totalCount);
+      //console.log('백엔드 응답 데이터 : ', response.data); //totalCount : 34, size : 10 으로 나옴
+      //console.log('백엔드 응답 데이터 page : ', response.data.EDBrokers.pageNo); //1로 나옴
+      //console.log('데이터 totalCount : ', response.data.EDBrokers.totalCount);
 
       const resultData = response.data?.EDBrokers?.field || [];
       const total = response.data?.EDBrokers?.totalCount || 0;

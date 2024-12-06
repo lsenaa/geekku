@@ -33,6 +33,7 @@ const JoinCompany = () => {
   const [isModal, setIsModal] = useState(false);
   const [usernameChecked, setUsernameChecked] = useState(false);
   const [estateInfoChecked, setEstateInfoChecked] = useState(false);
+  const [companyNumChecked, setCompanyNumChecked] = useState(false);
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
   const [preview, setPreview] = useState(null);
@@ -60,6 +61,9 @@ const JoinCompany = () => {
     }
     if (name === 'username') {
       setUsernameChecked(false);
+    }
+    if (name == 'companyNumber') {
+      setCompanyNumChecked(false);
     }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -97,10 +101,26 @@ const JoinCompany = () => {
   const handleVerifyCompanyNumber = () => {
     const formattedNum = formatCompanyNum(user.companyNumber);
     verifyCompanyNum(user.companyNumber, setUser, user);
+    setCompanyNumChecked(true);
   };
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      if (/\D/g.test(value)) {
+        Modal.info({
+          content: '휴대폰 번호는 숫자형식만 입력가능합니다.',
+        });
+        return;
+      }
+      const cleaned = value.replace(/\D/g, '');
+      if (cleaned.length !== 11) {
+        Modal.info({
+          content: '휴대폰 번호는 11자리 숫자로 입력해주세요.',
+        });
+        return;
+      }
+    }
     applyPhoneFormat(name, value, setUser, user);
   };
 
@@ -128,6 +148,14 @@ const JoinCompany = () => {
       return;
     }
 
+    //사업자번호 체크버튼
+    if (!companyNumChecked) {
+      Modal.info({
+        content: '사업자번호 인증을 눌러주세요.',
+      });
+      return;
+    }
+
     //비밀번호 검사
     // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     // if (!passwordRegex.test(user.password)) {
@@ -145,6 +173,14 @@ const JoinCompany = () => {
     if (user.type === 'estate' && !estateInfoChecked) {
       Modal.info({
         content: '부동산 정보를 조회해주세요.',
+      });
+      return;
+    }
+
+    // 사업자 번호 형식 확인
+    if (user.companyNumber.length != 10) {
+      Modal.info({
+        content: '사업자등록번호는 10자리 숫자여야합니다.',
       });
       return;
     }
@@ -353,11 +389,16 @@ const JoinCompany = () => {
           <span>사업자 등록 번호 (선택) </span>
           <br />
           <input
-            type="text"
+            onInput={(e) => {
+              if (e.target.value.length > e.target.maxLength)
+                e.target.value = e.target.value.slice(0, e.target.maxLength);
+            }}
+            type="number"
             name="companyNumber"
             id="companyNumber"
             onChange={edit}
             placeholder="숫자 10자리를 입력해주세요."
+            maxLength={10}
             className={styles2.input1}
             value={user.companyNumber}
           />

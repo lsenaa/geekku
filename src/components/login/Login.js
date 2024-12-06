@@ -9,10 +9,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
+import { type } from '@testing-library/user-event/dist/type';
 import { Modal } from 'antd';
 import axios from 'axios';
+import UseHandleTokens from 'hook/useHandleTokens';
 import { type } from '@testing-library/user-event/dist/type';
-import UseHandleToken from './UseHandleToken';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -33,17 +34,21 @@ const Login = () => {
   };
 
   const submit = () => {
+    if (!member.username || !member.password) {
+      Modal.error({
+        content: '아이디와 비밀번호 모두 입력해주세요.',
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('username', member.username);
     formData.append('password', member.password);
 
     axios
-      .post(`${url}/login`, formData, {
-        headers: {
-          'Content-type': 'multipart/form-data',
-        },
-      })
+      .post(`${url}/login`, formData)
       .then((res) => {
+        console.log('로그인 성공 : ', res);
         const token = res.headers.authorization;
         setToken(token);
 
@@ -123,7 +128,8 @@ const Login = () => {
         Modal.error({
           content: '로그인 실패',
         });
-        console.error('로그인 실패 : ', err);
+        console.error('로그인 실패 에러 : ', err.response);
+        setMember({ username: '', password: '' });
       });
   };
 
@@ -133,7 +139,7 @@ const Login = () => {
     }
   };
 
-  UseHandleToken({ url, setToken, setUser });
+  UseHandleTokens({ url, setToken, setUser });
 
   return (
     <div className={styles.login}>
@@ -149,14 +155,17 @@ const Login = () => {
           type="text"
           name="username"
           id="username"
+          value={member.username}
           onChange={edit}
           placeholder="아이디를 입력하세요."
+          onKeyDown={onEnterKey}
           className={styles.input}
         />
         <input
           type="password"
           name="password"
           id="password"
+          value={member.password}
           onChange={edit}
           onKeyDown={onEnterKey}
           placeholder="비밀번호를 입력하세요."
