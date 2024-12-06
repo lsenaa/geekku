@@ -76,7 +76,6 @@ const CommunityBoardDetail = () => {
           userId: user.userId,
         }
       );
-
       if (response.status === 200) {
         console.log('북마크 상태 변경 성공:', response.data);
         setIsBookmarked(!isBookmarked); // 상태 토글

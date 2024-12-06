@@ -53,45 +53,53 @@ const ModifyPwd = () => {
   };
   return (
     <div className={styles.searchPwd}>
-      <div className={styles.inputGroup}>
-        <span>
-          현재 비밀번호<b>*</b>
-        </span>
-        <input
-          type="password"
-          placeholder="현재 비밀번호를 입력해주세요."
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-      <div className={styles.inputGroup}>
-        <span>
-          새 비밀번호<b>*</b>
-        </span>
-        <input
-          type="password"
-          placeholder="새로운 비밀번호를 입력해주세요."
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-      <div className={styles.inputGroup}>
-        <span>
-          비밀번호 확인<b>*</b>
-        </span>
-        <input
-          type="password"
-          placeholder="새로운 비밀번호를 한번 더 입력해주세요."
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-      <button className={styles.button} onClick={handleChangePassword}>
-        비밀번호 변경
-      </button>
+      {user.provider ? (
+        <p>
+          소셜 로그인 사용자는 비밀번호를 현재페이지에서 변경 할 수 없습니다.
+        </p>
+      ) : (
+        <>
+          <div className={styles.inputGroup}>
+            <span>
+              현재 비밀번호<b>*</b>
+            </span>
+            <input
+              type="password"
+              placeholder="현재 비밀번호를 입력해주세요."
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <span>
+              새 비밀번호<b>*</b>
+            </span>
+            <input
+              type="password"
+              placeholder="새로운 비밀번호를 입력해주세요."
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <span>
+              비밀번호 확인<b>*</b>
+            </span>
+            <input
+              type="password"
+              placeholder="새로운 비밀번호를 한번 더 입력해주세요."
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+          <button className={styles.button} onClick={handleChangePassword}>
+            비밀번호 변경
+          </button>
+        </>
+      )}
     </div>
   );
 };

@@ -12,9 +12,12 @@
   flex-direction: column;
   font-family: 'Santokki';
   width: 42px;
+  cursor: pointer;
 }
 
 .selected {
   border: 1px solid #6d885d;
+  border-radius: 5px;
+  padding: 2px;
   transform: scale(1.1);
 }
