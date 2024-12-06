@@ -4,9 +4,15 @@ import axios from 'axios';
 import { axiosInToken, url } from 'lib/axios';
 import { useNavigate } from 'react-router';
 import Button01 from 'components/commons/button/Button01';
-import { useAtom } from 'jotai';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
+
+// Toast UI Editor 관련 import
+import '@toast-ui/editor/toastui-editor.css';
+import color from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import ToastEditor from 'components/commons/ToastEditor'; // 실제 경로에 맞게 수정하세요.
 
 const CommunityBoardWrite = () => {
   const navigate = useNavigate();
@@ -27,8 +33,11 @@ const CommunityBoardWrite = () => {
     money: '',
     style: '',
     title: '',
-    content: '',
   });
+
+  // Toast Editor를 위한 ref와 content 상태
+  const editorRef = useRef();
+  const [content, setContent] = useState('');
 
   const fRef = useRef();
 
@@ -50,21 +59,51 @@ const CommunityBoardWrite = () => {
     setFileList(fileList.filter((f) => f !== file));
   };
 
+  // 에디터 내용 변경 시
+  const onChangeContent = () => {
+    const text = editorRef.current?.getInstance().getHTML();
+    setContent(text === '<p><br><p>' ? '' : text);
+    setTextCount(text.length);
+  };
+
+  // 에디터 이미지 업로드 핸들러
+  const handleImage = async (blob, callback) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', blob);
+
+      // 실제 이미지 업로드 엔드포인트로 수정 필요
+      const response = await axios.post(`${url}/editorImageUpload`, formData);
+
+      if (response.status === 200) {
+        const imageUrl = response.data;
+        callback(imageUrl);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // 폼 제출
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
+    // 기존 formData 상태에 있는 값들 append
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
+
+    // content 추가
+    formDataToSend.append('content', content);
+
     fileList.forEach((file) => {
       formDataToSend.append('coverImage', file);
     });
 
     try {
       const response = await axiosInToken(token).post(
-        `${url}/user/communityCreate`,
+        `/user/communityCreate`,
         formDataToSend,
         {
           headers: {
@@ -133,7 +172,7 @@ const CommunityBoardWrite = () => {
               onChange={handleChange}
             >
               <option value="">지역 선택</option>
-              <option value="서울특별시">서울특별시</option>
+              {/* <option value="서울특별시">서울특별시</option> */}
               <option value="부산광역시">부산광역시</option>
               <option value="대구광역시">대구광역시</option>
               <option value="인천광역시">인천광역시</option>
@@ -237,7 +276,6 @@ const CommunityBoardWrite = () => {
 
         <div className={styles.coverUploadContainer}>
           {fileList.length === 0 ? (
-            // 파일이 없는 경우 버튼 표시
             <>
               <p>추가하기 버튼으로 커버 사진을 업로드해주세요.</p>
               <label htmlFor="fileUpload" className={styles.uploadButton}>
@@ -252,7 +290,6 @@ const CommunityBoardWrite = () => {
               />
             </>
           ) : (
-            // 파일이 있는 경우 이미지와 삭제 버튼 표시
             <div className={styles.filePreview}>
               <button
                 type="button"
@@ -284,25 +321,23 @@ const CommunityBoardWrite = () => {
           />
         </div>
 
+        {/* 여기서부터 내용 작성 부분을 Toast UI Editor로 변경 */}
         <div className={styles.textareaWrap}>
           <label>
             내용<span>*</span>
           </label>
-          <textarea
-            name="content"
-            minLength="5"
-            maxLength="1000"
-            className={styles.contentInput}
-            placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
-            onChange={(e) => {
-              handleChange(e);
-              setTextCount(e.target.value.length);
-            }}
+          <ToastEditor
+            editorRef={editorRef}
+            height="800px"
+            handleImage={handleImage}
+            onChange={onChangeContent}
           />
           <p className={styles.textCount}>
             <span>{textCount}</span> / 1000
           </p>
         </div>
+        {/* 여기까지 Toast UI Editor 적용 */}
+
         <div className={styles.btnWrap}>
           <button type="submit" className={styles.submitButton}>
             등록하기

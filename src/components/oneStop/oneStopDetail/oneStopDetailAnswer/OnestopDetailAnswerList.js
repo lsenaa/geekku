@@ -10,6 +10,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
 import axios from 'axios';
+import { RiQuestionAnswerLine } from 'react-icons/ri';
 
 const OnestopDetailAnswerList = ({ onestopNum }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,61 +65,76 @@ const OnestopDetailAnswerList = ({ onestopNum }) => {
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
-        <h3>답변</h3>
-        <Button01 size="x-small" color="sub" onClick={toggleModal}>
-          작성하기
-        </Button01>
+        <div className={styles.iconTextWrap}>
+          <RiQuestionAnswerLine size={25} />
+          <h3>답변</h3>
+        </div>
+        {user.companyId && (
+          <Button01 size="x-small" color="sub" onClick={toggleModal}>
+            작성하기
+          </Button01>
+        )}
       </div>
       <hr className={styles.line} />
       <ul>
-        {onestopAnswerList.map((answer) => (
-          <li
-            className={styles.answerList}
-            key={answer.answerOnestopNum}
-            onClick={() => handleAnswer(answer.answerOnestopNum)}
-          >
-            <div className={styles.preview}>
-              <div className={styles.profile}>
-                <img
-                  src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                  alt="프로필 이미지"
-                />
-                <p className={styles.companyName}>{answer.companyName}</p>
-              </div>
-              <p className={styles.title}>{answer.title}</p>
-              <p className={styles.createdAt}>{formatDate(answer.createdAt)}</p>
-              {user.companyId === answer.companyId && (
-                <button
-                  className={styles.deleteBtn}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(answer.answerOnestopNum);
-                  }}
+        <>
+          {onestopAnswerList.length === 0 ? (
+            <div>답변 내역이 없습니다.</div>
+          ) : (
+            <>
+              {onestopAnswerList.map((answer) => (
+                <li
+                  className={styles.answerList}
+                  key={answer.answerOnestopNum}
+                  onClick={() => handleAnswer(answer.answerOnestopNum)}
                 >
-                  삭제
-                </button>
-              )}
-            </div>
-            {answerIsOpen[answer.answerOnestopNum] && (
-              <div>
-                <div className={styles.phoneAddWrap}>
-                  <div className={styles.phone}>
-                    <p>연락처</p>
-                    <p>{answer.companyPhone}</p>
+                  <div className={styles.preview}>
+                    <div className={styles.profile}>
+                      <img
+                        src={`data:image/png;base64, ${answer.companyProfileImage}`}
+                        alt="프로필 이미지"
+                      />
+                      <p className={styles.companyName}>{answer.companyName}</p>
+                    </div>
+                    <p className={styles.title}>{answer.title}</p>
+                    <p className={styles.createdAt}>
+                      {formatDate(answer.createdAt)}
+                    </p>
+                    {user.companyId === answer.companyId && (
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(answer.answerOnestopNum);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    )}
                   </div>
-                  <div className={styles.address}>
-                    <p>주소</p>
-                    <p>{answer.companyAddress}</p>
-                  </div>
-                </div>
-                <div className={styles.editorContent}>
-                  <Viewer initialValue={answer.content} />
-                </div>
-              </div>
-            )}
-            <hr className={styles.line} />
-          </li>
-        ))}
+                  {answerIsOpen[answer.answerOnestopNum] && (
+                    <div>
+                      <div className={styles.phoneAddWrap}>
+                        <div className={styles.phone}>
+                          <p>연락처</p>
+                          <p>{answer.companyPhone}</p>
+                        </div>
+                        <div className={styles.address}>
+                          <p>주소</p>
+                          <p>{answer.companyAddress}</p>
+                        </div>
+                      </div>
+                      <div className={styles.editorContent}>
+                        <Viewer initialValue={answer.content} />
+                      </div>
+                    </div>
+                  )}
+                  <hr className={styles.line} />
+                </li>
+              ))}
+            </>
+          )}
+        </>
       </ul>
       {isModalOpen && (
         <Modal

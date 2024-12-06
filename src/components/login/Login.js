@@ -13,6 +13,7 @@ import { type } from '@testing-library/user-event/dist/type';
 import { Modal } from 'antd';
 import axios from 'axios';
 import UseHandleTokens from 'hook/useHandleTokens';
+import { type } from '@testing-library/user-event/dist/type';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -75,10 +76,9 @@ const Login = () => {
                 .post(
                   `${url}/fcmToken`,
                   {
-                    userId: res.data.userId, //username: member.username, fcmToken: fcmToken,
-                    fcmToken:
-                      'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
-                    type: 'user',
+                    userId: res.data.userId, //fcmToken:'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
+                    fcmToken: fcmToken,
+                    type: user.type,
                   },
                   {
                     headers: {

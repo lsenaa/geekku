@@ -36,10 +36,14 @@ const ReqInteriorMain = () => {
   // 작성 버튼
   const onClickWrite = () => {
     if (user.userId) {
-      navigate('/requestInterior/write');
+      navigate('/house/write');
+    } else if (user.companyId) {
+      Modal.info({
+        content: '일반회원만 이용가능합니다.',
+      });
     } else {
       Modal.info({
-        content: '로그인 후 이용하세요.',
+        content: '로그인 후 이용가능합니다.',
       });
       navigate('/login');
     }
@@ -91,6 +95,7 @@ const ReqInteriorMain = () => {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onKeyUp={handleSearchEnter}
+            maxLength={40}
           />
           <button className={styles.searchBtn} onClick={() => fetchData(1)}>
             검색

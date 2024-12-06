@@ -14,17 +14,18 @@ const CommunityListCard = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    console.log(communityNum);
-    navigate(`/CommunityBoardDetail/${communityNum}`); // community_num 사용
+    navigate(`/CommunityBoardDetail/${communityNum}`);
   };
 
   return (
     <div className={styles.card} onClick={handleCardClick}>
-      <img
-        src={`${url}/communityImage/${image}`}
-        alt={title}
-        className={styles.cardImage}
-      />
+      <div className={styles.imgWrap}>
+        <img
+          src={`${url}/communityImage/${image}`}
+          alt={title}
+          className={styles.cardImage}
+        />
+      </div>
       <h3 className={styles.cardTitle}>{title}</h3>
       <div className={styles.cardFooter}>
         <div className={styles.profile}>

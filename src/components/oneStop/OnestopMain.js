@@ -97,6 +97,7 @@ const OnestopMain = () => {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onKeyUp={handleSearchEnter}
+            maxLength={40}
           />
           <button className={styles.searchBtn} onClick={() => fetchData(1)}>
             검색

@@ -22,10 +22,10 @@ const SampleRegister = () => {
   const editorRef = useRef();
   const [content, setContent] = useState('');
   const [sample, setSample] = useState({
-    type: '',
-    style: '',
+    type: '농가주택',
+    style: '모던',
     size: '',
-    location: '',
+    location: '경기',
     title: '',
   });
   const [coverImg, setCoverImg] = useState(null);
@@ -119,9 +119,9 @@ const SampleRegister = () => {
               name="type"
               onChange={handleChange}
             >
-              <option>농가주택</option>
-              <option>전원주택</option>
-              <option>아파트/빌라</option>
+              <option value="농가주택">농가주택</option>
+              <option value="전원주택">전원주택</option>
+              <option value="아파트/빌라">아파트/빌라</option>
             </select>
           </li>
           <li>
@@ -133,24 +133,28 @@ const SampleRegister = () => {
               name="style"
               onChange={handleChange}
             >
-              <option>모던</option>
-              <option>우드</option>
-              <option>내추럴</option>
-              <option>클래식&엔틱</option>
-              <option>레트로&빈티지</option>
-              <option>미니멀</option>
+              <option value="모던">모던</option>
+              <option value="우드">우드</option>
+              <option value="내추럴">내추럴</option>
+              <option value="클래식&엔틱">클래식&엔틱</option>
+              <option value="레트로&빈티지">레트로&빈티지</option>
+              <option value="미니멀">미니멀</option>
             </select>
           </li>
           <li>
             <label htmlFor="size">
               평수<span>*</span>
             </label>
-            <input
-              type="number"
-              name="size"
-              className={styles.customSelect}
-              onChange={handleChange}
-            />
+            <div className={styles.inputTextWrap}>
+              <input
+                type="number"
+                name="size"
+                className={styles.customSelect}
+                onChange={handleChange}
+                value={sample.size}
+              />
+              <p>평</p>
+            </div>
           </li>
           <li>
             <label htmlFor="style">
@@ -165,6 +169,7 @@ const SampleRegister = () => {
                     name="location"
                     value={location}
                     onChange={handleChange}
+                    checked={sample.location === location}
                   />
                   {location}
                 </label>
@@ -217,6 +222,7 @@ const SampleRegister = () => {
             placeholder="제목을 입력해주세요.(40자 이내)"
             maxLength="40"
             onChange={handleChange}
+            value={sample.title}
           />
         </div>
         <div className={styles.editorWrap}>
