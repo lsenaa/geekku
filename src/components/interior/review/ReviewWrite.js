@@ -19,7 +19,7 @@ const ReviewWrite = () => {
     companyName: '',
     size: '',
     content: '',
-    location: '',
+    location: '경기',
   });
   const [type, setType] = useState('');
   const [style, setStyle] = useState('');
@@ -183,6 +183,7 @@ const ReviewWrite = () => {
                     name="location"
                     value={location}
                     onChange={edit}
+                    checked={review.location === location}
                   />
                   {location}
                 </label>
@@ -231,62 +232,6 @@ const ReviewWrite = () => {
             </div>
           </div>
         </div>
-        {/* <div className={styles.upload}>
-          <span id={styles.info}>
-            추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
-          </span>
-          <input
-            type="file"
-            id="file"
-            accept="image/*"
-            hidden
-            onChange={fileChange}
-            ref={fRef}
-            multiple
-          />
-          <button
-            type="button"
-            onClick={onClickImageUpload}
-            className={styles.addImgBtn}
-          >
-            추가하기
-          </button>
-          <div className={styles.imgsWrap}>
-            {fileList.map((file, index) => (
-              <div key={index}>
-                <div style={{ display: 'inline-block', textAlign: 'center' }}>
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer',
-                    }}
-                    src={minus}
-                    alt=""
-                    onClick={() => delFile(file)}
-                  />
-                  <br />
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt="리뷰 이미지"
-                    style={{
-                      width: '100px',
-                      height: '60px',
-                      marginRight: '10px',
-                    }}
-                  />
-                </div>
-                {(index + 1) % 4 === 0 && (
-                  <>
-                    <br />
-                    <br />
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </div> */}
         <div className={styles.textAreaWrap}>
           <label className={styles.reviewTitle}>
             리뷰<span>*</span>
