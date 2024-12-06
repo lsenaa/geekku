@@ -163,6 +163,8 @@
 
 .textareaWrap label {
   font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .textareaWrap label span {

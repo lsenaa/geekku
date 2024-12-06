@@ -14,8 +14,7 @@ const CommunityListCard = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    console.log(communityNum);
-    navigate(`/CommunityBoardDetail/${communityNum}`); // community_num 사용
+    navigate(`/CommunityBoardDetail/${communityNum}`);
   };
 
   return (

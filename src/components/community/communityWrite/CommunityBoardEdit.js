@@ -7,13 +7,25 @@ import { useAtomValue } from 'jotai';
 import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 
+// Toast UI Editor 관련 import
+import '@toast-ui/editor/toastui-editor.css';
+import color from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import ToastEditor from 'components/commons/ToastEditor';
+
 const CommunityBoardEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [fileList, setFileList] = useState([]);
-  const [textCount, setTextCount] = useState(0);
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
+
+  const [fileList, setFileList] = useState([]);
+  const [textCount, setTextCount] = useState(0);
+
+  // editorRef를 통한 에디터 접근
+  const editorRef = useRef();
+
   const [formData, setFormData] = useState({
     userId: user.userId,
     type: '',
@@ -34,11 +46,9 @@ const CommunityBoardEdit = () => {
 
   // 기존 데이터 불러오기
   useEffect(() => {
-    const fetchData = () => {
-      return axios.get(`${url}/communityCall/${id}`);
-    };
-    fetchData()
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${url}/communityCall/${id}`);
         const communityData = response.data.communityDetail;
         setFormData({
           userId: communityData.userId,
@@ -55,22 +65,33 @@ const CommunityBoardEdit = () => {
           title: communityData.title,
           content: communityData.content,
         });
-        console.log(formData);
+
+        // coverImage 설정
         if (communityData.coverImage) {
           if (typeof communityData.coverImage === 'string') {
-            setFileList([communityData.coverImage]); // 문자열 경로인 경우
+            setFileList([communityData.coverImage]);
           } else {
-            setFileList([URL.createObjectURL(communityData.coverImage)]); // 파일 객체인 경우
+            setFileList([URL.createObjectURL(communityData.coverImage)]);
           }
         } else {
-          setFileList([]); // 커버 이미지가 없는 경우
+          setFileList([]);
         }
-      })
-      .catch((error) => {
+
+        // 내용 길이 count
+        setTextCount(communityData.content ? communityData.content.length : 0);
+      } catch (error) {
         console.error('기존 데이터를 불러오는 중 오류 발생:', error);
-      });
+      }
+    };
     fetchData();
-  }, []);
+  }, [id]);
+
+  // formData.content가 세팅된 후 에디터에 HTML 적용
+  useEffect(() => {
+    if (editorRef.current && formData.content) {
+      editorRef.current.getInstance().setHTML(formData.content);
+    }
+  }, [formData.content]);
 
   // 입력 필드 업데이트
   const handleChange = (e) => {
@@ -88,6 +109,29 @@ const CommunityBoardEdit = () => {
   // 파일 삭제
   const handleFileDelete = () => {
     setFileList([]);
+  };
+
+  // 에디터 내용 변경 시
+  const onChangeContent = () => {
+    const text = editorRef.current?.getInstance().getHTML();
+    setFormData((prevData) => ({ ...prevData, content: text }));
+    setTextCount(text.length);
+  };
+
+  // 에디터 이미지 업로드 핸들러
+  const handleImage = async (blob, callback) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', blob);
+
+      const response = await axios.post(`${url}/editorImageUpload`, formData);
+      if (response.status === 200) {
+        const imageUrl = response.data;
+        callback(imageUrl);
+      }
+    } catch (err) {
+      console.error('이미지 업로드 중 오류:', err);
+    }
   };
 
   // 폼 제출
@@ -123,7 +167,7 @@ const CommunityBoardEdit = () => {
 
   return (
     <div className={styles.communityWriteInfo}>
-      <h1 className={styles.infoTitle}>집들이 작성하기</h1>
+      <h1 className={styles.infoTitle}>집들이 수정하기</h1>
       <div className={styles.requiredNote}>
         <span className={styles.leftText}>인테리어 정보</span>
         <span className={styles.rightText}>
@@ -241,6 +285,7 @@ const CommunityBoardEdit = () => {
             name="periodEndDate"
             className={styles.formControl}
             onChange={handleChange}
+            value={formData.periodEndDate}
           />
         </div>
 
@@ -285,7 +330,6 @@ const CommunityBoardEdit = () => {
 
         <div className={styles.coverUploadContainer}>
           {fileList.length === 0 ? (
-            // 파일이 없는 경우 버튼 표시
             <>
               <p>
                 드래그 앤 드롭이나 추가하기 버튼으로 커버 사진을 업로드해주세요.
@@ -302,20 +346,19 @@ const CommunityBoardEdit = () => {
               />
             </>
           ) : (
-            // 파일이 있는 경우 이미지와 삭제 버튼 표시
             <div className={styles.filePreview}>
               <button
                 type="button"
                 className={styles.fileRemoveButton}
-                onClick={() => setFileList([])} // 업로드된 파일 초기화
+                onClick={() => setFileList([])}
               >
                 ×
               </button>
               <img
                 src={
                   typeof fileList[0] === 'string'
-                    ? `${url}/communityImage/${fileList[0]}` // 문자열 경로일 경우: 서버 경로를 조합
-                    : URL.createObjectURL(fileList[0]) // 파일 객체일 경우: createObjectURL 사용
+                    ? `${url}/communityImage/${fileList[0]}`
+                    : URL.createObjectURL(fileList[0])
                 }
                 alt="Preview"
                 className={styles.filePreviewImage}
@@ -339,29 +382,25 @@ const CommunityBoardEdit = () => {
           />
         </div>
 
+        {/* Toast UI Editor 영역 */}
         <div className={styles.textareaWrap}>
           <label>
             내용<span>*</span>
           </label>
-          <textarea
-            name="content"
-            minLength="5"
-            maxLength="1000"
-            className={styles.contentInput}
-            placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
-            value={formData.content}
-            onChange={(e) => {
-              handleChange(e);
-              setTextCount(e.target.value.length);
-            }}
+          <ToastEditor
+            editorRef={editorRef}
+            height="800px"
+            handleImage={handleImage}
+            onChange={onChangeContent}
           />
           <p className={styles.textCount}>
             <span>{textCount}</span> / 1000
           </p>
         </div>
+
         <div className={styles.btnWrap}>
           <button type="submit" className={styles.submitButton}>
-            등록하기
+            수정하기
           </button>
           <Button01
             size="small"

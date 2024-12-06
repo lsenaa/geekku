@@ -12,6 +12,10 @@ import axios from 'axios';
 import { Modal } from 'antd';
 import { url } from 'lib/axios';
 
+// Toast UI Viewer 관련 import
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Viewer } from '@toast-ui/react-editor';
+
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
@@ -23,11 +27,13 @@ const Header = ({ alarms = [] }) => {
   const navigate = useNavigate();
   const [username, setUserName] = useAtom(userNameAtom);
   const setAlarms = useSetAtom(alarmsAtom);
+
   // 알림 모달 테스트용
   const [selectedAlarm, setSelectedAlarm] = useState(null); // 선택된 알림 데이터
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
-  // 알림 확장 테스트용
-  const [expandedNotification, setExpandedNotification] = useState(null); // 확장된 알림 ID 관리
+
+  // 알림 확장 테스트용(현재 사용 안할 수 있음)
+  const [expandedNotification, setExpandedNotification] = useState(null);
 
   const openModal = (alarm) => {
     setSelectedAlarm(alarm); // 선택된 알림 데이터 저장
@@ -48,7 +54,9 @@ const Header = ({ alarms = [] }) => {
       .get(`${url}/confirm/${num}`)
       .then((res) => {
         if (res.data === true) {
-          setAlarms(alarms.filter((item) => item.num !== num));
+          setAlarms((prevAlarms) =>
+            prevAlarms.filter((item) => item.num !== num)
+          );
           console.log(alarms);
         }
       })
@@ -120,7 +128,6 @@ const Header = ({ alarms = [] }) => {
     navigate('/');
   };
 
-  //현재 user 상태 콘솔에 출력
   console.log('현재 user 상태 : ', user);
 
   const navigateToDetail = (type, detailPath) => {
@@ -142,22 +149,6 @@ const Header = ({ alarms = [] }) => {
     }
 
     navigate(path);
-  };
-
-  // 알림 상세 내용 스타일
-  const notificationDetailsStyle = {
-    backgroundColor: '#f9f9f9',
-    padding: '10px',
-    marginTop: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-  };
-
-  // 알림 액션 버튼 컨테이너 스타일
-  const notificationActionsStyle = {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    marginTop: '10px',
   };
 
   return (
@@ -186,7 +177,6 @@ const Header = ({ alarms = [] }) => {
           </li>
         </ul>
       </nav>
-      {/* 로그인 유무 헤더 */}
       {isLogin ? (
         <div className={styles.loginMenuWrap}>
           {/* 알림 아이콘 버튼 */}
@@ -321,7 +311,13 @@ const Header = ({ alarms = [] }) => {
                 {selectedAlarm && (
                   <div>
                     <h2>{selectedAlarm.title}</h2>
-                    <p>{selectedAlarm.message}</p>
+                    {/* Viewer를 사용해 알림 메시지를 HTML로 렌더링 */}
+                    {/* message가 HTML 형태라면 그대로 렌더링, 아니라면 `<p>${selectedAlarm.message}</p>` 형태로 가공 */}
+                    <Viewer
+                      initialValue={
+                        selectedAlarm.message || '<p>내용이 없습니다.</p>'
+                      }
+                    />
                     <p>회사: {selectedAlarm.companyName || 'N/A'}</p>
                     <p>생성 시간: {selectedAlarm.createAt}</p>
                   </div>
@@ -340,20 +336,10 @@ const Header = ({ alarms = [] }) => {
                   className={styles.profileImage}
                 />
               </div>
-              // <img
-              //   src={
-              //     user.socialProfileImage
-              //       ? user.socialProfileImage
-              //       : user.profileImage
-              //         ? `data:image/png;base64,${user.profileImageStr}`
-              //         : defaultImg
-              //   }
-              //   className={styles.profileImage}
-              // />
             )}
-            {/* <FaUserCircle size="30" color="#6D885D" /> */}
             <p className={styles.name}>
-              {user && (user.type == 'user' ? user.nickname : user.companyName)}
+              {user &&
+                (user.type === 'user' ? user.nickname : user.companyName)}
             </p>
           </div>
 

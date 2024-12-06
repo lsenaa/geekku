@@ -1,33 +1,59 @@
-import React from 'react';
+// CommunityList.jsx
+import React, { useEffect, useRef } from 'react';
 import CommunityListCard from './CommunityListCard';
 import styles from './CommunityList.module.css';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { url } from 'lib/axios';
 
-// import interiorImage from '../../../assets/images/InteriorExam.jpg';
-// import personImage from '../../../assets/images/person.jpg';
-
-const CommunityList = ({ communityList, setCommunityList }) => {
-  const [posts, setPosts] = useState([]);
+const CommunityList = ({
+  communityList,
+  setCommunityList,
+  setPage,
+  hasMore,
+  isLoading,
+}) => {
+  const loaderRef = useRef(null);
 
   useEffect(() => {
-    console.log(posts); // 상태 업데이트 후 확인
-  }, [posts]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoading && hasMore) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      {
+        threshold: 1.0,
+      }
+    );
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+    return () => {
+      if (loaderRef.current) observer.unobserve(loaderRef.current);
+    };
+  }, [hasMore, isLoading, setPage]);
 
   return (
     <div className={styles.postList}>
-      {communityList.map((post, index) => (
-        <CommunityListCard
-          key={index}
-          communityNum={post.communityNum}
-          title={post.title}
-          image={post.coverImage}
-          viewCount={post.viewCount}
-          profile={post.username}
-          className={styles.postCard}
-        />
-      ))}
+      {communityList.length === 0 ? (
+        <>
+          <div></div>
+          <div className={styles.emptyMessage}>커뮤니티가 없습니다.</div>
+          <div></div>
+        </>
+      ) : (
+        communityList.map((post, index) => (
+          <CommunityListCard
+            key={index}
+            communityNum={post.communityNum}
+            title={post.title}
+            image={post.coverImage}
+            viewCount={post.viewCount}
+            profile={post.username}
+            className={styles.postCard}
+          />
+        ))
+      )}
+      {/* 로딩 감지용 로더 */}
+      <div ref={loaderRef} style={{ height: '50px' }} />
     </div>
   );
 };
