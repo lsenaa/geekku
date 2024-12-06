@@ -1,5 +1,5 @@
 import { Modal, Spin } from 'antd';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { url } from 'lib/axios';
 import axios from 'axios';
 import styles from '../modals/JoinModal.module.scss';
@@ -9,42 +9,50 @@ const JoinModal = ({ open, close, onConfirm }) => {
   const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태
   const [results, setResults] = useState([]); // 조회 결과 상태
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
-  const handleSearch = async () => {
+  const loadMoreRef = useRef();
+
+  const fetchResults = async (query, pageNo) => {
     setIsLoading(true);
     try {
-      const params = {};
+      const params = { pageNo, numOfRows: 10 };
 
-      if (searchQuery.includes('-')) {
-        params.jurirno = searchQuery;
-      } else if (isNaN(searchQuery)) {
-        params.brkrNm = searchQuery;
+      if (query.includes('-')) {
+        params.jurirno = query;
+      } else if (isNaN(query)) {
+        params.brkrNm = query;
       } else {
-        params.bsnmCmpnm = searchQuery;
+        params.bsnmCmpnm = query;
       }
 
       const response = await axios.get(`${url}/searchEstate`, { params });
-      //console.log('백엔드 응답 데이터 : ', response.data);
+      console.log('백엔드 응답 데이터 : ', response.data); //totalCount : 34, size : 10 으로 나옴
+      console.log('백엔드 응답 데이터 page : ', response.data.EDBrokers.pageNo); //1로 나옴
+      console.log('데이터 totalCount : ', response.data.EDBrokers.totalCount);
 
       const resultData = response.data?.EDBrokers?.field || [];
-      if (!Array.isArray(resultData) || resultData.length === 0) {
-        Modal.error({
-          content: '조회 결과가 없습니다.',
-        });
-        setResults([]);
-        return;
-      }
+      const total = response.data?.EDBrokers?.totalCount || 0;
+      setResults((prev) =>
+        pageNo === 1 ? resultData : [...prev, ...resultData]
+      );
+      setTotalCount(total);
 
-      setResults(resultData);
+      setHasMore(results.length + resultData.length < total);
     } catch (error) {
-      //console.error('조회 실패 : ', error);
-      setResults([]);
-      Modal.error({
-        content: '조회에 실패했습니다. 다시 시도해주세요.',
-      });
+      console.error('데이터 로드 실패 : ', error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSearch = () => {
+    setPage(1);
+    setResults([]);
+    setHasMore(true);
+    fetchResults(searchQuery, 1);
   };
 
   const handleResultClick = (result) => {
@@ -62,6 +70,37 @@ const JoinModal = ({ open, close, onConfirm }) => {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchResults(searchQuery, page);
+    }
+  }, [page, searchQuery]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.6,
+      }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [hasMore, isLoading]);
 
   return (
     <Modal open={open} onCancel={close} footer={null} width={600}>
@@ -84,24 +123,25 @@ const JoinModal = ({ open, close, onConfirm }) => {
       </div>
       <hr />
       <div className={styles.modalContent}>
-        {isLoading ? (
+        {isLoading && (
           <div>
             <Spin />
           </div>
-        ) : results.length > 0 ? (
-          results.map((result, index) => (
-            <div
-              key={index}
-              className={styles.result}
-              onClick={() => handleResultClick(result)}
-            >
-              <span>{result.jurirno}</span>
-              <span>{result.bsnmCmpnm}</span>
-              <span>{result.brkrNm}</span>
-              <span hidden>{result.idCodeNm}</span>
-            </div>
-          ))
-        ) : (
+        )}
+        {results.map((result, index) => (
+          <div
+            key={index}
+            className={styles.result}
+            ref={index === results.length - 1 ? loadMoreRef : null}
+            onClick={() => handleResultClick(result)}
+          >
+            <span>{result.jurirno}</span>
+            <span>{result.bsnmCmpnm}</span>
+            <span>{result.brkrNm}</span>
+            <span hidden>{result.idCodeNm}</span>
+          </div>
+        ))}
+        {!isLoading && results.length === 0 && (
           <div>조회 결과가 없습니다. </div>
         )}
       </div>
