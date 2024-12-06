@@ -31,7 +31,7 @@ const SampleDetail = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [user]);
+  }, []);
 
   return (
     <div>
@@ -76,7 +76,9 @@ const SampleDetail = () => {
             </div>
           </div>
           <div className={styles.content}>
-            <Viewer initialValue={sampleInfo.content || ''} />
+            {sampleInfo.content && (
+              <Viewer initialValue={sampleInfo.content || ''} />
+            )}
           </div>
         </div>
         <Button01 size="small" onClick={() => navigate('/sampleList')}>
