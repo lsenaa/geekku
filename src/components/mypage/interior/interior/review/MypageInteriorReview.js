@@ -24,7 +24,7 @@ const MypageInteriorReview = () => {
       .get('/company/myInteriorReviewList')
       .then((res) => {
         console.log(res);
-        setReviewList([...res.data.content]);
+        setReviewList([...res.data.interiorReviewList.content]);
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
@@ -42,29 +42,17 @@ const MypageInteriorReview = () => {
               <col width="10%" />
               <col width="50%" />
               <col width="16%" />
-              <col width="12%" />
-              <col width="12%" />
             </colgroup>
             <thead>
               <tr>
                 <th>대표 사진</th>
                 <th>내용</th>
                 <th>작성 날짜</th>
-                <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
               {reviewList.map((review) => (
-                <tr
-                  className={styles.rowWrap}
-                  key={review.reviewNum}
-                  // onClick={() =>
-                  //   navigate(`/profile/interior/${review.interiorNum}`, {
-                  //     state: { interiorNum: review.interiorNum },
-                  //   })
-                  // }
-                >
+                <tr className={styles.rowWrap} key={review.reviewNum}>
                   <td>
                     <img
                       src={
@@ -80,7 +68,7 @@ const MypageInteriorReview = () => {
               ))}
             </tbody>
           </table>
-          <Pagination defaultCurrent={1} total={50} />
+          <Pagination defaultCurrent={1} total={totalCount} />
         </>
       )}
     </>

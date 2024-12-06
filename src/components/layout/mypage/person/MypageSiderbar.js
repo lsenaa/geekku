@@ -21,9 +21,13 @@ const MypageSiderbar = () => {
 
   return (
     <div className={styles.profile}>
-      <FaUserCircle color="#6D885D" size={100} />
+      <img
+        src={`data:image/png;base64,${user.profileImageStr}`}
+        alt="프로필 이미지"
+        style={{ width: '80%' }}
+      />
       <h4>{user.nickname !== '' ? user.nickname : user.name}</h4>
-      <p>{user.username}</p>
+      {user.provider ? <p>{user.provider} 사용자</p> : <p>{user.username}</p>}
       <p>{user.email}</p>
       <hr />
       <ul className={styles.sidebar}>

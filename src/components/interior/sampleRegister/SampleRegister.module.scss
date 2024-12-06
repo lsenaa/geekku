@@ -1,8 +1,7 @@
 @import 'variables.scss';
 
 .regDesign {
-  @include container;
-  width: 800px;
+  @include formContainer;
 
   li {
     margin-bottom: 30px;
@@ -67,7 +66,7 @@
   }
   label {
     display: block;
-    width: 150px;
+    width: 140px;
     font-weight: bold;
     span {
       color: red;

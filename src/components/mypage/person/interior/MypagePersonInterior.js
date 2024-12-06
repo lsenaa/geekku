@@ -14,10 +14,9 @@ const MypagePersonInterior = () => {
   const [interiorAllList, setInteriorAllList] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  console.log(token);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [token]);
 
   const fetchData = () => {
     axiosInToken(token)

@@ -1,7 +1,7 @@
 import styles from './OnestopMain.module.scss';
 import Button01 from '../commons/button/Button01';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
@@ -33,13 +33,18 @@ const OnestopMain = () => {
     setCurrentPage(value);
     fetchData(value);
   };
+
   // 작성 버튼
   const onClickWrite = () => {
     if (user.userId) {
       navigate('/onestop/write');
+    } else if (user.companyId) {
+      Modal.info({
+        content: '일반회원만 이용가능합니다.',
+      });
     } else {
       Modal.info({
-        content: '로그인 후 이용하세요.',
+        content: '로그인 후 이용가능합니다.',
       });
       navigate('/login');
     }
@@ -76,10 +81,14 @@ const OnestopMain = () => {
       <h2>한번에꾸하기 신청 목록</h2>
       <div className={styles.topWrap}>
         <div className={styles.searchWrap}>
-          <select className={styles.select}>
-            <option>지역</option>
-            <option>거래종류</option>
-            <option>제목</option>
+          <select
+            className={styles.select}
+            onChange={(e) => setType(e.target.value)}
+            value={type}
+          >
+            <option value="location">지역</option>
+            <option value="rentType">거래종류</option>
+            <option value="title">제목</option>
           </select>
           <input
             type="text"
@@ -89,7 +98,9 @@ const OnestopMain = () => {
             onChange={(e) => setKeyword(e.target.value)}
             onKeyUp={handleSearchEnter}
           />
-          <button className={styles.searchBtn}>검색</button>
+          <button className={styles.searchBtn} onClick={() => fetchData(1)}>
+            검색
+          </button>
         </div>
         <Button01 size="small" onClick={onClickWrite}>
           작성하기

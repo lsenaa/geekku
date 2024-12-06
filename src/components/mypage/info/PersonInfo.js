@@ -17,19 +17,24 @@ const PersonInfo = () => {
   const [myUser, setMyUser] = useState(user);
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [isSocial, setIsSocial] = useState(false);
+
+  useEffect(() => {
+    setIsSocial(user.provider);
+  }, [user]);
 
   const edit = (e) => {
+    if (isSocial) return;
     const { name, value } = e.target;
     if (name === 'phone') {
       const cleaned = value.replace(/\D+/g, '');
       if (cleaned.length > 11) {
         return;
       }
-      setUser({ ...user, phone: cleaned });
+      setMyUser({ ...myUser, phone: cleaned });
     } else {
-      setUser({ ...user, [name]: value });
+      setMyUser({ ...myUser, [name]: value });
     }
-    setMyUser({ ...myUser, [name]: value });
   };
 
   useEffect(() => {
@@ -134,6 +139,7 @@ const PersonInfo = () => {
               // value={myUser.nickname}
               placeholder={myUser.nickname}
               className={styles.input1}
+              readOnly={isSocial}
             />
             <button
               className={styles.checkButton}
@@ -180,19 +186,15 @@ const PersonInfo = () => {
             <input
               type="text"
               name="email"
-              // value={myUser.email}
               onChange={edit}
               placeholder={myUser.email}
               className={styles.input2}
+              readOnly={isSocial}
             />
           </div>
           <button className={styles.button} onClick={submit}>
             완료
           </button>
-
-          <a href="/" className={styles.removeUser}>
-            회원탈퇴
-          </a>
         </div>
       </div>
     </div>

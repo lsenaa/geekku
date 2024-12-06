@@ -1,14 +1,7 @@
 @import '../../../variables.scss';
 
 .container {
-  @include container;
-  padding: 100px 0;
-
-  h2 {
-    font-family: $sub-font;
-    font-size: 40px;
-    text-align: center;
-  }
+  @include formContainer;
 }
 
 .subLabelWrap {
@@ -34,9 +27,8 @@
   }
 }
 
-
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -74,7 +66,6 @@ section {
 .item {
   @include flexrow;
   margin-bottom: 30px;
-  padding-right: 20px;
 
   label {
     font-weight: bold;
@@ -160,8 +151,7 @@ section {
       height: 15px;
     }
     label {
-      margin-right: 10px;
-      padding: 10px;
+      margin-right: 5px;
       font-weight: normal;
     }
   }
@@ -169,12 +159,12 @@ section {
 
 .textareaWrap {
   position: relative;
-  width: 100%;
+  width: 860px;
 
   .detailTextarea {
     @include border;
     width: 100%;
-    height: 200px;
+    height: 340px;
     padding: 16px;
     resize: none;
     &:focus {

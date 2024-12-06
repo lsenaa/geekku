@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { formatEstateType, formatPrice } from 'utils/utils';
 import { Modal } from 'antd';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const BookmarkHouse = () => {
   const token = useAtomValue(tokenAtom);
@@ -18,7 +19,7 @@ const BookmarkHouse = () => {
 
   useEffect(() => {
     fetchData(page);
-  }, [page]);
+  }, [page, token]);
 
   const fetchData = async (page) => {
     await axiosInToken(token)
@@ -121,6 +122,7 @@ const BookmarkHouse = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
+      <TopButton />
     </>
   );
 };

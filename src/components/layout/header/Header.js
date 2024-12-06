@@ -1,15 +1,21 @@
-import { Link } from 'react-router-dom';
 import logo from 'assets/images/logo.png';
-import defaultImg from 'assets/images/usericon.png';
 import styles from './Header.module.scss';
+import { Link } from 'react-router-dom';
+import { Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { FaUserCircle } from 'react-icons/fa';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
+import {
+  userNameAtom,
+  alarmsAtom,
+  userAtom,
+  tokenAtom,
+  initUser,
+} from 'store/atoms';
+import { FaUserCircle } from 'react-icons/fa';
+import defaultImg from 'assets/images/usericon.png';
 import axios from 'axios';
-import { Modal } from 'antd';
 import { url } from 'lib/axios';
 
 // Toast UI Viewer 관련 import
@@ -19,9 +25,7 @@ import { Viewer } from '@toast-ui/react-editor';
 const Header = ({ alarms = [] }) => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
-
   const [isLogin, setIsLogin] = useState(false);
-
   const [write, setWrite] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // 알림 패널 열기/닫기 상태
   const navigate = useNavigate();
@@ -115,8 +119,8 @@ const Header = ({ alarms = [] }) => {
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
+    setUser(initUser);
+    setToken('');
 
     localStorage.removeItem('token');
     localStorage.removeItem('user');

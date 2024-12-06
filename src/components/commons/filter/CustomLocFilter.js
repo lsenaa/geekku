@@ -10,9 +10,7 @@ import loc_jeolla from '../../../assets/images/loc_jeolla.png';
 import loc_gyangsang from '../../../assets/images/loc_gyangsang.png';
 import loc_jeju from '../../../assets/images/loc_jeju.png';
 
-const CustomLocFilter = () => {
-  const [selectedLoc, setSelectedLoc] = useState(null);
-
+const CustomLocFilter = ({ selectedLoc, setSelectedLoc }) => {
   const categories = [
     { id: 1, name: '전체', imgSrc: loc_all },
     { id: 2, name: '경기', imgSrc: loc_gyunggy },
@@ -24,8 +22,14 @@ const CustomLocFilter = () => {
     { id: 8, name: '제주', imgSrc: loc_jeju },
   ];
 
-  const filterCategory = (category) => {
-    setSelectedLoc(category.name);
+  const toggleLoc = (category) => {
+    setSelectedLoc((prev) => {
+      if (prev.includes(category.name)) {
+        return prev.filter((name) => name !== category.name);
+      } else {
+        return [...prev, category.name];
+      }
+    });
     console.log(`Filtering: ${category}`);
   };
 
@@ -36,9 +40,16 @@ const CustomLocFilter = () => {
           <li
             id={styles.sub}
             key={index}
-            onClick={() => filterCategory(category.name)}
-            className={selectedLoc === category.name ? styles.selected : ''}
+            onClick={() => toggleLoc(category)}
+            className={`${styles.sub} ${selectedLoc.includes(category.name) ? styles.selected : ''}`}
           >
+            <input
+              type="checkbox"
+              checked={selectedLoc.includes(category.name)}
+              onChange={() => toggleLoc(category)}
+              className={styles.checkbox}
+              style={{ display: 'none' }}
+            />
             <img src={category.imgSrc} alt={category.name} />
             {category.name}
           </li>

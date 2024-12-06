@@ -1,9 +1,7 @@
 @import '../../../variables.scss';
 
 .container {
-  @include container;
-  width: 800px;
-  padding: 100px 0;
+  @include formContainer;
 
   h2 {
     font-family: $sub-font;
@@ -56,7 +54,6 @@
 .item {
   @include flexrow;
   margin-bottom: 30px;
-  padding-right: 20px;
   width: 100%;
 
   label {
@@ -67,8 +64,7 @@
 
 .content {
   @include border;
-  width: 90%;
-  height: 200px;
+  width: 860px;
   padding: 16px;
 }
 

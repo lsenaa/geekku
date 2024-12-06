@@ -7,6 +7,7 @@ import { url } from 'lib/axios';
 
 function CommunityMain() {
   const [communityList, setCommunityList] = useState([]);
+
   const [filters, setFilters] = useState({
     type: null,
     sizeRange: null,

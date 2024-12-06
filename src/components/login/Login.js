@@ -12,7 +12,7 @@ import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
 import { Modal } from 'antd';
 import axios from 'axios';
 import { type } from '@testing-library/user-event/dist/type';
-import UseHandleToken from './UseHandleToken';
+import UseHandleToken from './useHandleToken';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
