@@ -6,7 +6,11 @@ const Card = ({ sampleList }) => {
   return (
     <>
       {sampleList.map((sample) => (
-        <Link to="/sampleDetail" key={sample.sampleNum} className={styles.card}>
+        <Link
+          to={`/sampleDetail/${sample.sampleNum}`}
+          key={sample.sampleNum}
+          className={styles.card}
+        >
           <div className={styles.fix}>
             <img
               src={sample.coverImage}
