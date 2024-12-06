@@ -25,7 +25,7 @@ const JoinPerson = () => {
 
   const [usernameChecked, setUsernameChecked] = useState(false);
   const [nicknameChecked, setNicknameChecked] = useState(false);
-
+  const [isPhonechecked, setIsPoneChecked] = useState(false);
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
 
@@ -65,16 +65,24 @@ const JoinPerson = () => {
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
+      if (/\D/g.test(value)) {
+        Modal.info({
+          content: '휴대폰 번호는 숫자형식만 입력가능합니다.',
+        });
+        setIsPoneChecked(false);
+        return;
+      }
       const cleaned = value.replace(/\D/g, '');
       if (cleaned.length !== 11) {
         Modal.info({
           content: '휴대폰 번호는 11자리 숫자로 입력해주세요.',
         });
+        setIsPoneChecked(false);
         return;
       }
     }
-
     applyPhoneFormat(name, value, setUser, user);
+    setIsPoneChecked(true);
   };
 
   const submit = (e) => {
@@ -118,6 +126,13 @@ const JoinPerson = () => {
     //닉네임이 없으면 이름으로 설정
     if (!user.nickname) {
       user.nickname = user.name;
+    }
+
+    if (!isPhonechecked) {
+      Modal.info({
+        content: '휴대폰 번호를 다시입력해주세요.',
+      });
+      return;
     }
 
     //비밀번호 검사

@@ -81,6 +81,12 @@ const JoinInterior = () => {
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
+      if (/\D/g.test(value)) {
+        Modal.info({
+          content: '휴대폰 번호는 숫자형식만 입력가능합니다.',
+        });
+        return;
+      }
       const cleaned = value.replace(/\D/g, '');
       if (cleaned.length !== 11) {
         Modal.info({
@@ -282,12 +288,16 @@ const JoinInterior = () => {
           </span>
           <br />
           <input
+            onInput={(e) => {
+              if (e.target.value.length > e.target.maxLength)
+                e.target.value = e.target.value.slice(0, e.target.maxLength);
+            }}
             type="text"
             name="companyNumber"
             id="companyNumber"
             onChange={edit}
             placeholder="숫자 10자리를 입력해주세요."
-            minLength={10}
+            maxLength={10}
             className={styles2.input1}
             value={user.companyNumber}
           />
