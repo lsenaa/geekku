@@ -34,11 +34,13 @@ const ProfileInterior = () => {
       });
   }, [num]);
 
+  console.log('Current path:', location.pathname); // 현재 경로 확인
+
   const allowedPaths = [
-    `/profile/interior`,
-    '/profile/interior/sample',
-    '/profile/interior/review',
-    '/profile/interior/introduce',
+    `/profile/interior/${num}`,
+    `/profile/interior/${num}/sample`,
+    `/profile/interior/${num}/review`,
+    `/profile/interior/${num}/introduce`,
   ];
 
   const isAllowedPath = allowedPaths.includes(location.pathname);
@@ -56,8 +58,14 @@ const ProfileInterior = () => {
       >
         {isAllowedPath && <ProfileInteriorSidebar detailInfo={detailInfo} />}
         <div className={styles.contentWrap}>
-          {isAllowedPath && <ProfileInteriorMenu detailInfo={detailInfo} />}
-          <Outlet detailInfo={detailInfo} />
+          {isAllowedPath && (
+            <ProfileInteriorMenu detailInfo={detailInfo} num={num} />
+          )}
+          <Outlet
+            context={{
+              detailInfo: detailInfo,
+            }}
+          />
         </div>
       </div>
     </>
