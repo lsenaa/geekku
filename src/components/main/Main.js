@@ -53,6 +53,7 @@ const Main = () => {
             placeholder="매물 지역을 검색해주세요."
             value={keyword}
             onChange={handleKeyword}
+            maxLength={38}
           />
           {keyword !== '' && searchResults.length !== 0 && (
             <ul className={styles.searchList}>
