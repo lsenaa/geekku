@@ -16,9 +16,7 @@ const MypagePersonOnestop = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  console.log(onestopList);
+  }, [token]);
 
   const fetchData = () => {
     axiosInToken(token)

@@ -113,7 +113,7 @@ const Header = ({ alarms = [] }) => {
 
   const logout = () => {
     setUser(initUser);
-    setToken(null);
+    setToken('');
 
     localStorage.removeItem('token');
     localStorage.removeItem('user');

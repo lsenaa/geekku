@@ -97,9 +97,13 @@
 
 /* 커버 이미지 업로드 스타일 */
 .coverUploadContainer {
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1000px;
   margin: 40px auto;
-  padding: 120px 20px;
+  height: 300px;
   border: 1px solid #6d885d;
   border-radius: 10px;
   background-color: #ffffff;
@@ -110,6 +114,7 @@
   color: #777;
   font-size: 16px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .uploadButton {

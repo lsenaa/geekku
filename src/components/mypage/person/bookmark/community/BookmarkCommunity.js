@@ -18,7 +18,7 @@ const BookmarkCommunity = () => {
 
   useEffect(() => {
     fetchData(page);
-  }, [page]);
+  }, [page, token]);
 
   const fetchData = async (page) => {
     await axiosInToken(token)

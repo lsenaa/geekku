@@ -123,7 +123,7 @@ const CommunityBoardEdit = () => {
 
   return (
     <div className={styles.communityWriteInfo}>
-      <h1 className={styles.infoTitle}>집들이 작성하기</h1>
+      <h1 className={styles.infoTitle}>집들이 수정하기</h1>
       <div className={styles.requiredNote}>
         <span className={styles.leftText}>인테리어 정보</span>
         <span className={styles.rightText}>
@@ -287,9 +287,7 @@ const CommunityBoardEdit = () => {
           {fileList.length === 0 ? (
             // 파일이 없는 경우 버튼 표시
             <>
-              <p>
-                드래그 앤 드롭이나 추가하기 버튼으로 커버 사진을 업로드해주세요.
-              </p>
+              <p>추가하기 버튼으로 커버 사진을 업로드해주세요.</p>
               <label htmlFor="fileUpload" className={styles.uploadButton}>
                 커버 사진 추가하기
               </label>
@@ -361,7 +359,7 @@ const CommunityBoardEdit = () => {
         </div>
         <div className={styles.btnWrap}>
           <button type="submit" className={styles.submitButton}>
-            등록하기
+            수정하기
           </button>
           <Button01
             size="small"

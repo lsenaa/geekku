@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import styles from './MypagePersonCommunity.module.scss';
-import interiorImg from 'assets/images/InteriorExam.jpg';
-import { Link } from 'react-router-dom';
 import Button01 from 'components/commons/button/Button01';
 import { userAtom } from 'store/atoms';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { url } from 'lib/axios';
+import { Modal } from 'antd';
 
 const MypagePersonCommunity = () => {
   const [communityData, setCommunityData] = useState([]); // 커뮤니티 목록 상태
@@ -36,20 +35,41 @@ const MypagePersonCommunity = () => {
   }, [user.userId]);
 
   const handleDelete = async (communityNum) => {
-    if (!window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
+    Modal.confirm({
+      content: '집들이 작성글을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
+      onOk: () => {
+        try {
+          axios.delete(`http://localhost:8080/communityDelete/${communityNum}`);
 
-    try {
-      await axios.delete(
-        `http://localhost:8080/communityDelete/${communityNum}`
-      );
-      alert('삭제되었습니다.');
-      setCommunityData((prevData) =>
-        prevData.filter((community) => community.communityNum !== communityNum)
-      );
-    } catch (error) {
-      console.error('게시글 삭제 중 오류 발생:', error);
-      alert('삭제 중 오류가 발생했습니다.');
-    }
+          setCommunityData((prevData) =>
+            prevData.filter(
+              (community) => community.communityNum !== communityNum
+            )
+          );
+        } catch (error) {
+          console.error('게시글 삭제 중 오류 발생:', error);
+        }
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
   };
 
   return (

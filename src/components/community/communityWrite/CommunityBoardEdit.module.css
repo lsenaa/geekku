@@ -97,9 +97,12 @@
 
 /* 커버 이미지 업로드 스타일 */
 .coverUploadContainer {
-  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1000px;
   margin: 40px auto;
-  padding: 120px 20px;
   border: 1px solid #6d885d;
   border-radius: 10px;
   background-color: #ffffff;
@@ -215,6 +218,7 @@
   display: none;
 }
 .coverUploadContainer {
+  height: 300px;
   text-align: center;
   margin-bottom: 20px;
   position: relative; /* 버튼과 이미지를 겹치게 하기 위해 설정 */
