@@ -13,7 +13,6 @@ import { type } from '@testing-library/user-event/dist/type';
 import { Modal } from 'antd';
 import axios from 'axios';
 import UseHandleTokens from 'hook/useHandleTokens';
-import { type } from '@testing-library/user-event/dist/type';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
