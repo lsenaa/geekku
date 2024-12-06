@@ -73,13 +73,16 @@ const MypageInteriorMain = () => {
           <tr>
             <td className={styles.leftcol}>부분시공 가능 여부</td>
             <td className={styles.rightcol}>
-              <p>{myInterior.interior?.possiblePart ? '가능' : '불가능'}</p>
+              <p>
+                {myInterior.interior?.possiblePart == 0 && '가능'}
+                {myInterior.interior?.possiblePart == 1 && '불가능'}
+              </p>
             </td>
           </tr>
           <tr>
             <td className={styles.leftcol}>경력</td>
             <td className={styles.rightcol}>
-              {myInterior.interior?.period || 'N/A'}
+              {myInterior.interior?.period || 0}
             </td>
           </tr>
           <tr>
@@ -91,25 +94,25 @@ const MypageInteriorMain = () => {
           <tr>
             <td className={styles.leftcol}>a/s보수기간</td>
             <td className={styles.rightcol}>
-              {myInterior.repairDate || 'N/A'}
+              {myInterior.interior?.repairDate || 0}
             </td>
           </tr>
           <tr>
             <td className={styles.leftcol}>시공 가능 지역</td>
             <td className={styles.rightcol}>
-              {myInterior.interior?.possibleLocation || 'N/A'}
+              {myInterior.interior?.possibleLocation || '없음'}
             </td>
           </tr>
           <tr>
             <td className={styles.leftcol}>한 줄 소개</td>
             <td className={styles.rightcol}>
-              {myInterior.interior?.intro || 'N/A'}
+              {myInterior.interior?.intro || '.'}
             </td>
           </tr>
           <tr>
             <td className={styles.leftcol}>소개글</td>
             <td className={styles.rightcol}>
-              <p>{myInterior.interior?.content || 'N/A'}</p>
+              <p>{myInterior.interior?.content || '.'}</p>
             </td>
           </tr>
         </tbody>

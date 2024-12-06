@@ -9,7 +9,7 @@ import { userAtom, tokenAtom } from 'store/atoms';
 import { redirect } from 'react-router';
 import { axiosInToken, url } from 'lib/axios';
 import { Modal } from 'antd';
-
+import { MdCancel } from 'react-icons/md';
 import axios from 'axios';
 
 const MypageInteriorModify = () => {
@@ -19,7 +19,7 @@ const MypageInteriorModify = () => {
   const [textCount, setTextCount] = useState(0);
   const [imageUrl, setImageUrl] = useState();
   const [selectedLoc, setSelectedLoc] = useState([]);
-  const [fileList, setFileList] = useState([]);
+  const [coverImg, setCoverImg] = useState([]);
   const navigate = useNavigate();
   const [token, setToken] = useAtom(tokenAtom);
   const [interior, setInterior] = useState({
@@ -46,6 +46,11 @@ const MypageInteriorModify = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
+    // 숫자 소수점 1자리까지만 입력가능하도록 처리
+    const sanitizedValue = value
+      .replace(/[^0-9.]/g, '')
+      .replace(/(\..{1}).*/g, '$1')
+      .replace(/(\..*)\./g, '$1');
 
     setInterior((prev) => ({ ...prev, [name]: value }));
 
@@ -53,11 +58,7 @@ const MypageInteriorModify = () => {
       setTextCount(value.length);
     }
   };
-  const fileChange = (e) => {
-    if (e.target.files.length > 0) {
-      setFileList([...fileList, e.target.files[0]]);
-    }
-  };
+
   useEffect(() => {
     axios
       .get(`${url}/company/interiorCompanyDetail`, {
@@ -82,7 +83,7 @@ const MypageInteriorModify = () => {
           console.log('Error Message:', err.message);
         }
       });
-  }, []);
+  }, [token]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -95,31 +96,45 @@ const MypageInteriorModify = () => {
     formData.append('possiblePart', interior.possiblePart);
     formData.append('recentCount', interior.recentCount);
     formData.append('repairDate', interior.repairDate);
+    formData.append('coverImg', interior.coverImg);
 
     // if (coverImage != null) {
     //   formData.append('file', coverImage);
     // }
 
     await axiosInToken(token)
-      .post(`${url}/company/interiorModify`, formData, {
-        headers: {
-          Authorization: token,
-        },
-      })
+      .post(`${url}/company/interiorModify`, formData)
       .then((res) => {
-        setToken(res.data.token);
-        Modal.success({
-          content: '업체 정보가 수정되었습니다.',
-        });
-        navigate(-1);
+        console.log(res.data);
+        if (res.data) {
+          navigate(-1);
+          Modal.success({
+            content: '업체 정보가 수정되었습니다.',
+          });
+        }
       })
       .catch((err) => {
         console.log('정보 수정 실패 ');
         Modal.error({
           content: '업체 정보 수정에 실패했습니다.',
         });
-        redirect('${url}/user/updateUserInfo');
+        // redirect('${url}/user/updateUserInfo');
       });
+  };
+  const onClickImageUpload = () => {
+    imageInput.current.click();
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCoverImg(file);
+    }
+  };
+
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setCoverImg(null);
   };
 
   return (
@@ -149,9 +164,23 @@ const MypageInteriorModify = () => {
             부분시공 가능 여부<span>*</span>
           </label>
           <div className={styles.radioGroup}>
-            <input type="radio" id="all" name="possiblePart" value="0" />
+            <input
+              type="radio"
+              id="all"
+              name="possiblePart"
+              value="0"
+              checked={interior.possiblePart === interior.possiblePart}
+              onChange={edit}
+            />
             <label htmlFor="가능">가능</label>
-            <input type="radio" id="part" name="possiblePart" value="1" />
+            <input
+              type="radio"
+              id="part"
+              name="possiblePart"
+              value="1"
+              checked={interior.possiblePart === interior.possiblePart}
+              onChange={edit}
+            />
             <label htmlFor="불가능">불가능</label>
           </div>
         </div>
@@ -215,7 +244,7 @@ const MypageInteriorModify = () => {
                   type="checkbox"
                   id={location}
                   name="location"
-                  value={interior.location}
+                  value={location}
                   onChange={edit}
                   checked={interior.possibleLocation === location}
                 />
@@ -225,23 +254,33 @@ const MypageInteriorModify = () => {
           </div>
         </div>
         <div className={styles.upload}>
-          <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-          <input
-            type="file"
-            id="fileAdd"
-            accept="image/*"
-            onChange={fileChange}
-            style={{ display: 'none' }}
-            ref={imageInput}
-          />
-          <div
-            className={styles.add}
-            onClick={() => {
-              imageInput.current.click();
-            }}
-          >
-            추가하기
-          </div>
+          {coverImg ? (
+            <div className={styles.imgCancelBtnWrap}>
+              <MdCancel
+                size={30}
+                className={styles.cancelBtn}
+                onClick={handleRemoveImage}
+              />
+            </div>
+          ) : (
+            <>
+              <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={imageInput}
+                onChange={handleImageChange}
+              />
+              <button
+                type="button"
+                onClick={onClickImageUpload}
+                className={styles.addBtn}
+              >
+                추가하기
+              </button>
+            </>
+          )}
         </div>
       </section>
       <section>
@@ -288,8 +327,8 @@ const MypageInteriorModify = () => {
         <Button01 size="small" type="submit" onClick={submit}>
           수정하기
         </Button01>
-        <Button01 color="sub" size="small">
-          <Link to={'/mypageInterior'}>취소하기</Link>
+        <Button01 color="sub" size="small" onClick={() => navigate(-1)}>
+          취소하기
         </Button01>
       </div>
     </div>

@@ -1,13 +1,17 @@
 import styles from './ReqInteriorMain.module.scss';
 import Button01 from '../commons/button/Button01';
 import ReqInteriorList from './reqInteriorList/ReqInteriorList';
-import { Pagination } from 'antd';
-import { Link } from 'react-router-dom';
+import { Modal, Pagination } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
 
 const ReqInteriorMain = () => {
+  const navigate = useNavigate();
+  const user = useAtomValue(userAtom);
   const [interiorAllList, setInteriorall] = useState([]);
   const [type, setType] = useState('location');
   const [keyword, setKeyword] = useState('');
@@ -29,6 +33,17 @@ const ReqInteriorMain = () => {
     setCurrentPage(value);
     fetchData(value);
   };
+  // 작성 버튼
+  const onClickWrite = () => {
+    if (user.userId) {
+      navigate('/requestInterior/write');
+    } else {
+      Modal.info({
+        content: '로그인 후 이용하세요.',
+      });
+      navigate('/login');
+    }
+  };
 
   const fetchData = (page) => {
     const params = {};
@@ -36,11 +51,10 @@ const ReqInteriorMain = () => {
     if (type !== '') params.type = type;
     if (keyword !== '') params.keyword = keyword;
 
-    if (type === 'rentType') {
+    if (type === 'workType') {
       const keywordMapping = {
-        매매: 'buy',
-        월세: 'monthly',
-        전세: 'jeonse',
+        전체: 0,
+        부분: 1,
       };
       params.keyword = keywordMapping[keyword] || keyword;
     }
@@ -61,10 +75,14 @@ const ReqInteriorMain = () => {
       <h2>방꾸 신청 목록</h2>
       <div className={styles.topWrap}>
         <div className={styles.searchWrap}>
-          <select className={styles.select}>
-            <option>지역</option>
-            <option>시공종류</option>
-            <option>제목</option>
+          <select
+            className={styles.select}
+            onChange={(e) => setType(e.target.value)}
+            value={type}
+          >
+            <option value="location">지역</option>
+            <option value="workType">시공종류</option>
+            <option value="title">제목</option>
           </select>
           <input
             type="text"
@@ -74,10 +92,12 @@ const ReqInteriorMain = () => {
             onChange={(e) => setKeyword(e.target.value)}
             onKeyUp={handleSearchEnter}
           />
-          <button className={styles.searchBtn}>검색</button>
+          <button className={styles.searchBtn} onClick={() => fetchData(1)}>
+            검색
+          </button>
         </div>
-        <Button01 size="small">
-          <Link to={'/requestInterior/write'}>작성하기</Link>
+        <Button01 size="small" onClick={onClickWrite}>
+          작성하기
         </Button01>
       </div>
       <ReqInteriorList interiorAllList={interiorAllList} />
