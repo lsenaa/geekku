@@ -76,10 +76,14 @@ const OnestopMain = () => {
       <h2>한번에꾸하기 신청 목록</h2>
       <div className={styles.topWrap}>
         <div className={styles.searchWrap}>
-          <select className={styles.select}>
-            <option>지역</option>
-            <option>거래종류</option>
-            <option>제목</option>
+          <select
+            className={styles.select}
+            onChange={(e) => setType(e.target.value)}
+            value={type}
+          >
+            <option value="location">지역</option>
+            <option value="rentType">거래종류</option>
+            <option value="title">제목</option>
           </select>
           <input
             type="text"
@@ -89,7 +93,9 @@ const OnestopMain = () => {
             onChange={(e) => setKeyword(e.target.value)}
             onKeyUp={handleSearchEnter}
           />
-          <button className={styles.searchBtn}>검색</button>
+          <button className={styles.searchBtn} onClick={() => fetchData(1)}>
+            검색
+          </button>
         </div>
         <Button01 size="small" onClick={onClickWrite}>
           작성하기
