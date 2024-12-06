@@ -77,7 +77,10 @@ const EstateWrite = () => {
     }
 
     if (imgFileLists.length > 8) {
-      imgFileLists = imgFileLists.slice(0, 8);
+      Modal.info({
+        content: '사진은 최대 8장까지 업로드 할 수 있습니다.',
+      });
+      return;
     }
 
     setImgList(imgFileLists);

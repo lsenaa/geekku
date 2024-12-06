@@ -7,12 +7,13 @@ import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import Button01 from 'components/commons/button/Button01';
 import { Modal } from 'antd';
+import { FiPlus } from 'react-icons/fi';
+import { MdCancel } from 'react-icons/md';
 
 const ReviewWrite = () => {
   const navigate = useNavigate();
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const token = useAtomValue(tokenAtom);
-  const [selectedLoc, setSelectedLoc] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [review, setReview] = useState({
     companyName: '',
@@ -33,14 +34,23 @@ const ReviewWrite = () => {
   };
 
   const fileChange = (e) => {
-    if (e.target.files.length > 0) {
-      if (fileList.length < 8) {
-        setFileList([...fileList, e.target.files[0]]);
-      } else {
-        alert('최대 8장까지만 업로드 할 수 있습니다.');
-      }
+    const addImgLists = e.target.files;
+    let imgFileLists = [...fileList];
+
+    for (let add of addImgLists) {
+      imgFileLists.push(add);
     }
+
+    if (imgFileLists.length > 8) {
+      Modal.info({
+        content: '사진은 최대 8장까지 업로드 할 수 있습니다.',
+      });
+      return;
+    }
+
+    setFileList(imgFileLists);
   };
+
   const delFile = (file) => {
     setFileList([...fileList.filter((f) => f !== file)]);
   };
@@ -149,13 +159,16 @@ const ReviewWrite = () => {
             <label>
               평수<span>*</span>
             </label>
-            <input
-              name="size"
-              id="size"
-              className={styles.customSelect}
-              onChange={edit}
-              required
-            />
+            <div className={styles.inputTextWrap}>
+              <input
+                name="size"
+                id="size"
+                className={styles.customSelect}
+                onChange={edit}
+                required
+              />
+              <p>평</p>
+            </div>
           </li>
           <li>
             <label>
@@ -177,7 +190,48 @@ const ReviewWrite = () => {
             </div>
           </li>
         </ul>
-        <div className={styles.upload}>
+        <div className={styles.item}>
+          <label>
+            일반 사진<span>*</span>
+          </label>
+          <div className={styles.imgBtnWrap}>
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              hidden
+              onChange={fileChange}
+              ref={fRef}
+              multiple
+            />
+            <button
+              className={styles.addImgBtn}
+              type="button"
+              onClick={onClickImageUpload}
+            >
+              <FiPlus size={18} />
+              사진 추가
+            </button>
+            <div className={styles.imgsWrap}>
+              {fileList.map((file, i) => (
+                <div key={i} className={styles.imgCancelWrap}>
+                  <MdCancel
+                    size={25}
+                    className={styles.cancelBtn}
+                    onClick={() => delFile(file)}
+                  />
+                  <div className={styles.imgWrap}>
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt="리뷰등록 이미지"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* <div className={styles.upload}>
           <span id={styles.info}>
             추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
           </span>
@@ -185,9 +239,10 @@ const ReviewWrite = () => {
             type="file"
             id="file"
             accept="image/*"
-            style={{ display: 'none' }}
+            hidden
             onChange={fileChange}
             ref={fRef}
+            multiple
           />
           <button
             type="button"
@@ -231,10 +286,10 @@ const ReviewWrite = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         <div className={styles.textAreaWrap}>
           <label className={styles.reviewTitle}>
-            리뷰(500자 제한)<span>*</span>
+            리뷰<span>*</span>
           </label>
           <textarea
             className={styles.detailTextarea}
@@ -243,6 +298,7 @@ const ReviewWrite = () => {
             placeholder="500자 이내로 리뷰를 작성해주세요."
             onChange={edit}
             maxLength={500}
+            minLength={5}
           />
           <p>
             <span className={styles.textCount}>{textCount}</span> / 500
