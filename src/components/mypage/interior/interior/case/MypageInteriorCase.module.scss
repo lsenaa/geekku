@@ -1,6 +1,6 @@
 @import 'variables.scss';
 
-.Container {
+.bookmarkContainer {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -11,25 +11,6 @@
     border-radius: 10px;
     width: 31%;
     overflow: hidden;
-    position: relative;
-
-    .contentWrapper {
-      position: absolute;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      top: 0;
-      bottom: 0;
-      opacity: 0;
-      transition: opacity 0.35s ease-in-out;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
   }
 
   .imgWrapper {
@@ -42,18 +23,38 @@
       object-fit: cover;
     }
   }
+  .contentWrapper {
+    padding: 10px;
+    font-weight: bold;
 
-  .textWrapper {
-    padding: 20px;
+    .textWrapper {
+      @include flexrow;
+      justify-content: space-between;
 
-    .title {
-      @include ellipse;
-      font-weight: bold;
+      .name {
+        font-weight: lighter;
+        font-size: 16px;
+      }
+
+      .locationWrap {
+        @include flexrow;
+
+        .loc {
+          font-size: 12px;
+          width: 40px;
+          padding: 8px 0;
+          background-color: $main-color;
+          color: white;
+          border-radius: 20px;
+          margin-left: 5px;
+          text-align: center;
+        }
+      }
     }
-    .view {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
-    }
+  }
+  .bookmarkWrap {
+    @include flexrow;
+    justify-content: space-between;
+    color: #757575;
   }
 }

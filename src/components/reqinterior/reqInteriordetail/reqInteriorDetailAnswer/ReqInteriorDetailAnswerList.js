@@ -9,6 +9,8 @@ import { Viewer } from '@toast-ui/react-editor';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 import axios from 'axios';
+import useInfiniteScroll from 'hook/useInfiniteScroll';
+import { RiQuestionAnswerLine } from 'react-icons/ri';
 
 const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -106,21 +108,24 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
       });
   };
 
-  // 답변 클릭시 내용 보여주도록 토글
-  const handleAnswer = (answerRequestAllNum) => {
+  const handleAnswer = (answerRequestNum) => {
     setAnswerIsOpen((prev) => ({
       ...prev,
-      [answerRequestAllNum]: !prev[answerRequestAllNum],
+      [answerRequestNum]: !prev[answerRequestNum], // 현재 항목의 상태를 토글
     }));
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
-        <h3>답변</h3>
-        <Button01 size="x-small" color="sub" onClick={toggleModal}>
-          작성하기
-        </Button01>
+        <div className={styles.iconTextWrap}>
+          <RiQuestionAnswerLine size={25} />
+          <h3>답변</h3>
+        </div>
+        {(user.type === 'estate' || user.type === 'interior') && (
+          <Button01 size="x-small" color="sub" onClick={toggleModal}>
+            작성하기
+          </Button01>
+        )}
       </div>
       <hr className={styles.line} />
       <ul>

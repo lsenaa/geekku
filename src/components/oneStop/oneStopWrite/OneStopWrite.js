@@ -327,6 +327,7 @@ const OneStopWrite = () => {
                   value={interiorType}
                   onChange={handleChk}
                 />
+                &nbsp;
                 {interiorType}
               </label>
             ))}
