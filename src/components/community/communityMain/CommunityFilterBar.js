@@ -8,25 +8,30 @@ import { useAtomValue } from 'jotai';
 
 const CommunityFilterBar = ({ communityList, setCommunityList }) => {
   const navigate = useNavigate();
-  const [totalCount, setTotalCount] = useState(0); // 전체 게시글 개수 상태 추가
+  const [totalCount, setTotalCount] = useState(0);
   const user = useAtomValue(userAtom);
+
   const [filters, setFilters] = useState({
-    housingType: null,
-    roomCount: null,
+    type: null,
+    sizeRange: null,
+    familyType: null,
     style: null,
     period: null,
-    budget: null,
+    moneyRange: null,
   });
 
   const [dropdownVisible, setDropdownVisible] = useState({
-    housingType: false,
-    roomCount: false,
+    type: false,
+    sizeRange: false,
+    familyType: false,
     style: false,
+    period: false,
+    moneyRange: false,
   });
 
   // 커뮤니티글 작성 폼 이동
   const handleCommunityBoardWrite = () => {
-    if (user?.userId) {
+    if ((user && user.userId) || user.companyId) {
       navigate('/CommunityBoardWrite');
     } else {
       alert('로그인이 필요합니다.');
@@ -61,11 +66,12 @@ const CommunityFilterBar = ({ communityList, setCommunityList }) => {
 
   const resetFilters = () => {
     setFilters({
-      housingType: null,
-      roomCount: null,
+      type: null,
+      sizeRange: null,
+      familyType: null,
       style: null,
       period: null,
-      budget: null,
+      moneyRange: null,
     });
   };
 
@@ -81,47 +87,99 @@ const CommunityFilterBar = ({ communityList, setCommunityList }) => {
       <div className={styles.filterBar}>
         <h2 className={styles.boardTitle}>집들이 게시판</h2>
 
+        {/* 주거 형태 필터 */}
         <div
           className={styles.filterButtonWrapper}
-          onMouseEnter={() => toggleDropdown('housingType')}
-          onMouseLeave={() => toggleDropdown('housingType')}
+          onMouseEnter={() => toggleDropdown('type')}
+          onMouseLeave={() => toggleDropdown('type')}
         >
           <button className={styles.filterButton}>주거 형태</button>
-          {dropdownVisible.housingType && (
+          {dropdownVisible.type && (
             <div className={styles.dropdown}>
-              <div onClick={() => handleFilterChange('housingType', '아파트')}>
-                아파트
+              <div onClick={() => handleFilterChange('type', '아파트/빌라')}>
+                아파트/빌라
               </div>
-              <div onClick={() => handleFilterChange('housingType', '빌라')}>
-                빌라
+              <div onClick={() => handleFilterChange('type', '시골 농가 주택')}>
+                시골 농가 주택
+              </div>
+              <div onClick={() => handleFilterChange('type', '전원 주택')}>
+                전원 주택
+              </div>
+              <div onClick={() => handleFilterChange('type', '농장 토지')}>
+                농장 토지
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 평수 필터 */}
+        {/* <div
+          className={styles.filterButtonWrapper}
+          onMouseEnter={() => toggleDropdown('sizeRange')}
+          onMouseLeave={() => toggleDropdown('sizeRange')}
+        >
+          <button className={styles.filterButton}>평수</button>
+          {dropdownVisible.sizeRange && (
+            <div className={styles.dropdown}>
+              <div onClick={() => handleFilterChange('sizeRange', '0-20')}>
+                0평 ~ 20평
+              </div>
+              <div onClick={() => handleFilterChange('sizeRange', '21-40')}>
+                21평 ~ 40평
+              </div>
+              <div onClick={() => handleFilterChange('sizeRange', '41-60')}>
+                41평 ~ 60평
+              </div>
+              <div onClick={() => handleFilterChange('sizeRange', '61+')}>
+                61평 이상
+              </div>
+            </div>
+          )}
+        </div> */}
+
+        {/* 가족 형태 필터 */}
+        {/* <div
+          className={styles.filterButtonWrapper}
+          onMouseEnter={() => toggleDropdown('familyType')}
+          onMouseLeave={() => toggleDropdown('familyType')}
+        >
+          <button className={styles.filterButton}>가족 형태</button>
+          {dropdownVisible.familyType && (
+            <div className={styles.dropdown}>
+              <div
+                onClick={() => handleFilterChange('familyType', '싱글라이프')}
+              >
+                싱글라이프
+              </div>
+              <div onClick={() => handleFilterChange('familyType', '신혼부부')}>
+                신혼부부
               </div>
               <div
-                onClick={() => handleFilterChange('housingType', '단독주택')}
+                onClick={() =>
+                  handleFilterChange('familyType', '아기가 있는 집')
+                }
               >
-                단독주택
+                아기가 있는 집
               </div>
-              <div onClick={() => handleFilterChange('housingType', '기타')}>
-                기타
+              <div
+                onClick={() =>
+                  handleFilterChange('familyType', '취학 자녀가 있는 집')
+                }
+              >
+                취학 자녀가 있는 집
+              </div>
+              <div
+                onClick={() =>
+                  handleFilterChange('familyType', '부모님과 함께 사는 집')
+                }
+              >
+                부모님과 함께 사는 집
               </div>
             </div>
           )}
-        </div>
+        </div> */}
 
-        <div
-          className={styles.filterButtonWrapper}
-          onMouseEnter={() => toggleDropdown('roomCount')}
-          onMouseLeave={() => toggleDropdown('roomCount')}
-        >
-          <button className={styles.filterButton}>방수</button>
-          {dropdownVisible.roomCount && (
-            <div className={styles.dropdown}>
-              <div onClick={() => handleFilterChange('roomCount', 1)}>1개</div>
-              <div onClick={() => handleFilterChange('roomCount', 2)}>2개</div>
-              <div onClick={() => handleFilterChange('roomCount', 3)}>3개</div>
-            </div>
-          )}
-        </div>
-
+        {/* 스타일 필터 */}
         <div
           className={styles.filterButtonWrapper}
           onMouseEnter={() => toggleDropdown('style')}
@@ -133,15 +191,94 @@ const CommunityFilterBar = ({ communityList, setCommunityList }) => {
               <div onClick={() => handleFilterChange('style', '모던')}>
                 모던
               </div>
-              <div onClick={() => handleFilterChange('style', '빈티지')}>
-                빈티지
+              <div onClick={() => handleFilterChange('style', '미니멀&심플')}>
+                미니멀&심플
+              </div>
+              <div onClick={() => handleFilterChange('style', '내추럴')}>
+                내추럴
               </div>
               <div onClick={() => handleFilterChange('style', '북유럽')}>
                 북유럽
               </div>
+              <div onClick={() => handleFilterChange('style', '빈티지&레트로')}>
+                빈티지&레트로
+              </div>
+              <div onClick={() => handleFilterChange('style', '클래식&앤틱')}>
+                클래식&앤틱
+              </div>
+              <div
+                onClick={() => handleFilterChange('style', '프랜치&프로방스')}
+              >
+                프랜치&프로방스
+              </div>
+              <div onClick={() => handleFilterChange('style', '러블리&로맨틱')}>
+                러블리&로맨틱
+              </div>
+              <div onClick={() => handleFilterChange('style', '인더스트리얼')}>
+                인더스트리얼
+              </div>
+              <div onClick={() => handleFilterChange('style', '한국&아시아')}>
+                한국&아시아
+              </div>
+              <div
+                onClick={() => handleFilterChange('style', '유니크&믹스매치')}
+              >
+                유니크&믹스매치
+              </div>
             </div>
           )}
         </div>
+
+        {/* 기간 필터 */}
+        {/* <div
+          className={styles.filterButtonWrapper}
+          onMouseEnter={() => toggleDropdown('period')}
+          onMouseLeave={() => toggleDropdown('period')}
+        >
+          <button className={styles.filterButton}>기간</button>
+          {dropdownVisible.period && (
+            <div className={styles.dropdown}>
+              <div onClick={() => handleFilterChange('period', '1개월')}>
+                최근 1개월
+              </div>
+              <div onClick={() => handleFilterChange('period', '3개월')}>
+                최근 3개월
+              </div>
+              <div onClick={() => handleFilterChange('period', '6개월')}>
+                최근 6개월
+              </div>
+            </div>
+          )}
+        </div> */}
+
+        {/* 예산 필터 */}
+        {/* <div
+          className={styles.filterButtonWrapper}
+          onMouseEnter={() => toggleDropdown('moneyRange')}
+          onMouseLeave={() => toggleDropdown('moneyRange')}
+        >
+          <button className={styles.filterButton}>예산</button>
+          {dropdownVisible.moneyRange && (
+            <div className={styles.dropdown}>
+              <div onClick={() => handleFilterChange('moneyRange', '0-1000')}>
+                ~1000만원
+              </div>
+              <div
+                onClick={() => handleFilterChange('moneyRange', '1001-3000')}
+              >
+                1001만원 ~ 3000만원
+              </div>
+              <div
+                onClick={() => handleFilterChange('moneyRange', '3001-5000')}
+              >
+                3001만원 ~ 5000만원
+              </div>
+              <div onClick={() => handleFilterChange('moneyRange', '5001+')}>
+                5001만원 이상
+              </div>
+            </div>
+          )}
+        </div> */}
       </div>
 
       <div className={styles.selectedFilters}>

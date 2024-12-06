@@ -39,6 +39,18 @@
 }
 
 /* 필터 버튼 스타일 */
+/* 기본 상태 */
+.filterButtonWrapper {
+  position: relative;
+}
+
+.filterButtonWrapper:hover .dropdown {
+  max-height: 200px; /* 드롭다운 최대 높이 */
+  opacity: 1; /* 투명도를 보이게 설정 */
+  border-radius: 0 0 25px 25px; /* 하단만 둥글게 */
+  transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+}
+
 .filterButton {
   height: 45px;
   width: 97px;
@@ -57,14 +69,30 @@
   background-color: #c6d695;
   color: white;
   border: none;
-  border-bottom-left-radius: 0; /* 아래쪽 둥근 모서리 제거 */
-  border-bottom-right-radius: 0; /* 아래쪽 둥근 모서리 제거 */
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 }
 
-.filterButtonWrapper:hover .dropdown {
-  visibility: visible; /* 호버 시 드롭다운 표시 */
-  opacity: 1; /* 투명도 1 */
-  transition-delay: 0s; /* 호버 시 즉시 나타남 */
+/* 드롭다운 */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #c6d695;
+  padding: 10px;
+  z-index: 10;
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 0; /* 기본 상태에서 높이를 0으로 설정 */
+  overflow: hidden; /* 내용이 보이지 않도록 설정 */
+  opacity: 0; /* 기본 상태에서 투명도 0 */
+  border-radius: 25px; /* 기본 상태에서 전체 둥글게 */
+  transition: all 0.3s ease-in-out; /* 모든 속성 부드럽게 전환 */
 }
 
 /* 등록 버튼 스타일 */
@@ -82,26 +110,6 @@
 
 .filterButtonWrapper {
   position: relative;
-}
-
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #c6d695;
-  border: 1px solid #ddd;
-  padding: 10px;
-  z-index: 10;
-  color: white;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px; 
-  visibility: hidden; 
-  opacity: 0; 
-  transition: opacity 0.2s, visibility 0.2s;
-  border-radius: 0 0 25px 25px;
-  transition: visibility 1s linear 1s, opacity 1s ease-in-out;
 }
 
 .filterTag {

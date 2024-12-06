@@ -19,10 +19,10 @@ const MypageEstate = () => {
 
   // 서버에서 데이터 가져오기
   const fetchEstateData = async (page) => {
-    console.log(page);
+    const companyId = user.companyId;
     try {
       const response = await axiosInToken(token).get(
-        `${url}/company/mypageEstateList?page=${page}`,
+        `${url}/company/mypageEstateList?page=${page}&companyId=${companyId}`,
         {
           headers: {
             Authorization: token,
@@ -52,6 +52,12 @@ const MypageEstate = () => {
     }
   };
 
+  // **리스트에서 항목 제거**
+  const removeEstateFromList = (estateNum) => {
+    setEstateList((prevList) =>
+      prevList.filter((estate) => estate.estateNum !== estateNum)
+    );
+  };
   useEffect(() => {
     fetchEstateData(curPage + 1); // 초기 데이터 로드
   }, []);
@@ -63,7 +69,10 @@ const MypageEstate = () => {
 
   return (
     <div className={styles.container}>
-      <MypageEstateCardList estateList={estateList} />
+      <MypageEstateCardList
+        estateList={estateList}
+        onDelete={removeEstateFromList} // 삭제 콜백 함수 전달
+      />
       {isLoading && <p>로딩 중...</p>}
       {!hasMore && <p>모든 데이터를 불러왔습니다.</p>}
     </div>

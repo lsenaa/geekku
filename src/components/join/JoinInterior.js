@@ -80,6 +80,15 @@ const JoinInterior = () => {
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D/g, '');
+      if (cleaned.length !== 11) {
+        Modal.info({
+          content: '휴대폰 번호는 11자리 숫자로 입력해주세요.',
+        });
+        return;
+      }
+    }
     applyPhoneFormat(name, value, setUser, user);
   };
 
@@ -278,6 +287,7 @@ const JoinInterior = () => {
             id="companyNumber"
             onChange={edit}
             placeholder="숫자 10자리를 입력해주세요."
+            minLength={10}
             className={styles2.input1}
             value={user.companyNumber}
           />
