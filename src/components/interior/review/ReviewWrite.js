@@ -120,6 +120,7 @@ const ReviewWrite = () => {
               required
             />
           </li>
+          <li>시공날짜 달력형태로 추가</li>
           <li>
             <label>
               주거형태<span>*</span>

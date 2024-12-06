@@ -6,10 +6,16 @@ import ProfileInteriorMenu from 'components/layout/profile/ProfileInteriorMenu';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { tokenAtom, userAtom } from 'store/atoms';
 
 const ProfileInterior = () => {
   const location = useLocation();
   // console.log(location);
+
+  const [bookmark, setBookmark] = useState(false);
+  const user = useAtomValue(userAtom);
+  const token = useAtomValue(tokenAtom);
 
   const [detailInfo, setDetailInfo] = useState({
     sampleCount: 0,
@@ -22,17 +28,36 @@ const ProfileInterior = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const param = { num: num };
+    const param = { id: user.userId, num: num };
     axios
       .post(`${url}/interiorDetail`, param)
       .then((res) => {
         console.log(res.data);
         setDetailInfo({ ...res.data });
+        setBookmark(res.data.bookmark);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [num]);
+
+  const bookmarkClick = (e) => {
+    axios
+      .get(
+        `${url}/user/interiorBookmark/${detailInfo.interiorDetail.interiorNum}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((res) => {
+        setBookmark(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   console.log('Current path:', location.pathname); // 현재 경로 확인
 
@@ -56,7 +81,13 @@ const ProfileInterior = () => {
       <div
         className={isAllowedPath ? styles.container : styles.notfoundContainer}
       >
-        {isAllowedPath && <ProfileInteriorSidebar detailInfo={detailInfo} />}
+        {isAllowedPath && (
+          <ProfileInteriorSidebar
+            detailInfo={detailInfo}
+            bookmarkClick={bookmarkClick}
+            bookmark={bookmark}
+          />
+        )}
         <div className={styles.contentWrap}>
           {isAllowedPath && (
             <ProfileInteriorMenu detailInfo={detailInfo} num={num} />
