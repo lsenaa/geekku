@@ -39,9 +39,10 @@ const ProfileInteriorIntroduce = () => {
           </p>
         </div>
       </div>
-      <div className={styles.introImgWrap}>
+      {/* <div className={styles.introImgWrap}>
         <img src={detailInfo.interiorDetail.coverImage} alt="업체소개 이미지" />
       </div>
+      //소개이미지 보류 */}
       <div className={styles.textWrap}>
         <p>{detailInfo.interiorDetail.content}</p>
       </div>
