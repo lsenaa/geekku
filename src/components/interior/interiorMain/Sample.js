@@ -7,6 +7,7 @@ import './Sample.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
+import './Sample.css';
 
 const Sample = () => {
   const settings = {
@@ -47,10 +48,20 @@ const Sample = () => {
               className="card"
               key={sample.sampleNum}
             >
-              <img
-                src={sample.coverImage}
-                style={{ width: '100%', height: '242px' }}
-              />
+              <div
+                style={{
+                  width: '100%',
+                  height: '242px',
+                  borderTopLeftRadius: '10px',
+                  borderTopRightRadius: '10px',
+                  overflow: 'hidden',
+                }}
+              >
+                <img
+                  src={`${url}/sampleImage/${sample.coverImage}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
               <div className="wrap-title">
                 <div className="title">{sample.intro}</div>
                 <div className="title" id="interiorName">

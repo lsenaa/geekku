@@ -141,77 +141,89 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
       </div>
       <hr className={styles.line} />
       <ul>
-        {houseAnswerList.map((answer) => (
-          <li
-            className={styles.answerList}
-            key={answer.answerHouseNum}
-            onClick={() => handleAnswer(answer.answerHouseNum)}
-          >
-            <div className={styles.preview}>
-              <div className={styles.profile}>
-                <img
-                  src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                  alt="프로필 이미지"
-                />
-                <div className={styles.profileDateWrap}>
-                  <p className={styles.companyName}>{answer.companyName}</p>
-                  <p className={styles.createdAt}>
-                    {formatDate(answer.createdAt)}
-                  </p>
-                </div>
-              </div>
-              <p className={styles.title}>{answer.title}</p>
-              {user?.companyId === answer.companyId && (
-                <button
-                  className={styles.deleteBtn}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(answer.answerHouseNum);
-                  }}
+        <>
+          {houseAnswerList.length === 0 ? (
+            <div>답변 내역이 없습니다.</div>
+          ) : (
+            <>
+              {houseAnswerList.map((answer) => (
+                <li
+                  className={styles.answerList}
+                  key={answer.answerHouseNum}
+                  onClick={() => handleAnswer(answer.answerHouseNum)}
                 >
-                  삭제
-                </button>
-              )}
-            </div>
-            {answerIsOpen[answer.answerHouseNum] && (
-              <div>
-                <div className={styles.phoneAddWrap}>
-                  <div className={styles.phone}>
-                    <p>연락처</p>
-                    <p>{answer.companyPhone}</p>
+                  <div className={styles.preview}>
+                    <div className={styles.profile}>
+                      <img
+                        src={`data:image/png;base64, ${answer.companyProfileImage}`}
+                        alt="프로필 이미지"
+                      />
+                      <div className={styles.profileDateWrap}>
+                        <p className={styles.companyName}>
+                          {answer.companyName}
+                        </p>
+                        <p className={styles.createdAt}>
+                          {formatDate(answer.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                    <p className={styles.title}>{answer.title}</p>
+                    {user?.companyId === answer.companyId && (
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(answer.answerHouseNum);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    )}
                   </div>
-                  <div className={styles.address}>
-                    <p>주소</p>
-                    <p>{answer.companyAddress}</p>
-                  </div>
-                </div>
-                <div className={styles.editorContent}>
-                  <Viewer initialValue={answer.content} />
-                </div>
-              </div>
-            )}
-            <hr className={styles.line} />
-          </li>
-        ))}
+                  {answerIsOpen[answer.answerHouseNum] && (
+                    <div>
+                      <div className={styles.phoneAddWrap}>
+                        <div className={styles.phone}>
+                          <p>연락처</p>
+                          <p>{answer.companyPhone}</p>
+                        </div>
+                        <div className={styles.address}>
+                          <p>주소</p>
+                          <p>{answer.companyAddress}</p>
+                        </div>
+                      </div>
+                      <div className={styles.editorContent}>
+                        <Viewer initialValue={answer.content} />
+                      </div>
+                    </div>
+                  )}
+                  <hr className={styles.line} />
+                </li>
+              ))}
+            </>
+          )}
+        </>
       </ul>
-      {isModalOpen && (
-        <Modal
-          open={isModalOpen}
-          onCancel={toggleModal}
-          width={857}
-          footer={null}
-          className={styles.customModal}
-          centered
-        >
-          <HouseDetailAnswerWrite
-            userId={userId}
-            toggleModal={toggleModal}
-            houseNum={houseNum}
-            setIsModalOpen={setIsModalOpen}
-            fetchData={fetchData}
-          />
-        </Modal>
-      )}
+      <>
+        {isModalOpen && (
+          <Modal
+            open={isModalOpen}
+            onCancel={toggleModal}
+            width={857}
+            footer={null}
+            className={styles.customModal}
+            centered
+          >
+            <HouseDetailAnswerWrite
+              userId={userId}
+              toggleModal={toggleModal}
+              houseNum={houseNum}
+              setIsModalOpen={setIsModalOpen}
+              fetchData={fetchData}
+            />
+          </Modal>
+        )}
+      </>
       {hasMore && <div ref={elementRef}></div>}
     </div>
   );
