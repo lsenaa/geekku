@@ -220,7 +220,7 @@ const CommunityBoardEdit = () => {
               value={formData.address1}
             >
               <option value="">지역 선택</option>
-              <option value="서울특별시">서울특별시</option>
+              {/* <option value="서울특별시">서울특별시</option> */}
               <option value="부산광역시">부산광역시</option>
               <option value="대구광역시">대구광역시</option>
               <option value="인천광역시">인천광역시</option>

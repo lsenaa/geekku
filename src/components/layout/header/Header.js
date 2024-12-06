@@ -223,46 +223,75 @@ const Header = ({ alarms = [] }) => {
                       className={styles.notificationItem}
                       onClick={() => openModal(item)} // 알림 클릭 시 모달 열기
                     >
-                      <div style={{ fontWeight: 'bold' }}>
-                        {item.companyName}
+                      <div
+                        style={{
+                          fontWeight: 'bold',
+                          width: '120px',
+                          height: '30px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          // display: 'inline-block',
+                          // whiteSpace: 'nowrap',
+                        }}
+                      >
+                        <Viewer
+                          initialValue={
+                            item.companyName || '<p>회사명이 없습니다.</p>'
+                          }
+                        />
                       </div>
-                      &nbsp;&nbsp;{item.title}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // 클릭 이벤트 전파 방지
-                          confirm(item.num); // 확인 처리
-                        }}
-                        className={styles.confirmBtn}
+                      <div
                         style={{
-                          width: '50px',
+                          width: '150px',
                           height: '30px',
-                          borderRadius: '5px',
-                          borderWidth: 0,
-                          backgroundColor: '#c6d695',
-                          color: '#ffffff',
-                          marginLeft: '10px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          // display: 'inline-block',
+                          // whiteSpace: 'nowrap',
                         }}
                       >
-                        확인
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // 클릭 이벤트 전파 방지
-                          navigateToDetail(item.type, item.detailPath); // 바로 이동
-                        }}
-                        className={styles.moveBtn}
-                        style={{
-                          width: '50px',
-                          height: '30px',
-                          borderRadius: '5px',
-                          borderWidth: 0,
-                          backgroundColor: '#6d885d',
-                          color: '#ffffff',
-                          marginLeft: '10px',
-                        }}
-                      >
-                        이동
-                      </button>
+                        <Viewer
+                          initialValue={item.title || '<p>제목이 없습니다.</p>'}
+                        />
+                      </div>
+                      <div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // 클릭 이벤트 전파 방지
+                            confirm(item.num); // 확인 처리
+                          }}
+                          className={styles.confirmBtn}
+                          style={{
+                            width: '50px',
+                            height: '30px',
+                            borderRadius: '5px',
+                            borderWidth: 0,
+                            backgroundColor: '#c6d695',
+                            color: '#ffffff',
+                            marginLeft: '10px',
+                          }}
+                        >
+                          확인
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // 클릭 이벤트 전파 방지
+                            navigateToDetail(item.type, item.detailPath); // 바로 이동
+                          }}
+                          className={styles.moveBtn}
+                          style={{
+                            width: '50px',
+                            height: '30px',
+                            borderRadius: '5px',
+                            borderWidth: 0,
+                            backgroundColor: '#6d885d',
+                            color: '#ffffff',
+                            marginLeft: '10px',
+                          }}
+                        >
+                          이동
+                        </button>
+                      </div>
                     </li>
                   ))
                 )}
@@ -314,9 +343,11 @@ const Header = ({ alarms = [] }) => {
               >
                 {selectedAlarm && (
                   <div>
-                    <h2>{selectedAlarm.title}</h2>
-                    {/* Viewer를 사용해 알림 메시지를 HTML로 렌더링 */}
-                    {/* message가 HTML 형태라면 그대로 렌더링, 아니라면 `<p>${selectedAlarm.message}</p>` 형태로 가공 */}
+                    <Viewer
+                      initialValue={
+                        selectedAlarm.title || '<p>내용이 없습니다.</p>'
+                      }
+                    />
                     <Viewer
                       initialValue={
                         selectedAlarm.message || '<p>내용이 없습니다.</p>'

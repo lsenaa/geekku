@@ -72,9 +72,11 @@ const CommunityBoardDetail = () => {
     }
     try {
       const response = await axiosInToken(token).post(
-        `${url}/user/communityBookmark?communityNum=${CommunityNum}`, {
+        `${url}/user/communityBookmark?communityNum=${CommunityNum}`,
+        {
           userId: user.userId,
-      });
+        }
+      );
       if (response.status === 200) {
         setIsBookmarked(!isBookmarked);
       } else {

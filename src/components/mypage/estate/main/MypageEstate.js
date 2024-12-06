@@ -20,9 +20,10 @@ const MypageEstate = () => {
   // 서버에서 데이터 가져오기
   const fetchEstateData = async (page) => {
     const companyId = user.companyId;
+    setIsFetching(true);
     try {
       const response = await axiosInToken(token).get(
-        `${url}/company/mypageEstateList?page=${page}&companyId=${companyId}`,
+        `/company/mypageEstateList?page=${page}`,
         {
           headers: {
             Authorization: token,
@@ -33,7 +34,9 @@ const MypageEstate = () => {
       setEstateList([...estateList, ...response.data.estateList]);
       setCurPage(response.data.pageInfo.curPage);
       setAllPage(response.data.pageInfo.allPage);
+      console.log(response.data.estateList);
       wait = false;
+      setIsFetching(false);
     } catch (error) {
       console.error('데이터를 가져오는 중 오류 발생:', error);
     } finally {
@@ -51,6 +54,8 @@ const MypageEstate = () => {
       fetchEstateData(curPage + 1); // 다음 페이지 데이터를 요청
     }
   };
+
+  console.log(estateList);
 
   // **리스트에서 항목 제거**
   const removeEstateFromList = (estateNum) => {
