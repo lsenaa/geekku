@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Modal } from 'antd';
 import { useAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
+import { useNavigate } from 'react-router';
 
 const ModifyPwd = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -12,6 +13,8 @@ const ModifyPwd = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
+
+  const navigate = useNavigate();
 
   const handleChangePassword = () => {
     if (newPassword !== confirmPassword) {
@@ -42,6 +45,13 @@ const ModifyPwd = () => {
         });
         if (res.data.token) {
           setToken(res.data.token);
+        }
+        if (user.type === 'user') {
+          navigate('/mypage/person/info');
+        } else if (user.type === 'estate') {
+          navigate('/mypage/estate/info');
+        } else {
+          navigate('/mypage/interior/info');
         }
       })
       .catch((err) => {
