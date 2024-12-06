@@ -1,5 +1,4 @@
 import { url } from 'lib/axios';
-import img from '../../../assets/images/interiorEx.png';
 import styles from './Card.module.scss';
 import { Link } from 'react-router-dom';
 

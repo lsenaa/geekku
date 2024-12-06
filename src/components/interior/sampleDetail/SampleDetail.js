@@ -45,11 +45,13 @@ const SampleDetail = () => {
         <div className={styles.title}>{sampleInfo.title}</div>
         <div className={styles.contentWrap}>
           <div className={styles.user}>
-            <img
-              src={user.profileImage}
-              alt="유저아이콘"
-              style={{ height: '40px' }}
-            />
+            <div className={styles.profileImage}>
+              <img
+                src={`data:image/png;base64, ${sampleInfo.profileImage}`}
+                alt="유저아이콘"
+                style={{ height: '40px' }}
+              />
+            </div>
             <div className={styles.nameInfo}>
               <span id={styles.name}>{sampleInfo.companyName}</span>
               <span id={styles.info}>{sampleInfo.intro}</span>
