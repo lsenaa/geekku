@@ -635,7 +635,7 @@ const EstateWrite = () => {
               type="text"
               name="utility"
               placeholder="예) 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 와이파이, 인터넷 등"
-              style={{ width: '1060px', textAlign: 'left' }}
+              style={{ width: '660px', textAlign: 'left' }}
               required
               onChange={handleEdit}
               value={estate.utility || ''}

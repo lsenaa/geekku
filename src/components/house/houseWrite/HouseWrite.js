@@ -393,10 +393,10 @@ const HouseWrite = () => {
           <input
             type="text"
             minLength="5"
-            maxLength="40"
+            maxLength="20"
             name="title"
-            placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
-            style={{ width: '100%', textAlign: 'left' }}
+            placeholder="리스트에 노출되는 문구입니다. 20자 이내로 작성해주세요."
+            style={{ width: '860px', textAlign: 'left' }}
             onChange={handleEdit}
           />
         </div>

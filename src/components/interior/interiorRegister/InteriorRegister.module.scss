@@ -63,7 +63,7 @@
     align-items: center;
   }
   label {
-    width: 150px;
+    width: 140px;
     font-weight: bold;
     span {
       color: red;
@@ -202,7 +202,7 @@
   }
 
   .intro {
-    width: 700px;
+    width: 860px;
     height: 43px;
     border: 1px solid #6d885d;
     border-radius: 7px;
@@ -225,8 +225,8 @@
   textarea {
     border: 1px solid #6d885d;
     border-radius: 10px;
-    width: 700px;
-    height: 160px;
+    width: 860px;
+    height: 200px;
     padding: 16px;
     resize: none;
     &:focus {
