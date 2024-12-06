@@ -24,9 +24,9 @@ const MypageInteriorSiderbar = () => {
         alt="프로필 이미지"
         style={{ width: '80%' }}
       />
-      <h4>홍길동</h4>
-      <p>kosta123</p>
-      <p>kosta@gmail.com</p>
+      <h4>{user.companyName}</h4>
+      <p>{user.username}</p>
+      <p>{user.email}</p>
       <hr />
       <ul className={styles.sidebar}>
         {interiorMenu.map((interior, index) => (
