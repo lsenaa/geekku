@@ -6,6 +6,15 @@
 .iBanner {
   position: relative;
 }
+.bannerImg {
+  width: 100%;
+  height: 350px;
+}
+.bannerImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .bannerText {
   width: 700px;
   position: absolute;
