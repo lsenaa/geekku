@@ -42,6 +42,7 @@ const Main = () => {
     navigate('/estate', { state: { keyword } });
   };
 
+  console.log(communityList);
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
@@ -53,6 +54,7 @@ const Main = () => {
             placeholder="매물 지역을 검색해주세요."
             value={keyword}
             onChange={handleKeyword}
+            maxLength={38}
           />
           {keyword !== '' && searchResults.length !== 0 && (
             <ul className={styles.searchList}>
@@ -125,7 +127,7 @@ const Main = () => {
         <ul>
           {communityList.map((community) => (
             <li key={community.communityNum}>
-              <Link to={'/'}>
+              <Link to={`/communityBoardDetail/${community.communityNum}`}>
                 <div className={styles.imgWrapper}>
                   <img
                     src={`${url}/communityImage/${community.coverImage}`}
@@ -136,10 +138,20 @@ const Main = () => {
                   <p className={styles.communityTitle}>{community.title}</p>
                   <div className={styles.profileViewWrap}>
                     <div className={styles.profile}>
-                      <FaUserCircle color="#6D885D" size={30} />
-                      <p>test_유저1</p>
+                      <div className={styles.profileImg}>
+                        <img
+                          src={`data:image/png;base64, ${community.profileImage}`}
+                        />
+                      </div>
+                      <p>
+                        {community.nickname
+                          ? community.nickname
+                          : community.name}
+                      </p>
                     </div>
-                    {/* <p>{community.viewCount.toLocaleString()}</p> */}
+                    <p className={styles.viewCount}>
+                      조회 {community.viewCount.toLocaleString()}
+                    </p>
                   </div>
                 </div>
               </Link>

@@ -47,10 +47,24 @@ const InteriorList = () => {
               className="card"
               key={interior.interiorNum}
             >
-              <img
+              {/* <img
                 src={interior.coverImage}
                 style={{ width: '100%', height: '242px' }}
-              />
+              /> */}
+              <div
+                style={{
+                  width: '100%',
+                  height: '242px',
+                  borderTopLeftRadius: '10px',
+                  borderTopRightRadius: '10px',
+                  overflow: 'hidden',
+                }}
+              >
+                <img
+                  src={`data:image/png;base64, ${interior.coverImage}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
 
               <div className="wrap-title">
                 <div className="title">

@@ -13,7 +13,6 @@ const OneStopWrite = () => {
   const navigate = useNavigate();
   const token = useAtomValue(tokenAtom);
   const [textCount, setTextCount] = useState(0);
-  const [isManage, setIsManage] = useState(false);
   const { sido, sigugun } = hangjungdong;
   const type = [
     '도배',
@@ -28,7 +27,6 @@ const OneStopWrite = () => {
     '베란다',
   ];
   const [selectType, setSelectType] = useState([]);
-  console.log(selectType);
 
   const handleChk = (e) => {
     const { value, checked } = e.target;
@@ -53,10 +51,6 @@ const OneStopWrite = () => {
     type: 'farmHouse',
     workType: true,
   });
-
-  const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
-  };
 
   const onTextareaHandler = (e) => {
     setTextCount(e.target.value.length);
@@ -125,7 +119,7 @@ const OneStopWrite = () => {
       .post(`/user/onestopWrite`, formData)
       .then((res) => {
         Modal.success({
-          content: '한번에 꾸미기 등록이 완료되었습니다.',
+          content: '한번에 꾸하기 게시글 등록이 완료되었습니다.',
         });
         console.log(res.data);
         navigate(`/oneStop/detail/${res.data}`);

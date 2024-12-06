@@ -85,8 +85,9 @@ const HouseDetailAnswerWrite = ({
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
-          {/* <img src={`data:image/png;base64, ${user.companyProfileImage}`} /> */}
-          {/* <FaUserCircle color="#6D885D" size={30} /> */}
+          <div className={styles.profileImg}>
+            <img src={`data:image/png;base64, ${user.profileImageStr}`} />
+          </div>
           <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>

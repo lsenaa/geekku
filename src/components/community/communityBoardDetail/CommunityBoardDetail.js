@@ -7,16 +7,19 @@ import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
 
+// Viewer 관련 import
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Viewer } from '@toast-ui/react-editor';
+
 const CommunityBoardDetail = () => {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
   const { CommunityNum } = useParams();
-  const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태
-  const [isOwner, setIsOwner] = useState(false); // 게시글 소유 여부 상태 추가
-  const user = useAtomValue(userAtom); // 현재 로그인된 사용자 정보
-  const { id } = useParams();
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
 
   useEffect(() => {
@@ -26,21 +29,20 @@ const CommunityBoardDetail = () => {
     }
 
     const fetchPostData = () => {
-      console.log(user);
       axios
         .post(`${url}/communityDetail/${CommunityNum}`, {
           userId: user?.userId || '1f95ebff-7367-4386-b04b-bd8b57697dc0',
         })
         .then((res) => {
-          setPost(res.data.communityDetail); //상세
-          setComments([...res.data.commentList]); //댓글
+          setPost(res.data.communityDetail);
+          setComments([...res.data.commentList]);
 
           if (user?.userId || user?.companyId) {
-            setIsBookmarked(res.data.bookmark); //북마크(로그인 시에만)
+            setIsBookmarked(res.data.bookmark);
             setIsOwner(user.userId === res.data.communityDetail.userId);
           } else {
             console.error('현재 로그인된 사용자가 없습니다.');
-            setIsOwner(false); // 로그인이 안 되어 있다면 소유자 아님으로 처리
+            setIsOwner(false);
           }
         })
         .catch((err) => {
@@ -64,7 +66,6 @@ const CommunityBoardDetail = () => {
 
   const handleBookmarkClick = async () => {
     if (!user?.userId && !user?.companyId) {
-      console.log(user.companyId);
       alert('로그인이 필요합니다.');
       navigate('/login');
       return;
@@ -77,8 +78,7 @@ const CommunityBoardDetail = () => {
         }
       );
       if (response.status === 200) {
-        console.log('북마크 상태 변경 성공:', response.data);
-        setIsBookmarked(!isBookmarked); // 상태 토글
+        setIsBookmarked(!isBookmarked);
       } else {
         console.error('북마크 상태 변경 실패:', response.data);
       }
@@ -205,9 +205,9 @@ const CommunityBoardDetail = () => {
           </div>
         </div>
 
-        {/* 게시글 내용 */}
+        {/* 게시글 내용 부분을 Viewer로 표시 */}
         <div className={styles.postContent}>
-          <p>{post.content}</p>
+          <Viewer initialValue={post.content} />
         </div>
 
         {/* 댓글 섹션 */}

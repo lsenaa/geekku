@@ -239,6 +239,7 @@
   color: #333;
   background-color: #fffaf4;
   border-bottom: 1px solid #ddd;
+  justify-content: space-between;
   // flex-direction: column;
 }
 
@@ -251,3 +252,9 @@
   font-size: 20px;
   margin-right: 15px;
 }
+
+.notificationActions {
+  display: flex;
+  gap: 10px;
+}
+

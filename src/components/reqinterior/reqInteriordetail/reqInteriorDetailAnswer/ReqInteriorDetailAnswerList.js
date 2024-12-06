@@ -121,7 +121,7 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
           <RiQuestionAnswerLine size={25} />
           <h3>답변</h3>
         </div>
-        {(user.type === 'estate' || user.type === 'interior') && (
+        {user.type === 'interior' && (
           <Button01 size="x-small" color="sub" onClick={toggleModal}>
             작성하기
           </Button01>

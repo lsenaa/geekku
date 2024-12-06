@@ -3,14 +3,12 @@ import { useParams } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import Button01 from '../../commons/button/Button01';
 import styles from './OnestopDetail.module.scss';
-import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useEffect, useState } from 'react';
 import { formatEstateType, processLocation, formatDate } from 'utils/utils';
 import OnestopDetailAnswerList from './oneStopDetailAnswer/OnestopDetailAnswerList';
-import { useSetAtom, useAtom, useAtomValue } from 'jotai';
 
 const OnestopDetail = () => {
   let { num } = useParams();
