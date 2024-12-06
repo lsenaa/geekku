@@ -109,13 +109,17 @@
   ul {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     li {
       border: 1px solid $main-color;
       border-radius: 10px;
-      width: 384px;
+      width: calc(1151px / 3);
       overflow: hidden;
+      margin-right: 24px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
 
       p {
         font-size: 14px;
@@ -194,7 +198,24 @@
   align-items: center;
   margin-right: 20px;
 
+  .profileImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   p {
     margin-left: 8px;
   }
+}
+
+.viewCount {
+  color: #555555;
 }

@@ -103,7 +103,7 @@ const CommunityBoardWrite = () => {
 
     try {
       const response = await axiosInToken(token).post(
-        `${url}/user/communityCreate`,
+        `/user/communityCreate`,
         formDataToSend,
         {
           headers: {

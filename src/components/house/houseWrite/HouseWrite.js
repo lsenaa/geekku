@@ -1,11 +1,10 @@
 import styles from './HouseWrite.module.scss';
 import { useState } from 'react';
-import { DatePicker, Modal } from 'antd';
+import { DatePicker, message, Modal } from 'antd';
 import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { hangjungdong } from 'utils/hangjungdong';
-import axios from 'axios';
-import { axiosInToken, url } from 'lib/axios';
+import { axiosInToken } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 
@@ -14,6 +13,7 @@ const HouseWrite = () => {
   const token = useAtomValue(tokenAtom);
   const [textCount, setTextCount] = useState(0);
   const { sido, sigugun } = hangjungdong;
+  const [messageApi, contextHolder] = message.useMessage();
   const [house, setHouse] = useState({
     type: '',
     address: '',
@@ -107,6 +107,90 @@ const HouseWrite = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // 입력값 검증
+    if (house.type === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '매물 유형을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (house.address === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '지역을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (house.addressDetail === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 지역을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (house.rentType === 'jeonse' && house.jeonsePrice === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '전세가를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (
+      house.rentType === 'monthly' &&
+      (house.monthly === '' || house.depositPrice === '')
+    ) {
+      messageApi.open({
+        type: 'warning',
+        content: '월세나 보증금을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (house.rentType === 'buy' && house.buyPrice === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '매매가를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (house.size === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '희망 평수를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (!house.requestState && house.requestDate === '2000-01-01') {
+      messageApi.open({
+        type: 'warning',
+        content: '입주 희망 일자를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (house.title === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '제목을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (house.content === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 내용을 입력해주세요.',
+      });
+      return;
+    }
 
     const formData = new FormData();
     formData.append('type', house.type);
@@ -393,9 +477,9 @@ const HouseWrite = () => {
           <input
             type="text"
             minLength="5"
-            maxLength="20"
+            maxLength="40"
             name="title"
-            placeholder="리스트에 노출되는 문구입니다. 20자 이내로 작성해주세요."
+            placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
             style={{ width: '860px', textAlign: 'left' }}
             onChange={handleEdit}
           />
@@ -420,6 +504,7 @@ const HouseWrite = () => {
         </div>
       </section>
       <div className={styles.btnWrap}>
+        {contextHolder}
         <Button01 type="submit" size="small" onClick={handleSubmit}>
           신청하기
         </Button01>
