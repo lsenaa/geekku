@@ -27,19 +27,19 @@ const EstateWrite = () => {
     jibunAddress: '',
     size1: '',
     size2: '',
-    roomCount: 0,
+    roomCount: '',
     rentType: 'jeonse',
-    jeonsePrice: 0,
-    monthlyPrice: 0,
-    buyPrice: 0,
-    depositPrice: 0,
-    managePrice: 0,
+    jeonsePrice: '',
+    monthlyPrice: '',
+    buyPrice: '',
+    depositPrice: '',
+    managePrice: '',
     availableDate: '',
     availableState: false,
-    totalFloor: 0,
-    floor: 0,
-    bathCount: 0,
-    parking: 0,
+    totalFloor: '',
+    floor: '',
+    bathCount: '',
+    parking: '',
     utility: '',
     title: '',
     content: '',
@@ -149,10 +149,150 @@ const EstateWrite = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // 입력값 검증
+    if (estate.address.includes('서울')) {
+      messageApi.open({
+        type: 'warning',
+        content: '서울 지역은 등록이 불가합니다.',
+      });
+      return;
+    }
+
+    if (estate.type === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '매물 유형을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (estate.address === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '주소를 검색해주세요',
+      });
+      return;
+    }
+
+    if (estate.size1 === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '면적을 입력해주세요',
+      });
+      return;
+    }
+
+    if (estate.roomCount === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '방 개수를 입력해주세요',
+      });
+      return;
+    }
+
+    if (estate.rentType === 'jeonse' && estate.jeonsePrice === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '전세가를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (
+      estate.rentType === 'monthly' &&
+      (estate.monthly === '' || estate.depositPrice === '')
+    ) {
+      messageApi.open({
+        type: 'warning',
+        content: '월세나 보증금을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (estate.rentType === 'buy' && estate.buyPrice === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '매매가를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (isManage && estate.managePrice === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '관리비를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (estate.availableDate === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '입주 가능 일자를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (estate.totalFloor === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '전체 층수를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (estate.floor === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '해당 층수를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (estate.bathCount === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '욕실 수를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (isParking && estate.parking === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '주차 가능 수를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (estate.utility === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '객실 시설을 입력해주세요.',
+      });
+      return;
+    }
+
     if (imgList.length < 3) {
       messageApi.open({
         type: 'warning',
         content: '사진은 필수 최소 3장이상 등록해야 합니다.',
+      });
+      return;
+    }
+
+    if (estate.title === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '제목을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (estate.content === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 설명을 입력해주세요.',
       });
       return;
     }
@@ -193,13 +333,10 @@ const EstateWrite = () => {
       .post(`/company/estateWrite`, formData)
       .then((res) => {
         console.log(res);
-        // navigate('/estate', {
-        //   state: { estateNum: res.data },
-        // });
         Modal.success({
           content: '매물 등록이 완료되었습니다.',
         });
-        navigate('/estate');
+        navigate('/estate', { state: { keyword: estate.jibunAddress } });
       })
       .catch((err) => {
         console.log(err);
