@@ -50,7 +50,7 @@ const ReqInteriorWrite = () => {
     money: '',
     movePersons: '',
     rentType: 'jeonse',
-    size: '',
+    size: 10,
     type: 'farmHouse',
     workType: 0,
   });

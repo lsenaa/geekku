@@ -12,6 +12,9 @@ import { formatDate, processLocation } from 'utils/utils';
 
 const MypageInteriorRequest = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState([]); // 데이터 초기값 빈 배열
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
   const [token, setToken] = useAtom(tokenAtom);
   const [interiorAllAnswerList, setInteriorAllAnswerList] = useState([]);
 
@@ -44,50 +47,6 @@ const MypageInteriorRequest = () => {
       });
   };
 
-  const handleDelete = (requestAllNum) => {
-    Modal.confirm({
-      content: '방꾸 작성글을 삭제하시겠습니까?',
-      okText: '삭제',
-      cancelText: '취소',
-      okButtonProps: {
-        style: {
-          backgroundColor: '#6d885d',
-          borderColor: 'none',
-          color: 'white',
-        },
-      },
-      cancelButtonProps: {
-        style: {
-          backgroundColor: 'transparent',
-          borderColor: '#6d885d',
-          color: '#6d885d',
-        },
-      },
-      onOk: () => {
-        axiosInToken(token)
-          .post(`/user/interiorAllDelete/${requestAllNum}`, {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((res) => {
-            console.log(res);
-            if (res.data) {
-              Modal.success({
-                content: '방꾸 작성글이 삭제되었습니다.',
-              });
-              fetchData();
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
-      onCancel: () => {
-        console.log('Cancel');
-      },
-    });
-  };
   return (
     <>
       {interiorAllAnswerList.length === 0 ? (
@@ -110,36 +69,28 @@ const MypageInteriorRequest = () => {
                 <th>시공종류</th>
                 <th>희망지역</th>
                 <th>작성 날짜</th>
+                <th>조회수</th>
               </tr>
             </thead>
             <tbody>
-              {interiorAllAnswerList.map((allanswer, i) => (
+              {interiorAllAnswerList.map((answerAllNum, i) => (
                 <tr
                   className={styles.rowWrap}
-                  key={allanswer.answerrequestAllNum}
+                  key={answerAllNum.answerrequestAllNum}
                   onClick={() =>
-                    navigate(`/interiorall/detail/${allanswer.requestAllNum}`)
+                    navigate(
+                      `/interiorall/detail/${answerAllNum.requestAllNum}`
+                    )
                   }
                 >
                   <td>{i + 1}</td>
-                  <td>{allanswer.title}</td>
+                  <td>{answerAllNum.title}</td>
                   <td>
-                    {allanswer.interiorType === 0 ? '부분시공' : '전체시공'}
+                    {answerAllNum.interiorType === 0 ? '부분시공' : '전체시공'}
                   </td>
-                  <td>{`${processLocation(allanswer.address1)} ${allanswer.address2}`}</td>
-                  <td>{formatDate(allanswer.createAt)}</td>
-                  <td>{allanswer.viewCount}</td>
-                  <td>
-                    <Button01
-                      size="x-small"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(allanswer.requestAllNum);
-                      }}
-                    >
-                      삭제
-                    </Button01>
-                  </td>
+                  <td>{`${processLocation(answerAllNum.address1)} ${answerAllNum.address2}`}</td>
+                  <td>{formatDate(answerAllNum.createAt)}</td>
+                  <td>{answerAllNum.viewCount}</td>
                 </tr>
               ))}
             </tbody>
