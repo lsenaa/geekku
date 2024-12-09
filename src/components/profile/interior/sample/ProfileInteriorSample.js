@@ -4,6 +4,7 @@ import sampleImg from 'assets/images/interiorEx.png';
 import Button01 from 'components/commons/button/Button01';
 import Filter from 'components/commons/filter/Filter';
 import { useState } from 'react';
+import { url } from 'lib/axios';
 
 const ProfileInteriorSample = () => {
   const { detailInfo } = useOutletContext();
@@ -69,7 +70,10 @@ const ProfileInteriorSample = () => {
           <li key={i}>
             <Link to={'/'}>
               <div className={styles.sampleImgWrap}>
-                <img src={sample.coverImage} alt="시공사례 이미지" />
+                <img
+                  src={`${url}/sampleImage/${sample.coverImage}`}
+                  alt="시공사례 이미지"
+                />
               </div>
               <div className={styles.textWrap}>
                 <p>{sample.title}</p>

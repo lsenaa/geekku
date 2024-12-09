@@ -29,7 +29,7 @@ const Card = ({ interiorList }) => {
             key={interior.interiorNum}
           >
             <img
-              src={interior.coverImage}
+              src={`data:image/png;base64,${interior.coverImage}`}
               style={{ width: '384px', height: '242px' }}
             />
           </Link>
