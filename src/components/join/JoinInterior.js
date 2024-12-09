@@ -403,23 +403,27 @@ const JoinInterior = () => {
         </div>
       </div>
       <div className={styles2.checkContainer}>
-        <span className={styles2.checkboxGroup}>
-          <input
-            type="checkbox"
-            name="ageConfirmed"
-            onChange={handleCheckboxChange}
-          />
-          만 14세 이상만 가입할 수 있습니다.<b>*</b>
-        </span>
-        <span className={styles2.checkboxGroup}>
-          <input
-            type="checkbox"
-            name="termsAccepted"
-            onChange={handleCheckboxChange}
-          />
-          이용약관 및 개인정보 수집에 동의합니다.
-          <b>*</b>
-        </span>
+        <label>
+          <span className={styles2.checkboxGroup}>
+            <input
+              type="checkbox"
+              name="ageConfirmed"
+              onChange={handleCheckboxChange}
+            />
+            만 14세 이상만 가입할 수 있습니다.<b>*</b>
+          </span>
+        </label>
+        <label>
+          <span className={styles2.checkboxGroup}>
+            <input
+              type="checkbox"
+              name="termsAccepted"
+              onChange={handleCheckboxChange}
+            />
+            이용약관 및 개인정보 수집에 동의합니다.
+            <b>*</b>
+          </span>
+        </label>
       </div>
 
       <button className={styles2.button} onClick={submit}>

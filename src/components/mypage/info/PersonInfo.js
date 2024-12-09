@@ -24,7 +24,6 @@ const PersonInfo = () => {
   }, [user]);
 
   const edit = (e) => {
-    if (isSocial) return;
     const { name, value } = e.target;
     if (name === 'phone') {
       const cleaned = value.replace(/\D+/g, '');
@@ -115,18 +114,24 @@ const PersonInfo = () => {
                 }
                 className={styles.imageFile}
                 onClick={imageUpdate}
+                readOnly={isSocial}
               />
-              <img
-                src={plusIcon}
-                className={styles.plusIcon}
-                onClick={imageUpdate}
-              />
+              {isSocial ? (
+                ''
+              ) : (
+                <img
+                  src={plusIcon}
+                  className={styles.plusIcon}
+                  onClick={imageUpdate}
+                />
+              )}
             </a>
             <input
               type="file"
               id="profileImageUpdate"
               style={{ display: 'none' }}
               onChange={fileChange}
+              disabled={isSocial}
             />
           </div>
           <div className={styles.inputGroup}>
@@ -192,6 +197,13 @@ const PersonInfo = () => {
               readOnly={isSocial}
             />
           </div>
+          {isSocial ? (
+            <span className={styles.isSocial}>
+              소셜 로그인 회원은 전화번호 수정만 가능합니다.
+            </span>
+          ) : (
+            ''
+          )}
           <button className={styles.button} onClick={submit}>
             완료
           </button>
