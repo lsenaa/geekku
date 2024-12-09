@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import Button01 from 'components/commons/button/Button01';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
+import { Modal } from 'antd';
 
 // Toast UI Editor 관련 import
 import '@toast-ui/editor/toastui-editor.css';
@@ -35,6 +36,28 @@ const CommunityBoardWrite = () => {
     title: '',
   });
 
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    message: '',
+    action: null,
+  });
+
+  const openModal = (message, action = null) => {
+    setModalState({
+      isOpen: true,
+      message,
+      action,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      message: '',
+      action: null,
+    });
+  };
+
   // Toast Editor를 위한 ref와 content 상태
   const editorRef = useRef();
   const [content, setContent] = useState('');
@@ -54,9 +77,18 @@ const CommunityBoardWrite = () => {
     }
   };
 
-  // 파일 삭제
-  const handleFileDelete = (file) => {
-    setFileList(fileList.filter((f) => f !== file));
+  // 드래그된 파일 드롭 시 처리
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const droppedFiles = e.dataTransfer.files;
+    if (droppedFiles.length > 0) {
+      setFileList([...fileList, droppedFiles[0]]);
+    }
+  };
+
+  // 드래그 오버 시 기본 동작 막기
+  const handleDragOver = (e) => {
+    e.preventDefault();
   };
 
   // 에디터 내용 변경 시
@@ -71,8 +103,6 @@ const CommunityBoardWrite = () => {
     try {
       const formData = new FormData();
       formData.append('image', blob);
-
-      // 실제 이미지 업로드 엔드포인트로 수정 필요
       const response = await axios.post(`${url}/editorImageUpload`, formData);
 
       if (response.status === 200) {
@@ -87,6 +117,42 @@ const CommunityBoardWrite = () => {
   // 폼 제출
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 모든 필수 값이 들어갔는지 확인
+    const {
+      type,
+      size,
+      address1,
+      familyType,
+      periodStartDate,
+      periodEndDate,
+      money,
+      style,
+      title,
+    } = formData;
+
+    // 평수, 예산이 양수인지 확인
+    if (parseFloat(size) <= 0 || parseFloat(money) <= 0) {
+      openModal('0보다 큰 값을 입력해주세요.');
+      return;
+    }
+
+    if (
+      !type ||
+      !size ||
+      !address1 ||
+      !familyType ||
+      !periodStartDate ||
+      !periodEndDate ||
+      !money ||
+      !style ||
+      !title ||
+      !content ||
+      fileList.length === 0
+    ) {
+      openModal('모든 필수 값을 입력해주세요.');
+      return;
+    }
 
     const formDataToSend = new FormData();
     // 기존 formData 상태에 있는 값들 append
@@ -116,7 +182,7 @@ const CommunityBoardWrite = () => {
       navigate(`/CommunityBoardDetail/${communityNum}`);
     } catch (error) {
       console.error('등록 실패:', error);
-      alert('등록 중 오류가 발생했습니다.');
+      openModal('등록 중 오류가 발생했습니다.');
     }
   };
 
@@ -172,7 +238,6 @@ const CommunityBoardWrite = () => {
               onChange={handleChange}
             >
               <option value="">지역 선택</option>
-              {/* <option value="서울특별시">서울특별시</option> */}
               <option value="부산광역시">부산광역시</option>
               <option value="대구광역시">대구광역시</option>
               <option value="인천광역시">인천광역시</option>
@@ -274,7 +339,11 @@ const CommunityBoardWrite = () => {
           </select>
         </div>
 
-        <div className={styles.coverUploadContainer}>
+        <div
+          className={styles.coverUploadContainer}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
           {fileList.length === 0 ? (
             <>
               <p>추가하기 버튼으로 커버 사진을 업로드해주세요.</p>
@@ -321,7 +390,6 @@ const CommunityBoardWrite = () => {
           />
         </div>
 
-        {/* 여기서부터 내용 작성 부분을 Toast UI Editor로 변경 */}
         <div className={styles.textareaWrap}>
           <label>
             내용<span>*</span>
@@ -336,7 +404,6 @@ const CommunityBoardWrite = () => {
             <span>{textCount}</span> / 1000
           </p>
         </div>
-        {/* 여기까지 Toast UI Editor 적용 */}
 
         <div className={styles.btnWrap}>
           <button type="submit" className={styles.submitButton}>
@@ -351,6 +418,32 @@ const CommunityBoardWrite = () => {
           </Button01>
         </div>
       </form>
+      <Modal
+        open={modalState.isOpen}
+        onCancel={closeModal}
+        footer={[
+          <button
+            key="confirm"
+            onClick={() => {
+              if (modalState.action) {
+                modalState.action();
+              }
+              closeModal();
+            }}
+            style={{
+              width: '80px',
+              height: '30px',
+              borderRadius: '5px',
+              backgroundColor: '#6d885d',
+              color: '#ffffff',
+            }}
+          >
+            확인
+          </button>,
+        ]}
+      >
+        <p>{modalState.message}</p>
+      </Modal>
     </div>
   );
 };

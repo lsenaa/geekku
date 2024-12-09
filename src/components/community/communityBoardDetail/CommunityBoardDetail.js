@@ -6,6 +6,9 @@ import { FaUserCircle } from 'react-icons/fa';
 import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
+import { Modal } from 'antd';
+import bookmarkTrue from 'assets/images/bookmarkTrue.png';
+import bookmarkFalse from 'assets/images/bookmarkFalse.png';
 
 // Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
@@ -21,6 +24,29 @@ const CommunityBoardDetail = () => {
   const [isOwner, setIsOwner] = useState(false);
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
+
+  // const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    message: '',
+    action: null, // 모달 버튼 클릭 시 수행할 동작
+  });
+
+  const openModal = (message, action = null) => {
+    setModalState({
+      isOpen: true,
+      message,
+      action,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      message: '',
+      action: null,
+    });
+  };
 
   useEffect(() => {
     if (!CommunityNum) {
@@ -66,10 +92,15 @@ const CommunityBoardDetail = () => {
 
   const handleBookmarkClick = async () => {
     if (!user?.userId && !user?.companyId) {
-      alert('로그인이 필요합니다.');
-      navigate('/login');
+      openModal(
+        '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
+        () => {
+          navigate('/login'); // 로그인 페이지로 이동
+        }
+      );
       return;
     }
+
     try {
       const response = await axiosInToken(token).post(
         `${url}/user/communityBookmark?communityNum=${CommunityNum}`,
@@ -83,8 +114,7 @@ const CommunityBoardDetail = () => {
         console.error('북마크 상태 변경 실패:', response.data);
       }
     } catch (error) {
-      console.error('북마크 상태 변경 중 오류 발생:', error);
-      alert('북마크 상태 변경 중 오류가 발생했습니다.');
+      openModal('기업 회원은 북마크를 등록할 수 없습니다.');
     }
   };
 
@@ -94,8 +124,12 @@ const CommunityBoardDetail = () => {
 
   const handleCommentSubmit = async () => {
     if (!user?.userId && !user?.companyId) {
-      alert('로그인이 필요합니다.');
-      navigate('/login');
+      openModal(
+        '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
+        () => {
+          navigate('/login'); // 로그인 페이지로 이동
+        }
+      );
       return;
     }
     if (newComment.trim()) {
@@ -129,7 +163,10 @@ const CommunityBoardDetail = () => {
           console.error('댓글 작성 실패:', response.data);
         }
       } catch (error) {
-        console.error('댓글 작성 중 에러 발생:', error);
+        if (user.type === 'estate' || user.type === 'interior') {
+          openModal('기업 회원은 댓글을 작성할 수 없습니다.');
+          return;
+        } else console.error('댓글 작성 중 에러 발생:', error);
       }
     }
   };
@@ -148,6 +185,33 @@ const CommunityBoardDetail = () => {
           className={styles.postImage}
         />
       </div>
+
+      <Modal
+        open={modalState.isOpen}
+        onCancel={closeModal} // 모달 닫기
+        footer={[
+          <button
+            key="confirm"
+            onClick={() => {
+              if (modalState.action) {
+                modalState.action(); // 지정된 동작 실행
+              }
+              closeModal();
+            }}
+            style={{
+              width: '80px',
+              height: '30px',
+              borderRadius: '5px',
+              backgroundColor: '#6d885d',
+              color: '#ffffff',
+            }}
+          >
+            확인
+          </button>,
+        ]}
+      >
+        <p>{modalState.message}</p>
+      </Modal>
 
       <div className={styles.postDetailContainer}>
         {/* 게시글 헤더 */}
@@ -170,19 +234,22 @@ const CommunityBoardDetail = () => {
               >
                 수정하기
               </button>
-            ) : isBookmarked ? (
-              <button
-                className={styles.bookmarkedButton}
-                onClick={handleBookmarkClick}
-              >
-                북마크 해제
-              </button>
             ) : (
               <button
-                className={styles.bookmarkButton}
+                className={
+                  isBookmarked ? styles.bookmarkedButton : styles.bookmarkButton
+                }
                 onClick={handleBookmarkClick}
               >
-                북마크
+                <div className={styles.bookmarkIcon}>
+                  <img
+                    src={isBookmarked ? bookmarkTrue : bookmarkFalse}
+                    alt="북마크"
+                  />
+                </div>
+                <span className={styles.bookmarkText}>
+                  {isBookmarked ? '북마크 해제' : '북마크'}
+                </span>
               </button>
             )}
           </div>

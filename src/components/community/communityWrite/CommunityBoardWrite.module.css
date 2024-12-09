@@ -220,11 +220,6 @@
 .fileInput {
   display: none;
 }
-.coverUploadContainer {
-  text-align: center;
-  margin-bottom: 20px;
-  position: relative; /* 버튼과 이미지를 겹치게 하기 위해 설정 */
-}
 
 .uploadButton {
   display: inline-block;
@@ -237,24 +232,24 @@
 }
 
 .filePreview {
-  position: relative; /* 이미지와 삭제 버튼 배치 */
-  display: inline-block; /* 이미지와 버튼을 동일 위치로 설정 */
-  width: 200px; /* 이미지 크기 설정 */
-  height: 200px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
 }
 
 .filePreviewImage {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 이미지를 영역에 맞게 조정 */
+  object-fit: cover; 
   border-radius: 5px;
   border: 1px solid #ddd;
 }
 
 .fileRemoveButton {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: 10px;
+  right: 10px;
   background-color: #ff4d4d;
   color: white;
   border: none;
@@ -266,5 +261,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10; /* 버튼이 이미지 위에 표시되도록 설정 */
+  z-index: 10;
 }
