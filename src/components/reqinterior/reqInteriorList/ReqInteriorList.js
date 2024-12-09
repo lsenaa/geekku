@@ -49,7 +49,10 @@ const ReqInteriorList = ({ interiorAllList }) => {
               <span className={styles.writer}>
                 <div className={styles.profileImg}>
                   <img
-                    src={`data:image/png;base64,${interiorAllRequest.profileImage}`}
+                    src={
+                      `data:image/png;base64,${interiorAllRequest.profileImage}` ||
+                      ''
+                    }
                     alt="프로필이미지"
                   />
                 </div>
