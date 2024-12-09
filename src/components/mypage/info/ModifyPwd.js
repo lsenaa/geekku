@@ -17,6 +17,13 @@ const ModifyPwd = () => {
   const navigate = useNavigate();
 
   const handleChangePassword = () => {
+    if (newPassword == currentPassword) {
+      Modal.error({
+        content: '현재 비밀번호와 같은 비밀번호로 변경할 수 없습니다.',
+      });
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       Modal.error({
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
@@ -55,10 +62,14 @@ const ModifyPwd = () => {
         }
       })
       .catch((err) => {
-        console.error('비밀번호 변경 실패 :', err);
-        Modal.error({
-          content: '비밀번호 변경에 실패했습니다.',
-        });
+        // console.error('비밀번호 변경 실패 이유 : ', err.response.data);
+        // console.error('비밀번호 변경 실패 코드 : ', err.response.status);
+        if (err.response.status === 400) {
+          Modal.error({
+            content: '현재 비밀번호가 일치하지 않습니다.',
+          });
+          return;
+        }
       });
   };
   return (

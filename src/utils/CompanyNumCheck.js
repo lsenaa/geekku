@@ -7,13 +7,16 @@ export const formatCompanyNum = (companyNumber) => {
   return `${companyNumber.slice(0, 3)}-${companyNumber.slice(3, 5)}-${companyNumber.slice(5)}`;
 };
 
-export const verifyCompanyNum = (companyNumber, setUser, user) => {
+export const verifyCompanyNum = (companyNumber, setUser) => {
   const formattedNum = formatCompanyNum(companyNumber);
   if (formattedNum) {
     Modal.success({
       content: '사업자등록번호 확인 완료 : ' + `${formattedNum}`,
     });
-    setUser({ ...user, companyNumber: formattedNum });
+    setUser((prevUser) => ({
+      ...prevUser,
+      companyNumber: formattedNum,
+    }));
   } else {
     Modal.error({
       content: '사업자등록번호 입력 형식이 맞지 않습니다.',

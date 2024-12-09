@@ -25,8 +25,10 @@ export const CheckNickname = async (nickname, url) => {
       return true;
     }
   } catch (err) {
+    const errorMessage =
+      err.response?.data || '닉네임 중복 확인을 실패했습니다';
     Modal.error({
-      content: '닉네임 중복 확인을 실패했습니다.',
+      content: errorMessage,
     });
     console.error(err);
     return false;

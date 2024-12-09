@@ -384,7 +384,9 @@ const Header = ({ alarms = [] }) => {
             )}
             <p className={styles.name}>
               {user &&
-                (user.type === 'user' ? user.nickname : user.companyName)}
+                (user.type === 'user'
+                  ? user.nickname || user.name
+                  : user.companyName)}
             </p>
           </div>
 

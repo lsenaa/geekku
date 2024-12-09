@@ -44,6 +44,13 @@ const JoinPerson = () => {
     }
 
     if (name === 'username') {
+      const regex = /^[a-zA-Z0-9]*$/;
+      if (!regex.test(value)) {
+        Modal.info({
+          content: '아이디는 영어와 숫자만 입력 가능합니다.',
+        });
+        return;
+      }
       setUsernameChecked(false);
     }
     if (name === 'nickname') {
@@ -53,6 +60,12 @@ const JoinPerson = () => {
   };
 
   const handleCheckNickname = async () => {
+    if (user.nickname.length < 2 || user.nickname.length > 20) {
+      Modal.info({
+        content: '닉네임은 2자 이상 20자 이하로 입력해주세요.',
+      });
+      return;
+    }
     const isAvailable = await CheckNickname(user.nickname, url);
     setNicknameChecked(isAvailable);
   };
@@ -124,9 +137,9 @@ const JoinPerson = () => {
     }
 
     //닉네임이 없으면 이름으로 설정
-    if (!user.nickname) {
-      user.nickname = user.name;
-    }
+    // if (!user.nickname) {
+    //   user.nickname = user.name;
+    // }
 
     if (!isPhonechecked) {
       Modal.info({
@@ -276,14 +289,14 @@ const JoinPerson = () => {
         </div>
 
         <div className={styles2.inputGroup}>
-          <span>닉네임</span>
+          <span>닉네임(선택)</span>
           <br />
           <input
             type="text"
             name="nickname"
             id="nickname"
             onChange={edit}
-            placeholder=" 닉네임을 입력하지 않으시면 이름으로 설정됩니다."
+            placeholder="닉네임은 2자 이상 20자 이하로 입력해주세요."
             className={styles2.input1}
           />
           <button
