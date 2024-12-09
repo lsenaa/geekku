@@ -113,30 +113,28 @@ const MypageInteriorOnestop = () => {
               </tr>
             </thead>
             <tbody>
-              {onestopAnswerList.map((allanswer, i) => (
+              {onestopAnswerList.map((onestopanswer, i) => (
                 <tr
                   className={styles.rowWrap}
-                  key={allanswer.requestAllNum}
+                  key={onestopanswer.answerOnestopNum}
                   onClick={() =>
-                    navigate(
-                      `/requestInterior/detail/${allanswer.requestAllNum}`
-                    )
+                    navigate(`/onestop/detail/${onestopanswer.oneStopNum}`)
                   }
                 >
                   <td>{i + 1}</td>
-                  <td>{allanswer.title}</td>
+                  <td>{onestopanswer.title}</td>
                   <td>
-                    {allanswer.interiorType === 0 ? '부분시공' : '전체시공'}
+                    {onestopanswer.interiorType === 0 ? '부분시공' : '전체시공'}
                   </td>
-                  <td>{`${processLocation(allanswer.address1)} ${allanswer.address2}`}</td>
-                  <td>{formatDate(allanswer.createAt)}</td>
-                  <td>{allanswer.viewCount}</td>
+                  <td>{`${processLocation(onestopanswer.address1)} ${onestopanswer.address2}`}</td>
+                  <td>{formatDate(onestopanswer.createAt)}</td>
+                  <td>{onestopanswer.viewCount}</td>
                   <td>
                     <Button01
                       size="x-small"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDelete(allanswer.requestAllNum);
+                        handleDelete(onestopanswer.requestAllNum);
                       }}
                     >
                       삭제

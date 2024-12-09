@@ -116,11 +116,9 @@ const MypageInteriorRequest = () => {
               {interiorAllAnswerList.map((allanswer, i) => (
                 <tr
                   className={styles.rowWrap}
-                  key={allanswer.requestAllNum}
+                  key={allanswer.answerrequestAllNum}
                   onClick={() =>
-                    navigate(
-                      `/requestInterior/detail/${allanswer.requestAllNum}`
-                    )
+                    navigate(`/interiorall/detail/${allanswer.requestAllNum}`)
                   }
                 >
                   <td>{i + 1}</td>

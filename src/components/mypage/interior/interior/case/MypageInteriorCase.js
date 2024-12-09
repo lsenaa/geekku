@@ -55,19 +55,19 @@ const MypageInteriorCase = () => {
           <div style={{ margin: '0 auto' }}>등록한 시공사례가 없습니다.</div>
         ) : (
           <>
-            {sampleData.map((interior, i) => (
+            {sampleData.map((sample, i) => (
               <li key={i}>
-                <Link to={`/profile/interior`}>
+                <Link to={`/sampleDetail/${sample.sampleNum}`}>
                   <div className={styles.imgWrapper}>
                     <img
-                      src={`data:image/png;base64, ${interior.interiorImageStr}`}
+                      src={`data:image/png;base64, ${sample.interiorImageStr}`}
                       alt="인테리어 업체 이미지"
                     />
                   </div>
                   <div className={styles.contentWrapper}>
-                    <p className={styles.name}>{interior.title}</p>
+                    <p className={styles.name}>{sample.title}</p>
                     <div className={styles.textWrapper}>
-                      <p className={styles.name}>{interior.companyName}</p>
+                      <p className={styles.name}>{sample.companyName}</p>
                     </div>
                   </div>
                 </Link>

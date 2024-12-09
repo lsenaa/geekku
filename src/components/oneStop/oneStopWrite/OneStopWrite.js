@@ -1,10 +1,9 @@
 import styles from './OnestopWrite.module.scss';
 import { useState } from 'react';
-import { DatePicker, Modal } from 'antd';
+import { DatePicker, message, Modal } from 'antd';
 import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { hangjungdong } from 'utils/hangjungdong';
-import axios from 'axios';
 import { axiosInToken, url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
@@ -14,6 +13,7 @@ const OneStopWrite = () => {
   const token = useAtomValue(tokenAtom);
   const [textCount, setTextCount] = useState(0);
   const { sido, sigugun } = hangjungdong;
+  const [messageApi, contextHolder] = message.useMessage();
   const type = [
     '도배',
     '바닥',
@@ -27,7 +27,6 @@ const OneStopWrite = () => {
     '베란다',
   ];
   const [selectType, setSelectType] = useState([]);
-
   const handleChk = (e) => {
     const { value, checked } = e.target;
 
@@ -98,7 +97,62 @@ const OneStopWrite = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('제출');
+    // 입력값 검증
+    if (onestop.type === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '매물 유형을 선택해주세요.',
+      });
+      return;
+    }
 
+    if (onestop.address1 === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '지역을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (onestop.address2 === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 지역을 선택해주세요.',
+      });
+      return;
+    }
+    if (onestop.money === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '예산안을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (onestop.size === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '희망 평수를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (onestop.title === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '제목을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (onestop.content === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 내용을 입력해주세요.',
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append('title', onestop.title);
     formData.append('content', onestop.content);
@@ -119,14 +173,13 @@ const OneStopWrite = () => {
       .post(`/user/onestopWrite`, formData)
       .then((res) => {
         Modal.success({
-          content: '한번에 꾸하기 게시글 등록이 완료되었습니다.',
+          content: '한번에 꾸하기 등록이 완료되었습니다.',
         });
         console.log(res.data);
         navigate(`/oneStop/detail/${res.data}`);
       })
       .catch((err) => {
         console.log(err);
-        alert('등록오류');
       });
   };
 
@@ -145,12 +198,7 @@ const OneStopWrite = () => {
           <label>
             매물 유형<span>*</span>
           </label>
-          <select
-            className={styles.select}
-            name="type"
-            required="required"
-            onChange={handleEdit}
-          >
+          <select className={styles.select} name="type" onChange={handleEdit}>
             <option value="" disabled>
               매물 유형 선택
             </option>
@@ -167,7 +215,6 @@ const OneStopWrite = () => {
           <select
             className={styles.select}
             name="address1"
-            required="required"
             style={{ marginRight: '16px' }}
             value={onestop.sido || ''}
             onChange={handleSido}
@@ -185,7 +232,6 @@ const OneStopWrite = () => {
             className={styles.select}
             name="address2"
             defaultValue=""
-            required="required"
             value={onestop.sigugun || ''}
             onChange={handleSigugun}
           >
@@ -267,7 +313,6 @@ const OneStopWrite = () => {
             className={styles.select}
             name="size"
             defaultValue=""
-            required="required"
             onChange={handleEdit}
           >
             <option value="" disabled>
@@ -336,7 +381,6 @@ const OneStopWrite = () => {
             name="movePersons"
             id="movePersons"
             defaultValue=""
-            required="required"
             onChange={handleEdit}
           >
             <option value="" disabled>
@@ -413,6 +457,7 @@ const OneStopWrite = () => {
         </div>
       </section>
       <div className={styles.btnWrap}>
+        {contextHolder}
         <Button01 type="submit" size="small" onClick={handleSubmit}>
           신청하기
         </Button01>
