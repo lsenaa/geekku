@@ -38,7 +38,7 @@ const CommunityList = ({
       {communityList.length === 0 ? (
         <>
           <div></div>
-          <div className={styles.emptyMessage}>커뮤니티가 없습니다.</div>
+          <div className={styles.emptyMessage}>집들이 글이 없습니다.</div>
           <div></div>
         </>
       ) : (
@@ -49,7 +49,9 @@ const CommunityList = ({
             title={post.title}
             image={post.coverImage}
             viewCount={post.viewCount}
-            profile={post.username}
+            profileImage={post.profileImage}
+            nickname={post.nickname}
+            name={post.name}
             className={styles.postCard}
           />
         ))
