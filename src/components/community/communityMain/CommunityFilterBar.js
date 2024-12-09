@@ -3,6 +3,7 @@ import styles from './CommunityFilterBar.module.css';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
 import { useNavigate } from 'react-router-dom';
+import { Modal } from 'antd';
 
 const CommunityFilterBar = ({
   communityList,
@@ -24,6 +25,28 @@ const CommunityFilterBar = ({
   });
 
   const [localFilters, setLocalFilters] = useState(filters);
+
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    message: '',
+    action: null, // 모달 확인 버튼 클릭 시 수행할 동작
+  });
+
+  const openModal = (message, action = null) => {
+    setModalState({
+      isOpen: true,
+      message,
+      action,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      message: '',
+      action: null,
+    });
+  };
 
   useEffect(() => {
     setLocalFilters(filters);
@@ -59,11 +82,23 @@ const CommunityFilterBar = ({
   };
 
   const handleCommunityBoardWrite = () => {
-    if ((user && user.userId) || user?.companyId) {
+    if (user?.userId) {
+      // 일반 사용자는 글 작성 페이지로 이동
       navigate('/CommunityBoardWrite');
+    } else if (user.type === 'estate') {
+      // 기업 회원은 글 작성 불가
+      openModal('기업 회원은 글쓰기를 할 수 없습니다.');
+    } else if (user.type === 'interior') {
+      // 기업 회원은 글 작성 불가
+      openModal('기업 회원은 글쓰기를 할 수 없습니다.');
     } else {
-      alert('로그인이 필요합니다.');
-      navigate('/login');
+      // 로그인하지 않은 사용자
+      openModal(
+        '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
+        () => {
+          navigate('/login'); // 로그인 페이지로 이동
+        }
+      );
     }
   };
 
@@ -177,6 +212,32 @@ const CommunityFilterBar = ({
           등록하기
         </button>
       </div>
+      <Modal
+        open={modalState.isOpen}
+        onCancel={closeModal} // 모달 닫기
+        footer={[
+          <button
+            key="confirm"
+            onClick={() => {
+              if (modalState.action) {
+                modalState.action(); // 지정된 동작 실행
+              }
+              closeModal(); // 모달 닫기
+            }}
+            style={{
+              width: '80px',
+              height: '30px',
+              borderRadius: '5px',
+              backgroundColor: '#6d885d',
+              color: '#ffffff',
+            }}
+          >
+            확인
+          </button>,
+        ]}
+      >
+        <p>{modalState.message}</p>
+      </Modal>
     </div>
   );
 };

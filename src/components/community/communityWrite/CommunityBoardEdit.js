@@ -7,6 +7,8 @@ import { useAtomValue } from 'jotai';
 import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 
+import { Modal } from 'antd'; // 모달 사용을 위해 추가
+
 // Toast UI Editor 관련 import
 import '@toast-ui/editor/toastui-editor.css';
 import color from '@toast-ui/editor-plugin-color-syntax';
@@ -23,7 +25,7 @@ const CommunityBoardEdit = () => {
   const [fileList, setFileList] = useState([]);
   const [textCount, setTextCount] = useState(0);
 
-  // editorRef를 통한 에디터 접근
+  // 에디터 ref
   const editorRef = useRef();
 
   const [formData, setFormData] = useState({
@@ -42,6 +44,28 @@ const CommunityBoardEdit = () => {
     content: '',
   });
 
+  // 모달 상태 관리
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    message: '',
+    action: null,
+  });
+
+  const openModal = (message, action = null) => {
+    setModalState({
+      isOpen: true,
+      message,
+      action,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      message: '',
+      action: null,
+    });
+  };
   const fRef = useRef();
 
   // 기존 데이터 불러오기
@@ -52,18 +76,18 @@ const CommunityBoardEdit = () => {
         const communityData = response.data.communityDetail;
         setFormData({
           userId: communityData.userId,
-          type: communityData.type,
-          size: communityData.size,
-          address1: communityData.address1,
-          address2: communityData.address2,
-          familyType: communityData.familyType,
-          interiorType: communityData.interiorType,
-          periodStartDate: communityData.periodStartDate,
-          periodEndDate: communityData.periodEndDate,
-          money: communityData.money,
-          style: communityData.style,
-          title: communityData.title,
-          content: communityData.content,
+          type: communityData.type || '',
+          size: communityData.size || '',
+          address1: communityData.address1 || '',
+          address2: communityData.address2 || '',
+          familyType: communityData.familyType || '',
+          interiorType: communityData.interiorType || '',
+          periodStartDate: communityData.periodStartDate || '',
+          periodEndDate: communityData.periodEndDate || '',
+          money: communityData.money || '',
+          style: communityData.style || '',
+          title: communityData.title || '',
+          content: communityData.content || '',
         });
 
         // coverImage 설정
@@ -96,6 +120,18 @@ const CommunityBoardEdit = () => {
   // 입력 필드 업데이트
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === 'size' || name === 'money') {
+      const numericValue = parseFloat(value);
+      if (numericValue < 0 || isNaN(numericValue)) {
+        setFormData({ ...formData, [name]: '' }); // 음수 또는 비정상 값이면 빈 문자열로 설정
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
+      return;
+    }
+
+    // 기본 처리
     setFormData({ ...formData, [name]: value });
   };
 
@@ -137,13 +173,49 @@ const CommunityBoardEdit = () => {
   // 폼 제출
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 양수 값 확인
+    const { size, money } = formData;
+    if (parseFloat(size) <= 0 || parseFloat(money) <= 0) {
+      openModal('0보다 큰 값을 입력해주세요.');
+      return;
+    }
+
+    // 필수 값 체크
+    const {
+      type,
+      address1,
+      familyType,
+      periodStartDate,
+      periodEndDate,
+      style,
+      title,
+      content,
+    } = formData;
+
+    if (
+      !type ||
+      !address1 ||
+      !familyType ||
+      !periodStartDate ||
+      !periodEndDate ||
+      !style ||
+      !title ||
+      !content ||
+      fileList.length === 0
+    ) {
+      openModal('모든 필수 값을 입력해주세요.');
+      return;
+    }
+
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       if (formData[key] !== null && formData[key] !== undefined) {
         formDataToSend.append(key, formData[key]);
       }
     });
-    if (fileList.length > 0) {
+
+    if (fileList.length > 0 && typeof fileList[0] !== 'string') {
       formDataToSend.append('file', fileList[0]);
     }
 
@@ -161,7 +233,7 @@ const CommunityBoardEdit = () => {
       navigate(`/CommunityBoardDetail/${id}`);
     } catch (error) {
       console.error('수정 실패:', error);
-      alert('수정 중 오류가 발생했습니다.');
+      openModal('수정 중 오류가 발생했습니다.');
     }
   };
 
@@ -220,7 +292,6 @@ const CommunityBoardEdit = () => {
               value={formData.address1}
             >
               <option value="">지역 선택</option>
-              {/* <option value="서울특별시">서울특별시</option> */}
               <option value="부산광역시">부산광역시</option>
               <option value="대구광역시">대구광역시</option>
               <option value="인천광역시">인천광역시</option>
@@ -409,6 +480,34 @@ const CommunityBoardEdit = () => {
           </Button01>
         </div>
       </form>
+
+      {/* 모달 추가 */}
+      <Modal
+        open={modalState.isOpen}
+        onCancel={closeModal}
+        footer={[
+          <button
+            key="confirm"
+            onClick={() => {
+              if (modalState.action) {
+                modalState.action();
+              }
+              closeModal();
+            }}
+            style={{
+              width: '80px',
+              height: '30px',
+              borderRadius: '5px',
+              backgroundColor: '#6d885d',
+              color: '#ffffff',
+            }}
+          >
+            확인
+          </button>,
+        ]}
+      >
+        <p>{modalState.message}</p>
+      </Modal>
     </div>
   );
 };

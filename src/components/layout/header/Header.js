@@ -215,7 +215,17 @@ const Header = ({ alarms = [] }) => {
 
               <ul className={styles.notificationList}>
                 {alarms.length === 0 ? (
-                  <div style={{ height: '100px' }}>내용이 없습니다</div>
+                  <div
+                    style={{
+                      height: '100px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    알림이 없습니다
+                  </div>
                 ) : (
                   alarms.map((item) => (
                     <li
