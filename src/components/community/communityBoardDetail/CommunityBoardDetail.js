@@ -222,8 +222,15 @@ const CommunityBoardDetail = () => {
         {/* 유저 정보 섹션 */}
         <div className={styles.userSection}>
           <div className={styles.userInfo}>
-            <FaUserCircle color="#6D885D" size={30} />
-            <span className={styles.username}>{post.username}</span>
+            <div className={styles.profileImg}>
+              <img
+                src={`data:image/png;base64,${post.profileImage}`}
+                alt="프로필이미지"
+              />
+            </div>
+            <span className={styles.username}>
+              {post.nickname ? post.nickname : post.name}
+            </span>
             <span className={styles.commentDate}>{post.date}</span>
           </div>
           <div className={styles.actions}>

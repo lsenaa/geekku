@@ -31,6 +31,8 @@ const CommunityList = ({
     };
   }, [hasMore, isLoading, setPage]);
 
+  console.log(communityList);
+
   return (
     <div className={styles.postList}>
       {communityList.length === 0 ? (

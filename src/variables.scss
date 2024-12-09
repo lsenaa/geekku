@@ -53,6 +53,19 @@ $sub-font: 'Santokki';
   object-fit: cover;
 }
 
+@mixin profileImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 :export {
   maincolor: $main-color;
   subcolor: $sub-color;
