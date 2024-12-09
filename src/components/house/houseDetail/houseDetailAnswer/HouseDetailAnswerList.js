@@ -220,6 +220,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
               houseNum={houseNum}
               setIsModalOpen={setIsModalOpen}
               fetchData={fetchData}
+              setHouseAnswerList={setHouseAnswerList}
             />
           </Modal>
         )}
