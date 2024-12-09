@@ -7,12 +7,14 @@ import Step5 from './Step5';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import { axiosInToken } from 'lib/axios';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { Modal } from 'antd';
 
 const InteriorRequest = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 5;
   const [data, setData] = useState({});
+  const location = useLocation();
 
   const navigate = useNavigate();
   const token = useAtomValue(tokenAtom);
@@ -46,8 +48,10 @@ const InteriorRequest = () => {
       })
       .then((res) => {
         console.log(res.data);
-        alert('해당 업체에 문의가 완료되었습니다.');
-        navigate('/');
+        Modal.success({
+          content: '해당 업체에 문의가 완료되었습니다.',
+        });
+        navigate(`/InteriorAnswer/${res.data}`);
       })
       .catch((err) => {
         console.log(err);
@@ -98,6 +102,7 @@ const InteriorRequest = () => {
           prevStep={prevStep}
           onSubmit={handleSubmit}
           data={data}
+          interiorNum={location.state}
         />
       )}
     </>

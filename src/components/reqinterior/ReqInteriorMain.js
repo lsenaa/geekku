@@ -36,7 +36,7 @@ const ReqInteriorMain = () => {
   // 작성 버튼
   const onClickWrite = () => {
     if (user.userId) {
-      navigate('/house/write');
+      navigate('/requestInterior/write');
     } else if (user.companyId) {
       Modal.info({
         content: '일반회원만 이용가능합니다.',
@@ -55,10 +55,10 @@ const ReqInteriorMain = () => {
     if (type !== '') params.type = type;
     if (keyword !== '') params.keyword = keyword;
 
-    if (type === 'workType') {
+    if (type === 'workTypeValue') {
       const keywordMapping = {
-        전체: 0,
-        부분: 1,
+        전체: true,
+        부분: false,
       };
       params.keyword = keywordMapping[keyword] || keyword;
     }

@@ -13,6 +13,7 @@ import bookmarkFalse from 'assets/images/bookmarkFalse.png';
 // Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
+import { formatDate } from 'utils/utils';
 
 const CommunityBoardDetail = () => {
   const [post, setPost] = useState(null);
@@ -91,13 +92,10 @@ const CommunityBoardDetail = () => {
   };
 
   const handleBookmarkClick = async () => {
-    if (!user?.userId && !user?.companyId) {
-      openModal(
-        '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
-        () => {
-          navigate('/login'); // 로그인 페이지로 이동
-        }
-      );
+    if (!user?.userId) {
+      Modal.info({
+        content: '로그인한 회원만 가능합니다.',
+      });
       return;
     }
 
@@ -110,6 +108,13 @@ const CommunityBoardDetail = () => {
       );
       if (response.status === 200) {
         setIsBookmarked(!isBookmarked);
+        isBookmarked
+          ? Modal.success({
+              content: '북마크가 해제되었습니다.',
+            })
+          : Modal.success({
+              content: '북마크가 완료되었습니다.',
+            });
       } else {
         console.error('북마크 상태 변경 실패:', response.data);
       }
@@ -237,7 +242,12 @@ const CommunityBoardDetail = () => {
         {/* 유저 정보 섹션 */}
         <div className={styles.userSection}>
           <div className={styles.userInfo}>
-            <FaUserCircle color="#6D885D" size={30} />
+            <div className={styles.profileImg}>
+              <img
+                src={`data:image/png;base64,${post.profileImage}`}
+                alt="프로필이미지"
+              />
+            </div>
             <span className={styles.username}>
               {post.nickname ? post.nickname : post.name}
             </span>
@@ -328,7 +338,7 @@ const CommunityBoardDetail = () => {
                           : comment.userName}
                       </span>
                       <span className={styles.commentDate}>
-                        {formatCommentDate(comment.createdAt)}
+                        {formatDate(comment.createdAt)}
                       </span>
                     </div>
                     <p className={styles.commentContent}>{comment.content}</p>

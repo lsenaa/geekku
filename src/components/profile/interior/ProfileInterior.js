@@ -35,6 +35,19 @@ const ProfileInterior = () => {
         console.log(res.data);
         setDetailInfo({ ...res.data });
         setBookmark(res.data.bookmark);
+        console.log(res.data.bookmark);
+        // if (res.data.reviewDetail && Array.isArray(res.data.reviewDetail)) {
+        //   let resReview = res.data.reviewDetail;
+        //   console.log(resReview);
+        //   resReview.forEach((review) => {
+        //     if (review.imageNums) {
+        //       const imageNumList = review.imageNums.split(',').map(num);
+        //       console.log(imageNumList);
+        //     }
+        //   });
+        // } else {
+        //   console.error('오류');
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -75,7 +88,10 @@ const ProfileInterior = () => {
     <>
       {isAllowedPath && (
         <div className={styles.coverImgWrap}>
-          <img src={profileImg} alt="인테리어업체 커버이미지" />
+          <img
+            src={`data:image/png;base64,${detailInfo.interiorDetail.coverImage}`} //바이트 타입으로 저장돼서 변환해줘야함
+            alt="인테리어업체 커버이미지"
+          />
         </div>
       )}
       <div
@@ -86,6 +102,7 @@ const ProfileInterior = () => {
             detailInfo={detailInfo}
             bookmarkClick={bookmarkClick}
             bookmark={bookmark}
+            interiorNum={num}
           />
         )}
         <div className={styles.contentWrap}>
@@ -95,6 +112,7 @@ const ProfileInterior = () => {
           <Outlet
             context={{
               detailInfo: detailInfo,
+              num: num,
             }}
           />
         </div>

@@ -14,6 +14,7 @@ import color from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import ToastEditor from 'components/commons/ToastEditor'; // 실제 경로에 맞게 수정하세요.
+import { MdCancel } from 'react-icons/md';
 
 const CommunityBoardWrite = () => {
   const navigate = useNavigate();
@@ -178,11 +179,15 @@ const CommunityBoardWrite = () => {
         }
       );
       const communityNum = response.data;
-      console.log('등록 성공:', response.data);
+      Modal.success({
+        content: '집들이 게시글이 등록되었습니다.',
+      });
       navigate(`/CommunityBoardDetail/${communityNum}`);
     } catch (error) {
       console.error('등록 실패:', error);
-      openModal('등록 중 오류가 발생했습니다.');
+      Modal.error({
+        content: '등록 중 오류가 발생했습니다.',
+      });
     }
   };
 
@@ -218,14 +223,16 @@ const CommunityBoardWrite = () => {
           <label>
             평수<span>*</span>
           </label>
-          <input
-            type="number"
-            name="size"
-            className={styles.formControl}
-            placeholder="평수 입력"
-            onChange={handleChange}
-            onWheel={(e) => e.target.blur()} //휠 방지 추가
-          />
+          <div className={styles.inputTextWrap}>
+            <input
+              type="number"
+              name="size"
+              className={styles.formControl}
+              onChange={handleChange}
+              onWheel={(e) => e.target.blur()} //휠 방지 추가
+            />
+            <p>평</p>
+          </div>
         </div>
 
         <div className={styles.formGroup}>
@@ -307,14 +314,16 @@ const CommunityBoardWrite = () => {
           <label>
             예산<span>*</span>
           </label>
-          <input
-            type="number"
-            name="money"
-            className={styles.formControl}
-            placeholder="예산 입력 (만원)"
-            onChange={handleChange}
-            onWheel={(e) => e.target.blur()} //휠 방지 추가
-          />
+          <div className={styles.inputTextWrap}>
+            <input
+              type="number"
+              name="money"
+              className={styles.formControl}
+              onChange={handleChange}
+              onWheel={(e) => e.target.blur()} //휠 방지 추가
+            />
+            <p>만원</p>
+          </div>
         </div>
 
         <div className={styles.formGroup}>
@@ -362,13 +371,11 @@ const CommunityBoardWrite = () => {
             </>
           ) : (
             <div className={styles.filePreview}>
-              <button
-                type="button"
-                className={styles.fileRemoveButton}
-                onClick={() => setFileList([])} // 업로드된 파일 초기화
-              >
-                ×
-              </button>
+              <MdCancel
+                size={30}
+                className={styles.cancelBtn}
+                onClick={() => setFileList([])}
+              />
               <img
                 src={URL.createObjectURL(fileList[0])}
                 alt="Preview"
@@ -402,9 +409,6 @@ const CommunityBoardWrite = () => {
             handleImage={handleImage}
             onChange={onChangeContent}
           />
-          <p className={styles.textCount}>
-            <span>{textCount}</span> / 1000
-          </p>
         </div>
 
         <div className={styles.btnWrap}>

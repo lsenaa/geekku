@@ -21,6 +21,7 @@ const ReviewWrite = () => {
     content: '',
     location: '경기',
   });
+  const [date, setDate] = useState('');
   const [type, setType] = useState('');
   const [style, setStyle] = useState('');
   const [textCount, setTextCount] = useState(0);
@@ -63,6 +64,7 @@ const ReviewWrite = () => {
 
     const data = new FormData();
     data.append('companyName', review.companyName);
+    data.append('date', date);
     data.append('size', review.size);
     data.append('content', review.content);
     data.append('type', type);
@@ -71,7 +73,7 @@ const ReviewWrite = () => {
     for (let file of fileList) {
       data.append('file', file);
     }
-
+    console.log(data);
     await axiosInToken(token)
       .post(`/user/interiorReviewWrite`, data, {
         headers: {
@@ -104,6 +106,7 @@ const ReviewWrite = () => {
       <ul className={styles.reviewInfo}>
         <li>인테리어와 관련없는 홍보성 정보는 입력할 수 없습니다.</li>
         <li>허위리뷰 작성 시 삭제될 수 있습니다.</li>
+        <li>첫번째 등록한 사진이 리스트 대표사진으로 보여집니다.</li>
       </ul>
       <form className={styles.formEdit}>
         <ul>
@@ -120,7 +123,18 @@ const ReviewWrite = () => {
               required
             />
           </li>
-          <li>시공날짜 달력형태로 추가</li>
+          <li>
+            <label>
+              시공날짜<span>*</span>
+            </label>
+            <input
+              type="date"
+              id="date"
+              className={styles.date}
+              name="date"
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </li>
           <li>
             <label>
               주거형태<span>*</span>

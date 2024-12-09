@@ -29,7 +29,6 @@ const ReqInteriorWrite = () => {
     '베란다',
   ];
   const [selectType, setSelectType] = useState([]);
-  console.log(selectType);
 
   const handleChk = (e) => {
     const { value, checked } = e.target;
@@ -51,7 +50,7 @@ const ReqInteriorWrite = () => {
     money: '',
     movePersons: '',
     rentType: 'jeonse',
-    size: '',
+    size: 10,
     type: 'farmHouse',
     workType: 0,
   });
@@ -129,7 +128,7 @@ const ReqInteriorWrite = () => {
     if (interiorall.money === '') {
       messageApi.open({
         type: 'warning',
-        content: '예산안을 입력해주세요.',
+        content: '예산을 입력해주세요.',
       });
       return;
     }
@@ -137,7 +136,15 @@ const ReqInteriorWrite = () => {
     if (interiorall.size === '') {
       messageApi.open({
         type: 'warning',
-        content: '희망 평수를 선택해주세요.',
+        content: '시공 평수를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (selectType.length === 0) {
+      messageApi.open({
+        type: 'warning',
+        content: '인테리어 시공종류를 선택해주세요.',
       });
       return;
     }
@@ -247,6 +254,7 @@ const ReqInteriorWrite = () => {
               name="rentType"
               value="jeonse"
               onChange={handleEdit}
+              defaultChecked
             />
             <label htmlFor="jeonse">전세</label>
             <input
@@ -263,7 +271,6 @@ const ReqInteriorWrite = () => {
               name="rentType"
               value="buy"
               onChange={handleEdit}
-              defaultChecked
             />
             <label htmlFor="buy">매매</label>
           </div>
@@ -288,6 +295,7 @@ const ReqInteriorWrite = () => {
             name="size"
             required
             onChange={handleEdit}
+            value={interiorall.size}
           >
             <option value="" disabled>
               시공 평수 선택

@@ -48,13 +48,21 @@ const ReqInteriorDetail = () => {
         console.log(err);
       });
   };
+
   return (
     <div className={styles.container}>
       <h2>방꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
-          <FaUserCircle color="#6D885D" size={30} />
-          <p>{interiorAll.name}</p>
+          <div className={styles.profileImg}>
+            <img
+              src={`data:image/png;base64,${interiorAll.profileImage}`}
+              alt="프로필이미지"
+            />
+          </div>
+          <p>
+            {interiorAll.nickname ? interiorAll.nickname : interiorAll.name}
+          </p>
           <p className={styles.createdAt}>{formatDate(interiorAll.createAt)}</p>
         </div>
         <hr className={styles.line} />

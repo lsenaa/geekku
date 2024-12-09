@@ -80,8 +80,8 @@ const MypagePersonRequestInterior = () => {
           <table className={styles.customTable}>
             <colgroup>
               <col width="5%" />
-              <col width="40%" />
-              <col width="10%" />
+              <col width="35%" />
+              <col width="15%" />
               <col width="15%" />
               <col width="15%" />
               <col width="15%" />
@@ -107,20 +107,8 @@ const MypagePersonRequestInterior = () => {
                 >
                   <td>{i + 1}</td>
                   <td>{request.content}</td>
-                  <td>
-                    {request.type === 1 && '농가주택'}
-                    {request.type === 2 && '아파트/빌라'}
-                    {request.type === 3 && '전원주택'}
-                    {request.type === 4 && '기타'}
-                  </td>
-                  <td>
-                    {request.size === 1 && '20평 이하'}
-                    {request.size === 2 && '20평 ~ 30평'}
-                    {request.size === 3 && '30평 ~ 40평'}
-                    {request.size === 4 && '40평 ~ 50평'}
-                    {request.size === 5 && '50평 이상'}
-                    {request.size === 6 && '기타'}
-                  </td>
+                  <td>{request.type}</td>
+                  <td>{request.size}</td>
                   <td>{formatDate(request.createdAt)}</td>
                   <td>
                     <Button01

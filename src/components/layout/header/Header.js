@@ -73,7 +73,7 @@ const Header = ({ alarms = [] }) => {
 
   const userWrite = [
     { name: '집꾸 신청하기', path: '/house/write' },
-    { name: '방꾸 신청하기', path: '/requestInteriorWrite' },
+    { name: '방꾸 신청하기', path: '/requestInterior/write' },
     { name: '한번에 꾸하기 신청하기', path: '/onestop/write' },
     { name: '집들이 글쓰기', path: '/communityBoardWrite' },
     { name: '인테리어 후기 작성하기', path: '/interiorReviewWrite' },

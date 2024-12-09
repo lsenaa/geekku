@@ -15,7 +15,7 @@ const Sample = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
   };
 
   const [sampleList, setSampleList] = useState([]);
@@ -63,7 +63,7 @@ const Sample = () => {
                 />
               </div>
               <div className="wrap-title">
-                <div className="title">{sample.intro}</div>
+                <div className="title">{sample.title}</div>
                 <div className="title" id="interiorName">
                   {sample.companyName}
                 </div>

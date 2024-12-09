@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { url } from 'lib/axios';
 import axios from 'axios';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
 
 const List = ({ loc, setLoc }) => {
   const navigate = useNavigate();
+  const user = useAtomValue(userAtom);
   const [interiorList, setInteriorList] = useState([]);
 
   const moveRegister = () => {
@@ -38,13 +41,24 @@ const List = ({ loc, setLoc }) => {
   //   }
   // }, [filterCategory, interiorList]);
 
+  const notRegisteredCompany = interiorList.filter((interior) => {
+    if (!interior.interiorNum) {
+      return interior.companyId;
+    }
+  });
+
   return (
     <div className="companyPage">
       <div className="topBar" style={{ marginBottom: '30px' }}>
         시공업체
-        <button id="btn" onClick={moveRegister}>
-          등록하기
-        </button>
+        {user.type === 'interior' &&
+          notRegisteredCompany.some(
+            (company) => company.companyId === user.companyId
+          ) && (
+            <button id="btn" onClick={moveRegister}>
+              등록하기
+            </button>
+          )}
       </div>
       <Card interiorList={interiorList} />
     </div>

@@ -2,13 +2,14 @@ import loginLogo from 'assets/images/login/loginLogo.png';
 import styles from '../Login.module.scss';
 import { url } from 'lib/axios';
 import { useState } from 'react';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 const SearchPwd = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendEmail = () => {
     if (!username || !email) {
@@ -17,6 +18,7 @@ const SearchPwd = () => {
       });
       return;
     }
+    setIsLoading(true);
 
     axios
       .post(`${url}/sendPwdReset`, null, {
@@ -29,12 +31,14 @@ const SearchPwd = () => {
         Modal.success({
           content: '재설정 이메일이 발송되었습니다. 이메일을 확인해주세요.',
         });
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error('이메일 발송 실패 :', error);
         Modal.error({
           content: '재설정 이메일 발송에 실패했습니다. 다시 시도해주세요.',
         });
+        setIsLoading(false);
       });
   };
 
@@ -68,6 +72,11 @@ const SearchPwd = () => {
         <button className={styles.button} onClick={handleSendEmail}>
           이메일 발송
         </button>
+        {isLoading && (
+          <div>
+            <Spin />
+          </div>
+        )}
       </div>
     </div>
   );

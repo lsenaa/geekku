@@ -8,10 +8,15 @@ import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 
-const ProfileInteriorSidebar = ({ detailInfo, bookmarkClick, bookmark }) => {
+const ProfileInteriorSidebar = ({
+  detailInfo,
+  bookmarkClick,
+  bookmark,
+  interiorNum,
+}) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/interiorRequest');
+    navigate('/interiorRequest', { state: interiorNum });
   };
 
   return (

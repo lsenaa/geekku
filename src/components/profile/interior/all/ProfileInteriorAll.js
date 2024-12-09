@@ -1,10 +1,13 @@
 import styles from './ProfileInteriorAll.module.scss';
 import sampleImg from 'assets/images/InteriorExam.jpg';
+import { url } from 'lib/axios';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Link, useOutletContext } from 'react-router-dom';
+import { formatDate } from 'utils/utils';
 
 const ProfileInteriorAll = () => {
   const { detailInfo } = useOutletContext();
+  const { num } = useOutletContext();
 
   return (
     <>
@@ -13,7 +16,7 @@ const ProfileInteriorAll = () => {
           시공사례 <span>{detailInfo.sampleCount}</span>
         </h3>
         <div className={styles.more}>
-          <Link to={'#'}>
+          <Link to={`/profile/interior/${num}/sample`}>
             더보기
             <IoIosArrowForward />
           </Link>
@@ -23,7 +26,10 @@ const ProfileInteriorAll = () => {
             <li key={i}>
               <Link to={'/'}>
                 <div className={styles.sampleImgWrap}>
-                  <img src={sample.coverImage} alt="시공사례 이미지" />
+                  <img
+                    src={`${url}/sampleImage/${sample.coverImage}`}
+                    alt="시공사례 이미지"
+                  />
                 </div>
                 <div className={styles.textWrap}>
                   <p>{sample.title}</p>
@@ -38,7 +44,7 @@ const ProfileInteriorAll = () => {
           사용자 리뷰 <span>{detailInfo.reviewCount}</span>
         </h3>
         <div className={styles.more}>
-          <Link to={'#'}>
+          <Link to={`/profile/interior/${num}/review`}>
             더보기
             <IoIosArrowForward />
           </Link>
@@ -51,15 +57,14 @@ const ProfileInteriorAll = () => {
               <li key={i}>
                 <Link to={'/'}>
                   <div className={styles.reviewImgWrap}>
-                    <img src={review.image} alt="리뷰 이미지" />
+                    <img
+                      src={`${url}/reviewImage/${review.imageNums[0]}`}
+                      alt="리뷰 이미지"
+                    />
                   </div>
                   <p className={styles.content}>{review.content}</p>
                   <p style={{ width: '100px' }}>
-                    {new Date(review.createdAt).toLocaleDateString('ko-KR', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                    })}
+                    {formatDate(review.createdAt)}
                   </p>
                 </Link>
               </li>
@@ -69,7 +74,7 @@ const ProfileInteriorAll = () => {
       <section className={styles.section}>
         <h3>업체정보</h3>
         <div className={styles.more}>
-          <Link to={'#'}>
+          <Link to={`/profile/interior/${num}/introduce`}>
             소개글 보기
             <IoIosArrowForward />
           </Link>
