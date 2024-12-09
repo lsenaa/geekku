@@ -54,3 +54,7 @@ table {
     }
   }
 }
+
+.profileImg {
+  @include profileImg;
+}

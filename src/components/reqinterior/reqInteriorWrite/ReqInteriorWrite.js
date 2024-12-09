@@ -254,6 +254,7 @@ const ReqInteriorWrite = () => {
               name="rentType"
               value="jeonse"
               onChange={handleEdit}
+              defaultChecked
             />
             <label htmlFor="jeonse">전세</label>
             <input
@@ -270,7 +271,6 @@ const ReqInteriorWrite = () => {
               name="rentType"
               value="buy"
               onChange={handleEdit}
-              defaultChecked
             />
             <label htmlFor="buy">매매</label>
           </div>
