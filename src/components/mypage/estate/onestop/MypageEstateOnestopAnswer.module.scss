@@ -58,3 +58,7 @@
     }
   }
 }
+
+.profileImg {
+  @include profileImg;
+}

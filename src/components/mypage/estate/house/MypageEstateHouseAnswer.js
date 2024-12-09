@@ -23,26 +23,12 @@ const MypageEstateHouseAnswer = () => {
 
   // 백엔드에서 데이터 가져오는 함수
   const fetchAnswers = async (page) => {
-    //   try {
-    //     const response = await axiosInToken(token).get(
-    //       `${url}/company/estateAnswered/${user.companyId}`,
-    //       {
-    //         params: { page },
-    //       }
-    //     );
-    //     // 데이터가 존재할 경우에만 상태 업데이트
-    //     setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
-    //     setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
-    //     console.log(response.data.content);
-    //   } catch (error) {
-    //     console.error('데이터를 가져오는 중 오류 발생:', error);
-    //     setData([]);
-    //     setTotalPages(0);
-    //   }
-    // };
     try {
       const response = await axiosInToken(token).get(
-        `${url}/company/mypageHouseAnswerList?page=${page}`
+        `${url}/company/estateAnswered/${user.companyId}`,
+        {
+          params: { page },
+        }
       );
       // 데이터가 존재할 경우에만 상태 업데이트
       setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
@@ -59,8 +45,6 @@ const MypageEstateHouseAnswer = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-  console.log(data);
 
   return (
     <>

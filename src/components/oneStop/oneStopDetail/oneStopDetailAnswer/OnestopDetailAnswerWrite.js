@@ -69,7 +69,7 @@ const OnestopDetailAnswerWrite = ({
       .then((res) => {
         console.log(res);
         Modal.success({
-          content: '한번에꾸미기 답변이 등록되었습니다.',
+          content: '한번에꾸하기 답변이 등록되었습니다.',
           onOk: () => {
             setIsModalOpen(false);
             fetchData();
