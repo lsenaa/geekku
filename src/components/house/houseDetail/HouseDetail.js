@@ -52,8 +52,6 @@ const HouseDetail = () => {
       });
   };
 
-  console.log(house);
-
   return (
     <div className={styles.container}>
       <h2>집꾸 신청내역</h2>

@@ -36,7 +36,7 @@ const ReqInteriorMain = () => {
   // 작성 버튼
   const onClickWrite = () => {
     if (user.userId) {
-      navigate('/house/write');
+      navigate('/requestInterior/write');
     } else if (user.companyId) {
       Modal.info({
         content: '일반회원만 이용가능합니다.',

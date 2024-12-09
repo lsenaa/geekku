@@ -1,6 +1,5 @@
 import styles from './HouseList.module.scss';
-import { FaUserCircle } from 'react-icons/fa';
-import { formatDate, formatLocation, processLocation } from 'utils/utils';
+import { formatDate, processLocation } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
 
 const HouseList = ({ houseList }) => {
@@ -45,17 +44,14 @@ const HouseList = ({ houseList }) => {
             <td>{`${processLocation(house.address1)} ${house.address2}`}</td>
             <td>
               <span className={styles.writer}>
-                {house.userProfileImage ? (
+                <div className={styles.profileImg}>
                   <img
-                    src={`data:image/png;base64, ${house.userProfileImage}`}
+                    src={
+                      `data:image/png;base64, ${house.userProfileImage}` || ''
+                    }
                     alt="사용자 프로필 이미지"
-                    width="30px"
-                    height="30px"
-                    style={{ borderRadius: '50px' }}
                   />
-                ) : (
-                  <FaUserCircle size="30" color="#6D885D" />
-                )}
+                </div>
                 &nbsp;
                 <p>{house.nickname ? house.nickname : house.name}</p>
               </span>

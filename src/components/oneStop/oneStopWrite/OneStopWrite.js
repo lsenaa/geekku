@@ -47,7 +47,7 @@ const OneStopWrite = () => {
     movePersons: '',
     rentType: 'jeonse',
     size: '',
-    type: 'farmHouse',
+    type: '',
     workType: true,
   });
 
@@ -125,7 +125,7 @@ const OneStopWrite = () => {
     if (onestop.money === '') {
       messageApi.open({
         type: 'warning',
-        content: '예산안을 입력해주세요.',
+        content: '예산을 입력해주세요.',
       });
       return;
     }
@@ -134,6 +134,22 @@ const OneStopWrite = () => {
       messageApi.open({
         type: 'warning',
         content: '희망 평수를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (selectType.length === 0) {
+      messageApi.open({
+        type: 'warning',
+        content: '인테리어 시공종류를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (onestop.movePersons === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '이동인원을 선택해주세요.',
       });
       return;
     }
@@ -198,7 +214,12 @@ const OneStopWrite = () => {
           <label>
             매물 유형<span>*</span>
           </label>
-          <select className={styles.select} name="type" onChange={handleEdit}>
+          <select
+            className={styles.select}
+            value={onestop.type || ''}
+            name="type"
+            onChange={handleEdit}
+          >
             <option value="" disabled>
               매물 유형 선택
             </option>
@@ -335,6 +356,7 @@ const OneStopWrite = () => {
               name="workType"
               value="0"
               onChange={handleEdit}
+              defaultChecked
             />
             <label htmlFor="전체">전체 시공</label>
             <input
@@ -342,7 +364,6 @@ const OneStopWrite = () => {
               id="1"
               name="workType"
               value="1"
-              defaultChecked
               onChange={handleEdit}
             />
             <label htmlFor="부분">부분시공</label>

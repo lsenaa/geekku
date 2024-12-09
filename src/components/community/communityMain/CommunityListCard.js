@@ -10,6 +10,9 @@ const CommunityListCard = ({
   image,
   viewCount,
   profile,
+  profileImage,
+  nickname,
+  name,
 }) => {
   const navigate = useNavigate();
 
@@ -29,8 +32,15 @@ const CommunityListCard = ({
       <h3 className={styles.cardTitle}>{title}</h3>
       <div className={styles.cardFooter}>
         <div className={styles.profile}>
-          <FaUserCircle color="#6D885D" size={30} />
-          <span className={styles.profileName}>{profile}</span>
+          <div className={styles.profileImg}>
+            <img
+              src={`data:image/png;base64,${profileImage}`}
+              alt="프로필이미지"
+            />
+          </div>
+          <span className={styles.profileName}>
+            {nickname ? nickname : name}
+          </span>
         </div>
         <p className={styles.cardViews}>조회 {viewCount}</p>
       </div>

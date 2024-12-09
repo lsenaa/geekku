@@ -39,54 +39,62 @@ const MypageEstateOnestopAnswer = () => {
 
   return (
     <>
-      <table className={styles.customTable}>
-        <colgroup>
-          <col width="5%" />
-          <col width="40%" />
-          <col width="10%" />
-          <col width="15%" />
-          <col width="15%" />
-          <col width="15%" />
-          <col width="5%" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>거래종류</th>
-            <th>희망지역</th>
-            <th>작성자</th>
-            <th>작성 날짜</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.answerNum} className={styles.rowWrap}>
-              <td>{item.answerOnestopNum}</td>
-              <td>{item.title}</td>
-              <td>{item.type}</td>
-              <td>
-                {item.address1} {item.address2}
-              </td>
-              <td>
-                <span className={styles.writer}>
-                  <FaUserCircle color="#6D885D" size={30} />
-                  &nbsp;{item.username}
-                </span>
-              </td>
-              <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-              <td>{item.viewCount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination
-        current={currentPage}
-        total={totalPages * 10}
-        onChange={handlePageChange}
-        pageSize={10}
-      />
+      {data.length === 0 ? (
+        <div style={{ textAlign: 'center' }}>
+          작성한 한번에 꾸하기 답변내역이 없습니다.
+        </div>
+      ) : (
+        <>
+          <table className={styles.customTable}>
+            <colgroup>
+              <col width="5%" />
+              <col width="40%" />
+              <col width="10%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="5%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>거래종류</th>
+                <th>희망지역</th>
+                <th>작성자</th>
+                <th>작성 날짜</th>
+                <th>조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item) => (
+                <tr key={item.answerNum} className={styles.rowWrap}>
+                  <td>{item.answerOnestopNum}</td>
+                  <td>{item.title}</td>
+                  <td>{item.type}</td>
+                  <td>
+                    {item.address1} {item.address2}
+                  </td>
+                  <td>
+                    <span className={styles.writer}>
+                      <FaUserCircle color="#6D885D" size={30} />
+                      &nbsp;{item.username}
+                    </span>
+                  </td>
+                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                  <td>{item.viewCount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination
+            current={currentPage}
+            total={totalPages * 10}
+            onChange={handlePageChange}
+            pageSize={10}
+          />
+        </>
+      )}
     </>
   );
 };

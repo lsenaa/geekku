@@ -19,11 +19,12 @@ const MypageEstateSiderbar = () => {
 
   return (
     <div className={styles.profile}>
-      <img
-        src={`data:image/png;base64,${user.profileImageStr}`}
-        alt="프로필 이미지"
-        style={{ width: '80%' }}
-      />
+      <div className={styles.profileImg}>
+        <img
+          src={`data:image/png;base64,${user.profileImageStr}`}
+          alt="프로필 이미지"
+        />
+      </div>
       <h4>{user.companyName}</h4>
       <p>{user.username}</p>
       <p>{user.email}</p>

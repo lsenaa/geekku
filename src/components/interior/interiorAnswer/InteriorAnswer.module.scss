@@ -1,3 +1,9 @@
+@import 'variables.scss';
+
+.contentWrap {
+  width: 100%;
+}
+
 .user {
   display: flex;
   align-items: center;
@@ -26,7 +32,7 @@
   margin: 20px 0;
 }
 .all {
-  width: 1200px;
+  width: 1000px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -37,14 +43,6 @@
     margin-bottom: 40px;
   }
 
-  textarea {
-    width: 950px;
-    height: 200px;
-    resize: none;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #6d885d;
-  }
   button {
     width: 130px;
     height: 44px;
@@ -69,11 +67,7 @@
 }
 .category {
   font-weight: bold;
-  width: 150px;
-}
-.content {
-  font-weight: bold;
-  width: 150px;
+  width: 140px;
 }
 .contentDeco {
   display: flex;
@@ -81,4 +75,18 @@
 }
 .sectionWrap {
   margin-top: 40px;
+}
+
+.profileImage {
+  @include profileImg;
+}
+
+.content {
+  width: 950px;
+  height: 200px;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #6d885d;
+  outline: none;
 }

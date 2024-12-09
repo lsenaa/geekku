@@ -43,11 +43,11 @@ const BookmarkCommunity = () => {
       });
   };
 
-  const handleBookmark = (num) => {
+  const handleBookmark = (communityNum) => {
     axiosInToken(token)
-      .get(`/user/communityBookmark/${num}`)
+      .post(`/user/communityBookmark?communityNum=${communityNum}`)
       .then((res) => {
-        if (!res.data) {
+        if (res.data === '북마크가 비활성화되었습니다.') {
           Modal.success({
             content: '집들이 북마크가 해제되었습니다.',
           });
@@ -101,6 +101,7 @@ const BookmarkCommunity = () => {
                         alt="북마크 이미지"
                         onClick={(e) => {
                           e.stopPropagation;
+                          e.preventDefault();
                           handleBookmark(community.communityNum);
                         }}
                       />
