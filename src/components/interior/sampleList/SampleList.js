@@ -6,8 +6,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import qs from 'qs';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
 
 const SampleList = () => {
+  const user = useAtomValue(userAtom);
   const [sampleList, setSampleList] = useState([]);
   const [filteredSamples, setFilteredSamples] = useState([]);
   const navigate = useNavigate();
@@ -59,9 +62,11 @@ const SampleList = () => {
       <p className={styles.title}>시공사례</p>
       <div className={styles.midBar}>
         <Filter onFilter={handleFilter} />
-        <button id={styles.regBtn} onClick={moveRegister}>
-          등록하기
-        </button>
+        {user.type === 'interior' && (
+          <button id={styles.regBtn} onClick={moveRegister}>
+            등록하기
+          </button>
+        )}
       </div>
       <div className={styles.cardList}>
         <Card sampleList={sampleList} />

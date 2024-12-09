@@ -102,6 +102,7 @@ const ProfileInterior = () => {
             detailInfo={detailInfo}
             bookmarkClick={bookmarkClick}
             bookmark={bookmark}
+            interiorNum={num}
           />
         )}
         <div className={styles.contentWrap}>

@@ -7,6 +7,8 @@ import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import Button01 from 'components/commons/button/Button01';
 import { Modal } from 'antd';
+import { MdCancel } from 'react-icons/md';
+import { FiPlus } from 'react-icons/fi';
 
 const ReviewModify = () => {
   const navigate = useNavigate();
@@ -64,13 +66,21 @@ const ReviewModify = () => {
   };
 
   const fileChange = (e) => {
-    if (fileList.length + fileNumList.length < 8) {
-      setFileList([...fileList, e.target.files[0]]);
-    } else {
-      Modal.info({
-        content: '최대 8장까지만 업로드 할 수 있습니다.',
-      });
+    const addImgLists = e.target.files;
+    let imgFileLists = [...fileList];
+
+    for (let add of addImgLists) {
+      imgFileLists.push(add);
     }
+
+    if (imgFileLists.length + fileNumList.length > 8) {
+      Modal.info({
+        content: '사진은 최대 8장까지 업로드 할 수 있습니다.',
+      });
+      return;
+    }
+
+    setFileList(imgFileLists);
   };
 
   const delFile = (file) => {
@@ -103,6 +113,13 @@ const ReviewModify = () => {
 
     for (let file of fileList) {
       data.append('file', file);
+    }
+
+    if (fileList.length + fileNumList.length < 1) {
+      Modal.info({
+        content: '사진은 최소 1장이상 업로드해야합니다.',
+      });
+      return;
     }
 
     await axiosInToken(token)
@@ -217,85 +234,63 @@ const ReviewModify = () => {
             </div>
           </li>
         </ul>
-        <div className={styles.upload}>
-          <span id={styles.info}>
-            추가하기 버튼으로 리뷰 사진을 업로드해주세요. (최대 8장)
-          </span>
-          <input
-            type="file"
-            id="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={fileChange}
-            ref={fRef}
-          />
-          <button
-            type="button"
-            onClick={onClickImageUpload}
-            className={styles.addImgBtn}
-          >
-            추가하기
-          </button>
-          <div className={styles.imgsWrap}>
-            {fileNumList.length !== 0 &&
-              fileNumList.map((num, i) => (
-                <div
-                  key={i}
-                  style={{ display: 'inline-block', textAlign: 'center' }}
-                >
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer',
-                    }}
-                    src={minus}
-                    alt=""
-                    onClick={() => delFileNum(num)}
-                  />
-                  <br />
-                  <img
-                    src={`${url}/reviewImage/${num}`}
-                    alt="리뷰 이미지"
-                    className={styles.reviewImg}
-                  />
-                </div>
-              ))}
-            {fileList.length !== 0 &&
-              fileList.map((file, index) => (
-                <div key={index}>
-                  <div style={{ display: 'inline-block', textAlign: 'center' }}>
-                    <img
-                      style={{
-                        display: 'inline-block',
-                        width: '20px',
-                        height: '20px',
-                        cursor: 'pointer',
-                      }}
-                      src={minus}
-                      alt=""
-                      onClick={() => delFile(file)}
+        <div className={styles.item}>
+          <label>
+            일반 사진<span>*</span>
+            <br />
+            (최소 1장, 최대8장)
+          </label>
+          <div className={styles.imgBtnWrap}>
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              hidden
+              onChange={fileChange}
+              ref={fRef}
+              multiple
+            />
+            <button
+              className={styles.addImgBtn}
+              type="button"
+              onClick={onClickImageUpload}
+            >
+              <FiPlus size={18} />
+              사진 추가
+            </button>
+            <div className={styles.imgsWrap}>
+              {fileNumList.length !== 0 &&
+                fileNumList.map((num, i) => (
+                  <div key={i} className={styles.imgCancelWrap}>
+                    <MdCancel
+                      size={25}
+                      className={styles.cancelBtn}
+                      onClick={() => delFileNum(num)}
                     />
-                    <br />
+                    <div className={styles.imgWrap}>
+                      <img
+                        src={`${url}/reviewImage/${num}`}
+                        alt="리뷰 이미지"
+                      />
+                    </div>
+                  </div>
+                ))}
+              {fileList.map((file, i) => (
+                <div key={i} className={styles.imgCancelWrap}>
+                  <MdCancel
+                    size={25}
+                    className={styles.cancelBtn}
+                    onClick={() => delFile(file)}
+                  />
+                  <div className={styles.imgWrap}>
                     <img
                       src={URL.createObjectURL(file)}
-                      alt="리뷰 이미지"
-                      style={{
-                        width: '100px',
-                        height: '60px',
-                        marginRight: '10px',
-                      }}
+                      alt="리뷰등록 이미지"
                     />
                   </div>
-                  {(index + 1) % 4 === 0 && (
-                    <>
-                      <br />
-                      <br />
-                    </>
-                  )}
                 </div>
               ))}
+            </div>
           </div>
         </div>
         <div className={styles.textAreaWrap}>

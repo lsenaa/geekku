@@ -1,7 +1,7 @@
 import loginLogo from 'assets/images/login/loginLogo.png';
 import styles from '../Login.module.scss';
 import { url } from 'lib/axios';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { formatPhoneNumber } from 'utils/CheckPhoneNumber';
@@ -14,6 +14,7 @@ const SearchId = () => {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [userList, setUserList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const confirmClick = () => {
@@ -34,6 +35,7 @@ const SearchId = () => {
       Modal.error({ content: '이메일 주소를 입력하세오.' });
       return;
     }
+    setIsLoading(true);
 
     axios
       .post(`${url}/sendVerificationCode`, null, {
@@ -45,12 +47,14 @@ const SearchId = () => {
         Modal.success({
           content: '인증번호가 발송되었습니다. 입력하신 이메일을 확인해주세요.',
         });
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log('인증번호 발송 실패 : ', error);
         Modal.error({
           content: '인증번호 발송에 실패했습니다.',
         });
+        setIsLoading(false);
       });
   };
 
@@ -62,6 +66,7 @@ const SearchId = () => {
       });
       return;
     }
+    setIsLoading(true);
 
     axios
       .post(`${url}/sendSms`, null, {
@@ -74,12 +79,14 @@ const SearchId = () => {
           content:
             '인증번호가 발송되었습니다. 입력하신 휴대폰 번호를 확인해주세요.',
         });
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log('인증번호 발송 실패 : ', error);
         Modal.error({
           content: '인증번호 발송에 실패했습니다.',
         });
+        setIsLoading(false);
       });
   };
 
@@ -102,7 +109,6 @@ const SearchId = () => {
       .then((res) => {
         console.log('인증번호 확인 성공 : ', res.data);
         getUserInfo(email);
-        // setIsConfirm(true);
       })
       .catch((error) => {
         console.error('인증번호 확인 실패 :', error);
@@ -129,6 +135,7 @@ const SearchId = () => {
         },
       })
       .then((res) => {
+        <Spin />;
         console.log('인증번호 확인 성공 : ', res.data);
         getUserInfoByPhone(phoneNumber);
       })
@@ -292,7 +299,6 @@ const SearchId = () => {
                       name="phone"
                       placeholder="회원가입시 등록했던 휴대폰 번호를 입력하세요."
                       value={phoneNumber}
-                      // onChange={(e) => setPhoneNumber(e.target.value)}
                       onChange={handlePhoneNumberChange}
                       maxLength={13}
                       className={styles.input}
@@ -300,6 +306,11 @@ const SearchId = () => {
                     <button className={styles.button} onClick={sendSms}>
                       인증번호 발송
                     </button>
+                    {isLoading && (
+                      <div>
+                        <Spin />
+                      </div>
+                    )}
                   </div>
                   <div className={styles.inputGroup}>
                     <span>인증 번호</span>
@@ -329,6 +340,11 @@ const SearchId = () => {
                     <button className={styles.button} onClick={sendEmail}>
                       인증번호 발송
                     </button>
+                    {isLoading && (
+                      <div>
+                        <Spin />
+                      </div>
+                    )}
                   </div>
                   <div className={styles.inputGroup}>
                     <span>인증 번호</span>

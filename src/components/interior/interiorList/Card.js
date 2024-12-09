@@ -28,10 +28,20 @@ const Card = ({ interiorList }) => {
             to={`/profile/interior/${interior.interiorNum}`}
             key={interior.interiorNum}
           >
-            <img
-              src={`data:image/png;base64,${interior.coverImage}`}
-              style={{ width: '384px', height: '242px' }}
-            />
+            <div
+              style={{
+                width: '100%',
+                height: '242px',
+                borderTopLeftRadius: '10px',
+                borderTopRightRadius: '10px',
+                overflow: 'hidden',
+              }}
+            >
+              <img
+                src={`data:image/png;base64, ${interior.coverImage}`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
           </Link>
           <div className="wrap-title">
             <div className="title">

@@ -3,6 +3,7 @@ import sampleImg from 'assets/images/InteriorExam.jpg';
 import { url } from 'lib/axios';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Link, useOutletContext } from 'react-router-dom';
+import { formatDate } from 'utils/utils';
 
 const ProfileInteriorAll = () => {
   const { detailInfo } = useOutletContext();
@@ -63,11 +64,7 @@ const ProfileInteriorAll = () => {
                   </div>
                   <p className={styles.content}>{review.content}</p>
                   <p style={{ width: '100px' }}>
-                    {new Date(review.createdAt).toLocaleDateString('ko-KR', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                    })}
+                    {formatDate(review.createdAt)}
                   </p>
                 </Link>
               </li>
