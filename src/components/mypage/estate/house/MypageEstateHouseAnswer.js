@@ -4,9 +4,14 @@ import { FaUserCircle } from 'react-icons/fa';
 import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
+import { useNavigate } from 'react-router-dom';
 import styles from './MypageEstateHouseAnswer.module.scss';
-import { formatDate, formatEstateType, processLocation } from 'utils/utils';
-import { useNavigate } from 'react-router';
+import {
+  formatDate,
+  formatEstateType,
+  formatPrice,
+  processLocation,
+} from 'utils/utils';
 
 const MypageEstateHouseAnswer = () => {
   const navigate = useNavigate();
@@ -15,13 +20,11 @@ const MypageEstateHouseAnswer = () => {
   const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
   const token = useAtomValue(tokenAtom); // Jotai로 관리 중인 토큰
   const user = useAtomValue(userAtom); // Jotai로 관리 중인 사용자 정보
-  const user2 = '3e1ec3cd-fc5c-4c24-9673-963db487e52d';
-  // 데이터 가져오기
+
   useEffect(() => {
     fetchAnswers(currentPage);
   }, [currentPage]);
 
-  // 백엔드에서 데이터 가져오는 함수
   const fetchAnswers = async (page) => {
     try {
       const response = await axiosInToken(token).get(
@@ -30,9 +33,9 @@ const MypageEstateHouseAnswer = () => {
           params: { page },
         }
       );
-      // 데이터가 존재할 경우에만 상태 업데이트
-      setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
-      setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
+
+      setData(response.data.content);
+      setTotalPages(response.data?.totalPages || 0);
       console.log(response.data.content);
     } catch (error) {
       console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -41,9 +44,12 @@ const MypageEstateHouseAnswer = () => {
     }
   };
 
-  // 페이지 변경 처리
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleRowClick = (houseNum) => {
+    navigate(`/house/detail/${houseNum}`); // 원하는 경로로 이동
   };
 
   return (

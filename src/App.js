@@ -26,11 +26,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (JSON.stringify(alarm) !== '{}' && alarm !== null) {
+    if (alarm !== null && JSON.stringify(alarm) !== '{}') {
       // 알람이 있을 경우에만 추가
       setAlarms((prevAlarms) => [...prevAlarms, alarm]);
     }
-  }, [alarm, setAlarms]); // alarm 상태가 변경될 때마다 알림을 추가
+  }, [alarm]); // alarm 상태가 변경될 때마다 알림을 추가
 
   return (
     <div className="appContainer">

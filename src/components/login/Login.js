@@ -22,7 +22,7 @@ const Login = () => {
   const [token, setToken] = useAtom(tokenAtom);
   const setAlarms = useSetAtom(alarmsAtom);
   const fcmToken = useAtomValue(fcmTokenAtom);
-
+  const role = isChecked ? 'company' : 'user';
   const navigate = useNavigate();
   const handleToggle = (checked) => {
     setIsChecked(checked);
@@ -62,7 +62,7 @@ const Login = () => {
           })
           .then((res) => {
             setUser(res.data);
-
+            console.log(res.data);
             if (isChecked) {
               Modal.success({
                 content: '[기업]사용자로 로그인 성공하였습니다.',
@@ -71,48 +71,51 @@ const Login = () => {
               Modal.success({
                 content: '[개인]사용자로 로그인 성공하였습니다.',
               });
-              axios
-                .post(
-                  `${url}/fcmToken`,
-                  {
-                    userId: res.data.userId, //fcmToken:'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
-                    fcmToken: fcmToken,
-                    type: user.type,
-                  },
-                  {
-                    headers: {
-                      Authorization: token,
-                    },
-                  }
-                )
-                .then(() => {
-                  // **알림 데이터 가져오기 추가**
-                  axios
-                    .post(
-                      `${url}/userAlarms`,
-                      { userId: res.data.userId },
-                      {
-                        headers: {
-                          Authorization: token,
-                        },
-                      }
-                    )
-                    .then((alarmResponse) => {
-                      if (alarmResponse.data.length !== 0) {
-                        console.log(alarmResponse.data);
-                        setAlarms(alarmResponse.data); // 알림 데이터 저장
-                      }
-                      // 로그인 완료 후 메인 화면으로 이동
-                      navigate('/');
-                    })
-                    .catch((error) => {
-                      console.error('알림 데이터 가져오기 실패:', error);
-                    });
-                })
-                .catch((error) => {
-                  console.error('FCM 토큰 전송 실패:', error);
-                });
             }
+            axios
+              .post(
+                `${url}/fcmToken`,
+                {
+                  userId: isChecked ? res.data.companyId : res.data.userId, //fcmToken:'eJYgw-DpnP9cgnujFeU6Nm:APA91bHLOZT7rEanQvhcv0I_LyH5m0O-VriDqGZmG3O90qnP3MvcVqfLFqZpZ6aShUpzuStxOAsBOM6bvl8J8Rjrs71EWKFcZWPmFT2GLZx79O9xN9QgCd0',
+                  fcmToken: fcmToken,
+                  type: role,
+                },
+                {
+                  headers: {
+                    Authorization: token,
+                  },
+                }
+              )
+              .then(() => {
+                // **알림 데이터 가져오기 추가**
+                axios
+                  .post(
+                    `${url}/userAlarms`,
+                    {
+                      userId: isChecked ? res.data.companyId : res.data.userId,
+                      type: res.data.type,
+                    },
+                    {
+                      headers: {
+                        Authorization: token,
+                      },
+                    }
+                  )
+                  .then((alarmResponse) => {
+                    if (alarmResponse.data.length !== 0) {
+                      console.log(alarmResponse.data);
+                      setAlarms(alarmResponse.data); // 알림 데이터 저장
+                    }
+                    // 로그인 완료 후 메인 화면으로 이동
+                    //navigate('/');
+                  })
+                  .catch((error) => {
+                    console.error('알림 데이터 가져오기 실패:', error);
+                  });
+              })
+              .catch((error) => {
+                console.error('FCM 토큰 전송 실패:', error);
+              });
 
             navigate('/');
           })

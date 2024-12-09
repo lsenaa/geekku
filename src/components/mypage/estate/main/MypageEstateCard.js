@@ -68,7 +68,9 @@ const MypageEstateCard = ({ estate, onDelete }) => {
           color="sub"
           onClick={() => {
             console.log(estate.estateNum);
-            navigate(`/house/detail/${estate.estateNum}`); // 상세보기 네비게이션
+            navigate(`/estate`, {
+              state: { keyword: estate.jibunAddress },
+            }); // 상세보기 네비게이션
           }}
         >
           상세보기

@@ -229,6 +229,7 @@ const CommunityBoardWrite = () => {
               name="size"
               className={styles.formControl}
               onChange={handleChange}
+              onWheel={(e) => e.target.blur()} //휠 방지 추가
             />
             <p>평</p>
           </div>
@@ -319,6 +320,7 @@ const CommunityBoardWrite = () => {
               name="money"
               className={styles.formControl}
               onChange={handleChange}
+              onWheel={(e) => e.target.blur()} //휠 방지 추가
             />
             <p>만원</p>
           </div>

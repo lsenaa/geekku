@@ -5,16 +5,19 @@ import { FaUserCircle } from 'react-icons/fa';
 import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
+import { formatEstateType, processLocation, formatDate } from 'utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 const MypageEstateOnestopAnswer = () => {
-  const [data, setData] = useState([]); // 데이터 배열
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
-  const token = useAtomValue(tokenAtom); // 인증 토큰
-  const user = useAtomValue(userAtom); // 사용자 정보
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const token = useAtomValue(tokenAtom);
+  const user = useAtomValue(userAtom);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAnswers(currentPage); // 컴포넌트 로드 시 및 페이지 변경 시 데이터 가져오기
+    fetchAnswers(currentPage);
   }, [currentPage]);
 
   const fetchAnswers = async (page) => {
@@ -22,11 +25,11 @@ const MypageEstateOnestopAnswer = () => {
       const response = await axiosInToken(token).get(
         `${url}/onestopAnswered/${user.companyId}`,
         {
-          params: { page }, // 페이지 정보 전달
+          params: { page },
         }
       );
-      setData(response.data.content); // 서버에서 받은 데이터 설정
-      setTotalPages(response.data.totalPages); // 총 페이지 수 설정
+      setData(response.data.content);
+      setTotalPages(response.data.totalPages);
       console.log(response.data.content);
     } catch (error) {
       console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -34,7 +37,11 @@ const MypageEstateOnestopAnswer = () => {
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page); // 페이지 변경 시 상태 업데이트
+    setCurrentPage(page);
+  };
+
+  const handleRowClick = (onestopNum) => {
+    navigate(`/onestop/detail/${onestopNum}`); // 원하는 경로로 이동
   };
 
   return (

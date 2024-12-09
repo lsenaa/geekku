@@ -63,7 +63,7 @@ const CommunityBoardDetail = () => {
         .then((res) => {
           setPost(res.data.communityDetail);
           setComments([...res.data.commentList]);
-
+          console.log(res.data.commentList);
           if (user?.userId || user?.companyId) {
             setIsBookmarked(res.data.bookmark);
             setIsOwner(user.userId === res.data.communityDetail.userId);
@@ -125,6 +125,21 @@ const CommunityBoardDetail = () => {
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
+  };
+
+  const formatCommentDate = (dateString) => {
+    try {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day} ${hours}:${minutes}`;
+    } catch (error) {
+      console.error('Invalid date format:', error);
+      return dateString;
+    }
   };
 
   const handleCommentSubmit = async () => {
@@ -318,7 +333,9 @@ const CommunityBoardDetail = () => {
                     >
                       <FaUserCircle color="#6D885D" size={30} />
                       <span className={styles.commentUsername}>
-                        {comment.userName}
+                        {comment.userNickname
+                          ? comment.userNickname
+                          : comment.userName}
                       </span>
                       <span className={styles.commentDate}>
                         {formatDate(comment.createdAt)}
