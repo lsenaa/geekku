@@ -19,7 +19,7 @@ const BookmarkHouse = () => {
 
   useEffect(() => {
     fetchData(page);
-  }, [page, token]);
+  }, [page]);
 
   const fetchData = async (page) => {
     await axiosInToken(token)
@@ -75,7 +75,7 @@ const BookmarkHouse = () => {
           <>
             {bookmarkData.map((estate, i) => (
               <li key={i}>
-                <Link to={'#'}>
+                <Link to={'/estate'} state={{ keyword: estate.jibunAddress }}>
                   <div className={styles.imgWrapper}>
                     <img
                       src={
@@ -110,6 +110,7 @@ const BookmarkHouse = () => {
                         alt="북마크 이미지"
                         onClick={(e) => {
                           e.stopPropagation;
+                          e.preventDefault();
                           handleBookmark(estate.estateNum);
                         }}
                       />

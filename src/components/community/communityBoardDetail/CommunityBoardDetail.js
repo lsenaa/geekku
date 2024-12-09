@@ -91,13 +91,10 @@ const CommunityBoardDetail = () => {
   };
 
   const handleBookmarkClick = async () => {
-    if (!user?.userId && !user?.companyId) {
-      openModal(
-        '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
-        () => {
-          navigate('/login'); // 로그인 페이지로 이동
-        }
-      );
+    if (!user?.userId) {
+      Modal.info({
+        content: '로그인한 회원만 가능합니다.',
+      });
       return;
     }
 
@@ -110,6 +107,13 @@ const CommunityBoardDetail = () => {
       );
       if (response.status === 200) {
         setIsBookmarked(!isBookmarked);
+        isBookmarked
+          ? Modal.success({
+              content: '북마크가 해제되었습니다.',
+            })
+          : Modal.success({
+              content: '북마크가 완료되었습니다.',
+            });
       } else {
         console.error('북마크 상태 변경 실패:', response.data);
       }
