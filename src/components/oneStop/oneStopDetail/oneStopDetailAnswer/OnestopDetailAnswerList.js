@@ -1,6 +1,5 @@
 import styles from './OnestopDetailAnswerList.module.scss';
 import Button01 from '../../../commons/button/Button01';
-import { FaUserCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import OnestopDetailAnswerWrite from './OnestopDetailAnswerWrite';
@@ -39,6 +38,7 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
       .get(`${url}/onestopAnswerList/${onestopNum}?page=${page}`)
       .then((res) => {
         console.log(res.data);
+
         if (res.data.onestopAnswerList.length === 0) {
           setHasMore(false);
         } else {
@@ -63,23 +63,6 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
       setPage((prev) => prev + 1);
     }
   });
-
-  // const handleDelete = (onestopAnswerNum) => {
-  //   axios
-  //     .post(`${url}/onestopAnswerDelete`, { onestopAnswerNum, onestopNum })
-  //     .then((res) => {
-  //       console.log(res);
-  //       Modal.success({
-  //         content: '답변이 삭제되었습니다.',
-  //         onOk: () => {
-  //           fetchData();
-  //         },
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   const handleDelete = (onestopAnswerNum) => {
     Modal.confirm({
@@ -227,6 +210,7 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
           centered
         >
           <OnestopDetailAnswerWrite
+            userId={userId}
             onestopNum={onestopNum}
             toggleModal={toggleModal}
             setIsModalOpen={setIsModalOpen}

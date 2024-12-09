@@ -19,7 +19,7 @@ const MypageInteriorModify = () => {
   const [textCount, setTextCount] = useState(0);
   const [imageUrl, setImageUrl] = useState();
   const [selectedLoc, setSelectedLoc] = useState([]);
-  const [coverImg, setCoverImg] = useState([]);
+  const [coverImage, setcoverImage] = useState(null);
   const navigate = useNavigate();
   const [token, setToken] = useAtom(tokenAtom);
   const [interior, setInterior] = useState({
@@ -29,7 +29,7 @@ const MypageInteriorModify = () => {
     recentCount: '',
     repairDate: '',
     possibleLocation: '',
-    file: '',
+    coverImage: '',
     intro: '',
     content: '',
   });
@@ -128,13 +128,28 @@ const MypageInteriorModify = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setCoverImg(file);
+      setcoverImage(file);
     }
   };
 
   // 이미지 제거 핸들러
   const handleRemoveImage = () => {
-    setCoverImg(null);
+    setcoverImage(null);
+  };
+  const handleCertificationFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setcoverImage(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setInterior((prevInterior) => ({
+          ...prevInterior,
+          coverImagePreview: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -243,7 +258,7 @@ const MypageInteriorModify = () => {
                 <input
                   type="checkbox"
                   id={location}
-                  name="location"
+                  name="possibleLocation"
                   value={location}
                   onChange={edit}
                   checked={interior.possibleLocation === location}
@@ -254,12 +269,16 @@ const MypageInteriorModify = () => {
           </div>
         </div>
         <div className={styles.upload}>
-          {coverImg ? (
+          {interior.coverImagePreview ? (
             <div className={styles.imgCancelBtnWrap}>
               <MdCancel
                 size={30}
                 className={styles.cancelBtn}
                 onClick={handleRemoveImage}
+              />
+              <img
+                src={interior.coverImagePreview}
+                className={styles.imageFile}
               />
             </div>
           ) : (

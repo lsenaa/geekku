@@ -1,6 +1,6 @@
 import styles from './ReqInteriorWrite.module.scss';
 import { useState } from 'react';
-import { DatePicker, Modal } from 'antd';
+import { DatePicker, message, Modal } from 'antd';
 import Button01 from '../../commons/button/Button01';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ const ReqInteriorWrite = () => {
   const { sido, sigugun } = hangjungdong;
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
+  const [messageApi, contextHolder] = message.useMessage();
   const type = [
     '도배',
     '바닥',
@@ -101,7 +102,61 @@ const ReqInteriorWrite = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // 입력값 검증
+    if (interiorall.type === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '매물 유형을 선택해주세요.',
+      });
+      return;
+    }
 
+    if (interiorall.address1 === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '지역을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (interiorall.address2 === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 지역을 선택해주세요.',
+      });
+      return;
+    }
+    if (interiorall.money === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '예산안을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (interiorall.size === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '희망 평수를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (interiorall.title === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '제목을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (interiorall.content === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '상세 내용을 입력해주세요.',
+      });
+      return;
+    }
     const formData = new FormData();
     formData.append('type', interiorall.type);
     formData.append('address1', interiorall.address1);
@@ -355,6 +410,7 @@ const ReqInteriorWrite = () => {
         </div>
       </section>
       <div className={styles.btnWrap}>
+        {contextHolder}
         <Button01 type="submit" size="small" onClick={handleSubmit}>
           신청하기
         </Button01>

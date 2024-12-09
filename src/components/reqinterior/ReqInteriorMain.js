@@ -13,7 +13,7 @@ const ReqInteriorMain = () => {
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
   const [interiorAllList, setInteriorall] = useState([]);
-  const [type, setType] = useState('location');
+  const [type, setType] = useState('address1');
   const [keyword, setKeyword] = useState('');
   const [pageInfo, setPageInfo] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
@@ -84,7 +84,7 @@ const ReqInteriorMain = () => {
             onChange={(e) => setType(e.target.value)}
             value={type}
           >
-            <option value="location">지역</option>
+            <option value="address1">지역</option>
             <option value="workType">시공종류</option>
             <option value="title">제목</option>
           </select>

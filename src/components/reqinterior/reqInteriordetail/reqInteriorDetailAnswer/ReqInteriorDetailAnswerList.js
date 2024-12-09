@@ -26,6 +26,7 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   useEffect(() => {
     fetchData(page);
   }, [page]);
@@ -87,33 +88,70 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
         setIsLoading(false);
       });
   };
-
-  const handleDelete = (requestAllAnswerNum) => {
-    axiosInToken(token)
-      .post(`/company/interiorAnswerDelete`, {
-        requestAllAnswerNum,
-        requestAllNum,
-      })
-      .then((res) => {
-        console.log(res);
-        Modal.success({
-          content: '답변이 삭제되었습니다.',
-          onOk: () => {
-            fetchData();
-          },
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleAnswer = (answerRequestNum) => {
+  // 답변 클릭시 내용 보여주도록 토글
+  const handleAnswer = (answerAllNum) => {
     setAnswerIsOpen((prev) => ({
       ...prev,
-      [answerRequestNum]: !prev[answerRequestNum], // 현재 항목의 상태를 토글
+      [answerAllNum]: !prev[answerAllNum],
     }));
   };
+
+  const handleDelete = (requestAllAnswerNum) => {
+    Modal.confirm({
+      content: '답변을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
+      onOk: () => {
+        axiosInToken(token)
+          .post(`/company/interiorAnswerDelete`, {
+            requestAllAnswerNum,
+            requestAllNum,
+          })
+          .then((res) => {
+            Modal.success({
+              content: '답변이 삭제되었습니다.',
+            });
+            setInteriorAllAnswerList((prev) =>
+              prev.filter(
+                (answer) => answer.houseAnswerNum !== requestAllAnswerNum
+              )
+            );
+            // 현재 페이지 데이터 refetch
+            axios
+              .get(`${url}/interiorAnswerList/${requestAllNum}?page=${page}`)
+              .then((res) => {
+                console.log('Refetching current page data:', res.data);
+                setInteriorAllAnswerList((prev) => [
+                  ...prev.slice(0, (page - 1) * 10), // 이전 페이지 데이터 유지
+                  ...res.data.interiorAnswerList,
+                ]);
+                setHasMore(res.data.pageInfo.endPage > page);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.topWrap}>
@@ -132,8 +170,8 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
         {interiorAnswerList.map((answer) => (
           <li
             className={styles.answerList}
-            key={answer.answerRequestAllNum}
-            onClick={() => handleAnswer(answer.answerRequestAllNum)}
+            key={answer.answerAllNum}
+            onClick={() => handleAnswer(answer.answerAllNum)}
           >
             <div className={styles.preview}>
               <div className={styles.profile}>
@@ -150,14 +188,14 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
                   className={styles.deleteBtn}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete(answer.answerRequestAllNum);
+                    handleDelete(answer.answerAllNum);
                   }}
                 >
                   삭제
                 </button>
               )}
             </div>
-            {answerIsOpen[answer.answerRequestAllNum] && (
+            {answerIsOpen[answer.answerAllNum] && (
               <div>
                 <div className={styles.phoneAddWrap}>
                   <div className={styles.phone}>
