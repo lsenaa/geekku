@@ -1,5 +1,4 @@
 .btn {
-  width: 600px;
   display: flex;
   justify-content: space-between;
   margin-top: 50px;
@@ -17,7 +16,7 @@
 }
 .deco {
   background-color: white;
-  width: 760px;
+  width: 600px;
   border-radius: 10px;
   margin: 0 auto;
   margin-top: 100px;
@@ -35,7 +34,13 @@
   margin: 10px;
 
   label {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 40px;
+    cursor: pointer;
+  }
+
+  input {
+    margin-right: 20px;
+    accent-color: #6d885d;
   }
 }

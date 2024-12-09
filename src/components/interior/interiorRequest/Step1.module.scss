@@ -1,6 +1,6 @@
 .deco {
   background-color: white;
-  width: 760px;
+  width: 600px;
   border-radius: 10px;
   margin: 0 auto;
   margin-top: 100px;
@@ -23,31 +23,34 @@
   margin: 10px;
 
   label {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 40px;
+    cursor: pointer;
   }
   input {
-    margin-right: 40px;
+    margin-right: 20px;
+    accent-color: #6d885d;
   }
 }
 
 .info {
   background-color: #f0f6dc;
   border-radius: 5px;
-  width: 600px;
-  height: 200px;
   padding: 25px;
   margin-top: 40px;
 
   div {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     margin-bottom: 20px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 }
 
 .btn {
-  width: 600px;
   display: flex;
   justify-content: space-between;
   margin-top: 50px;
