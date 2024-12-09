@@ -185,12 +185,12 @@ const JoinCompany = () => {
     }
 
     // 사업자 번호 형식 확인
-    if (user.companyNumber.length != 10) {
-      Modal.info({
-        content: '사업자등록번호는 10자리 숫자여야합니다.',
-      });
-      return;
-    }
+    // if (user.companyNumber.length != 10) {
+    //   Modal.info({
+    //     content: '사업자등록번호는 10자리 숫자여야합니다.',
+    //   });
+    //   return;
+    // }
 
     let formData = new FormData();
     formData.append('type', user.type);

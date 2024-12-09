@@ -67,23 +67,22 @@ const MypageInteriorModify = () => {
         },
       })
       .then((res) => {
-        setInterior({ ...res.data.interior });
+        const { interior } = res.data;
+        // possibleLocation을 배열로 변환
+        setInterior({
+          ...interior,
+          possibleLocation: interior.possibleLocation
+            ? interior.possibleLocation.split(',')
+            : [],
+        });
+        setSelectedLoc(interior.possibleLocation.split(','));
       })
       .catch((err) => {
-        if (err.response) {
-          // 서버가 응답을 반환한 경우
-          console.log('Error Response:', err.response.data);
-          console.log('Status Code:', err.response.status);
-          console.log('Headers:', err.response.headers);
-        } else if (err.request) {
-          // 요청이 전송되었으나 응답이 없는 경우
-          console.log('Error Request:', err.request);
-        } else {
-          // 요청 설정 중 에러 발생
-          console.log('Error Message:', err.message);
-        }
+        console.error('Error loading data', err);
       });
   }, [token]);
+
+  console.log(selectedLoc);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -92,11 +91,14 @@ const MypageInteriorModify = () => {
     formData.append('intro', interior.intro);
     formData.append('content', interior.content);
     formData.append('period', interior.period);
-    formData.append('possibleLocation', interior.possibleLocation);
+    //    formData.append('possibleLocation', interior.possibleLocation);
     formData.append('possiblePart', interior.possiblePart);
     formData.append('recentCount', interior.recentCount);
     formData.append('repairDate', interior.repairDate);
     formData.append('coverImg', interior.coverImg);
+    selectedLoc.forEach((location) => {
+      formData.append('possibleLocation', location);
+    });
 
     // if (coverImage != null) {
     //   formData.append('file', coverImage);
@@ -129,6 +131,45 @@ const MypageInteriorModify = () => {
     const file = e.target.files[0];
     if (file) {
       setcoverImage(file);
+    }
+  };
+  // 체크박스 변경 핸들러
+  const handleLocChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      // if (selectedLoc.length > 3) {
+      //   setSelectedLoc([...selectedLoc, value]);
+      // } else {
+      //   Modal.info({
+      //     content: '최대 3개 지역만 선택할 수 있습니다',
+      //   });
+      //   e.target.checked = false;
+      //   return;
+      // }
+      if (selectedLoc.length >= 3) {
+        // 3개 이상 선택 제한
+        Modal.info({
+          content: '최대 3개 지역만 선택할 수 있습니다',
+        });
+        e.target.checked = false; // 체크 상태 되돌리기
+        return;
+      }
+      setSelectedLoc([...selectedLoc, value]); // 선택된 지역 추가
+      setInterior((prevState) => ({
+        ...prevState,
+        possibleLocation: [...prevState.possibleLocation, value],
+      }));
+    } else {
+      setSelectedLoc(
+        selectedLoc.filter((possibleLocation) => possibleLocation !== value)
+      );
+      setInterior((prevState) => ({
+        ...prevState,
+        possibleLocation: prevState.possibleLocation.filter(
+          (location) => location !== value
+        ),
+      }));
     }
   };
 
@@ -184,19 +225,19 @@ const MypageInteriorModify = () => {
               id="all"
               name="possiblePart"
               value="0"
-              checked={interior.possiblePart === interior.possiblePart}
+              checked={interior.possiblePart == 0}
               onChange={edit}
             />
-            <label htmlFor="가능">가능</label>
+            <label htmlFor="all">가능</label>
             <input
               type="radio"
               id="part"
               name="possiblePart"
               value="1"
-              checked={interior.possiblePart === interior.possiblePart}
+              checked={interior.possiblePart == 1}
               onChange={edit}
             />
-            <label htmlFor="불가능">불가능</label>
+            <label htmlFor="part">불가능</label>
           </div>
         </div>
         <div className={styles.item}>
@@ -253,15 +294,16 @@ const MypageInteriorModify = () => {
             시공 가능 지역<span>*</span>
           </label>
           <div className={styles.checkboxGroup}>
-            {area.map((location, i) => (
-              <label htmlFor={location} key={i}>
+            {area.map((location) => (
+              <label htmlFor={location} key={location}>
                 <input
                   type="checkbox"
+                  className={styles.customCheck}
                   id={location}
                   name="possibleLocation"
                   value={location}
-                  onChange={edit}
-                  checked={interior.possibleLocation === location}
+                  onChange={handleLocChange}
+                  checked={selectedLoc.includes(location)} // 체크박스 상태 설정
                 />
                 {location}
               </label>

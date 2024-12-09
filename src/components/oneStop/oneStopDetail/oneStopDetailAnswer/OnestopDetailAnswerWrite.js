@@ -14,6 +14,7 @@ const OnestopDetailAnswerWrite = ({
   onestopNum,
   setIsModalOpen,
   fetchData,
+  setOnestopAnswerList,
 }) => {
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
@@ -58,12 +59,13 @@ const OnestopDetailAnswerWrite = ({
     formData.append('onestopNum', onestopNum);
     formData.append('title', title);
     formData.append('content', editorRef.current?.getInstance().getHTML());
-    formData.append('companyId', user.companyId);
     formData.append('companyName', user.companyName);
     formData.append('companyProfileImage', user.companyProfileImage);
     formData.append('companyPhone', user.phone);
     formData.append('companyAddress', user.companyAddress);
-
+    if (user.companyId !== '') {
+      formData.append('companyId', user.companyId);
+    }
     axiosInToken(token)
       .post(`/company/onestopAnswerWrite`, formData)
       .then((res) => {
@@ -72,7 +74,20 @@ const OnestopDetailAnswerWrite = ({
           content: '한번에꾸미기 답변이 등록되었습니다.',
           onOk: () => {
             setIsModalOpen(false);
-            fetchData();
+            // 작성된 답변 데이터를 클라이언트에서 직접 추가
+            const newAnswer = {
+              answerOnestopNum: res.data,
+              companyName: user.companyName,
+              createdAt: new Date().toISOString(),
+              title: title,
+              content: content,
+              companyProfileImage: user.profileImageStr,
+              companyPhone: user.phone,
+              companyAddress: user.companyAddress,
+              companyId: user.companyId,
+            };
+            // 기존 리스트에 새 답변 추가
+            setOnestopAnswerList((prev) => [...prev, newAnswer]);
           },
         });
       })

@@ -26,7 +26,7 @@ const OnestopDetail = () => {
     content: '',
     createdAt: '',
     userId: '',
-    onestopNum: num || 0,
+    oneStopNum: num || 0,
   });
   useEffect(() => {
     fetchData();
@@ -127,7 +127,7 @@ const OnestopDetail = () => {
       </div>
       {/* 답변 리스트 */}
       <OnestopDetailAnswerList
-        onestopNum={onestop.onestopNum}
+        oneStopNum={onestop.oneStopNum}
         userId={onestop.userId}
       />
     </div>

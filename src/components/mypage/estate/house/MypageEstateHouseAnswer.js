@@ -74,7 +74,7 @@ const MypageEstateHouseAnswer = () => {
                 <td>{item.title}</td>
                 <td>{item.type}</td>
                 <td>
-                  {item.address1} {item.address1}
+                  {item.address1} {item.address2}
                 </td>
                 <td>
                   <span className={styles.writer}>
