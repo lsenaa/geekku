@@ -64,6 +64,13 @@ const JoinCompany = () => {
     }
     if (name == 'companyNumber') {
       setCompanyNumChecked(false);
+      const cleaned = value.replace(/\D+/g, '');
+      if (cleaned.length > 10) return;
+      setUser((prevUser) => ({
+        ...prevUser,
+        companyNumber: cleaned,
+      }));
+      return;
     }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -393,20 +400,21 @@ const JoinCompany = () => {
               if (e.target.value.length > e.target.maxLength)
                 e.target.value = e.target.value.slice(0, e.target.maxLength);
             }}
-            type="number"
+            type="text"
             name="companyNumber"
             id="companyNumber"
             onChange={edit}
             placeholder="숫자 10자리를 입력해주세요."
-            maxLength={10}
+            maxLength={13}
             className={styles2.input1}
             value={user.companyNumber}
           />
           <button
             className={styles2.checkButton}
             onClick={handleVerifyCompanyNumber}
+            disabled={companyNumChecked}
           >
-            인증
+            {companyNumChecked ? '확인 완료' : '인증'}
           </button>
         </div>
         <div className={styles2.inputGroup}>
