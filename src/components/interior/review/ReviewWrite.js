@@ -22,6 +22,7 @@ const ReviewWrite = () => {
     location: '경기',
   });
   const [date, setDate] = useState('');
+  console.log(date);
   const [type, setType] = useState('');
   const [style, setStyle] = useState('');
   const [textCount, setTextCount] = useState(0);
@@ -64,7 +65,7 @@ const ReviewWrite = () => {
 
     const data = new FormData();
     data.append('companyName', review.companyName);
-    data.append('date', date);
+    data.append('date', JSON.stringify(date));
     data.append('size', review.size);
     data.append('content', review.content);
     data.append('type', type);
