@@ -15,6 +15,7 @@ import color from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import ToastEditor from 'components/commons/ToastEditor';
+import { MdCancel } from 'react-icons/md';
 
 const CommunityBoardEdit = () => {
   const navigate = useNavigate();
@@ -229,11 +230,15 @@ const CommunityBoardEdit = () => {
           },
         }
       );
-      console.log('수정 성공');
+      Modal.success({
+        content: '집들이 게시글이 수정되었습니다.',
+      });
       navigate(`/CommunityBoardDetail/${id}`);
     } catch (error) {
       console.error('수정 실패:', error);
-      openModal('수정 중 오류가 발생했습니다.');
+      Modal.error({
+        content: '수정 중 오류가 발생했습니다.',
+      });
     }
   };
 
@@ -270,14 +275,16 @@ const CommunityBoardEdit = () => {
           <label>
             평수<span>*</span>
           </label>
-          <input
-            type="number"
-            name="size"
-            className={styles.formControl}
-            value={formData.size}
-            placeholder="평수 입력"
-            onChange={handleChange}
-          />
+          <div className={styles.inputTextWrap}>
+            <input
+              type="number"
+              name="size"
+              className={styles.formControl}
+              value={formData.size}
+              onChange={handleChange}
+            />
+            <p>평</p>
+          </div>
         </div>
 
         <div className={styles.formGroup}>
@@ -364,14 +371,16 @@ const CommunityBoardEdit = () => {
           <label>
             예산<span>*</span>
           </label>
-          <input
-            type="number"
-            name="money"
-            className={styles.formControl}
-            placeholder="예산 입력 (만원)"
-            onChange={handleChange}
-            value={formData.money}
-          />
+          <div className={styles.inputTextWrap}>
+            <input
+              type="number"
+              name="money"
+              className={styles.formControl}
+              onChange={handleChange}
+              value={formData.money}
+            />
+            <p>만원</p>
+          </div>
         </div>
 
         <div className={styles.formGroup}>
@@ -416,13 +425,11 @@ const CommunityBoardEdit = () => {
             </>
           ) : (
             <div className={styles.filePreview}>
-              <button
-                type="button"
-                className={styles.fileRemoveButton}
+              <MdCancel
+                size={30}
+                className={styles.cancelBtn}
                 onClick={() => setFileList([])}
-              >
-                ×
-              </button>
+              />
               <img
                 src={
                   typeof fileList[0] === 'string'
@@ -462,9 +469,6 @@ const CommunityBoardEdit = () => {
             handleImage={handleImage}
             onChange={onChangeContent}
           />
-          <p className={styles.textCount}>
-            <span>{textCount}</span> / 1000
-          </p>
         </div>
 
         <div className={styles.btnWrap}>

@@ -1,6 +1,5 @@
 import styles from './OnestopList.module.scss';
-import { FaUserCircle } from 'react-icons/fa';
-import { formatDate, formatLocation, processLocation } from 'utils/utils';
+import { formatDate, processLocation } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
 
 const OnestopList = ({ onestopList }) => {
@@ -44,7 +43,12 @@ const OnestopList = ({ onestopList }) => {
             <td>{`${processLocation(onestop.address1)} ${onestop.address2}`}</td>
             <td>
               <span className={styles.writer}>
-                <FaUserCircle color="#6D885D" size={30} />
+                <div className={styles.profileImg}>
+                  <img
+                    src={`data:image/png;base64,${onestop.userProfileImage}`}
+                    alt="프로필이미지"
+                  />
+                </div>
                 &nbsp;
                 <p>{onestop.nickname ? onestop.nickname : onestop.name}</p>
               </span>

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Modal, Pagination } from 'antd';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
+import { processLocation } from 'utils/utils';
 
 const HouseMain = () => {
   const navigate = useNavigate();
@@ -63,6 +64,10 @@ const HouseMain = () => {
         전세: 'jeonse',
       };
       params.keyword = keywordMapping[keyword] || keyword;
+    }
+
+    if (type === 'location') {
+      params.keyword = processLocation(keyword);
     }
 
     axios

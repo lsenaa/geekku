@@ -14,7 +14,7 @@ const InteriorList = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
   };
 
   const [interiorList, setInteriorList] = useState([]);
@@ -47,10 +47,6 @@ const InteriorList = () => {
               className="card"
               key={interior.interiorNum}
             >
-              {/* <img
-                src={interior.coverImage}
-                style={{ width: '100%', height: '242px' }}
-              /> */}
               <div
                 style={{
                   width: '100%',

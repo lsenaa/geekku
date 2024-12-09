@@ -25,8 +25,8 @@ const LocFilter = ({ loc, setLoc }) => {
   return (
     <div className="filterA">
       <ul id="filter">
-        {categories.map((category, interiorNum) => (
-          <li id="sub" key={interiorNum} onClick={() => setLoc(category.name)}>
+        {categories.map((category, name) => (
+          <li id="sub" key={name} onClick={() => setLoc(category.name)}>
             <img src={category.imgSrc} alt={category.name} />
             {category.name}
           </li>
