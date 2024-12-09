@@ -5,6 +5,7 @@ import Button01 from 'components/commons/button/Button01';
 import { FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import Filter from 'components/commons/filter/Filter';
+import { url } from 'lib/axios';
 
 const ProfileInteriorReview = () => {
   const { detailInfo } = useOutletContext();
@@ -73,7 +74,19 @@ const ProfileInteriorReview = () => {
             </ul>
             <div className={styles.reviewImgsWrap}>
               <div className={styles.imgWrap}>
-                <img src={review.image} alt="리뷰 이미지" />
+                {review.imageNums.length !== 0 &&
+                  review.imageNums.split(',').map((fn) => (
+                    <img
+                      key={fn}
+                      src={`${url}/reviewImage/${fn}`}
+                      alt="리뷰 이미지"
+                      style={{
+                        width: '124px',
+                        height: '124px',
+                        marginRight: '20px',
+                      }}
+                    />
+                  ))}
               </div>
             </div>
             <p>{review.content}</p>

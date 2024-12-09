@@ -72,6 +72,7 @@
       .imgWrap {
         width: calc((868px - 64px) / 5);
         aspect-ratio: 1/1;
+        display: flex;
 
         img {
           width: 100%;

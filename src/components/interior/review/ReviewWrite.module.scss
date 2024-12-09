@@ -60,6 +60,13 @@
     display: flex;
     align-items: center;
   }
+  .date {
+    width: 170px;
+    height: 41px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #6d885d;
+  }
 }
 .upload {
   display: flex;
