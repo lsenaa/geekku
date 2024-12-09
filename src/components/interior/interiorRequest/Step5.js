@@ -4,7 +4,14 @@ import pro2Img from './../../../assets/images/procedure2.png';
 import ProgressBar from './ProgressBar';
 import { useState } from 'react';
 
-const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
+const Step5 = ({
+  currentStep,
+  totalSteps,
+  prevStep,
+  onSubmit,
+  data,
+  interiorNum,
+}) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [allowTime, setAllowTime] = useState('');
@@ -17,7 +24,18 @@ const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
       phone,
       allowTime,
       content,
+      interiorNum,
     };
+
+    // // 입력값 검증
+    // if (name === '') {
+    //   messageApi.open({
+    //     type: 'warning',
+    //     content: '이름을 입력해주세요.',
+    //   });
+    //   return;
+    // }
+
     onSubmit(submissionData);
   };
   return (
@@ -72,7 +90,7 @@ const Step5 = ({ currentStep, totalSteps, prevStep, onSubmit, data }) => {
         </select>
       </div>
       <div>
-        <div className={styles.callback}>요청사항(선택)</div>
+        <div className={styles.callback}>요청사항(필수)</div>
         <textarea
           className={styles.content}
           placeholder="특이사항, 세부시공내역, 원하는 스타일 등"

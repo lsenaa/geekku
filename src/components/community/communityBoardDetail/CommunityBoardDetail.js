@@ -13,6 +13,7 @@ import bookmarkFalse from 'assets/images/bookmarkFalse.png';
 // Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
+import { formatDate } from 'utils/utils';
 
 const CommunityBoardDetail = () => {
   const [post, setPost] = useState(null);
@@ -320,7 +321,7 @@ const CommunityBoardDetail = () => {
                         {comment.userName}
                       </span>
                       <span className={styles.commentDate}>
-                        {comment.createdAt}
+                        {formatDate(comment.createdAt)}
                       </span>
                     </div>
                     <p className={styles.commentContent}>{comment.content}</p>
