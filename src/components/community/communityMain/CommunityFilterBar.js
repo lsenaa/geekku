@@ -53,12 +53,24 @@ const CommunityFilterBar = ({
   }, [filters]);
 
   const handleFilterChange = (key, value) => {
-    const newFilters = {
-      ...localFilters,
-      [key]: value,
-    };
-    setLocalFilters(newFilters);
-    onFilterChange(newFilters);
+    if (!value) {
+      // 필터를 제거할 때 페이드 아웃 클래스 추가
+      const tagElement = document.querySelector(`[data-key="${key}"]`);
+      if (tagElement) {
+        tagElement.classList.add(styles.fadeOut);
+        setTimeout(() => {
+          // 애니메이션이 끝난 후 상태 업데이트
+          const newFilters = { ...localFilters, [key]: value };
+          setLocalFilters(newFilters);
+          onFilterChange(newFilters);
+        }, 300); // CSS 애니메이션 시간과 동일하게 설정
+      }
+    } else {
+      // 필터를 추가할 때
+      const newFilters = { ...localFilters, [key]: value };
+      setLocalFilters(newFilters);
+      onFilterChange(newFilters);
+    }
   };
 
   const resetFilters = () => {
@@ -83,20 +95,16 @@ const CommunityFilterBar = ({
 
   const handleCommunityBoardWrite = () => {
     if (user?.userId) {
-      // 일반 사용자는 글 작성 페이지로 이동
       navigate('/CommunityBoardWrite');
     } else if (user.type === 'estate') {
-      // 기업 회원은 글 작성 불가
       openModal('기업 회원은 글쓰기를 할 수 없습니다.');
     } else if (user.type === 'interior') {
-      // 기업 회원은 글 작성 불가
       openModal('기업 회원은 글쓰기를 할 수 없습니다.');
     } else {
-      // 로그인하지 않은 사용자
       openModal(
         '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
         () => {
-          navigate('/login'); // 로그인 페이지로 이동
+          navigate('/login');
         }
       );
     }
@@ -186,7 +194,7 @@ const CommunityFilterBar = ({
       <div className={styles.selectedFilters}>
         {Object.entries(localFilters).map(([key, value]) =>
           value ? (
-            <span key={key} className={styles.filterTag}>
+            <span key={key} className={styles.filterTag} data-key={key}>
               {value}{' '}
               <button
                 onClick={() => handleFilterChange(key, null)}
@@ -197,6 +205,7 @@ const CommunityFilterBar = ({
             </span>
           ) : null
         )}
+
         <button onClick={resetFilters} className={styles.resetButton}>
           초기화
         </button>

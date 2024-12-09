@@ -97,6 +97,7 @@
   .userProfile {
     @include flexrow;
     margin-left: 16px;
+    // margin-right: 16px;
     cursor: pointer;
 
     .name {
@@ -187,8 +188,8 @@
 /* Notification Panel */
 .notificationPanel {
   position: absolute;
-  top: 40px;
-  right: 0;
+  top: 50px;
+  right: 150px;
   width: 450px;
   max-height: 450px;
   background-color: #fffaf4;

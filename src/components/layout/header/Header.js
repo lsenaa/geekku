@@ -12,6 +12,7 @@ import {
   userAtom,
   tokenAtom,
   initUser,
+  fcmTokenAtom,
 } from 'store/atoms';
 import { FaUserCircle } from 'react-icons/fa';
 import defaultImg from 'assets/images/usericon.png';
@@ -27,30 +28,23 @@ const Header = ({ alarms = [] }) => {
   const [token, setToken] = useAtom(tokenAtom);
   const [isLogin, setIsLogin] = useState(false);
   const [write, setWrite] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // 알림 패널 열기/닫기 상태
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [username, setUserName] = useAtom(userNameAtom);
   const setAlarms = useSetAtom(alarmsAtom);
+  const setFcmToken = useSetAtom(fcmTokenAtom);
 
-  // 알림 모달 테스트용
-  const [selectedAlarm, setSelectedAlarm] = useState(null); // 선택된 알림 데이터
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
-
-  // 알림 확장 테스트용(현재 사용 안할 수 있음)
-  const [expandedNotification, setExpandedNotification] = useState(null);
+  const [selectedAlarm, setSelectedAlarm] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = (alarm) => {
-    setSelectedAlarm(alarm); // 선택된 알림 데이터 저장
-    setIsModalOpen(true); // 모달 열기
+    setSelectedAlarm(alarm);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setSelectedAlarm(null); // 선택된 알림 데이터 초기화
-    setIsModalOpen(false); // 모달 닫기
-  };
-
-  const toggleNotification = (num) => {
-    setExpandedNotification((prev) => (prev === num ? null : num));
+    setSelectedAlarm(null);
+    setIsModalOpen(false);
   };
 
   const confirm = (num) => {
@@ -61,7 +55,6 @@ const Header = ({ alarms = [] }) => {
           setAlarms((prevAlarms) =>
             prevAlarms.filter((item) => item.num !== num)
           );
-          console.log(alarms);
         }
       })
       .catch((err) => {
@@ -70,6 +63,7 @@ const Header = ({ alarms = [] }) => {
   };
 
   useEffect(() => {
+    console.log(alarms);
     if (user && user.username) {
       setIsLogin(true);
     } else {
@@ -121,9 +115,7 @@ const Header = ({ alarms = [] }) => {
   const logout = () => {
     setUser(initUser);
     setToken('');
-
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    setAlarms([]);
 
     setIsLogin(false);
     Modal.success({
@@ -181,8 +173,28 @@ const Header = ({ alarms = [] }) => {
           </li>
         </ul>
       </nav>
+
       {isLogin ? (
         <div className={styles.loginMenuWrap}>
+          {/* 사용자 프로필 이미지와 이름 */}
+          <div className={styles.userProfile} onClick={onClickMypage}>
+            {user && (
+              <div className={styles.profileImageWrap}>
+                <img
+                  src={`data:image/png;base64,${user.profileImageStr}`}
+                  alt="프로필이미지"
+                  className={styles.profileImage}
+                />
+              </div>
+            )}
+            <p className={styles.name}>
+              {user &&
+                (user.type === 'user'
+                  ? user.nickname || user.name
+                  : user.companyName)}
+            </p>
+          </div>
+
           {/* 알림 아이콘 버튼 */}
           <a href="#" onClick={() => setIsOpen(!isOpen)}>
             <div className={styles.notificationWrap}>
@@ -353,42 +365,39 @@ const Header = ({ alarms = [] }) => {
               >
                 {selectedAlarm && (
                   <div>
-                    <Viewer
-                      initialValue={
-                        selectedAlarm.title || '<p>내용이 없습니다.</p>'
-                      }
-                    />
+                    <div style={{ fontWeight: 'bold' }}>
+                      <Viewer
+                        initialValue={
+                          selectedAlarm.title || '<p>제목이 없습니다.</p>'
+                        }
+                      />
+                    </div>
                     <Viewer
                       initialValue={
                         selectedAlarm.message || '<p>내용이 없습니다.</p>'
                       }
                     />
                     <p>회사: {selectedAlarm.companyName || 'N/A'}</p>
-                    <p>생성 시간: {selectedAlarm.createAt}</p>
+                    {/* <p>생성 시간: {selectedAlarm.createAt}</p> */}
+                    <p>
+                      생성 시간:{' '}
+                      {new Date(selectedAlarm.createAt).toLocaleString(
+                        'ko-KR',
+                        {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        }
+                      )}
+                    </p>
                   </div>
                 )}
               </Modal>
             </div>
           )}
-
-          {/* 사용자 프로필 이미지와 이름 */}
-          <div className={styles.userProfile} onClick={onClickMypage}>
-            {user && (
-              <div className={styles.profileImageWrap}>
-                <img
-                  src={`data:image/png;base64,${user.profileImageStr}`}
-                  alt="프로필이미지"
-                  className={styles.profileImage}
-                />
-              </div>
-            )}
-            <p className={styles.name}>
-              {user &&
-                (user.type === 'user'
-                  ? user.nickname || user.name
-                  : user.companyName)}
-            </p>
-          </div>
 
           <button className={styles.writeBtn} onClick={() => setWrite(!write)}>
             글쓰기

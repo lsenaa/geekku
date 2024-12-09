@@ -224,6 +224,7 @@ const CommunityBoardWrite = () => {
             className={styles.formControl}
             placeholder="평수 입력"
             onChange={handleChange}
+            onWheel={(e) => e.target.blur()} //휠 방지 추가
           />
         </div>
 
@@ -312,6 +313,7 @@ const CommunityBoardWrite = () => {
             className={styles.formControl}
             placeholder="예산 입력 (만원)"
             onChange={handleChange}
+            onWheel={(e) => e.target.blur()} //휠 방지 추가
           />
         </div>
 

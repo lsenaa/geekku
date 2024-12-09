@@ -47,7 +47,7 @@ const CommunityList = ({
             title={post.title}
             image={post.coverImage}
             viewCount={post.viewCount}
-            profile={post.username}
+            profile={post.nickname ? post.nickname : post.name}
             className={styles.postCard}
           />
         ))
