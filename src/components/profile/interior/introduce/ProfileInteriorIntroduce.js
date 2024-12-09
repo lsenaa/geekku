@@ -23,19 +23,19 @@ const ProfileInteriorIntroduce = () => {
         <div className={styles.detailRow}>
           <p className={styles.detailTitle}>경력</p>
           <p className={styles.detailContent}>
-            {detailInfo.interiorDetail.period}
+            {detailInfo.interiorDetail.period}년
           </p>
         </div>
         <div className={styles.detailRow}>
           <p className={styles.detailTitle}>보수기간</p>
           <p className={styles.detailContent}>
-            {detailInfo.interiorDetail.repairDate}
+            {detailInfo.interiorDetail.repairDate}개월
           </p>
         </div>
         <div className={styles.detailRow}>
           <p className={styles.detailTitle}>최근계약</p>
           <p className={styles.detailContent}>
-            {detailInfo.interiorDetail.recentCount}
+            {detailInfo.interiorDetail.recentCount}건
           </p>
         </div>
       </div>
