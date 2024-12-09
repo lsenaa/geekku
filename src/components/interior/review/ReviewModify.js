@@ -73,7 +73,7 @@ const ReviewModify = () => {
       imgFileLists.push(add);
     }
 
-    if (imgFileLists.length > 8) {
+    if (imgFileLists.length + fileNumList.length > 8) {
       Modal.info({
         content: '사진은 최대 8장까지 업로드 할 수 있습니다.',
       });
@@ -81,13 +81,6 @@ const ReviewModify = () => {
     }
 
     setFileList(imgFileLists);
-    // if (fileList.length + fileNumList.length < 8) {
-    //   setFileList([...fileList, e.target.files[0]]);
-    // } else {
-    //   Modal.info({
-    //     content: '최대 8장까지만 업로드 할 수 있습니다.',
-    //   });
-    // }
   };
 
   const delFile = (file) => {
@@ -122,7 +115,7 @@ const ReviewModify = () => {
       data.append('file', file);
     }
 
-    if (fileList.length < 1) {
+    if (fileList.length + fileNumList.length < 1) {
       Modal.info({
         content: '사진은 최소 1장이상 업로드해야합니다.',
       });
@@ -298,90 +291,8 @@ const ReviewModify = () => {
                 </div>
               ))}
             </div>
-            {/* <div className={styles.imgsWrap}>
-              {fileList.map((file, i) => (
-                <div key={i} className={styles.imgCancelWrap}>
-                  <MdCancel
-                    size={25}
-                    className={styles.cancelBtn}
-                    onClick={() => delFile(file)}
-                  />
-                  <div className={styles.imgWrap}>
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="리뷰등록 이미지"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div> */}
           </div>
         </div>
-
-        {/* <div className={styles.upload}>
-          <div className={styles.imgsWrap}>
-            {fileNumList.length !== 0 &&
-              fileNumList.map((num, i) => (
-                <div
-                  key={i}
-                  style={{ display: 'inline-block', textAlign: 'center' }}
-                >
-                  <img
-                    style={{
-                      display: 'inline-block',
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer',
-                    }}
-                    src={minus}
-                    alt=""
-                    onClick={() => delFileNum(num)}
-                  />
-                  <br />
-                  <img
-                    src={`${url}/reviewImage/${num}`}
-                    alt="리뷰 이미지"
-                    className={styles.reviewImg}
-                  />
-                </div>
-              ))}
-            {fileList.length !== 0 &&
-              fileList.map((file, index) => (
-                <div key={index}>
-                  <div style={{ display: 'inline-block', textAlign: 'center' }}>
-                    <img
-                      style={{
-                        display: 'inline-block',
-                        width: '20px',
-                        height: '20px',
-                        cursor: 'pointer',
-                      }}
-                      src={minus}
-                      alt=""
-                      onClick={() => delFile(file)}
-                    />
-                    <br />
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="리뷰 이미지"
-                      style={{
-                        width: '100px',
-                        height: '60px',
-                        marginRight: '10px',
-                      }}
-                    />
-                  </div>
-                  {(index + 1) % 4 === 0 && (
-                    <>
-                      <br />
-                      <br />
-                    </>
-                  )}
-                </div>
-              ))}
-          </div>
-        </div> */}
-
         <div className={styles.textAreaWrap}>
           <label className={styles.reviewTitle}>
             리뷰(500자 제한)<span>*</span>
