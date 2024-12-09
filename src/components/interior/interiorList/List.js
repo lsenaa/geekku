@@ -41,15 +41,24 @@ const List = ({ loc, setLoc }) => {
   //   }
   // }, [filterCategory, interiorList]);
 
+  const notRegisteredCompany = interiorList.filter((interior) => {
+    if (!interior.interiorNum) {
+      return interior.companyId;
+    }
+  });
+
   return (
     <div className="companyPage">
       <div className="topBar" style={{ marginBottom: '30px' }}>
         시공업체
-        {user.type === 'interior' && (
-          <button id="btn" onClick={moveRegister}>
-            등록하기
-          </button>
-        )}
+        {user.type === 'interior' &&
+          notRegisteredCompany.some(
+            (company) => company.companyId === user.companyId
+          ) && (
+            <button id="btn" onClick={moveRegister}>
+              등록하기
+            </button>
+          )}
       </div>
       <Card interiorList={interiorList} />
     </div>
