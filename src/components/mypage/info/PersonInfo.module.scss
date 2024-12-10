@@ -158,6 +158,10 @@
     border-radius: 10px;
     margin-left: 14px;
     border: 1px solid #ddd;
+
+    &:disabled {
+      background-color: $main-color;
+    }
   }
 
   .imageUploadBox {

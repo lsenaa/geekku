@@ -12,7 +12,7 @@ import axios from 'axios';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
 import { RiQuestionAnswerLine } from 'react-icons/ri';
 
-const OnestopDetailAnswerList = ({ oneStopNum, userId }) => {
+const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [onestopAnswerList, setOnestopAnswerList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,7 @@ const OnestopDetailAnswerList = ({ oneStopNum, userId }) => {
     if (isLoading) return; //이미 데이터를 요청중인 경우 return
     setIsLoading(true);
     axios
-      .get(`${url}/onestopAnswerList/${oneStopNum}?page=${page}`)
+      .get(`${url}/onestopAnswerList/${onestopNum}?page=${page}`)
       .then((res) => {
         console.log(res.data);
 
@@ -87,7 +87,7 @@ const OnestopDetailAnswerList = ({ oneStopNum, userId }) => {
         axiosInToken(token)
           .post(`/company/onestopAnswerDelete`, {
             onestopAnswerNum,
-            oneStopNum,
+            onestopNum,
           })
           .then((res) => {
             Modal.success({
@@ -100,7 +100,7 @@ const OnestopDetailAnswerList = ({ oneStopNum, userId }) => {
             );
             // 현재 페이지 데이터 refetch
             axios
-              .get(`${url}/onestopAnswerList/${oneStopNum}?page=${page}`)
+              .get(`${url}/onestopAnswerList/${onestopNum}?page=${page}`)
               .then((res) => {
                 console.log('Refetching current page data:', res.data);
                 setOnestopAnswerList((prev) => [
@@ -154,16 +154,26 @@ const OnestopDetailAnswerList = ({ oneStopNum, userId }) => {
                 >
                   <div className={styles.preview}>
                     <div className={styles.profile}>
-                      <img
-                        src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                        alt="프로필 이미지"
-                      />
-                      <p className={styles.companyName}>{answer.companyName}</p>
+                      <div className={styles.profileImg}>
+                        <img
+                          src={
+                            answer.companyProfileImage
+                              ? `data:image/png;base64,${answer.companyProfileImage}`
+                              : ''
+                          }
+                          alt="프로필 이미지"
+                        />
+                      </div>
+                      <div className={styles.profileDateWrap}>
+                        <p className={styles.companyName}>
+                          {answer.companyName}
+                        </p>
+                        <p className={styles.createdAt}>
+                          {formatDate(answer.createdAt)}
+                        </p>
+                      </div>
                     </div>
                     <p className={styles.title}>{answer.title}</p>
-                    <p className={styles.createdAt}>
-                      {formatDate(answer.createdAt)}
-                    </p>
                     {user.companyId === answer.companyId && (
                       <button
                         className={styles.deleteBtn}
@@ -211,7 +221,7 @@ const OnestopDetailAnswerList = ({ oneStopNum, userId }) => {
         >
           <OnestopDetailAnswerWrite
             userId={userId}
-            oneStopNum={oneStopNum}
+            onestopNum={onestopNum}
             toggleModal={toggleModal}
             setIsModalOpen={setIsModalOpen}
             fetchData={fetchData}

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { axiosInToken, url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
 import { Viewer } from '@toast-ui/react-editor';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { RiQuestionAnswerLine } from 'react-icons/ri';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
@@ -21,7 +21,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
   const [hasMore, setHasMore] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const user = useAtomValue(userAtom);
-  const token = useAtomValue(tokenAtom);
+  const [token, setToken] = useAtom(tokenAtom);
 
   // 답변 작성 모달 토글
   const toggleModal = () => {
@@ -84,6 +84,9 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
         axiosInToken(token)
           .post(`/company/houseAnswerDelete`, { houseAnswerNum, houseNum })
           .then((res) => {
+            if (res.headers.authorization !== null) {
+              setToken(res.headers.authorization);
+            }
             Modal.success({
               content: '답변이 삭제되었습니다.',
             });
@@ -154,10 +157,16 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
                 >
                   <div className={styles.preview}>
                     <div className={styles.profile}>
-                      <img
-                        src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                        alt="프로필 이미지"
-                      />
+                      <div className={styles.profileImg}>
+                        <img
+                          src={
+                            answer.companyProfileImage
+                              ? `data:image/png;base64, ${answer.companyProfileImage}`
+                              : ''
+                          }
+                          alt="프로필 이미지"
+                        />
+                      </div>
                       <div className={styles.profileDateWrap}>
                         <p className={styles.companyName}>
                           {answer.companyName}

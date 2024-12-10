@@ -122,14 +122,14 @@ const CommunityBoardEdit = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'size' || name === 'money') {
-      const numericValue = parseFloat(value);
-      if (numericValue < 0 || isNaN(numericValue)) {
-        setFormData({ ...formData, [name]: '' }); // 음수 또는 비정상 값이면 빈 문자열로 설정
-      } else {
-        setFormData({ ...formData, [name]: value });
-      }
-      return;
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (e.target.name === 'size' || e.target.name === 'money') {
+      setFormData((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
+      }));
     }
 
     // 기본 처리
@@ -196,16 +196,20 @@ const CommunityBoardEdit = () => {
 
     if (
       !type ||
+      !size ||
       !address1 ||
       !familyType ||
       !periodStartDate ||
       !periodEndDate ||
+      !money ||
       !style ||
       !title ||
       !content ||
       fileList.length === 0
     ) {
-      openModal('모든 필수 값을 입력해주세요.');
+      Modal.info({
+        content: '모든 필수 값을 입력해주세요.',
+      });
       return;
     }
 
@@ -277,7 +281,7 @@ const CommunityBoardEdit = () => {
           </label>
           <div className={styles.inputTextWrap}>
             <input
-              type="number"
+              type="text"
               name="size"
               className={styles.formControl}
               value={formData.size}
@@ -373,7 +377,7 @@ const CommunityBoardEdit = () => {
           </label>
           <div className={styles.inputTextWrap}>
             <input
-              type="number"
+              type="text"
               name="money"
               className={styles.formControl}
               onChange={handleChange}

@@ -88,7 +88,7 @@ const MypageEstateOnestopAnswer = () => {
                       &nbsp;{item.username}
                     </span>
                   </td>
-                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                  <td>{formatDate(item.createdAt)}</td>
                   <td>{item.viewCount}</td>
                 </tr>
               ))}

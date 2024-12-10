@@ -17,7 +17,7 @@ import {
 import { FaUserCircle } from 'react-icons/fa';
 import defaultImg from 'assets/images/usericon.png';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 
 // Toast UI Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
@@ -113,14 +113,13 @@ const Header = ({ alarms = [] }) => {
   };
 
   const logout = () => {
-    setUser(initUser);
-    setToken('');
-    setAlarms([]);
-
-    setIsLogin(false);
     Modal.success({
       content: '로그아웃 되었습니다.',
     });
+    setUser(initUser);
+    setToken('');
+    setAlarms([]);
+    setIsLogin(false);
     navigate('/');
   };
 
@@ -134,7 +133,7 @@ const Header = ({ alarms = [] }) => {
         path = `/house/detail/${detailPath}`;
         break;
       case 'interior': // 예: 방꾸하기
-        path = `/interior/detail/${detailPath}`;
+        path = `/interiorAll/detail/${detailPath}`;
         break;
       case 'onestop': // 예: 한번에꾸하기
         path = `/onestop/detail/${detailPath}`;
@@ -249,32 +248,25 @@ const Header = ({ alarms = [] }) => {
                         style={{
                           fontWeight: 'bold',
                           width: '120px',
-                          height: '30px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          // display: 'inline-block',
-                          // whiteSpace: 'nowrap',
+                          wordBreak: 'break-all',
+                          fontSize: '12px',
+                          whiteSpace: 'nowrap',
                         }}
                       >
-                        <Viewer
-                          initialValue={
-                            item.companyName || '<p>회사명이 없습니다.</p>'
-                          }
-                        />
+                        {item.companyName}
                       </div>
                       <div
                         style={{
                           width: '150px',
-                          height: '30px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          // display: 'inline-block',
-                          // whiteSpace: 'nowrap',
+                          fontSize: '14px',
+                          whiteSpace: 'nowrap',
                         }}
                       >
-                        <Viewer
-                          initialValue={item.title || '<p>제목이 없습니다.</p>'}
-                        />
+                        {item.title}
                       </div>
                       <div>
                         <button
@@ -295,24 +287,26 @@ const Header = ({ alarms = [] }) => {
                         >
                           확인
                         </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // 클릭 이벤트 전파 방지
-                            navigateToDetail(item.type, item.detailPath); // 바로 이동
-                          }}
-                          className={styles.moveBtn}
-                          style={{
-                            width: '50px',
-                            height: '30px',
-                            borderRadius: '5px',
-                            borderWidth: 0,
-                            backgroundColor: '#6d885d',
-                            color: '#ffffff',
-                            marginLeft: '10px',
-                          }}
-                        >
-                          이동
-                        </button>
+                        {item.type !== 'request' && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation(); // 클릭 이벤트 전파 방지
+                              navigateToDetail(item.type, item.detailPath); // 바로 이동
+                            }}
+                            className={styles.moveBtn}
+                            style={{
+                              width: '50px',
+                              height: '30px',
+                              borderRadius: '5px',
+                              borderWidth: 0,
+                              backgroundColor: '#6d885d',
+                              color: '#ffffff',
+                              marginLeft: '10px',
+                            }}
+                          >
+                            이동
+                          </button>
+                        )}
                       </div>
                     </li>
                   ))
@@ -367,12 +361,14 @@ const Header = ({ alarms = [] }) => {
                   <div>
                     <div style={{ fontWeight: 'bold' }}>
                       <Viewer
+                        key={selectedAlarm.num}
                         initialValue={
                           selectedAlarm.title || '<p>제목이 없습니다.</p>'
                         }
                       />
                     </div>
                     <Viewer
+                      key={selectedAlarm.num}
                       initialValue={
                         selectedAlarm.message || '<p>내용이 없습니다.</p>'
                       }

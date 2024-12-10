@@ -26,6 +26,7 @@ const JoinPerson = () => {
   const [usernameChecked, setUsernameChecked] = useState(false);
   const [nicknameChecked, setNicknameChecked] = useState(false);
   const [isPhonechecked, setIsPoneChecked] = useState(false);
+  const [emailVaildated, setEmailValidated] = useState(false);
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
 
@@ -33,14 +34,19 @@ const JoinPerson = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
-    if (name === 'phone') {
-      const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 11) {
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+
+    if (name === 'name') {
+      const regex = /[^ㄱ-횡a-zA-Z\s]/;
+      if (regex.test(value)) {
+        Modal.info({
+          content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
+        });
         return;
       }
-      setUser({ ...user, phone: cleaned });
-    } else {
-      setUser({ ...user, [name]: value });
     }
 
     if (name === 'username') {
@@ -53,9 +59,20 @@ const JoinPerson = () => {
       }
       setUsernameChecked(false);
     }
+
     if (name === 'nickname') {
       setNicknameChecked(false);
     }
+
+    if (name === 'phone') {
+      const formattedPhone = applyPhoneFormat(value);
+      setUser((prevUser) => ({
+        ...prevUser,
+        [name]: formattedPhone || value,
+      }));
+      return;
+    }
+
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -78,24 +95,28 @@ const JoinPerson = () => {
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      if (/\D/g.test(value)) {
+      const phoneRegex = /^010-\d{4}-\d{4}$/;
+      if (!phoneRegex.test(value)) {
         Modal.info({
-          content: '휴대폰 번호는 숫자형식만 입력가능합니다.',
+          content: '휴대폰 번호를 다시 입력해주세요.',
         });
-        setIsPoneChecked(false);
-        return;
-      }
-      const cleaned = value.replace(/\D/g, '');
-      if (cleaned.length !== 11) {
-        Modal.info({
-          content: '휴대폰 번호는 11자리 숫자로 입력해주세요.',
-        });
-        setIsPoneChecked(false);
-        return;
       }
     }
-    applyPhoneFormat(name, value, setUser, user);
-    setIsPoneChecked(true);
+
+    if (name === 'email') {
+      if (!value) return;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        if (!emailVaildated) {
+          Modal.info({
+            content: '유효한 이메일 형식을 입력해주세요.',
+          });
+          setEmailValidated(false);
+        }
+      } else {
+        setEmailValidated(true);
+      }
+    }
   };
 
   const submit = (e) => {
@@ -136,15 +157,13 @@ const JoinPerson = () => {
       return;
     }
 
-    //닉네임이 없으면 이름으로 설정
-    // if (!user.nickname) {
-    //   user.nickname = user.name;
-    // }
-
-    if (!isPhonechecked) {
+    //전화번호 최종 검증
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(user.phone)) {
       Modal.info({
         content: '휴대폰 번호를 다시입력해주세요.',
       });
+      document.getElementById('phone').focus();
       return;
     }
 
@@ -157,6 +176,15 @@ const JoinPerson = () => {
     if (user.password !== user.confirmPassword) {
       Modal.error({
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      });
+      return;
+    }
+
+    // 이메일 유효성 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email)) {
+      Modal.info({
+        content: '유효한 이메일 형식을 입력해주세요.',
       });
       return;
     }
@@ -267,7 +295,6 @@ const JoinPerson = () => {
             id="phone"
             placeholder="숫자만 입력해주세요."
             onChange={edit}
-            onBlur={handleBlur}
             value={user.phone}
             maxLength={13}
             className={styles2.input2}
@@ -284,6 +311,8 @@ const JoinPerson = () => {
             name="email"
             id="email"
             onChange={edit}
+            onBlur={handleBlur}
+            value={user.email}
             className={styles2.input2}
           />
         </div>
@@ -297,6 +326,7 @@ const JoinPerson = () => {
             id="nickname"
             onChange={edit}
             placeholder="닉네임은 2자 이상 20자 이하로 입력해주세요."
+            maxLength={20}
             className={styles2.input1}
           />
           <button

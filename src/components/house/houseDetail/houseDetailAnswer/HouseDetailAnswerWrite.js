@@ -8,13 +8,13 @@ import { axiosInToken, url } from 'lib/axios';
 import { Modal } from 'antd';
 import { tokenAtom, userAtom } from 'store/atoms';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const HouseDetailAnswerWrite = ({
   userId,
   toggleModal,
   houseNum,
   setIsModalOpen,
-  fetchData,
   setHouseAnswerList,
 }) => {
   const user = useAtomValue(userAtom);
@@ -22,6 +22,7 @@ const HouseDetailAnswerWrite = ({
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const editorRef = useRef();
+  const navigate = useNavigate();
 
   const onChangeContent = () => {
     const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
@@ -91,7 +92,10 @@ const HouseDetailAnswerWrite = ({
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.status);
+        if (err.response.status === 401) {
+          navigate('/login');
+        }
       });
   };
 

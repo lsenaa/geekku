@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import Button01 from 'components/commons/button/Button01';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { FiPlus } from 'react-icons/fi';
 import { MdCancel } from 'react-icons/md';
 
@@ -17,21 +17,32 @@ const ReviewWrite = () => {
   const [fileList, setFileList] = useState([]);
   const [review, setReview] = useState({
     companyName: '',
+    type: '',
+    style: '',
     size: '',
     content: '',
     location: '경기',
   });
   const [date, setDate] = useState('');
-  console.log(date);
-  const [type, setType] = useState('');
-  const [style, setStyle] = useState('');
   const [textCount, setTextCount] = useState(0);
+  const [messageApi, contextHolder] = message.useMessage();
   const fRef = useRef();
+
   const edit = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });
 
     if (e.target.name === 'content') {
       setTextCount(e.target.value.length);
+    }
+
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (e.target.name === 'size') {
+      setReview((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
+      }));
     }
   };
 
@@ -63,30 +74,84 @@ const ReviewWrite = () => {
   const submit = async (e) => {
     e.preventDefault();
 
+    // 입력값 검증
+    if (review.companyName === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '시공업체명을 입력해주세요.',
+      });
+      return;
+    }
+
+    if (date === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '시공날짜를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (review.type === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '주거형태를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (review.style === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '스타일을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (review.size === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '평수를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (fileList.length < 1) {
+      messageApi.open({
+        type: 'warning',
+        content: '사진은 최소 1장이상 업로드해야합니다.',
+      });
+      return;
+    }
+
+    if (review.content === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '리뷰내용을 입력해주세요.',
+      });
+      return;
+    }
+
     const data = new FormData();
     data.append('companyName', review.companyName);
-    data.append('date', JSON.stringify(date).replace(/"/g, ''));
+    data.append('date', date);
+    data.append('type', review.type);
+    data.append('style', review.style);
     data.append('size', review.size);
-    data.append('content', review.content);
-    data.append('type', type);
-    data.append('style', style);
     data.append('location', review.location);
+    data.append('content', review.content);
+
     for (let file of fileList) {
       data.append('file', file);
     }
-    console.log(data);
+
     await axiosInToken(token)
-      .post(`/user/interiorReviewWrite`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      .post(`/user/interiorReviewWrite`, data)
       .then((res) => {
         console.log(res.data);
         Modal.success({
           content: '인테리어 업체 리뷰등록이 완료되었습니다.',
         });
-        navigate('/');
+        navigate('/mypage/person/interior/review');
       })
       .catch((err) => {
         console.log(err);
@@ -144,9 +209,11 @@ const ReviewWrite = () => {
               className={styles.customSelect}
               name="type"
               id="type"
-              onChange={(e) => setType(e.target.value)}
+              onChange={edit}
               required
+              value={review.type || ''}
             >
+              <option value="">주거형태선택</option>
               <option value="농가주택">농가주택</option>
               <option value="전원주택">전원주택</option>
               <option value="아파트/빌라">아파트/빌라</option>
@@ -160,9 +227,11 @@ const ReviewWrite = () => {
               className={styles.customSelect}
               name="style"
               id="style"
-              onChange={(e) => setStyle(e.target.value)}
+              onChange={edit}
               required
+              value={review.style || ''}
             >
+              <option value="">스타일선택</option>
               <option value="모던">모던</option>
               <option value="우드">우드</option>
               <option value="내추럴">내추럴</option>
@@ -177,10 +246,12 @@ const ReviewWrite = () => {
             </label>
             <div className={styles.inputTextWrap}>
               <input
+                type="text"
                 name="size"
                 id="size"
                 className={styles.customSelect}
                 onChange={edit}
+                value={review.size || ''}
                 required
               />
               <p>평</p>
@@ -210,6 +281,8 @@ const ReviewWrite = () => {
         <div className={styles.item}>
           <label>
             일반 사진<span>*</span>
+            <br />
+            (최소 1장, 최대8장)
           </label>
           <div className={styles.imgBtnWrap}>
             <input
@@ -260,12 +333,14 @@ const ReviewWrite = () => {
             onChange={edit}
             maxLength={500}
             minLength={5}
+            value={review.content || ''}
           />
           <p>
             <span className={styles.textCount}>{textCount}</span> / 500
           </p>
         </div>
         <div className={styles.submitBtnWrap}>
+          {contextHolder}
           <Button01 size="small" type="submit" onClick={submit}>
             등록하기
           </Button01>
@@ -273,7 +348,7 @@ const ReviewWrite = () => {
             size="small"
             color="sub"
             type="button"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
           >
             취소하기
           </Button01>

@@ -78,6 +78,7 @@
   .notificationWrap {
     cursor: pointer;
     position: relative;
+    margin-left: 8px;
 
     p {
       width: 18px;
@@ -117,7 +118,7 @@
     padding: 12px 0;
     font-size: 16px;
     color: white;
-    margin-left: 30px;
+    margin-left: 20px;
   }
 
   .logoutBtn {
@@ -188,8 +189,8 @@
 /* Notification Panel */
 .notificationPanel {
   position: absolute;
-  top: 50px;
-  right: 150px;
+  top: 65px;
+  right: 160px;
   width: 450px;
   max-height: 450px;
   background-color: #fffaf4;
@@ -231,7 +232,6 @@
   overflow-y: auto;
 }
 
-/* Notification Item */
 .notificationItem {
   display: flex;
   align-items: center;
@@ -242,11 +242,19 @@
   border-bottom: 1px solid #ddd;
   justify-content: space-between;
   // flex-direction: column;
+
+  &:last-child {
+    border-bottom: none;
+  div {
+    flex-grow: 1; 
+  }
+
+  div:last-child {
+    display: flex;
+    gap: 10px;
+  }
 }
 
-.notificationItem:last-child {
-  border-bottom: none;
-}
 
 .notificationDot {
   color: #c6d695;
@@ -257,5 +265,17 @@
 .notificationActions {
   display: flex;
   gap: 10px;
+}
+
+.notificationItem button {
+  transition: transform 0.2s ease; /* 버튼 애니메이션 */
+}
+
+.notificationItem button:hover {
+  transform: scale(1.05); /* 호버 시 크기 증가 */
+}
+
+.notificationItem button:active {
+  transform: scale(0.95); /* 클릭 시 크기 감소 */
 }
 

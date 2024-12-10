@@ -19,9 +19,9 @@ function CommunityMain() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [totalElements, setTotalElements] = useState(0); // 전체 개수 상태 추가
+  const [totalElements, setTotalElements] = useState(0);
 
-  const size = 10; // 페이지당 표시 개수
+  const size = 10;
 
   useEffect(() => {
     fetchData();
@@ -32,7 +32,7 @@ function CommunityMain() {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `${url}/communityList2?page=${page}&size=${size}`,
+        `${url}/communityListFiltered?page=${page}&size=${size}`,
         filters,
         {
           headers: {
@@ -71,7 +71,7 @@ function CommunityMain() {
   };
 
   return (
-    <div className={styles.app}>
+    <div className={styles.container}>
       <CommunityFilterBar
         communityList={communityList}
         setCommunityList={setCommunityList}

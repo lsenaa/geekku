@@ -15,6 +15,16 @@ const JoinModal = ({ open, close, onConfirm }) => {
 
   const loadMoreRef = useRef();
 
+  const handleClose = () => {
+    setSearchQuery('');
+    setResults([]);
+    setPage(1);
+    setTotalCount(0);
+    setHasMore(true);
+    setIsLoading(false);
+    close();
+  };
+
   const fetchResults = async (query, pageNo) => {
     setIsLoading(true);
     try {
@@ -23,16 +33,18 @@ const JoinModal = ({ open, close, onConfirm }) => {
       if (query.includes('-')) {
         params.jurirno = query;
       } else if (isNaN(query)) {
-        params.brkrNm = query;
+        if (/^[가-힣]+$/.test(query)) {
+          if (query.length >= 2 && query.length <= 3) {
+            params.brkrNm = query;
+          } else {
+            params.bsnmCmpnm = query;
+          }
+        }
       } else {
-        params.bsnmCmpnm = query;
+        params.jurirno = query;
       }
 
       const response = await axios.get(`${url}/searchEstate`, { params });
-      //console.log('백엔드 응답 데이터 : ', response.data); //totalCount : 34, size : 10 으로 나옴
-      //console.log('백엔드 응답 데이터 page : ', response.data.EDBrokers.pageNo); //1로 나옴
-      //console.log('데이터 totalCount : ', response.data.EDBrokers.totalCount);
-
       const resultData = response.data?.EDBrokers?.field || [];
       const total = response.data?.EDBrokers?.totalCount || 0;
       setResults((prev) =>
@@ -75,7 +87,7 @@ const JoinModal = ({ open, close, onConfirm }) => {
     if (page > 1) {
       fetchResults(searchQuery, page);
     }
-  }, [page, searchQuery]);
+  }, [page]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -103,7 +115,7 @@ const JoinModal = ({ open, close, onConfirm }) => {
   }, [hasMore, isLoading]);
 
   return (
-    <Modal open={open} onCancel={close} footer={null} width={600}>
+    <Modal open={open} onCancel={handleClose} footer={null} width={600}>
       <h4 className={styles2.title}>중개사무소 조회</h4>
       <hr />
       <div className={styles.modalContent}>

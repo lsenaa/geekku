@@ -1,8 +1,6 @@
 import styles from './EstateDetail.module.scss';
 import bookmarkFalseImg from '../../../assets/images/bookmarkFalse.png';
 import bookmarkTrueImg from '../../../assets/images/bookmarkTrue.png';
-import { FaUserCircle } from 'react-icons/fa';
-import Button01 from '../../commons/button/Button01';
 import { useEffect, useState } from 'react';
 import { Carousel, Modal } from 'antd';
 import { formatEstateType, formatPrice } from 'utils/utils';
@@ -80,7 +78,6 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           </div>
           <p>{formatEstateType(estate.type)}</p>
           <p className={styles.price}>
-            {' '}
             {formatPrice({
               jeonsePrice: estate.jeonsePrice,
               monthlyPrice: estate.monthlyPrice,
@@ -89,23 +86,21 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
             })}
           </p>
           <p>{estate.address1 + ' ' + estate.address2}</p>
-          <p>{estate.title}</p>
+          <p className={styles.estateTitle}>{estate.title}</p>
           <div className={styles.profileWrapper}>
-            <FaUserCircle color="#6D885D" size={30} />
+            <div className={styles.profileImg}>
+              <img
+                src={
+                  `data:image/png;base64,${estate.companyProfileImage}` || ''
+                }
+                alt="프로필이미지"
+              />
+            </div>
             <div className={styles.profile}>
               <p>{estate.companyName}</p>
               <p>{estate.companyPhone}</p>
             </div>
           </div>
-          {/* <div className={styles.btnWrapper}>
-            {user.type === 'user' && user.username && (
-              <img
-                src={bookmark ? bookmarkTrueImg : bookmarkFalseImg}
-                alt="북마크 이미지"
-                onClick={handleBookmark}
-              />
-            )}
-          </div> */}
         </div>
       </div>
       {/* 상세 테이블 */}
@@ -121,7 +116,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
             </td>
             <td className={styles.title}>관리비</td>
             <td className={styles.content}>
-              {estate.managePrice !== 0 ? `${estate.managePrice}만원` : '없음'}
+              {estate.managePrice ? `${estate.managePrice}만원` : '없음'}
             </td>
           </tr>
           <tr>
@@ -143,7 +138,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           <tr>
             <td className={styles.title}>주차</td>
             <td className={styles.content}>
-              {estate.parking !== 0 ? estate.parking + '대' : '불가능'}
+              {estate.parking ? estate.parking + '대' : '불가능'}
             </td>
             <td className={styles.title}>입주 가능일</td>
             <td className={styles.content}>
@@ -153,8 +148,6 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           <tr>
             <td className={styles.title}>객실 시설</td>
             <td className={styles.longContent} colSpan="3">
-              {/* 전자레인지, 가스레인지(인버터), 에어컨, 냉장고, 전기밥솥, TV,
-              화장실(내부), 식탁, 옷걸이, 와이파이, 인터넷 */}
               {estate.utility}
             </td>
           </tr>

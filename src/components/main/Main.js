@@ -42,7 +42,6 @@ const Main = () => {
     navigate('/estate', { state: { keyword } });
   };
 
-  console.log(communityList);
   return (
     <div className={styles.container}>
       <div className={styles.banner}>

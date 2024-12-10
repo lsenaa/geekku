@@ -850,8 +850,8 @@ const EstateWrite = () => {
             type="text"
             name="title"
             minLength="5"
-            maxLength="20"
-            placeholder="리스트에 노출되는 문구입니다. 20자 이내로 작성해주세요."
+            maxLength="40"
+            placeholder="리스트에 노출되는 문구입니다. 40자 이내로 작성해주세요."
             style={{ width: '100%', textAlign: 'left' }}
             onChange={handleEdit}
             value={estate.title || ''}
