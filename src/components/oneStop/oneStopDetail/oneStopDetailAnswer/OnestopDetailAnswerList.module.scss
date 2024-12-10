@@ -49,6 +49,10 @@
     }
   }
 
+  .profileImg {
+    @include profileImg;
+  }
+
   .profileDateWrap {
     margin: 0 10px;
   }

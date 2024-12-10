@@ -48,17 +48,16 @@ const OnestopDetail = () => {
       <h2>한번에꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
-          {onestop.userProfileImage ? (
+          <div className={styles.profileImg}>
             <img
-              src={`data:image/png;base64, ${onestop.userProfileImage}`}
+              src={
+                onestop.userProfileImage
+                  ? `data:image/png;base64, ${onestop.userProfileImage}`
+                  : ''
+              }
               alt="사용자 프로필 이미지"
-              width="30px"
-              height="30px"
-              style={{ borderRadius: '50px' }}
             />
-          ) : (
-            <FaUserCircle size="30" color="#6D885D" />
-          )}
+          </div>
           <p>{onestop.nickname ? onestop.nickname : onestop.name}</p>
           <p className={styles.createdAt}>{formatDate(onestop.createdAt)}</p>
         </div>
