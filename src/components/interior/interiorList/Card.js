@@ -45,20 +45,22 @@ const Card = ({ interiorList }) => {
           </Link>
           <div className="wrap-title">
             <div className="title">
-              {interior.companyName}
-              {Array.isArray(interior.possibleLocation)
-                ? interior.possibleLocation.map((location, index) => (
-                    <button key={index} id="loc">
-                      {location}
-                    </button>
-                  ))
-                : interior.possibleLocation
-                    .split(',')
-                    .map((location, index) => (
+              <div className="nameWidth">{interior.companyName}</div>
+              <div style={{ marginRight: '5px' }}>
+                {Array.isArray(interior.possibleLocation)
+                  ? interior.possibleLocation.map((location, index) => (
                       <button key={index} id="loc">
-                        {location.trim()}
+                        {location}
                       </button>
-                    ))}
+                    ))
+                  : interior.possibleLocation
+                      .split(',')
+                      .map((location, index) => (
+                        <button key={index} id="loc">
+                          {location.trim()}
+                        </button>
+                      ))}
+              </div>
             </div>
             <div className="fix">
               <div style={{ width: '200px' }} className="title" id="possible">
@@ -68,7 +70,9 @@ const Card = ({ interiorList }) => {
                   <>전체시공/부분시공</>
                 )}
               </div>
-              <span>
+
+              {/* 북마크보류 */}
+              {/* <span>
                 <img
                   onClick={() => handleBookmarkClick(interior.interiorNum)}
                   src={
@@ -77,7 +81,7 @@ const Card = ({ interiorList }) => {
                       : falseBookmark
                   }
                 />
-              </span>
+              </span> */}
             </div>
           </div>
         </div>

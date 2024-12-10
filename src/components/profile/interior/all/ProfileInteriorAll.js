@@ -24,7 +24,7 @@ const ProfileInteriorAll = () => {
         <ul className={styles.sampleWrap}>
           {detailInfo.sampleDetail.map((sample, i) => (
             <li key={i}>
-              <Link to={'/'}>
+              <Link to={`/sampleDetail/${sample.sampleNum}`}>
                 <div className={styles.sampleImgWrap}>
                   <img
                     src={`${url}/sampleImage/${sample.coverImage}`}

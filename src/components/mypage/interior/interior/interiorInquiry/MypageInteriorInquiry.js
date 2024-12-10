@@ -7,7 +7,7 @@ import { axiosInToken, url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
 import Button01 from 'components/commons/button/Button01';
 import styles from './MypageInteriorInquiry.module.scss';
-
+//파일이름 잘못지음22 request 1:1 신청 받는 리스트
 const MypageInteriorInquiry = () => {
   const navigate = useNavigate();
   const token = useAtomValue(tokenAtom);

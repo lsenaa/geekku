@@ -8,27 +8,57 @@ import useToken from 'antd/es/theme/useToken';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
 import { formatEstateType, formatPrice, searchByKeyword } from 'utils/utils';
+import { Modal } from 'antd';
 
 const MypageEstateCard = ({ estate, onDelete }) => {
   const navigate = useNavigate();
   const token = useAtomValue(tokenAtom);
 
-  console.log(estate);
-
   // 삭제 처리 함수
   const handleDelete = async () => {
-    if (window.confirm('정말로 이 항목을 삭제하시겠습니까?')) {
-      try {
-        await axiosInToken(token).delete(
-          `${url}/company/deleteEstateList/${estate.estateNum}`
-        );
-        alert('삭제되었습니다.');
-        onDelete(estate.estateNum); // 부모 컴포넌트에 삭제된 항목을 전달
-      } catch (error) {
-        console.error('삭제 중 오류 발생:', error);
-        alert('삭제 중 문제가 발생했습니다.');
-      }
-    }
+    Modal.confirm({
+      content: '매물 등록글을 삭제하시겠습니까?',
+      okText: '삭제',
+      cancelText: '취소',
+      okButtonProps: {
+        style: {
+          backgroundColor: '#6d885d',
+          borderColor: 'none',
+          color: 'white',
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: 'transparent',
+          borderColor: '#6d885d',
+          color: '#6d885d',
+        },
+      },
+      onOk: () => {
+        try {
+          axiosInToken(token).delete(
+            `${url}/company/deleteEstateList/${estate.estateNum}`
+          );
+          onDelete(estate.estateNum); // 부모 컴포넌트에 삭제된 항목을 전달
+        } catch (error) {
+          console.error('게시글 삭제 중 오류 발생:', error);
+        }
+      },
+      onCancel: () => {
+        console.log('Cancel');
+      },
+    });
+
+    // try {
+    //   await axiosInToken(token).delete(
+    //     `${url}/company/deleteEstateList/${estate.estateNum}`
+    //   );
+    //   alert('삭제되었습니다.');
+    //   onDelete(estate.estateNum); // 부모 컴포넌트에 삭제된 항목을 전달
+    // } catch (error) {
+    //   console.error('삭제 중 오류 발생:', error);
+    //   alert('삭제 중 문제가 발생했습니다.');
+    // }
   };
 
   return (

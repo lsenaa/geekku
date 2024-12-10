@@ -6,6 +6,8 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import Filter from 'components/commons/filter/Filter';
 import { url } from 'lib/axios';
+import { formatDate } from 'utils/utils';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const ProfileInteriorReview = () => {
   const { detailInfo } = useOutletContext();
@@ -62,8 +64,8 @@ const ProfileInteriorReview = () => {
           <li key={i}>
             <div className={styles.userWrap}>
               <FaUserCircle color="#6D885D" size={40} />
-              <p className={styles.username}>{review.username}</p>
-              <p className={styles.createdAt}>{review.createdAt}</p>
+              <p className={styles.username}>{review.name}</p>
+              <p className={styles.createdAt}>{formatDate(review.createdAt)}</p>
             </div>
             <ul className={styles.optionWrap}>
               {review.interiorDate && <li>{review.interiorDate}</li>}
@@ -93,6 +95,7 @@ const ProfileInteriorReview = () => {
           </li>
         ))}
       </ul>
+      <TopButton />
     </div>
   );
 };

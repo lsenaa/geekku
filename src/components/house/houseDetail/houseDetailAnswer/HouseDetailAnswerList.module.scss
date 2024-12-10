@@ -42,11 +42,10 @@
   .profile {
     @include flexrow;
     width: 25%;
+  }
 
-    img {
-      width: 30px;
-      height: 30px;
-    }
+  .profileImg {
+    @include profileImg;
   }
 
   .profileDateWrap {

@@ -13,6 +13,7 @@
     overflow: hidden;
 
     p {
+      @include ellipse;
       font-size: 14px;
     }
 

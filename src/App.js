@@ -9,6 +9,7 @@ import {
 } from './store/firebaseconfig';
 import { useSetAtom, useAtom } from 'jotai';
 import { fcmTokenAtom, alarmsAtom } from './store/atoms';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 function App() {
   const [alarm, setAlarm] = useState({});
@@ -36,6 +37,7 @@ function App() {
     <div className="appContainer">
       <Header alarms={alarms} />
       <Router />
+      <TopButton />
       <Footer />
     </div>
   );

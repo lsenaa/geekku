@@ -64,7 +64,7 @@ const InteriorList = () => {
 
               <div className="wrap-title">
                 <div className="title">
-                  {interior.companyName}
+                  <span className="nameWidth">{interior.companyName}</span>
                   {Array.isArray(interior.possibleLocation)
                     ? interior.possibleLocation.map((location, index) => (
                         <button key={index} id="loc">

@@ -24,6 +24,7 @@ export const initUser = {
   ceoName: '',
   estateNumber: '',
   certificationImagePath: '',
+  regStatus: false,
 };
 
 export const userAtom = atomWithStorage(

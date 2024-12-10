@@ -38,6 +38,10 @@
 
 .description {
   font-size: 14px;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .contentWrapper {

@@ -4,13 +4,14 @@ import { axiosInToken } from 'lib/axios';
 import { useNavigate } from 'react-router-dom';
 import Button01 from 'components/commons/button/Button01';
 import { Modal } from 'antd';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { MdCancel } from 'react-icons/md';
 
 const interiorRegister = () => {
   const navigate = useNavigate();
-  const user = useAtomValue(userAtom);
+  // const user = useAtomValue(userAtom);
+  const [user, setUser] = useAtom(userAtom); //user에 regStatus를 변경하기 위해서 배열로 선언
   const token = useAtomValue(tokenAtom);
   const imageInput = useRef();
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
@@ -117,6 +118,7 @@ const interiorRegister = () => {
       .post(`/company/interiorRegister`, data)
       .then((res) => {
         console.log(res.data);
+        setUser({ ...user, regStatus: res.data.regStatus }); //user정보는 그대로 두고, regStatus만 변경된걸로 set (등록하기 버튼 유무를 위한 단계)
         Modal.success({
           content: '인테리어 업체등록이 완료되었습니다.',
         });
@@ -188,7 +190,7 @@ const interiorRegister = () => {
                 onChange={handleInputChange}
                 value={interior.period || ''}
               />
-              <p>년</p>
+              <p>개월</p>
             </div>
           </li>
           <li>

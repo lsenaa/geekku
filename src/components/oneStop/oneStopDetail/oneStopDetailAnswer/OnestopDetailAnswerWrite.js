@@ -22,11 +22,10 @@ const OnestopDetailAnswerWrite = ({
   const [content, setContent] = useState('');
   const editorRef = useRef();
 
-  console.log(onestopNum);
-
   const onChangeContent = () => {
     const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
     setContent(text === '<p><br><p>' ? '' : text);
+    console.log(onestopNum);
   };
   // 에디터 이미지 url 받아오기
   const handleImage = async (blob, callback) => {
@@ -99,6 +98,9 @@ const OnestopDetailAnswerWrite = ({
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
+          <div className={styles.profileImg}>
+            <img src={`data:image/png;base64, ${user.profileImageStr}`} />
+          </div>
           <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>

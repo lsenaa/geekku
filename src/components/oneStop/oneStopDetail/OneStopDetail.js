@@ -26,7 +26,7 @@ const OnestopDetail = () => {
     content: '',
     createdAt: '',
     userId: '',
-    oneStopNum: num || 0,
+    onestopNum: num || 0,
   });
   useEffect(() => {
     fetchData();
@@ -48,17 +48,16 @@ const OnestopDetail = () => {
       <h2>한번에꾸하기 신청내역</h2>
       <section>
         <div className={styles.profile}>
-          {onestop.userProfileImage ? (
+          <div className={styles.profileImg}>
             <img
-              src={`data:image/png;base64, ${onestop.userProfileImage}`}
+              src={
+                onestop.userProfileImage
+                  ? `data:image/png;base64, ${onestop.userProfileImage}`
+                  : ''
+              }
               alt="사용자 프로필 이미지"
-              width="30px"
-              height="30px"
-              style={{ borderRadius: '50px' }}
             />
-          ) : (
-            <FaUserCircle size="30" color="#6D885D" />
-          )}
+          </div>
           <p>{onestop.nickname ? onestop.nickname : onestop.name}</p>
           <p className={styles.createdAt}>{formatDate(onestop.createdAt)}</p>
         </div>
@@ -94,10 +93,12 @@ const OnestopDetail = () => {
             {onestop.workType == 1 && '부분 시공'}
           </p>
         </div>
-        <div className={styles.item}>
-          <label>인테리어 시공 종류</label>
-          <p>{onestop.interiorType}</p>
-        </div>
+        {onestop.workType && (
+          <div className={styles.item}>
+            <label>인테리어 시공 종류</label>
+            <p>{onestop.interiorType}</p>
+          </div>
+        )}
 
         {onestop.allowPhone && (
           <div className={styles.item}>
@@ -127,7 +128,7 @@ const OnestopDetail = () => {
       </div>
       {/* 답변 리스트 */}
       <OnestopDetailAnswerList
-        oneStopNum={onestop.oneStopNum}
+        onestopNum={onestop.onestopNum}
         userId={onestop.userId}
       />
     </div>

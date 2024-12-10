@@ -8,6 +8,7 @@ import axios from 'axios';
 import { url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
+import { Modal } from 'antd';
 
 const ProfileInterior = () => {
   const location = useLocation();
@@ -65,6 +66,15 @@ const ProfileInterior = () => {
         }
       )
       .then((res) => {
+        if (res.data) {
+          Modal.success({
+            content: '북마크가 완료되었습니다.',
+          });
+        } else {
+          Modal.success({
+            content: '북마크가 해제되었습니다.',
+          });
+        }
         setBookmark(res.data);
       })
       .catch((err) => {
@@ -113,6 +123,7 @@ const ProfileInterior = () => {
             context={{
               detailInfo: detailInfo,
               num: num,
+              interiorNum: num,
             }}
           />
         </div>

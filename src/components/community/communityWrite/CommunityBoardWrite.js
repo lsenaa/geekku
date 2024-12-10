@@ -69,6 +69,16 @@ const CommunityBoardWrite = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (e.target.name === 'size' || e.target.name === 'money') {
+      setFormData((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
+      }));
+    }
   };
 
   // 파일 선택
@@ -151,7 +161,9 @@ const CommunityBoardWrite = () => {
       !content ||
       fileList.length === 0
     ) {
-      openModal('모든 필수 값을 입력해주세요.');
+      Modal.info({
+        content: '모든 필수 값을 입력해주세요.',
+      });
       return;
     }
 
@@ -225,10 +237,11 @@ const CommunityBoardWrite = () => {
           </label>
           <div className={styles.inputTextWrap}>
             <input
-              type="number"
+              type="text"
               name="size"
               className={styles.formControl}
               onChange={handleChange}
+              value={formData.size}
               onWheel={(e) => e.target.blur()} //휠 방지 추가
             />
             <p>평</p>
@@ -244,6 +257,7 @@ const CommunityBoardWrite = () => {
               name="address1"
               className={styles.formControl}
               onChange={handleChange}
+              value={formData.address1}
             >
               <option value="">지역 선택</option>
               <option value="부산광역시">부산광역시</option>
@@ -281,6 +295,7 @@ const CommunityBoardWrite = () => {
             name="familyType"
             className={styles.formControl}
             onChange={handleChange}
+            value={formData.familyType}
           >
             <option value="">선택해주세요.</option>
             <option value="싱글라이프">싱글라이프</option>
@@ -320,7 +335,7 @@ const CommunityBoardWrite = () => {
               name="money"
               className={styles.formControl}
               onChange={handleChange}
-              onWheel={(e) => e.target.blur()} //휠 방지 추가
+              value={formData.money}
             />
             <p>만원</p>
           </div>
@@ -334,6 +349,7 @@ const CommunityBoardWrite = () => {
             name="style"
             className={styles.formControl}
             onChange={handleChange}
+            value={formData.style}
           >
             <option value="">선택해주세요.</option>
             <option value="모던">모던</option>

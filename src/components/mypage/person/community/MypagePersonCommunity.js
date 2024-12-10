@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import styles from './MypagePersonCommunity.module.scss';
 import Button01 from 'components/commons/button/Button01';
-import { userAtom } from 'store/atoms';
+import { tokenAtom, userAtom } from 'store/atoms';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { Modal } from 'antd';
 
 const MypagePersonCommunity = () => {
   const [communityData, setCommunityData] = useState([]); // 커뮤니티 목록 상태
   const user = useAtomValue(userAtom); // atom에서 사용자 정보 가져오기
   const navigate = useNavigate();
+  const token = useAtomValue(tokenAtom);
 
   useEffect(() => {
     const fetchCommunityData = async () => {
@@ -55,7 +56,9 @@ const MypagePersonCommunity = () => {
       },
       onOk: () => {
         try {
-          axios.delete(`http://localhost:8080/communityDelete/${communityNum}`);
+          axiosInToken(token).delete(
+            `${url}/user/communityDelete/${communityNum}`
+          );
           setCommunityData((prevData) =>
             prevData.filter(
               (community) => community.communityNum !== communityNum

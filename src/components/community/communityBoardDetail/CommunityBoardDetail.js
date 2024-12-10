@@ -30,7 +30,7 @@ const CommunityBoardDetail = () => {
   const [modalState, setModalState] = useState({
     isOpen: false,
     message: '',
-    action: null, // 모달 버튼 클릭 시 수행할 동작
+    action: null,
   });
 
   const openModal = (message, action = null) => {
@@ -93,9 +93,15 @@ const CommunityBoardDetail = () => {
 
   const handleBookmarkClick = async () => {
     if (!user?.userId) {
-      Modal.info({
-        content: '로그인한 회원만 가능합니다.',
-      });
+      if (user?.type === 'estate' || user?.type === 'interior') {
+        Modal.info({
+          content: '일반 회원만 이용 가능합니다.',
+        });
+      } else {
+        Modal.info({
+          content: '로그인한 회원만 가능합니다.',
+        });
+      }
       return;
     }
 
@@ -125,21 +131,6 @@ const CommunityBoardDetail = () => {
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
-  };
-
-  const formatCommentDate = (dateString) => {
-    try {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${year}-${month}-${day} ${hours}:${minutes}`;
-    } catch (error) {
-      console.error('Invalid date format:', error);
-      return dateString;
-    }
   };
 
   const handleCommentSubmit = async () => {
@@ -178,6 +169,9 @@ const CommunityBoardDetail = () => {
               createdAt: new Date().toISOString().slice(0, 10),
             },
           ]);
+          Modal.success({
+            content: '댓글이 등록되었습니다.',
+          });
           setNewComment('');
         } else {
           console.error('댓글 작성 실패:', response.data);
@@ -214,7 +208,7 @@ const CommunityBoardDetail = () => {
             key="confirm"
             onClick={() => {
               if (modalState.action) {
-                modalState.action(); // 지정된 동작 실행
+                modalState.action();
               }
               closeModal();
             }}
@@ -262,22 +256,28 @@ const CommunityBoardDetail = () => {
                 수정하기
               </button>
             ) : (
-              <button
-                className={
-                  isBookmarked ? styles.bookmarkedButton : styles.bookmarkButton
-                }
-                onClick={handleBookmarkClick}
-              >
-                <div className={styles.bookmarkIcon}>
-                  <img
-                    src={isBookmarked ? bookmarkTrue : bookmarkFalse}
-                    alt="북마크"
-                  />
-                </div>
-                <span className={styles.bookmarkText}>
-                  {isBookmarked ? '북마크 해제' : '북마크'}
-                </span>
-              </button>
+              <>
+                {user.userId && (
+                  <button
+                    className={
+                      isBookmarked
+                        ? styles.bookmarkedButton
+                        : styles.bookmarkButton
+                    }
+                    onClick={handleBookmarkClick}
+                  >
+                    <div className={styles.bookmarkIcon}>
+                      <img
+                        src={isBookmarked ? bookmarkTrue : bookmarkFalse}
+                        alt="북마크"
+                      />
+                    </div>
+                    <span className={styles.bookmarkText}>
+                      {isBookmarked ? '북마크 해제' : '북마크'}
+                    </span>
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>

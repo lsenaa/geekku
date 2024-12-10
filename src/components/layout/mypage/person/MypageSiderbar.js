@@ -1,7 +1,7 @@
 import styles from './MypageSiderbar.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
 

@@ -3,6 +3,18 @@
 .modalContainer {
   padding: 40px;
 }
+.profileImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
 
 .profile {
   @include flexrow;

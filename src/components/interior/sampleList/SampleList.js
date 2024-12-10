@@ -8,6 +8,7 @@ import { url } from 'lib/axios';
 import qs from 'qs';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const SampleList = () => {
   const user = useAtomValue(userAtom);
@@ -71,6 +72,7 @@ const SampleList = () => {
       <div className={styles.cardList}>
         <Card sampleList={sampleList} />
       </div>
+      <TopButton />
     </div>
   );
 };

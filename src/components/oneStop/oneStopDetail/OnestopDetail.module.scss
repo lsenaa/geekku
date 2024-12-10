@@ -2,6 +2,7 @@
 
 .container {
   @include formContainer;
+  padding: 100px 0;
 
   h2 {
     font-family: $sub-font;
@@ -67,10 +68,15 @@
   width: 860px;
   padding: 16px;
   word-break: break-all;
+  white-space: pre-wrap;
 }
 
 .btnWrap {
   @include flexrow;
   justify-content: center;
   margin: 80px 0;
+}
+
+.profileImg {
+  @include profileImg;
 }

@@ -18,16 +18,20 @@ const ProfileInteriorSidebar = ({
   const handleClick = () => {
     navigate('/interiorRequest', { state: interiorNum });
   };
+  const user = useAtomValue(userAtom);
+  console.log(user.userId);
 
   return (
     <div className={styles.profile}>
       <div className={styles.nameWrap}>
         <p>{detailInfo.interiorDetail.companyName}</p>
-        <img
-          src={bookmark === true ? bookmarkOn : bookmarkOff}
-          alt="북마크 이미지"
-          onClick={bookmarkClick}
-        />
+        {user.userId && (
+          <img
+            src={bookmark === true ? bookmarkOn : bookmarkOff}
+            alt="북마크 이미지"
+            onClick={bookmarkClick}
+          />
+        )}
       </div>
       <hr className={styles.line} />
       <div className={styles.profileDetail}>
