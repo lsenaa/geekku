@@ -8,7 +8,15 @@ import { url, axiosInToken } from 'lib/axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { tokenAtom, userAtom } from 'store/atoms';
-import { formatDate, processLocation } from 'utils/utils';
+import { useAtomValue } from 'jotai';
+import {
+  formatDate,
+  formatEstateType,
+  formatPrice,
+  processLocation,
+} from 'utils/utils';
+
+//파일이름 잘못지음; requestAll answerList
 
 const MypageInteriorRequest = () => {
   const navigate = useNavigate();
@@ -16,40 +24,41 @@ const MypageInteriorRequest = () => {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
   const [token, setToken] = useAtom(tokenAtom);
-  const [interiorAllAnswerList, setInteriorAllAnswerList] = useState([]);
+  const user = useAtomValue(userAtom); // Jotai로 관리 중인 사용자 정보
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = () => {
-    if (!token) {
-      console.log('Token is missing');
-      return;
+    fetchAnswers(currentPage);
+  }, [currentPage]);
+  const fetchAnswers = async (page) => {
+    try {
+      const response = await axiosInToken(token).get(
+        `${url}/company/myInteriorAnswerList/${user.companyId}`,
+        {
+          params: { page },
+        }
+      );
+      // 데이터가 존재할 경우에만 상태 업데이트
+      setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
+      setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
+      console.log(response.data.content);
+    } catch (error) {
+      console.error('데이터를 가져오는 중 오류 발생:', error);
+      setData([]);
+      setTotalPages(0);
     }
-    axiosInToken(token)
-      .get('/company/myInteriorAnswerList', {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((res) => {
-        console.log('API 응답 데이터:', res); // 전체 응답 출력
-        console.log('res.data:', res.data); // res.data 존재 여부 확인
-        console.log(
-          'res.data.content:',
-          res.data?.myInteriorAnswerList.content
-        ); // content 속성 확인
-        setInteriorAllAnswerList([...res.data.myInteriorAnswerList.content]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  };
+  // 페이지 변경 처리
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleRowClick = (requestAllNum) => {
+    navigate(`/interiorall/detail/${requestAllNum}`); // 원하는 경로로 이동
   };
 
   return (
     <>
-      {interiorAllAnswerList.length === 0 ? (
+      {data.length === 0 ? (
         <div className={styles.noListText}>작성한 방꾸 내역이 없습니다.</div>
       ) : (
         <>
@@ -58,7 +67,8 @@ const MypageInteriorRequest = () => {
               <col width="5%" />
               <col width="40%" />
               <col width="10%" />
-              <col width="10%" />
+              <col width="15%" />
+              <col width="15%" />
               <col width="15%" />
               <col width="5%" />
             </colgroup>
@@ -68,34 +78,47 @@ const MypageInteriorRequest = () => {
                 <th>제목</th>
                 <th>시공종류</th>
                 <th>희망지역</th>
+                <th>작성자</th>
                 <th>작성 날짜</th>
                 <th>조회수</th>
               </tr>
             </thead>
             <tbody>
-              {interiorAllAnswerList.map((answerAllNum, i) => (
+              {data.map((requestAll) => (
                 <tr
+                  key={requestAll.answerRequestAllNum}
                   className={styles.rowWrap}
-                  key={answerAllNum.answerrequestAllNum}
                   onClick={() =>
-                    navigate(
-                      `/interiorall/detail/${answerAllNum.requestAllNum}`
-                    )
+                    navigate(`/onestop/detail/${requestAll.requestAllNum}`)
                   }
                 >
-                  <td>{i + 1}</td>
-                  <td>{answerAllNum.title}</td>
+                  <td>{requestAll.answerRequestAllNum}</td>
+                  <td>{requestAll.title}</td>
+                  <td>{formatEstateType(requestAll.type)}</td>
                   <td>
-                    {answerAllNum.interiorType === 0 ? '부분시공' : '전체시공'}
+                    {`${processLocation(requestAll.address1)} ${requestAll.address2}`}
                   </td>
-                  <td>{`${processLocation(answerAllNum.address1)} ${answerAllNum.address2}`}</td>
-                  <td>{formatDate(answerAllNum.createAt)}</td>
-                  <td>{answerAllNum.viewCount}</td>
+                  <td>
+                    <span className={styles.writer}>
+                      <div className={styles.profileImg}>
+                        <img
+                          src={`data:image/png;base64,${requestAll.userProfileImage}`}
+                        />
+                        &nbsp; &nbsp;{requestAll.nickname}
+                      </div>
+                    </span>
+                  </td>
+                  <td>{formatDate(requestAll.createdAt)}</td>
+                  <td>{requestAll.viewCount}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <Pagination defaultCurrent={1} total={50} />
+          <Pagination
+            current={currentPage}
+            total={totalPages * 10} // 총 데이터 수에 맞게 수정
+            onChange={handlePageChange}
+          />
         </>
       )}
     </>
