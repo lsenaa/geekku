@@ -6,11 +6,9 @@ import Button01 from '../../commons/button/Button01';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdCancel } from 'react-icons/md';
 import DaumPostcode from 'react-daum-postcode';
-import { axiosInToken, url } from 'lib/axios';
+import { axiosInToken } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
-import ToastEditor from 'components/commons/ToastEditor';
-import axios from 'axios';
 
 const EstateWrite = () => {
   const navigate = useNavigate();
@@ -21,8 +19,6 @@ const EstateWrite = () => {
   const [isAddressOpen, setIsAddressOpen] = useState(false);
   const [isParking, setIsParking] = useState(false);
   const [isManage, setIsManage] = useState(false);
-  const editorRef = useRef();
-  const [content, setContent] = useState('');
   const [messageApi, contextHolder] = message.useMessage();
   const [estate, setEstate] = useState({
     type: '',
@@ -92,29 +88,6 @@ const EstateWrite = () => {
 
   const handleDeleteImg = (img) => {
     setImgList([...imgList.filter((i) => i !== img)]);
-  };
-
-  // 에디터 content
-  const onChangeContent = () => {
-    const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
-    setContent(text === '<p><br><p>' ? '' : text);
-  };
-
-  // 에디터 이미지 url 받아오기
-  const handleImage = async (blob, callback) => {
-    try {
-      let formData = new FormData();
-      formData.append('image', blob);
-
-      const response = await axios.post(`${url}/editorImageUpload`, formData);
-
-      if (response.status === 200) {
-        const imageUrl = response.data;
-        callback(imageUrl);
-      }
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   // 입력값
@@ -319,7 +292,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (content === '') {
+    if (estate.content === '') {
       messageApi.open({
         type: 'warning',
         content: '상세 설명을 입력해주세요.',
@@ -349,7 +322,7 @@ const EstateWrite = () => {
     formData.append('parking', estate.parking);
     formData.append('utility', estate.utility);
     formData.append('title', estate.title);
-    formData.append('content', content);
+    formData.append('content', estate.content);
 
     for (let img of imgList) {
       formData.append('images', img);
@@ -889,13 +862,7 @@ const EstateWrite = () => {
             상세 설명<span>*</span>
           </label>
           <div className={styles.textareaWrap}>
-            <ToastEditor
-              editorRef={editorRef}
-              height="500px"
-              handleImage={handleImage}
-              onChange={onChangeContent}
-            />
-            {/* <textarea
+            <textarea
               name="content"
               minLength="5"
               maxLength="1000"
@@ -906,7 +873,7 @@ const EstateWrite = () => {
             />
             <p>
               <span>{textCount}</span> / 1000
-            </p> */}
+            </p>
           </div>
         </div>
         <ul className={styles.alert} style={{ margin: '0 0 0 150px' }}>

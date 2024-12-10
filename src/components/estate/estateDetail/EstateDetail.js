@@ -8,7 +8,6 @@ import { axiosInToken, url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { tokenAtom, userAtom } from 'store/atoms';
 import axios from 'axios';
-import { Viewer } from '@toast-ui/react-editor';
 
 const EstateDetail = ({ estateNum, estateImageNums }) => {
   const [bookmark, setBookmark] = useState(false);
@@ -155,7 +154,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           <tr>
             <td className={styles.title}>상세 내용</td>
             <td className={styles.longContent} colSpan="3">
-              {estate.content && <Viewer initialValue={estate.content || ''} />}
+              {estate.content}
             </td>
           </tr>
         </tbody>
