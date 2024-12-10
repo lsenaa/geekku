@@ -1,12 +1,11 @@
 import styles from './ReviewWrite.module.scss';
 import { useEffect, useRef, useState } from 'react';
-import minus from '../../../assets/images/minus.png';
 import { axiosInToken, url } from 'lib/axios';
 import { useLocation, useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import Button01 from 'components/commons/button/Button01';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { MdCancel } from 'react-icons/md';
 import { FiPlus } from 'react-icons/fi';
 
@@ -21,13 +20,16 @@ const ReviewModify = () => {
   const [fileDelList, setFileDelList] = useState([]);
   const [review, setReview] = useState({
     companyName: '',
-    size: '',
-    content: '',
+    date: '',
     type: '',
     style: '',
+    size: '',
+    content: '',
     location: '',
   });
+
   const [textCount, setTextCount] = useState(0);
+  const [messageApi, contextHolder] = message.useMessage();
   const fRef = useRef();
 
   useEffect(() => {
@@ -55,13 +57,31 @@ const ReviewModify = () => {
   const edit = (e) => {
     const { name, value } = e.target;
 
-    setReview((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
+    // 날짜 값이 'YYYY-MM-DD' 형식인지를 확인하고, 날짜 형식에 맞춰 업데이트
+    if (name === 'date' && value !== '') {
+      const date = new Date(value);
+      setReview((prev) => ({
+        ...prev,
+        [name]: date.toISOString().split('T')[0], // '2024-12-27' 형식으로 저장
+      }));
+    } else {
+      setReview((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
     if (name === 'content') {
       setTextCount(value.length);
+    }
+
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (e.target.name === 'size') {
+      setReview((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
+      }));
     }
   };
 
@@ -99,8 +119,58 @@ const ReviewModify = () => {
   const submit = async (e) => {
     e.preventDefault();
 
+    // 입력값 검증
+    if (review.date === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '시공날짜를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (review.type === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '주거형태를 선택해주세요.',
+      });
+      return;
+    }
+
+    if (review.style === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '스타일을 선택해주세요.',
+      });
+      return;
+    }
+
+    if (review.size === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '평수를 입력해주세요.',
+      });
+      return;
+    }
+
+    if (fileList.length + fileNumList.length < 1) {
+      messageApi.open({
+        type: 'warning',
+        content: '사진은 최소 1장이상 업로드해야합니다.',
+      });
+      return;
+    }
+
+    if (review.content === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '리뷰내용을 입력해주세요.',
+      });
+      return;
+    }
+
     const data = new FormData();
     data.append('companyName', review.companyName);
+    data.append('date', review.date);
     data.append('size', review.size);
     data.append('content', review.content);
     data.append('type', review.type);
@@ -164,6 +234,19 @@ const ReviewModify = () => {
           </li>
           <li>
             <label>
+              시공날짜<span>*</span>
+            </label>
+            <input
+              type="date"
+              id="date"
+              className={styles.date}
+              name="date"
+              value={review.date}
+              onChange={edit}
+            />
+          </li>
+          <li>
+            <label>
               주거형태<span>*</span>
             </label>
             <select
@@ -204,7 +287,7 @@ const ReviewModify = () => {
               평수<span>*</span>
             </label>
             <input
-              type="number"
+              type="text"
               name="size"
               id="size"
               className={styles.customSelect}
@@ -311,6 +394,7 @@ const ReviewModify = () => {
           </p>
         </div>
         <div className={styles.submitBtnWrap}>
+          {contextHolder}
           <Button01 size="small" type="submit" onClick={submit}>
             수정하기
           </Button01>

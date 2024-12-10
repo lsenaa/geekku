@@ -133,7 +133,7 @@ const ReviewWrite = () => {
 
     const data = new FormData();
     data.append('companyName', review.companyName);
-    data.append('date', JSON.stringify(date));
+    data.append('date', date);
     data.append('type', review.type);
     data.append('style', review.style);
     data.append('size', review.size);
@@ -281,6 +281,8 @@ const ReviewWrite = () => {
         <div className={styles.item}>
           <label>
             일반 사진<span>*</span>
+            <br />
+            (최소 1장, 최대8장)
           </label>
           <div className={styles.imgBtnWrap}>
             <input
