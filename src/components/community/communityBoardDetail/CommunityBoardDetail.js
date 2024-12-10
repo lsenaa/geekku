@@ -127,21 +127,6 @@ const CommunityBoardDetail = () => {
     setNewComment(e.target.value);
   };
 
-  const formatCommentDate = (dateString) => {
-    try {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${year}-${month}-${day} ${hours}:${minutes}`;
-    } catch (error) {
-      console.error('Invalid date format:', error);
-      return dateString;
-    }
-  };
-
   const handleCommentSubmit = async () => {
     if (!user?.userId && !user?.companyId) {
       openModal(
@@ -178,6 +163,9 @@ const CommunityBoardDetail = () => {
               createdAt: new Date().toISOString().slice(0, 10),
             },
           ]);
+          Modal.success({
+            content: '댓글이 등록되었습니다.',
+          });
           setNewComment('');
         } else {
           console.error('댓글 작성 실패:', response.data);
@@ -262,22 +250,28 @@ const CommunityBoardDetail = () => {
                 수정하기
               </button>
             ) : (
-              <button
-                className={
-                  isBookmarked ? styles.bookmarkedButton : styles.bookmarkButton
-                }
-                onClick={handleBookmarkClick}
-              >
-                <div className={styles.bookmarkIcon}>
-                  <img
-                    src={isBookmarked ? bookmarkTrue : bookmarkFalse}
-                    alt="북마크"
-                  />
-                </div>
-                <span className={styles.bookmarkText}>
-                  {isBookmarked ? '북마크 해제' : '북마크'}
-                </span>
-              </button>
+              <>
+                {user.userId && (
+                  <button
+                    className={
+                      isBookmarked
+                        ? styles.bookmarkedButton
+                        : styles.bookmarkButton
+                    }
+                    onClick={handleBookmarkClick}
+                  >
+                    <div className={styles.bookmarkIcon}>
+                      <img
+                        src={isBookmarked ? bookmarkTrue : bookmarkFalse}
+                        alt="북마크"
+                      />
+                    </div>
+                    <span className={styles.bookmarkText}>
+                      {isBookmarked ? '북마크 해제' : '북마크'}
+                    </span>
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>

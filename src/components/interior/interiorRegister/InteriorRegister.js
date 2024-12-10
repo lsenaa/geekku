@@ -188,7 +188,7 @@ const interiorRegister = () => {
                 onChange={handleInputChange}
                 value={interior.period || ''}
               />
-              <p>년</p>
+              <p>개월</p>
             </div>
           </li>
           <li>
