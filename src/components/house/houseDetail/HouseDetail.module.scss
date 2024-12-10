@@ -70,3 +70,7 @@
   justify-content: center;
   margin: 80px 0;
 }
+
+.profileImg {
+  @include profileImg;
+}

@@ -13,15 +13,13 @@ const ReqInteriorDetailAnswerWrite = ({
   toggleModal,
   requestAllNum,
   setIsModalOpen,
-  fetchData,
+  setInteriorAllAnswerList,
 }) => {
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const editorRef = useRef();
-
-  console.log(requestAllNum);
 
   const onChangeContent = () => {
     const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
@@ -72,7 +70,20 @@ const ReqInteriorDetailAnswerWrite = ({
           content: '방꾸미기 답변이 등록되었습니다.',
           onOk: () => {
             setIsModalOpen(false);
-            fetchData();
+            // 작성된 답변 데이터를 클라이언트에서 직접 추가
+            const newAnswer = {
+              answerHouseNum: res.data,
+              companyName: user.companyName,
+              createdAt: new Date().toISOString(),
+              title: title,
+              content: content,
+              companyProfileImage: user.profileImageStr,
+              companyPhone: user.phone,
+              companyAddress: user.companyAddress,
+              companyId: user.companyId,
+            };
+            // 기존 리스트에 새 답변 추가
+            setInteriorAllAnswerList((prev) => [...prev, newAnswer]);
           },
         });
       })

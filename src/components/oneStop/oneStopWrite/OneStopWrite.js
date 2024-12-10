@@ -69,6 +69,16 @@ const OneStopWrite = () => {
         rentType: 'buy',
       });
     }
+
+    // 입력값 숫자만 가능하도록 처리
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+
+    if (e.target.name === 'money') {
+      setOnestop((prev) => ({
+        ...prev,
+        [e.target.name]: onlyNumbers,
+      }));
+    }
   };
 
   const handleSido = (e) => {
@@ -321,7 +331,12 @@ const OneStopWrite = () => {
           </label>
           <div className={styles.subLabelWrap}>
             <div className={styles.inputTextWrap}>
-              <input type="number" name="money" onChange={handleEdit} />
+              <input
+                type="text"
+                name="money"
+                onChange={handleEdit}
+                value={onestop.money || ''}
+              />
               <p>만원</p>
             </div>
           </div>
