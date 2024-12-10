@@ -231,7 +231,6 @@
   overflow-y: auto;
 }
 
-/* Notification Item */
 .notificationItem {
   display: flex;
   align-items: center;
@@ -240,13 +239,17 @@
   color: #333;
   background-color: #fffaf4;
   border-bottom: 1px solid #ddd;
-  justify-content: space-between;
-  // flex-direction: column;
+
+  > div {
+    flex-grow: 1; 
+  }
+
+  > div:last-child {
+    display: flex;
+    gap: 10px;
+  }
 }
 
-.notificationItem:last-child {
-  border-bottom: none;
-}
 
 .notificationDot {
   color: #c6d695;
@@ -259,3 +262,14 @@
   gap: 10px;
 }
 
+.notificationItem button {
+  transition: transform 0.2s ease; /* 버튼 애니메이션 */
+}
+
+.notificationItem button:hover {
+  transform: scale(1.05); /* 호버 시 크기 증가 */
+}
+
+.notificationItem button:active {
+  transform: scale(0.95); /* 클릭 시 크기 감소 */
+}

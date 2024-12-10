@@ -14,6 +14,7 @@ const CommunityFilterBar = ({
 }) => {
   const navigate = useNavigate();
   const user = useAtomValue(userAtom);
+  const [filterAction, setFilterAction] = useState(null);
 
   const [dropdownVisible, setDropdownVisible] = useState({
     type: false,
@@ -29,7 +30,7 @@ const CommunityFilterBar = ({
   const [modalState, setModalState] = useState({
     isOpen: false,
     message: '',
-    action: null, // 모달 확인 버튼 클릭 시 수행할 동작
+    action: null,
   });
 
   const openModal = (message, action = null) => {
@@ -54,36 +55,38 @@ const CommunityFilterBar = ({
 
   const handleFilterChange = (key, value) => {
     if (!value) {
-      // 필터를 제거할 때 페이드 아웃 클래스 추가
-      const tagElement = document.querySelector(`[data-key="${key}"]`);
-      if (tagElement) {
-        tagElement.classList.add(styles.fadeOut);
-        setTimeout(() => {
-          // 애니메이션이 끝난 후 상태 업데이트
-          const newFilters = { ...localFilters, [key]: value };
-          setLocalFilters(newFilters);
-          onFilterChange(newFilters);
-        }, 300); // CSS 애니메이션 시간과 동일하게 설정
-      }
+      setFilterAction('remove');
+    } else if (localFilters[key] === null || !localFilters[key]) {
+      setFilterAction('add');
     } else {
-      // 필터를 추가할 때
-      const newFilters = { ...localFilters, [key]: value };
-      setLocalFilters(newFilters);
-      onFilterChange(newFilters);
+      setFilterAction('update');
     }
-  };
 
-  const resetFilters = () => {
     const newFilters = {
-      type: null,
-      sizeRange: null,
-      familyType: null,
-      style: null,
-      period: null,
-      moneyRange: null,
+      ...localFilters,
+      [key]: value,
     };
     setLocalFilters(newFilters);
     onFilterChange(newFilters);
+    setTimeout(() => setFilterAction(null), 300);
+  };
+
+  const [isResetting, setIsResetting] = useState(false);
+  const resetFilters = () => {
+    setIsResetting(true);
+    setTimeout(() => {
+      setIsResetting(false);
+      const newFilters = {
+        type: null,
+        sizeRange: null,
+        familyType: null,
+        style: null,
+        period: null,
+        moneyRange: null,
+      };
+      setLocalFilters(newFilters);
+      onFilterChange(newFilters);
+    }, 300);
   };
 
   const toggleDropdown = (key) => {
@@ -123,12 +126,12 @@ const CommunityFilterBar = ({
         >
           <button className={styles.filterButton}>주거 형태</button>
           {dropdownVisible.type && (
-            <div className={styles.dropdown}>
+            <div className={styles.dropdown} style={{ width: '100%' }}>
               <div onClick={() => handleFilterChange('type', '아파트/빌라')}>
                 아파트/빌라
               </div>
               <div onClick={() => handleFilterChange('type', '시골 농가 주택')}>
-                시골 농가 주택
+                시골 농가
               </div>
               <div onClick={() => handleFilterChange('type', '전원 주택')}>
                 전원 주택
@@ -148,7 +151,16 @@ const CommunityFilterBar = ({
         >
           <button className={styles.filterButton}>스타일</button>
           {dropdownVisible.style && (
-            <div className={styles.dropdown}>
+            <div
+              className={styles.dropdown}
+              style={{
+                width: '250%',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '10px',
+                borderTopRightRadius: '25px',
+              }}
+            >
               <div onClick={() => handleFilterChange('style', '모던')}>
                 모던
               </div>
@@ -192,9 +204,16 @@ const CommunityFilterBar = ({
       </div>
 
       <div className={styles.selectedFilters}>
+        {/* 필터 태그 */}
         {Object.entries(localFilters).map(([key, value]) =>
           value ? (
-            <span key={key} className={styles.filterTag} data-key={key}>
+            <span
+              key={key}
+              className={`${styles.filterTag} ${filterAction === 'add' ? styles.pop : ''} ${
+                filterAction === 'update' ? styles.update : ''
+              } ${filterAction === 'remove' ? styles.remove : ''}`}
+              data-key={key}
+            >
               {value}{' '}
               <button
                 onClick={() => handleFilterChange(key, null)}
@@ -206,7 +225,11 @@ const CommunityFilterBar = ({
           ) : null
         )}
 
-        <button onClick={resetFilters} className={styles.resetButton}>
+        {/* 초기화 버튼 */}
+        <button
+          onClick={resetFilters}
+          className={`${styles.resetButton} ${isResetting ? styles.pop : ''}`}
+        >
           초기화
         </button>
       </div>
