@@ -98,7 +98,7 @@ const ReqInteriorWrite = () => {
   };
   const handleSigugun = (e) => {
     const selectedSigugun = sigugun.find(
-      (총) => gun.sigugun === e.target.value
+      (gun) => gun.sigugun === e.target.value
     );
 
     setInteriorall((prev) => ({
@@ -247,7 +247,7 @@ const ReqInteriorWrite = () => {
               상세 지역 선택
             </option>
             {sigugun
-              .filter((총) => gun.sido === interiorall.sido)
+              .filter((gun) => gun.sido === interiorall.sido)
               .map((gu) => (
                 <option value={gu.sigugun} key={gu.sigugun}>
                   {gu.codeNm}

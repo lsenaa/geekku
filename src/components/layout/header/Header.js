@@ -133,7 +133,7 @@ const Header = ({ alarms = [] }) => {
         path = `/house/detail/${detailPath}`;
         break;
       case 'interior': // 예: 방꾸하기
-        path = `/interior/detail/${detailPath}`;
+        path = `/interiorAll/detail/${detailPath}`;
         break;
       case 'onestop': // 예: 한번에꾸하기
         path = `/onestop/detail/${detailPath}`;
@@ -292,24 +292,26 @@ const Header = ({ alarms = [] }) => {
                         >
                           확인
                         </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // 클릭 이벤트 전파 방지
-                            navigateToDetail(item.type, item.detailPath); // 바로 이동
-                          }}
-                          className={styles.moveBtn}
-                          style={{
-                            width: '50px',
-                            height: '30px',
-                            borderRadius: '5px',
-                            borderWidth: 0,
-                            backgroundColor: '#6d885d',
-                            color: '#ffffff',
-                            marginLeft: '10px',
-                          }}
-                        >
-                          이동
-                        </button>
+                        {item.type !== 'request' && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation(); // 클릭 이벤트 전파 방지
+                              navigateToDetail(item.type, item.detailPath); // 바로 이동
+                            }}
+                            className={styles.moveBtn}
+                            style={{
+                              width: '50px',
+                              height: '30px',
+                              borderRadius: '5px',
+                              borderWidth: 0,
+                              backgroundColor: '#6d885d',
+                              color: '#ffffff',
+                              marginLeft: '10px',
+                            }}
+                          >
+                            이동
+                          </button>
+                        )}
                       </div>
                     </li>
                   ))

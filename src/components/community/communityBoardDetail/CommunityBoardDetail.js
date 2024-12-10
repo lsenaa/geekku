@@ -30,7 +30,7 @@ const CommunityBoardDetail = () => {
   const [modalState, setModalState] = useState({
     isOpen: false,
     message: '',
-    action: null, // 모달 버튼 클릭 시 수행할 동작
+    action: null,
   });
 
   const openModal = (message, action = null) => {
@@ -93,9 +93,15 @@ const CommunityBoardDetail = () => {
 
   const handleBookmarkClick = async () => {
     if (!user?.userId) {
-      Modal.info({
-        content: '로그인한 회원만 가능합니다.',
-      });
+      if (user?.type === 'estate' || user?.type === 'interior') {
+        Modal.info({
+          content: '일반 회원만 이용 가능합니다.',
+        });
+      } else {
+        Modal.info({
+          content: '로그인한 회원만 가능합니다.',
+        });
+      }
       return;
     }
 
@@ -214,7 +220,7 @@ const CommunityBoardDetail = () => {
             key="confirm"
             onClick={() => {
               if (modalState.action) {
-                modalState.action(); // 지정된 동작 실행
+                modalState.action();
               }
               closeModal();
             }}
