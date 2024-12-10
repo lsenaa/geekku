@@ -34,6 +34,7 @@ const JoinCompany = () => {
   const [usernameChecked, setUsernameChecked] = useState(false);
   const [estateInfoChecked, setEstateInfoChecked] = useState(false);
   const [companyNumChecked, setCompanyNumChecked] = useState(false);
+  const [emailVaildated, setEmailValidated] = useState(false);
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
   const [preview, setPreview] = useState(null);
@@ -50,18 +51,41 @@ const JoinCompany = () => {
 
   const edit = (e) => {
     const { name, value } = e.target;
-    if (name === 'phone') {
-      const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 11) {
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+
+    if (name === 'ceoName') {
+      const regex = /[^ㄱ-횡a-zA-Z\s]/;
+      if (regex.test(value)) {
+        Modal.info({
+          content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
+        });
         return;
       }
-      setUser({ ...user, phone: cleaned });
-    } else {
-      setUser({ ...user, [name]: value });
     }
+
     if (name === 'username') {
+      const regex = /^[a-zA-Z0-9]*$/;
+      if (!regex.test(value)) {
+        Modal.info({
+          content: '아이디는 영어와 숫자만 입력 가능합니다.',
+        });
+        return;
+      }
       setUsernameChecked(false);
     }
+
+    if (name === 'phone') {
+      const formattedPhone = applyPhoneFormat(value);
+      setUser((prevUser) => ({
+        ...prevUser,
+        [name]: formattedPhone || value,
+      }));
+      return;
+    }
+
     if (name == 'companyNumber') {
       setCompanyNumChecked(false);
       const cleaned = value.replace(/\D+/g, '');
@@ -70,8 +94,10 @@ const JoinCompany = () => {
         ...prevUser,
         companyNumber: cleaned,
       }));
+      setCompanyNumChecked(false);
       return;
     }
+
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -106,28 +132,43 @@ const JoinCompany = () => {
   };
 
   const handleVerifyCompanyNumber = () => {
-    const formattedNum = formatCompanyNum(user.companyNumber);
-    verifyCompanyNum(user.companyNumber, setUser, user);
+    const cleaned = user.companyNumber.replace(/\D+/g, '');
+    if (cleaned.length !== 10) {
+      Modal.info({
+        content: '사업자 번호는 10자리 숫자로 입력해주세요.',
+      });
+      return;
+    }
+    const isValied = verifyCompanyNum(cleaned, setUser);
     setCompanyNumChecked(true);
   };
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      if (/\D/g.test(value)) {
+      const phoneRegex = /^010-\d{4}-\d{4}$/;
+      if (!phoneRegex.test(value)) {
         Modal.info({
-          content: '휴대폰 번호는 숫자형식만 입력가능합니다.',
+          content: '휴대폰 번호를 다시 입력해주세요.',
         });
-        return;
-      }
-      const cleaned = value.replace(/\D/g, '');
-      if (cleaned.length !== 11) {
-        Modal.info({
-          content: '휴대폰 번호는 11자리 숫자로 입력해주세요.',
-        });
-        return;
       }
     }
+
+    if (name === 'email') {
+      if (!value) return;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        if (!emailVaildated) {
+          Modal.info({
+            content: '유효한 이메일 형식을 입력해주세요.',
+          });
+          setEmailValidated(false);
+        }
+      } else {
+        setEmailValidated(true);
+      }
+    }
+
     applyPhoneFormat(name, value, setUser, user);
   };
 
@@ -156,7 +197,7 @@ const JoinCompany = () => {
     }
 
     //사업자번호 체크버튼
-    if (!companyNumChecked) {
+    if (user.companyNumber && !companyNumChecked) {
       Modal.info({
         content: '사업자번호 인증을 눌러주세요.',
       });
@@ -172,6 +213,25 @@ const JoinCompany = () => {
     if (user.password !== user.confirmPassword) {
       Modal.error({
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      });
+      return;
+    }
+
+    //전화번호 최종 검증
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(user.phone)) {
+      Modal.info({
+        content: '휴대폰 번호를 다시입력해주세요.',
+      });
+      document.getElementById('phone').focus();
+      return;
+    }
+
+    // 이메일 유효성 최종 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email)) {
+      Modal.info({
+        content: '유효한 이메일 형식을 입력해주세요.',
       });
       return;
     }
@@ -300,6 +360,7 @@ const JoinCompany = () => {
             onChange={edit}
             onBlur={handleBlur}
             value={user.phone}
+            maxLength={13}
             className={styles2.input2}
           />
         </div>
@@ -314,6 +375,8 @@ const JoinCompany = () => {
             name="email"
             id="email"
             onChange={edit}
+            onBlur={handleBlur}
+            value={user.email}
             className={styles2.input2}
           />
         </div>
@@ -326,7 +389,7 @@ const JoinCompany = () => {
         <div className={styles2.inputGroup}>
           <input
             type="text"
-            placeholder="조회 버튼으로 부동산 정보를 조회할 수 있습니다."
+            placeholder="부동산 정보를 조회해야 회원가입을 하실 수 있습니다.(필수)"
             className={styles2.input1}
             readOnly
           />
@@ -397,7 +460,7 @@ const JoinCompany = () => {
             id="companyNumber"
             onChange={edit}
             placeholder="숫자 10자리를 입력해주세요."
-            maxLength={13}
+            maxLength={10}
             className={styles2.input1}
             value={user.companyNumber}
           />

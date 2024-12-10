@@ -18,6 +18,8 @@ const PersonInfo = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [isSocial, setIsSocial] = useState(false);
+  const [nicknameChecked, setNicknameChecked] = useState(false);
+  const [emailVaildated, setEmailValidated] = useState(false);
 
   useEffect(() => {
     setIsSocial(user.provider);
@@ -26,14 +28,30 @@ const PersonInfo = () => {
   const edit = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 11) {
+      const formattedPhone = applyPhoneFormat(value);
+      setMyUser((prevMyUser) => ({
+        ...prevMyUser,
+        [name]: formattedPhone || value,
+      }));
+      return;
+    }
+
+    if (name === 'name') {
+      const regex = /[^ㄱ-횡a-zA-Z\s]/;
+      if (regex.test(value)) {
+        Modal.info({
+          content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
+        });
         return;
       }
-      setMyUser({ ...myUser, phone: cleaned });
-    } else {
-      setMyUser({ ...myUser, [name]: value });
+      setUser({ ...myUser, [name]: value });
     }
+
+    if (name === 'nickname') {
+      setNicknameChecked(false);
+    }
+
+    setMyUser({ ...myUser, [name]: value });
   };
 
   useEffect(() => {
@@ -42,6 +60,29 @@ const PersonInfo = () => {
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const phoneRegex = /^010-\d{4}-\d{4}$/;
+      if (!phoneRegex.test(value)) {
+        Modal.info({
+          content: '휴대폰 번호를 다시 입력해주세요.',
+        });
+      }
+    }
+    if (name === 'email') {
+      if (!value) return;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        if (!emailVaildated) {
+          Modal.info({
+            content: '유효한 이메일 형식을 입력해주세요.',
+          });
+          setEmailValidated(false);
+        }
+      } else {
+        setEmailValidated(true);
+      }
+    }
+
     applyPhoneFormat(name, value, setUser, user);
   };
 
@@ -53,6 +94,33 @@ const PersonInfo = () => {
 
     if (profileImage != null) {
       formData.append('file', profileImage);
+    }
+
+    // 닉네임 중복확인
+    if (myUser.nickname && !nicknameChecked) {
+      Modal.info({
+        content: '닉네임 중복 확인을 눌러주세요.',
+      });
+      return;
+    }
+
+    //전화번호 최종 검증
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(myUser.phone)) {
+      Modal.info({
+        content: '휴대폰 번호를 다시입력해주세요.',
+      });
+      document.getElementById('phone').focus();
+      return;
+    }
+
+    // 이메일 유효성 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(myUser.email)) {
+      Modal.info({
+        content: '유효한 이메일 형식을 입력해주세요.',
+      });
+      return;
     }
 
     axios
@@ -77,8 +145,15 @@ const PersonInfo = () => {
         redirect('${url}/user/updateUserInfo');
       });
   };
-  const handleCheckNickname = () => {
-    CheckNickname(myUser.nickname, url);
+  const handleCheckNickname = async () => {
+    if (myUser.nickname.length < 2 || myUser.nickname.length > 20) {
+      Modal.info({
+        content: '닉네임은 2자 이상 20자 이하로 입력해주세요.',
+      });
+      return;
+    }
+    const isAvailable = await CheckNickname(myUser.nickname, url);
+    setNicknameChecked(isAvailable);
   };
 
   const imageUpdate = () => {
@@ -141,16 +216,17 @@ const PersonInfo = () => {
               type="text"
               name="nickname"
               onChange={edit}
-              // value={myUser.nickname}
-              placeholder={myUser.nickname}
+              value={myUser.nickname}
+              maxLength={20}
               className={styles.input1}
               readOnly={isSocial}
             />
             <button
               className={styles.checkButton}
               onClick={handleCheckNickname}
+              disabled={nicknameChecked}
             >
-              중복확인
+              {nicknameChecked ? '확인 완료' : '중복 확인'}
             </button>
           </div>
           <div className={styles.inputGroup}>
@@ -161,9 +237,9 @@ const PersonInfo = () => {
             <input
               type="text"
               name="name"
-              placeholder={myUser.name}
-              readOnly
+              value={myUser.name}
               className={styles.input2}
+              readOnly
             />
           </div>
           <div className={styles.inputGroup}>
@@ -179,7 +255,6 @@ const PersonInfo = () => {
               onBlur={handleBlur}
               value={myUser.phone}
               maxLength={13}
-              placeholder={myUser.phone}
               className={styles.input2}
             />
           </div>
@@ -192,7 +267,8 @@ const PersonInfo = () => {
               type="text"
               name="email"
               onChange={edit}
-              placeholder={myUser.email}
+              onBlur={handleBlur}
+              value={myUser.email}
               className={styles.input2}
               readOnly={isSocial}
             />
