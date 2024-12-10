@@ -1,5 +1,4 @@
 import styles from './ReqInteriorList.module.scss';
-import { FaUserCircle } from 'react-icons/fa';
 import { formatDate, formatLocation, processLocation } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,9 +8,9 @@ const ReqInteriorList = ({ interiorAllList }) => {
     <table className={styles.customTable}>
       <colgroup>
         <col width="5%" />
-        <col width="40%" />
+        <col width="35%" />
         <col width="10%" />
-        <col width="10%" />
+        <col width="15%" />
         <col width="15%" />
         <col width="15%" />
         <col width="5%" />

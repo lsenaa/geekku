@@ -26,7 +26,7 @@ const OnestopDetail = () => {
     content: '',
     createdAt: '',
     userId: '',
-    oneStopNum: num || 0,
+    onestopNum: num || 0,
   });
   useEffect(() => {
     fetchData();
@@ -94,10 +94,12 @@ const OnestopDetail = () => {
             {onestop.workType == 1 && '부분 시공'}
           </p>
         </div>
-        <div className={styles.item}>
-          <label>인테리어 시공 종류</label>
-          <p>{onestop.interiorType}</p>
-        </div>
+        {onestop.workType && (
+          <div className={styles.item}>
+            <label>인테리어 시공 종류</label>
+            <p>{onestop.interiorType}</p>
+          </div>
+        )}
 
         {onestop.allowPhone && (
           <div className={styles.item}>
@@ -127,7 +129,7 @@ const OnestopDetail = () => {
       </div>
       {/* 답변 리스트 */}
       <OnestopDetailAnswerList
-        oneStopNum={onestop.oneStopNum}
+        onestopNum={onestop.onestopNum}
         userId={onestop.userId}
       />
     </div>

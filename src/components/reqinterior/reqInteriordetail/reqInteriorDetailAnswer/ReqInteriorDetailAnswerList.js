@@ -184,12 +184,16 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
                         src={`data:image/png;base64, ${answer.companyProfileImage}`}
                         alt="프로필 이미지"
                       />
-                      <p className={styles.companyName}>{answer.companyName}</p>
+                      <div className={styles.profileDateWrap}>
+                        <p className={styles.companyName}>
+                          {answer.companyName}
+                        </p>
+                        <p className={styles.createdAt}>
+                          {formatDate(answer.createdAt)}
+                        </p>
+                      </div>
                     </div>
                     <p className={styles.title}>{answer.title}</p>
-                    <p className={styles.createdAt}>
-                      {formatDate(answer.createdAt)}
-                    </p>
                     {user.companyId === answer.companyId && (
                       <button
                         className={styles.deleteBtn}
@@ -241,6 +245,7 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
             toggleModal={toggleModal}
             setIsModalOpen={setIsModalOpen}
             fetchData={fetchData}
+            setInteriorAllAnswerList={setInteriorAllAnswerList}
           />
         </Modal>
       )}
