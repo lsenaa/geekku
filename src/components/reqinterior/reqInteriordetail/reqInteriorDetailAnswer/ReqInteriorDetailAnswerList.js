@@ -200,7 +200,6 @@ const ReqInteriorDetailAnswerList = ({ requestAllNum, userId }) => {
                       </div>
                     </div>
                     <p className={styles.title}>{answer.title}</p>
-
                     {user.companyId === answer.companyId && (
                       <button
                         className={styles.deleteBtn}

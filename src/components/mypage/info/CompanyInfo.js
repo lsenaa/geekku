@@ -20,17 +20,17 @@ const CompanyInfo = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [certificationImage, setCertificationImage] = useState(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [emailVaildated, setEmailValidated] = useState(false);
 
   const edit = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 11) {
-        return;
-      }
-      setUser({ ...user, phone: cleaned });
-    } else {
-      setUser({ ...user, [name]: value });
+      const formattedPhone = applyPhoneFormat(value);
+      setMyUser((prevMyUser) => ({
+        ...prevMyUser,
+        [name]: formattedPhone || value,
+      }));
+      return;
     }
     setMyUser({ ...myUser, [name]: value });
   };
@@ -41,6 +41,28 @@ const CompanyInfo = () => {
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
+    if (name === 'phone') {
+      const phoneRegex = /^010-\d{4}-\d{4}$/;
+      if (!phoneRegex.test(value)) {
+        Modal.info({
+          content: '휴대폰 번호를 다시 입력해주세요.',
+        });
+      }
+    }
+    if (name === 'email') {
+      if (!value) return;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        if (!emailVaildated) {
+          Modal.info({
+            content: '유효한 이메일 형식을 입력해주세요.',
+          });
+          setEmailValidated(false);
+        }
+      } else {
+        setEmailValidated(true);
+      }
+    }
     applyPhoneFormat(name, value, setUser, user);
   };
 
@@ -49,13 +71,31 @@ const CompanyInfo = () => {
     formData.append('companyAddress', myUser.companyAddress);
     formData.append('phone', myUser.phone);
     formData.append('email', myUser.email);
-    //console.log(profileImage);
+
     if (profileImage != null) {
       formData.append('file', profileImage);
     }
-    //console.log(certificationImage);
     if (certificationImage != null) {
       formData.append('certificationFile', certificationImage);
+    }
+
+    //전화번호 최종 검증
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(myUser.phone)) {
+      Modal.info({
+        content: '휴대폰 번호를 다시입력해주세요.',
+      });
+      document.getElementById('phone').focus();
+      return;
+    }
+
+    // 이메일 유효성 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(myUser.email)) {
+      Modal.info({
+        content: '유효한 이메일 형식을 입력해주세요.',
+      });
+      return;
     }
 
     axios
@@ -83,7 +123,6 @@ const CompanyInfo = () => {
       });
   };
 
-  //onsole.log(`${url}${user.certificationImagePath}`);
   const imageUpdate = () => {
     document.getElementById('profileImageUpdate').click();
   };
@@ -205,8 +244,8 @@ const CompanyInfo = () => {
             <input
               type="text"
               name="companyAddress"
-              value={user.companyAddress}
               onChange={edit}
+              value={user.companyAddress}
               className={styles.input1}
             />
             <button
@@ -231,7 +270,6 @@ const CompanyInfo = () => {
               type="text"
               name="phone"
               id="phone"
-              placeholder={user.phone}
               onChange={edit}
               onBlur={handleBlur}
               value={myUser.phone}
@@ -249,14 +287,11 @@ const CompanyInfo = () => {
               name="email"
               onChange={edit}
               value={myUser.email}
-              placeholder={user.email}
               className={styles.input2}
             />
           </div>
           <div className={styles.inputGroup}>
-            <span>
-              사업자등록번호<b>*</b>
-            </span>
+            <span>사업자등록번호</span>
             <br />
             <input
               type="text"

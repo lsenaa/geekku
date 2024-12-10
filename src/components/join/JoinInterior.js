@@ -35,21 +35,45 @@ const JoinInterior = () => {
   const [preview, setPreview] = useState(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [companyNumChecked, setCompanyNumChecked] = useState(false);
+  const [emailVaildated, setEmailValidated] = useState(false);
 
   const edit = (e) => {
     const { name, value } = e.target;
-    if (name === 'phone') {
-      const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 11) {
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+
+    if (name === 'ceoName') {
+      const regex = /[^ㄱ-횡a-zA-Z\s]/;
+      if (regex.test(value)) {
+        Modal.info({
+          content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
+        });
         return;
       }
-      setUser({ ...user, phone: cleaned });
-    } else {
-      setUser({ ...user, [name]: value });
     }
+
     if (name === 'username') {
+      const regex = /^[a-zA-Z0-9]*$/;
+      if (!regex.test(value)) {
+        Modal.info({
+          content: '아이디는 영어와 숫자만 입력 가능합니다.',
+        });
+        return;
+      }
       setUsernameChecked(false);
     }
+
+    if (name === 'phone') {
+      const formattedPhone = applyPhoneFormat(value);
+      setUser((prevUser) => ({
+        ...prevUser,
+        [name]: formattedPhone || value,
+      }));
+      return;
+    }
+
     if (name === 'companyNumber') {
       setCompanyNumChecked(false);
       const cleaned = value.replace(/\D+/g, '');
@@ -58,8 +82,10 @@ const JoinInterior = () => {
         ...prevUser,
         companyNumber: cleaned,
       }));
+      setCompanyNumChecked(false);
       return;
     }
+
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -93,20 +119,29 @@ const JoinInterior = () => {
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      if (/\D/g.test(value)) {
+      const phoneRegex = /^010-\d{4}-\d{4}$/;
+      if (!phoneRegex.test(value)) {
         Modal.info({
-          content: '휴대폰 번호는 숫자형식만 입력가능합니다.',
+          content: '휴대폰 번호를 다시 입력해주세요.',
         });
-        return;
-      }
-      const cleaned = value.replace(/\D/g, '');
-      if (cleaned.length !== 11) {
-        Modal.info({
-          content: '휴대폰 번호는 11자리 숫자로 입력해주세요.',
-        });
-        return;
       }
     }
+
+    if (name === 'email') {
+      if (!value) return;
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(value)) {
+        if (!emailVaildated) {
+          Modal.info({
+            content: '유효한 이메일 형식을 입력해주세요.',
+          });
+          setEmailValidated(false);
+        }
+      } else {
+        setEmailValidated(true);
+      }
+    }
+
     applyPhoneFormat(name, value, setUser, user);
   };
 
@@ -142,6 +177,14 @@ const JoinInterior = () => {
       return;
     }
 
+    //사업자번호 체크버튼
+    if (user.companyNumber && !companyNumChecked) {
+      Modal.info({
+        content: '사업자번호 인증을 눌러주세요.',
+      });
+      return;
+    }
+
     //비밀번호 검사
     // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     // if (!passwordRegex.test(user.password)) {
@@ -151,6 +194,25 @@ const JoinInterior = () => {
     if (user.password !== user.confirmPassword) {
       Modal.error({
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+      });
+      return;
+    }
+
+    //전화번호 최종 검증
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(user.phone)) {
+      Modal.info({
+        content: '휴대폰 번호를 다시입력해주세요.',
+      });
+      document.getElementById('phone').focus();
+      return;
+    }
+
+    // 이메일 유효성 최종 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email)) {
+      Modal.info({
+        content: '유효한 이메일 형식을 입력해주세요.',
       });
       return;
     }
@@ -284,7 +346,9 @@ const JoinInterior = () => {
             type="text"
             name="email"
             id="email"
+            value={user.email}
             onChange={edit}
+            onBlur={handleBlur}
             className={styles2.input2}
           />
         </div>

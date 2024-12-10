@@ -17,9 +17,11 @@ export const verifyCompanyNum = (companyNumber, setUser) => {
       ...prevUser,
       companyNumber: formattedNum,
     }));
+    return true;
   } else {
     Modal.error({
       content: '사업자등록번호 입력 형식이 맞지 않습니다.',
     });
+    return false;
   }
 };

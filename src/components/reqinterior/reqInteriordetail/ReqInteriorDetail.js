@@ -91,10 +91,12 @@ const ReqInteriorDetail = () => {
             {interiorAll.workType == 1 && '부분시공'}
           </p>
         </div>
-        <div className={styles.item}>
-          <label>시공 종류</label>
-          <p>{interiorAll.interiorType}</p>
-        </div>
+        {interiorAll.workType && (
+          <div className={styles.item}>
+            <label>인테리어 시공 종류</label>
+            <p>{interiorAll.interiorType}</p>
+          </div>
+        )}
         <div className={styles.item}>
           <label>시공 평수</label>
           <p>{interiorAll.size == 10 && '10평 이상'}</p>

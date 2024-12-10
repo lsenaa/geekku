@@ -10,7 +10,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
-import { formatDate, processLocation } from 'utils/utils';
+import {
+  formatDate,
+  formatEstateType,
+  formatPrice,
+  processLocation,
+} from 'utils/utils';
 
 const MypageInteriorOnestop = () => {
   const [data, setData] = useState([]); // 데이터 초기값 빈 배열
@@ -48,6 +53,10 @@ const MypageInteriorOnestop = () => {
     setCurrentPage(page);
   };
 
+  const handleRowClick = (oneStopNum) => {
+    navigate(`/onestop/detail/${oneStopNum}`); // 원하는 경로로 이동
+  };
+
   return (
     <>
       {data.length === 0 ? ( // data 상태를 사용
@@ -78,22 +87,32 @@ const MypageInteriorOnestop = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((item) => (
-                <tr key={item.answerHouseNum} className={styles.rowWrap}>
-                  <td>{item.answerHouseNum}</td>
-                  <td>{item.title}</td>
-                  <td>{item.type}</td>
+              {data.map((onestop) => (
+                <tr
+                  key={onestop.answerOnestopNum}
+                  className={styles.rowWrap}
+                  onClick={() =>
+                    navigate(`/onestop/detail/${onestop.onestopNum}`)
+                  }
+                >
+                  <td>{onestop.answerOnestopNum}</td>
+                  <td>{onestop.title}</td>
+                  <td>{formatEstateType(onestop.type)}</td>
                   <td>
-                    {item.address1} {item.address2}
+                    {`${processLocation(onestop.address1)} ${onestop.address2}`}
                   </td>
                   <td>
                     <span className={styles.writer}>
-                      <FaUserCircle color="#6D885D" size={30} />
-                      &nbsp;{item.userName}
+                      <div className={styles.profileImg}>
+                        <img
+                          src={`data:image/png;base64,${onestop.userProfileImage}`}
+                        />
+                        &nbsp; &nbsp;{onestop.nickname}
+                      </div>
                     </span>
                   </td>
-                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                  <td>{item.viewCount}</td>
+                  <td>{formatDate(onestop.createdAt)}</td>
+                  <td>{onestop.viewCount}</td>
                 </tr>
               ))}
             </tbody>

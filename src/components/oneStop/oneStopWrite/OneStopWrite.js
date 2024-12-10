@@ -36,6 +36,16 @@ const OneStopWrite = () => {
       setSelectType(selectType.filter((type) => type !== value));
     }
   };
+  const [workType, setWorkType] = useState(false); // true: 부분 시공, false: 전체 시공
+
+  const handleWorkTypeChange = (e) => {
+    const isPartWork = e.target.value === '1'; // '1'이면 부분 시공
+    setWorkType(isPartWork);
+    setOnestop((prev) => ({
+      ...prev,
+      workType: isPartWork, // interiorall에도 업데이트
+    }));
+  };
 
   const [onestop, setOnestop] = useState({
     title: '',
@@ -46,9 +56,9 @@ const OneStopWrite = () => {
     money: '',
     movePersons: '',
     rentType: 'jeonse',
-    size: '',
+    size: 10,
     type: '',
-    workType: true,
+    workType: false,
   });
 
   const onTextareaHandler = (e) => {
@@ -147,13 +157,16 @@ const OneStopWrite = () => {
       });
       return;
     }
-
-    if (selectType.length === 0) {
-      messageApi.open({
-        type: 'warning',
-        content: '인테리어 시공종류를 선택해주세요.',
-      });
-      return;
+    {
+      workType === false && (
+        <>
+          {selectType.length === 0 &&
+            messageApi.open({
+              type: 'warning',
+              content: '인테리어 시공종류를 선택해주세요.',
+            })}
+        </>
+      );
     }
 
     if (onestop.movePersons === '') {
@@ -360,53 +373,59 @@ const OneStopWrite = () => {
             <option value="40">40평 이상</option>
           </select>
         </div>
-        <div className={styles.item}>
-          <label>
-            시공 종류<span>*</span>
-          </label>
-          <div className={styles.radioGroup}>
-            <input
-              type="radio"
-              id="0"
-              name="workType"
-              value="0"
-              onChange={handleEdit}
-              defaultChecked
-            />
-            <label htmlFor="전체">전체 시공</label>
-            <input
-              type="radio"
-              id="1"
-              name="workType"
-              value="1"
-              onChange={handleEdit}
-            />
-            <label htmlFor="부분">부분시공</label>
+        <div>
+          <div className={styles.item}>
+            <label>
+              시공 종류<span>*</span>
+            </label>
+            <div className={styles.radioGroup}>
+              <input
+                type="radio"
+                id="0"
+                name="workType"
+                value="0"
+                onChange={handleWorkTypeChange}
+                checked={!workType} // 전체 시공일 때 체크
+              />
+              <label htmlFor="0">전체 시공</label>
+              <input
+                type="radio"
+                id="1"
+                name="workType"
+                value="1"
+                onChange={handleWorkTypeChange}
+                checked={workType} // 부분 시공일 때 체크
+              />
+              <label htmlFor="1">부분 시공</label>
+            </div>
           </div>
-        </div>
-        <div className={styles.items}>
-          <label>
-            인테리어 시공<span>*</span>
-          </label>
-          <div className={styles.checkboxGroup}>
-            {type.map((interiorType) => (
-              <label
-                key={interiorType}
-                className={styles.customLabel}
-                htmlFor={interiorType}
-              >
-                <input
-                  type="checkbox"
-                  className={styles.customCheck}
-                  id={interiorType}
-                  value={interiorType}
-                  onChange={handleChk}
-                />
-                &nbsp;
-                {interiorType}
+
+          {workType && ( // 부분 시공 선택 시 체크박스 표시
+            <div className={styles.items}>
+              <label>
+                인테리어 시공<span>*</span>
               </label>
-            ))}
-          </div>
+              <div className={styles.checkboxGroup}>
+                {type.map((interiorType) => (
+                  <label
+                    key={interiorType}
+                    className={styles.customLabel}
+                    htmlFor={interiorType}
+                  >
+                    <input
+                      type="checkbox"
+                      className={styles.customCheck}
+                      id={interiorType}
+                      value={interiorType}
+                      onChange={handleChk}
+                    />
+                    &nbsp;
+                    {interiorType}
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         <div className={styles.item}>
           <label>

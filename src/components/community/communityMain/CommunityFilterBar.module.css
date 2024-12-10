@@ -81,23 +81,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 0;
+  /* max-height: 0; */
   overflow: hidden;
   border-radius: 25px;
   transition:
     transform 0.3s ease-in-out,
     max-height 0.3s ease-in-out;
-}
-
-.filterButtonWrapper:hover .dropdown {
-  max-height: 200px;
-  border-radius: 0 0 25px 25px;
-  transition: border-radius 0.3s ease-in-out;
-}
-
-.filterButtonWrapper:hover .dropdown:hover {
-  border-radius: 25px;
-  transition: border-radius 0.3s ease-in-out;
 }
 
 .dropdown div {
@@ -116,6 +105,17 @@
 .dropdown div:active {
   transform: scale(0.95);
   background-color: #8da07a;
+}
+
+.filterButtonWrapper:hover .dropdown {
+  max-height: 500px;
+  border-radius: 0 0 25px 25px;
+  transition: border-radius 0.3s ease-in-out;
+}
+
+.filterButtonWrapper:hover .dropdown:hover {
+  border-radius: 25px;
+  transition: border-radius 0.3s ease-in-out;
 }
 
 .filterButtonWrapper {
@@ -162,6 +162,11 @@
   transition: opacity 0.3s ease-in-out;
 }
 
+.filterTag.fade-out {
+  opacity: 0; /* 즉시 투명하게 */
+  transition: opacity 0.1s ease-in-out; /* 딜레이를 0.1초로 축소 */
+}
+
 /* 필터 제거 버튼 */
 .filterRemoveButton {
   background: none;
@@ -182,17 +187,56 @@
   font-size: 16px;
 }
 
-/* 팝 애니메이션 */
 @keyframes popIn {
   0% {
-    transform: scale(0.5);
-    opacity: 0;
+    transform: scale(0.9);
+    opacity: 0.8;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1);
     opacity: 1;
   }
   100% {
     transform: scale(1);
   }
 }
+
+.pop {
+  animation: popIn 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: #a2b88f;
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: #c6d695;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #c6d695;
+  }
+}
+
+.update {
+  animation: pulse 0.3s ease-in-out;
+}
+
+
+@keyframes fadeOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+.remove {
+  animation: fadeOut 0.3s ease-in-out;
+}
+

@@ -95,6 +95,9 @@ const ReqInteriorDetailAnswerWrite = ({
     <div className={styles.modalContainer}>
       <div>
         <div className={styles.profile}>
+          <div className={styles.profileImg}>
+            <img src={`data:image/png;base64, ${user.profileImageStr}`} />
+          </div>
           <p>{user.companyName}</p>
         </div>
         <div className={styles.phoneAddWrap}>
