@@ -243,10 +243,10 @@
   border-bottom: 1px solid #ddd;
   justify-content: space-between;
   // flex-direction: column;
-}
 
-.notificationItem:last-child {
-  border-bottom: none;
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .notificationDot {
