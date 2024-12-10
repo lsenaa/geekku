@@ -54,19 +54,10 @@ const CommunityFilterBar = ({
 
   const handleFilterChange = (key, value) => {
     if (!value) {
-      // 필터를 제거할 때 페이드 아웃 클래스 추가
-      const tagElement = document.querySelector(`[data-key="${key}"]`);
-      if (tagElement) {
-        tagElement.classList.add(styles.fadeOut);
-        setTimeout(() => {
-          // 애니메이션이 끝난 후 상태 업데이트
-          const newFilters = { ...localFilters, [key]: value };
-          setLocalFilters(newFilters);
-          onFilterChange(newFilters);
-        }, 300); // CSS 애니메이션 시간과 동일하게 설정
-      }
+      const newFilters = { ...localFilters, [key]: value };
+      setLocalFilters(newFilters);
+      onFilterChange(newFilters);
     } else {
-      // 필터를 추가할 때
       const newFilters = { ...localFilters, [key]: value };
       setLocalFilters(newFilters);
       onFilterChange(newFilters);
@@ -123,12 +114,12 @@ const CommunityFilterBar = ({
         >
           <button className={styles.filterButton}>주거 형태</button>
           {dropdownVisible.type && (
-            <div className={styles.dropdown}>
+            <div className={styles.dropdown} style={{ width: '100%' }}>
               <div onClick={() => handleFilterChange('type', '아파트/빌라')}>
                 아파트/빌라
               </div>
               <div onClick={() => handleFilterChange('type', '시골 농가 주택')}>
-                시골 농가 주택
+                시골 농가
               </div>
               <div onClick={() => handleFilterChange('type', '전원 주택')}>
                 전원 주택
@@ -148,7 +139,16 @@ const CommunityFilterBar = ({
         >
           <button className={styles.filterButton}>스타일</button>
           {dropdownVisible.style && (
-            <div className={styles.dropdown}>
+            <div
+              className={styles.dropdown}
+              style={{
+                width: '250%',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '10px',
+                borderTopRightRadius: '25px',
+              }}
+            >
               <div onClick={() => handleFilterChange('style', '모던')}>
                 모던
               </div>

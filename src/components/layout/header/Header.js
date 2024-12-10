@@ -17,7 +17,7 @@ import {
 import { FaUserCircle } from 'react-icons/fa';
 import defaultImg from 'assets/images/usericon.png';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 
 // Toast UI Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
@@ -113,14 +113,13 @@ const Header = ({ alarms = [] }) => {
   };
 
   const logout = () => {
-    setUser(initUser);
-    setToken('');
-    setAlarms([]);
-
-    setIsLogin(false);
     Modal.success({
       content: '로그아웃 되었습니다.',
     });
+    setUser(initUser);
+    setToken('');
+    setAlarms([]);
+    setIsLogin(false);
     navigate('/');
   };
 
@@ -252,13 +251,13 @@ const Header = ({ alarms = [] }) => {
                           height: '30px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          // display: 'inline-block',
-                          // whiteSpace: 'nowrap',
                         }}
                       >
                         <Viewer
                           initialValue={
-                            item.companyName || '<p>회사명이 없습니다.</p>'
+                            item.type === 'request'
+                              ? `<p>${item.num}</p>`
+                              : item.companyName || '<p>회사명이 없습니다.</p>'
                           }
                         />
                       </div>
@@ -268,8 +267,6 @@ const Header = ({ alarms = [] }) => {
                           height: '30px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          // display: 'inline-block',
-                          // whiteSpace: 'nowrap',
                         }}
                       >
                         <Viewer
@@ -367,12 +364,14 @@ const Header = ({ alarms = [] }) => {
                   <div>
                     <div style={{ fontWeight: 'bold' }}>
                       <Viewer
+                        key={selectedAlarm.num}
                         initialValue={
                           selectedAlarm.title || '<p>제목이 없습니다.</p>'
                         }
                       />
                     </div>
                     <Viewer
+                      key={selectedAlarm.num}
                       initialValue={
                         selectedAlarm.message || '<p>내용이 없습니다.</p>'
                       }
