@@ -15,7 +15,6 @@ const HouseDetailAnswerWrite = ({
   toggleModal,
   houseNum,
   setIsModalOpen,
-  fetchData,
   setHouseAnswerList,
 }) => {
   const user = useAtomValue(userAtom);

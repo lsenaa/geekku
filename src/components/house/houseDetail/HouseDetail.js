@@ -57,17 +57,16 @@ const HouseDetail = () => {
       <h2>집꾸 신청내역</h2>
       <section>
         <div className={styles.profile}>
-          {house.userProfileImage ? (
+          <div className={styles.profileImg}>
             <img
-              src={`data:image/png;base64, ${house.userProfileImage}`}
+              src={
+                house.userProfileImage
+                  ? `data:image/png;base64, ${house.userProfileImage}`
+                  : ''
+              }
               alt="사용자 프로필 이미지"
-              width="30px"
-              height="30px"
-              style={{ borderRadius: '50px' }}
             />
-          ) : (
-            <FaUserCircle size="30" color="#6D885D" />
-          )}
+          </div>
           <p>{house.nickname ? house.nickname : house.name}</p>
           <p className={styles.createdAt}>{formatDate(house.createdAt)}</p>
         </div>

@@ -154,15 +154,20 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
                 >
                   <div className={styles.preview}>
                     <div className={styles.profile}>
-                      <img
-                        src={`data:image/png;base64, ${answer.companyProfileImage}`}
-                        alt="프로필 이미지"
-                      />
+                      <div className={styles.profileImg}>
+                        <img
+                          src={
+                            answer.companyProfileImage
+                              ? `data:image/png;base64,${answer.companyProfileImage}`
+                              : ''
+                          }
+                          alt="프로필 이미지"
+                        />
+                      </div>
                       <div className={styles.profileDateWrap}>
                         <p className={styles.companyName}>
                           {answer.companyName}
                         </p>
-
                         <p className={styles.createdAt}>
                           {formatDate(answer.createdAt)}
                         </p>

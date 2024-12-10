@@ -1,5 +1,5 @@
 import styles from './ReqInteriorList.module.scss';
-import { formatDate, formatLocation, processLocation } from 'utils/utils';
+import { formatDate, processLocation } from 'utils/utils';
 import { useNavigate } from 'react-router-dom';
 
 const ReqInteriorList = ({ interiorAllList }) => {

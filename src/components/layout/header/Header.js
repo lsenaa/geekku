@@ -248,30 +248,25 @@ const Header = ({ alarms = [] }) => {
                         style={{
                           fontWeight: 'bold',
                           width: '120px',
-                          height: '30px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
+                          wordBreak: 'break-all',
+                          fontSize: '12px',
+                          whiteSpace: 'nowrap',
                         }}
                       >
-                        <Viewer
-                          initialValue={
-                            item.type === 'request'
-                              ? `<p>${item.num}</p>`
-                              : item.companyName || '<p>회사명이 없습니다.</p>'
-                          }
-                        />
+                        {item.companyName}
                       </div>
                       <div
                         style={{
                           width: '150px',
-                          height: '30px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
+                          fontSize: '14px',
+                          whiteSpace: 'nowrap',
                         }}
                       >
-                        <Viewer
-                          initialValue={item.title || '<p>제목이 없습니다.</p>'}
-                        />
+                        {item.title}
                       </div>
                       <div>
                         <button

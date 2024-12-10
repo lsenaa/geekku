@@ -56,7 +56,11 @@ const ReqInteriorDetail = () => {
         <div className={styles.profile}>
           <div className={styles.profileImg}>
             <img
-              src={`data:image/png;base64,${interiorAll.profileImage}`}
+              src={
+                interiorAll.profileImage
+                  ? `data:image/png;base64,${interiorAll.profileImage}`
+                  : ''
+              }
               alt="프로필이미지"
             />
           </div>

@@ -38,7 +38,7 @@ const MypageInteriorOnestop = () => {
         }
       );
       // 데이터가 존재할 경우에만 상태 업데이트
-      setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
+      setData([...response.data.content]); // 데이터가 없으면 빈 배열로 처리
       setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
       console.log(response.data.content);
     } catch (error) {
@@ -60,7 +60,7 @@ const MypageInteriorOnestop = () => {
   return (
     <>
       {data.length === 0 ? ( // data 상태를 사용
-        <div className={styles.noListText}>
+        <div style={{ textAlign: 'center' }}>
           작성한 한번에꾸하기 내역이 없습니다.
         </div>
       ) : (

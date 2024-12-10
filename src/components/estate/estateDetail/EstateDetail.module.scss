@@ -36,12 +36,21 @@
   }
 }
 
+.estateTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
 .profileWrapper {
   @include flexrow;
   font-size: 14px;
-  font-weight: bold;
   margin-top: 20px;
   cursor: pointer;
+}
+
+.profileImg {
+  @include profileImg;
 }
 
 .profile {
@@ -91,5 +100,7 @@
     padding: 12px 0 12px 12px;
     vertical-align: middle;
     text-align: left;
+    word-break: break-all;
+    white-space: pre-wrap;
   }
 }

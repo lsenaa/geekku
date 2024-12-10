@@ -28,7 +28,7 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
         const geocoder = new window.kakao.maps.services.Geocoder();
         const bounds = new window.kakao.maps.LatLngBounds();
 
-        // 기존 마커 제거 함수
+        // 기존 마커 제거
         const removeMarkers = () => {
           markers.current.forEach((marker) => {
             marker.setMap(null);
@@ -36,32 +36,23 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
           markers.current = [];
         };
 
-        const calculateLatLng = (estate) => {
-          const estateAddress = estate.address2
-            ? `${estate.address1} ${estate.address2}`
-            : estate.address1;
+        // 두 위치 사이의 거리 계산 (단위: km)
+        const calculateDistance = (loc1, loc2) => {
+          const radLat1 = (loc1.latitude * Math.PI) / 180;
+          const radLat2 = (loc2.latitude * Math.PI) / 180;
+          const deltaLat = radLat2 - radLat1;
+          const deltaLon = ((loc2.longitude - loc1.longitude) * Math.PI) / 180;
 
-          return new Promise((resolve, reject) => {
-            geocoder.addressSearch(estateAddress, (result, status) => {
-              if (status === window.kakao.maps.services.Status.OK) {
-                const latLng = new window.kakao.maps.LatLng(
-                  result[0].y,
-                  result[0].x
-                );
-                resolve(latLng);
-              } else {
-                console.error('Address Not Found:', estateAddress);
-                reject(new Error(`Address search failed: ${status}`));
-              }
-            });
-          });
+          const a =
+            Math.sin(deltaLat / 2) ** 2 +
+            Math.cos(radLat1) * Math.cos(radLat2) * Math.sin(deltaLon / 2) ** 2;
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          const R = 6371; // 지구의 반지름 (km)
+          return R * c;
         };
 
         const createMarkers = async (centerLatLng) => {
-          // 기존 마커 제거
           removeMarkers();
-
-          console.log('Creating markers, Estate List:', estateList);
 
           if (!estateList || estateList.length === 0) {
             console.log('No estates to create markers for');
@@ -69,8 +60,25 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
           }
 
           for (const estate of estateList) {
+            const estateAddress = estate.address2
+              ? `${estate.address1} ${estate.address2}`
+              : estate.address1;
+
             try {
-              const estateLatLng = await calculateLatLng(estate);
+              const estateLatLng = await new Promise((resolve, reject) => {
+                geocoder.addressSearch(estateAddress, (result, status) => {
+                  if (status === window.kakao.maps.services.Status.OK) {
+                    resolve(
+                      new window.kakao.maps.LatLng(result[0].y, result[0].x)
+                    );
+                  } else {
+                    console.error('Address Not Found:', estateAddress);
+                    reject(new Error(`Address search failed: ${status}`));
+                  }
+                });
+              });
+
+              // 거리 계산
               const distance = calculateDistance(
                 {
                   latitude: centerLatLng.getLat(),
@@ -91,21 +99,21 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
 
                 const customOverlay = new window.kakao.maps.CustomOverlay({
                   content: `<div style="width:100px;text-align:center;padding:6px 0;border:1px solid #6d885d;border-radius:10px;background-color:white;display:flex;flex-direction:column;align-items:flex-end;">
-                  <button id="closeOverlay" style="margin-right:4px;border:none;background-color: transparent;">×</button>
-                  <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
-                  <p style="font-size:10px;margin-bottom:8px;">
-                  ${formatEstateType(estate.type)}
-                  </p>
-                  <p style="font-size:12px;font-weight:bold;color:#696969;">
-                  ${formatPrice({
-                    jeonsePrice: estate.jeonsePrice,
-                    monthlyPrice: estate.monthlyPrice,
-                    depositPrice: estate.depositPrice,
-                    buyPrice: estate.buyPrice,
-                  })}
-                  </p>
-                  </div>
-                  </div>`,
+                        <button id="closeOverlay" style="margin-right:4px;border:none;background-color: transparent;">×</button>
+                        <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+                        <p style="font-size:10px;margin-bottom:8px;">
+                          ${formatEstateType(estate.type)}
+                        </p>
+                        <p style="font-size:12px;font-weight:bold;color:#696969;">
+                          ${formatPrice({
+                            jeonsePrice: estate.jeonsePrice,
+                            monthlyPrice: estate.monthlyPrice,
+                            depositPrice: estate.depositPrice,
+                            buyPrice: estate.buyPrice,
+                          })}
+                        </p>
+                        </div>
+                      </div>`,
                   position: estateLatLng,
                   yAnchor: 1.2,
                 });
@@ -133,18 +141,16 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
                 markers.current.push(estateMarker);
                 bounds.extend(estateLatLng);
               }
-            } catch (err) {
-              console.error(err);
+            } catch (error) {
+              console.error(error);
             }
           }
 
+          // 지도 범위 갱신
           map.setBounds(bounds);
         };
 
-        // 검색어에 따른 지도 중심 설정 및 마커 생성
-        console.log('keyword: ' + keyword);
-
-        // 지도 중심 설정 및 마커 생성
+        // 키워드 검색 및 마커 생성
         const setCenterAndMarkers = (searchKeyword) => {
           if (searchKeyword) {
             geocoder.addressSearch(searchKeyword, (result, status) => {
@@ -155,6 +161,8 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
                 );
                 map.setCenter(centerLatLng);
                 createMarkers(centerLatLng);
+              } else {
+                console.error('Keyword search failed:', status);
               }
             });
           } else {
@@ -163,30 +171,11 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
           }
         };
 
-        // 조건에 따라 지도 중심 및 마커 설정
-        if (keyword !== '') {
-          setCenterAndMarkers(keyword); // 키워드로 검색
-        } else {
-          createMarkers(map.getCenter()); // 기본 위치로 검색
-        }
+        // 키워드 검색 실행
+        setCenterAndMarkers(keyword);
       });
     };
-  }, [estateList, keyword]);
-
-  // 두 위치 사이의 거리를 계산하는 함수 (단위: km)
-  const calculateDistance = (loc1, loc2) => {
-    const radLat1 = (loc1.latitude * Math.PI) / 180;
-    const radLat2 = (loc2.latitude * Math.PI) / 180;
-    const deltaLat = radLat2 - radLat1;
-    const deltaLon = ((loc2.longitude - loc1.longitude) * Math.PI) / 180;
-
-    const a =
-      Math.sin(deltaLat / 2) ** 2 +
-      Math.cos(radLat1) * Math.cos(radLat2) * Math.sin(deltaLon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const R = 6371; // 지구의 반지름 (단위: km)
-    return R * c;
-  };
+  }, [estateList]);
 
   return <div style={{ width: '60%', height: '945px' }} ref={container}></div>;
 };
