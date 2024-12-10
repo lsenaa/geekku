@@ -205,7 +205,9 @@ const CommunityBoardEdit = () => {
       !content ||
       fileList.length === 0
     ) {
-      openModal('모든 필수 값을 입력해주세요.');
+      Modal.info({
+        content: '모든 필수 값을 입력해주세요.',
+      });
       return;
     }
 
