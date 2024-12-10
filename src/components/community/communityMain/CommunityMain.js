@@ -71,7 +71,7 @@ function CommunityMain() {
   };
 
   return (
-    <div className={styles.app}>
+    <div className={styles.container}>
       <CommunityFilterBar
         communityList={communityList}
         setCommunityList={setCommunityList}
