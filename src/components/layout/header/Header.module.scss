@@ -78,6 +78,7 @@
   .notificationWrap {
     cursor: pointer;
     position: relative;
+    margin-left: 8px;
 
     p {
       width: 18px;
@@ -117,7 +118,7 @@
     padding: 12px 0;
     font-size: 16px;
     color: white;
-    margin-left: 30px;
+    margin-left: 20px;
   }
 
   .logoutBtn {
@@ -188,8 +189,8 @@
 /* Notification Panel */
 .notificationPanel {
   position: absolute;
-  top: 50px;
-  right: 150px;
+  top: 65px;
+  right: 160px;
   width: 450px;
   max-height: 450px;
   background-color: #fffaf4;
@@ -258,4 +259,3 @@
   display: flex;
   gap: 10px;
 }
-
