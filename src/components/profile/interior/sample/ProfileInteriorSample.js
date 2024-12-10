@@ -1,13 +1,17 @@
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import styles from './ProfileInteriorSample.module.scss';
 import sampleImg from 'assets/images/interiorEx.png';
 import Button01 from 'components/commons/button/Button01';
 import Filter from 'components/commons/filter/Filter';
 import { useState } from 'react';
 import { url } from 'lib/axios';
+import { useAtomValue } from 'jotai';
+import { userAtom } from 'store/atoms';
+import TopButton from 'components/layout/topbutton/TopButton';
 
 const ProfileInteriorSample = () => {
   const { detailInfo } = useOutletContext();
+  const { interiorNum } = useOutletContext();
 
   const [filterConditions, setFilterConditions] = useState({
     date: '',
@@ -16,6 +20,14 @@ const ProfileInteriorSample = () => {
     sizes: [],
     location: [],
   });
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/sampleRegister', { state: interiorNum });
+    console.log(interiorNum);
+  };
+
+  const user = useAtomValue(userAtom);
 
   const handleFilter = (newConditions) => {
     setFilterConditions(newConditions);
@@ -63,12 +75,16 @@ const ProfileInteriorSample = () => {
           <li>지역</li>
         </ul> */}
         <Filter onFilter={handleFilter} />
-        <Button01 size="x-small">등록하기</Button01>
+        {user.companyName === detailInfo.interiorDetail.companyName && (
+          <Button01 size="x-small" onClick={handleClick}>
+            등록하기
+          </Button01>
+        )}
       </div>
       <ul className={styles.sampleWrap}>
         {sortedDateSample.map((sample, i) => (
           <li key={i}>
-            <Link to={'/'}>
+            <Link to={`/sampleDetail/${sample.sampleNum}`}>
               <div className={styles.sampleImgWrap}>
                 <img
                   src={`${url}/sampleImage/${sample.coverImage}`}
@@ -82,6 +98,7 @@ const ProfileInteriorSample = () => {
           </li>
         ))}
       </ul>
+      <TopButton />
     </div>
   );
 };
