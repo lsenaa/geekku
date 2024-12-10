@@ -113,6 +113,7 @@ const ProfileInterior = () => {
             context={{
               detailInfo: detailInfo,
               num: num,
+              interiorNum: num,
             }}
           />
         </div>

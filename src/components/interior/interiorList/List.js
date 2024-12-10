@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { url } from 'lib/axios';
 import axios from 'axios';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
 
 const List = ({ loc, setLoc }) => {
@@ -41,24 +41,30 @@ const List = ({ loc, setLoc }) => {
   //   }
   // }, [filterCategory, interiorList]);
 
-  const notRegisteredCompany = interiorList.filter((interior) => {
-    if (!interior.interiorNum) {
-      return interior.companyId;
-    }
-  });
-
+  // const notRegisteredCompany = interiorList.filter((interior) => {
+  //   if (interior.companyId !== user.companyId) {
+  //     return user.companyId;
+  //   }
+  // });
+  // console.log('------------' + notRegisteredCompany);
+  // console.log(notRegisteredCompany.companyId);
   return (
     <div className="companyPage">
       <div className="topBar" style={{ marginBottom: '30px' }}>
         시공업체
-        {user.type === 'interior' &&
-          notRegisteredCompany.some(
-            (company) => company.companyId === user.companyId
-          ) && (
-            <button id="btn" onClick={moveRegister}>
-              등록하기
-            </button>
-          )}
+        {/* {interiorList.some(
+          (interior) =>
+            !interior.regStatus && (
+              <button id="btn" onClick={moveRegister}>
+                등록하기
+              </button>
+            )
+        )} */}
+        {!user.regStatus && (
+          <button id="btn" onClick={moveRegister}>
+            등록하기
+          </button>
+        )}
       </div>
       <Card interiorList={interiorList} />
     </div>

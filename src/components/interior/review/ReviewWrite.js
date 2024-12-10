@@ -65,7 +65,7 @@ const ReviewWrite = () => {
 
     const data = new FormData();
     data.append('companyName', review.companyName);
-    data.append('date', JSON.stringify(date));
+    data.append('date', JSON.stringify(date).replace(/"/g, ''));
     data.append('size', review.size);
     data.append('content', review.content);
     data.append('type', type);

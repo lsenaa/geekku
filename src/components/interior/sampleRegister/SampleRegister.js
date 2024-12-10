@@ -5,10 +5,10 @@ import color from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import Button01 from 'components/commons/button/Button01';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { axiosInToken, url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
-import { tokenAtom } from 'store/atoms';
+import { tokenAtom, userAtom } from 'store/atoms';
 import { Modal } from 'antd';
 import ToastEditor from 'components/commons/ToastEditor';
 import axios from 'axios';
@@ -28,6 +28,8 @@ const SampleRegister = () => {
     location: '경기',
     title: '',
   });
+  const location = useLocation(); //props로 전달해주지 않았기때문에, location으로 불러온다.
+  const user = useAtomValue(userAtom);
   const [coverImg, setCoverImg] = useState(null);
 
   const handleChange = (e) => {
@@ -83,7 +85,8 @@ const SampleRegister = () => {
     formData.append('title', sample.title);
     formData.append('content', content);
     formData.append('coverImg', coverImg);
-
+    formData.append('interiorNum', location.state);
+    formData.append('companyId', user.companyId);
     axiosInToken(token)
       .post(`/company/interiorSampleRegister`, formData)
       .then((res) => {
