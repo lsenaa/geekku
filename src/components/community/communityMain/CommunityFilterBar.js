@@ -96,17 +96,15 @@ const CommunityFilterBar = ({
   const handleCommunityBoardWrite = () => {
     if (user?.userId) {
       navigate('/CommunityBoardWrite');
-    } else if (user.type === 'estate') {
-      openModal('기업 회원은 글쓰기를 할 수 없습니다.');
-    } else if (user.type === 'interior') {
-      openModal('기업 회원은 글쓰기를 할 수 없습니다.');
+    } else if (user.companyId) {
+      Modal.info({
+        content: '일반회원만 이용가능합니다.',
+      });
     } else {
-      openModal(
-        '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
-        () => {
-          navigate('/login');
-        }
-      );
+      Modal.info({
+        content: '로그인 후 이용가능합니다.',
+      });
+      navigate('/login');
     }
   };
 
