@@ -1,6 +1,6 @@
 import styles from '../../login/Login.module.scss';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { useState } from 'react';
 import { Modal } from 'antd';
 import { useAtom } from 'jotai';
@@ -36,17 +36,12 @@ const ModifyPwd = () => {
         ? `${url}/company/changePwd`
         : `${url}/user/changePwd`;
 
-    axios
-      .post(
-        typeEndPoint,
-        { currentPassword, newPassword },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
+    axiosInToken(token)
+      .post(typeEndPoint, { currentPassword, newPassword })
       .then((res) => {
+        if (res.headers.authorization !== null) {
+          setToken(res.headers.authorization);
+        }
         Modal.success({
           content: '비밀번호가 변경되었습니다.',
         });
@@ -62,13 +57,16 @@ const ModifyPwd = () => {
         }
       })
       .catch((err) => {
-        // console.error('비밀번호 변경 실패 이유 : ', err.response.data);
-        // console.error('비밀번호 변경 실패 코드 : ', err.response.status);
         if (err.response.status === 400) {
           Modal.error({
             content: '현재 비밀번호가 일치하지 않습니다.',
           });
           return;
+        }
+        if (err.response.status === 401) {
+          setUser(null);
+          setToken(null);
+          navigate('/login');
         }
       });
   };

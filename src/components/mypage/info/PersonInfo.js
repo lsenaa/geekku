@@ -2,11 +2,11 @@ import plusIcon from 'assets/images/mypage/plusIcon.png';
 import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
 import styles from './PersonInfo.module.scss';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { Modal } from 'antd';
 import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
 import { CheckNickname } from 'utils/CheckNickname';
 import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
@@ -97,7 +97,7 @@ const PersonInfo = () => {
     }
 
     // 닉네임 중복확인
-    if (myUser.nickname && !nicknameChecked) {
+    if (myUser.nickname !== user.nickname && !nicknameChecked) {
       Modal.info({
         content: '닉네임 중복 확인을 눌러주세요.',
       });
@@ -123,26 +123,25 @@ const PersonInfo = () => {
       return;
     }
 
-    axios
-      .post(`${url}/user/updateUserInfo`, formData, {
-        headers: {
-          Authorization: token,
-        },
-      })
+    axiosInToken(token)
+      .post(`${url}/user/updateUserInfo`, formData)
       .then((res) => {
+        if (res.headers.authorization !== null) {
+          setToken(res.headers.authorization);
+        }
         setToken(res.data.token);
         setUser(res.data.user);
         Modal.success({
           content: '회원정보가 수정되었습니다.',
         });
-        redirect('${url}/user/updateUserInfo');
+        redirect(`${url}/user/updateUserInfo`);
       })
       .catch((err) => {
-        console.log('회원 정보 수정 실패 ');
+        console.log('회원 정보 수정 실패');
         Modal.error({
           content: '회원 정보 수정에 실패했습니다.',
         });
-        redirect('${url}/user/updateUserInfo');
+        redirect(`${url}/user/updateUserInfo`);
       });
   };
   const handleCheckNickname = async () => {

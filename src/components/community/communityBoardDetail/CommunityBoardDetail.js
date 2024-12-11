@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './CommunityBoardDetail.module.css';
 import { useNavigate, useParams } from 'react-router';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaTrashAlt } from 'react-icons/fa';
 import { axiosInToken, url } from 'lib/axios';
 import { tokenAtom, userAtom } from 'store/atoms';
 import { useAtomValue } from 'jotai';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import bookmarkTrue from 'assets/images/bookmarkTrue.png';
 import bookmarkFalse from 'assets/images/bookmarkFalse.png';
-
-// Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
 import { formatDate } from 'utils/utils';
@@ -26,7 +24,11 @@ const CommunityBoardDetail = () => {
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
 
-  // const [loginModalOpen, setLoginModalOpen] = useState(false);
+  /** 효과 상태 저장 state */
+  const [deletingComments, setDeletingComments] = useState(new Set());
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isBookmarkAnimating, setIsBookmarkAnimating] = useState(false);
+
   const [modalState, setModalState] = useState({
     isOpen: false,
     message: '',
@@ -62,7 +64,12 @@ const CommunityBoardDetail = () => {
         })
         .then((res) => {
           setPost(res.data.communityDetail);
-          setComments([...res.data.commentList]);
+          if (Array.isArray(res.data.commentList)) {
+            setComments(res.data.commentList);
+          } else {
+            console.error(res.data.commentList);
+            setComments([]); // 기본값으로 빈 배열 설정
+          }
           console.log(res.data.commentList);
           if (user?.userId || user?.companyId) {
             setIsBookmarked(res.data.bookmark);
@@ -74,11 +81,12 @@ const CommunityBoardDetail = () => {
         })
         .catch((err) => {
           console.log(err);
+          setComments([]);
         });
     };
 
     fetchPostData();
-  }, [CommunityNum]);
+  }, [CommunityNum, user]);
 
   const handleBackButton = () => {
     navigate('/CommunityMain');
@@ -87,6 +95,7 @@ const CommunityBoardDetail = () => {
   const handleWriteButton = () => {
     navigate('/CommunityBoardWrite');
   };
+
   const handleEditButtonClick = () => {
     navigate(`/communityBoardEdit/${CommunityNum}`);
   };
@@ -106,26 +115,36 @@ const CommunityBoardDetail = () => {
     }
 
     try {
+      // **애니메이션 트리거**
+      setIsBookmarkAnimating(true);
+
+      // **애니메이션 지속 시간 (0.3초) 동안 대기**
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       const response = await axiosInToken(token).post(
         `${url}/user/communityBookmark?communityNum=${CommunityNum}`,
         {
           userId: user.userId,
         }
       );
+
       if (response.status === 200) {
         setIsBookmarked(!isBookmarked);
-        isBookmarked
-          ? Modal.success({
-              content: '북마크가 해제되었습니다.',
-            })
-          : Modal.success({
-              content: '북마크가 완료되었습니다.',
-            });
+        // isBookmarked
+        //   ? Modal.success({
+        //       content: '북마크가 해제되었습니다.',
+        //     })
+        //   : Modal.success({
+        //       content: '북마크가 완료되었습니다.',
+        //     });
       } else {
         console.error('북마크 상태 변경 실패:', response.data);
       }
     } catch (error) {
       openModal('기업 회원은 북마크를 등록할 수 없습니다.');
+    } finally {
+      // **애니메이션 상태 해제**
+      setIsBookmarkAnimating(false);
     }
   };
 
@@ -138,51 +157,112 @@ const CommunityBoardDetail = () => {
       openModal(
         '로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
         () => {
-          navigate('/login'); // 로그인 페이지로 이동
+          navigate('/login');
         }
       );
       return;
     }
+
+    // 댓글 내용 확인
     if (newComment.trim()) {
       try {
-        const newCommentData = {
-          communityId: CommunityNum,
-          userId: user.userId,
-          content: newComment,
-        };
-
+        setIsSubmitting(true);
+        await new Promise((resolve) => setTimeout(resolve, 300));
         const response = await axiosInToken(token).post(
           `${url}/user/communityCommentWrite`,
           null,
           {
-            params: newCommentData,
+            params: {
+              communityId: CommunityNum,
+              userId: user.userId,
+              content: newComment,
+            },
           }
         );
 
+        console.log('댓글 작성 응답 데이터:', response.data);
+
         if (response.status === 201) {
-          setComments([
-            ...comments,
-            {
-              id: comments.length + 1,
-              userName: '작성한 댓글',
-              content: newComment,
-              createdAt: new Date().toISOString().slice(0, 10),
-            },
-          ]);
-          Modal.success({
-            content: '댓글이 등록되었습니다.',
-          });
-          setNewComment('');
+          if (Array.isArray(response.data)) {
+            setComments(response.data);
+            setNewComment('');
+            message.success('댓글이 등록되었습니다.');
+          } else {
+            console.error('댓글 작성 응답이 배열이 아닙니다:', response.data);
+            message.error(
+              '댓글 작성 후 데이터를 불러오는 데 문제가 발생했습니다.'
+            );
+          }
         } else {
           console.error('댓글 작성 실패:', response.data);
+          message.error('댓글 작성에 실패했습니다.');
         }
       } catch (error) {
         if (user.type === 'estate' || user.type === 'interior') {
           openModal('기업 회원은 댓글을 작성할 수 없습니다.');
           return;
-        } else console.error('댓글 작성 중 에러 발생:', error);
+        } else {
+          console.error('댓글 작성 중 에러 발생:', error);
+          message.error('댓글 작성 중 오류가 발생했습니다.');
+        }
+      } finally {
+        setIsSubmitting(false);
       }
     }
+  };
+
+  // 댓글 삭제 핸들러
+  const handleDeleteComment = (commentNum) => {
+    console.log('Deleting comment with Num:', commentNum);
+    if (!commentNum) {
+      message.error('유효하지 않은 댓글 번호입니다.');
+      return;
+    }
+
+    Modal.confirm({
+      title: '댓글 삭제',
+      content: '정말로 이 댓글을 삭제하시겠습니까?',
+      okText: '삭제',
+      okType: 'danger',
+      cancelText: '취소',
+      onOk: async () => {
+        try {
+          const response = await axiosInToken(token).delete(
+            `${url}/user/commentDelete/${commentNum}`,
+            {
+              data: { userId: user.userId },
+            }
+          );
+
+          if (response.status === 200) {
+            setComments(
+              comments.filter((comment) => comment.commentNum !== commentNum)
+            );
+            message.success('댓글이 삭제되었습니다.');
+          } else {
+            console.error('댓글 삭제 실패:', response.data);
+            message.error('댓글 삭제에 실패했습니다.');
+          }
+        } catch (error) {
+          console.error('댓글 삭제 중 에러 발생:', error);
+          message.error('댓글 삭제 중 오류가 발생했습니다.');
+        }
+      },
+    });
+  };
+
+  const handleDeleteWithAnimation = (commentNum) => {
+    console.log('Triggering animation for commentNum:', commentNum);
+    setDeletingComments((prev) => new Set(prev).add(commentNum));
+    setTimeout(() => {
+      setDeletingComments((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(commentNum);
+        return newSet;
+      });
+
+      handleDeleteComment(commentNum);
+    }, 300);
   };
 
   if (!post) {
@@ -202,7 +282,7 @@ const CommunityBoardDetail = () => {
 
       <Modal
         open={modalState.isOpen}
-        onCancel={closeModal} // 모달 닫기
+        onCancel={closeModal}
         footer={[
           <button
             key="confirm"
@@ -261,10 +341,12 @@ const CommunityBoardDetail = () => {
                   <button
                     className={
                       isBookmarked
-                        ? styles.bookmarkedButton
-                        : styles.bookmarkButton
+                        ? `${styles.bookmarkedButton} ${isBookmarkAnimating ? styles.pop : ''}`
+                        : `${styles.bookmarkButton} ${isBookmarkAnimating ? styles.pop : ''}`
                     }
                     onClick={handleBookmarkClick}
+                    type="button" // 버튼 타입 명시
+                    aria-label={isBookmarked ? '북마크 됨' : '북마크'}
                   >
                     <div className={styles.bookmarkIcon}>
                       <img
@@ -273,7 +355,7 @@ const CommunityBoardDetail = () => {
                       />
                     </div>
                     <span className={styles.bookmarkText}>
-                      {isBookmarked ? '북마크 해제' : '북마크'}
+                      {isBookmarked ? '북마크 됨' : '북마크'}
                     </span>
                   </button>
                 )}
@@ -299,7 +381,7 @@ const CommunityBoardDetail = () => {
           </div>
         </div>
 
-        {/* 게시글 내용 부분을 Viewer로 표시 */}
+        {/* 게시글 내용 */}
         <div className={styles.postContent}>
           <Viewer initialValue={post.content} />
         </div>
@@ -308,12 +390,6 @@ const CommunityBoardDetail = () => {
         <div className={styles.commentsSection}>
           <div className={styles.comment}>댓글</div>
           <div className={styles.commentInput}>
-            <button
-              onClick={handleCommentSubmit}
-              className={styles.submitButton}
-            >
-              작성하기
-            </button>
             <textarea
               value={newComment}
               onChange={handleCommentChange}
@@ -321,16 +397,21 @@ const CommunityBoardDetail = () => {
               maxLength={500}
               className={styles.textArea}
             />
+            <button
+              onClick={handleCommentSubmit}
+              className={`${styles.submitButton} ${isSubmitting ? styles.pop : ''}`}
+              type="button"
+              aria-label="댓글 작성"
+            >
+              작성하기
+            </button>
           </div>
           <div className={styles.commentOutput}>
             <div className={styles.commentsList}>
-              {comments.length > 0 ? (
+              {Array.isArray(comments) && comments.length > 0 ? (
                 comments.map((comment) => (
-                  <div key={comment.id} className={styles.commentItem}>
-                    <div
-                      className={styles.commentHeader}
-                      style={{ marginBottom: '10px' }}
-                    >
+                  <div key={comment.commentNum} className={styles.commentItem}>
+                    <div className={styles.commentHeader}>
                       <FaUserCircle color="#6D885D" size={30} />
                       <span className={styles.commentUsername}>
                         {comment.userNickname
@@ -340,6 +421,23 @@ const CommunityBoardDetail = () => {
                       <span className={styles.commentDate}>
                         {formatDate(comment.createdAt)}
                       </span>
+                      {user.userId === comment.userId && (
+                        <button
+                          type="button"
+                          className={`${styles.deleteButton} ${
+                            deletingComments.has(comment.commentNum)
+                              ? styles.pop
+                              : ''
+                          }`}
+                          onClick={() =>
+                            handleDeleteWithAnimation(comment.commentNum)
+                          }
+                          title="댓글 삭제"
+                          aria-label="댓글 삭제"
+                        >
+                          삭제
+                        </button>
+                      )}
                     </div>
                     <p className={styles.commentContent}>{comment.content}</p>
                   </div>

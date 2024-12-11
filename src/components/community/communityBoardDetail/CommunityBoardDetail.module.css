@@ -44,7 +44,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 40px 75px 40px 100px;
+  margin: 40px 65px 40px 85px;
 }
 
 .userInfo {
@@ -193,6 +193,11 @@
   padding: 6px 12px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s, transform 0.1s; 
+}
+
+.submitButton:hover {
+  background-color: #a3b874;
 }
 
 .textArea::placeholder {
@@ -208,22 +213,34 @@
   border-radius: 10px;
 }
 
-/* 북마크 버튼 컨테이너 */
 .bookmarkButton,
 .bookmarkedButton {
   width: 140px;
   display: flex;
   align-items: center;
-  gap: 10px; /* 이미지와 텍스트 간격 */
+  gap: 10px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: #888;
+  transition: background-color 0.3s, transform 0.1s;
 }
 
-/* 북마크 아이콘 둥근 배경 */
+.bookmarkedButton {
+  color: #6d885d;
+}
+
+/* 호버효과 */
+.bookmarkButton:hover .bookmarkIcon{
+  background-color: #ececec; 
+}
+/* 호버효과 */
+.bookmarkedButton:hover .bookmarkIcon {
+  background-color: #c6d695;
+}
+
 .bookmarkIcon {
   display: flex;
   align-items: center;
@@ -234,23 +251,65 @@
   background-color: #f4f4f4;
 }
 
-/* 북마크된 상태 */
 .bookmarkedButton .bookmarkIcon {
   background-color: #d7e8c7;
 }
 
-/* 클로버 이미지 */
 .bookmarkIcon img {
   width: 50px;
   height: 50px;
 }
 
-/* 텍스트 스타일 */
 .bookmarkText {
   color: #888;
 }
 
-/* 북마크된 텍스트 색상 */
 .bookmarkedButton .bookmarkText {
   color: #6d885d;
+}
+
+.commentHeader {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.deleteButton {
+  margin-left: auto;
+  background-color: #cccccc; 
+  color: #ffffff; 
+  border: none; 
+  border-radius: 10px; 
+  padding: 5px 12px; 
+  cursor: pointer; 
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 16px;
+}
+
+.deleteButton:hover {
+  background-color: #aaaaaa; 
+}
+
+.deleteButton:active {
+  transform: scale(0.9);
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop {
+  animation: popIn 0.3s ease-in-out;
 }
