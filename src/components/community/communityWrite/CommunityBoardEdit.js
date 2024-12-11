@@ -268,10 +268,10 @@ const CommunityBoardEdit = () => {
             onChange={handleChange}
           >
             <option value="">주거 형태 선택</option>
-            <option value="아파트/빌라">아파트/빌라</option>
+            <option value="아파트">아파트</option>
+            <option value="빌라">빌라</option>
             <option value="시골 농가 주택">시골 농가 주택</option>
             <option value="전원 주택">전원 주택</option>
-            <option value="농장 토지">농장 토지</option>
           </select>
         </div>
 
@@ -324,7 +324,7 @@ const CommunityBoardEdit = () => {
               type="text"
               name="address2"
               className={styles.formControl}
-              placeholder="선택 (아파트/건물명)"
+              placeholder="아파트/건물명"
               value={formData.address2}
               onChange={handleChange}
             />
