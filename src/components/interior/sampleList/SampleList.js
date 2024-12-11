@@ -2,8 +2,8 @@ import Filter from 'components/commons/filter/Filter';
 import styles from './Sample.module.scss';
 import Card from './Card';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import axios, { all } from 'axios';
 import { url } from 'lib/axios';
 import qs from 'qs';
 import { useAtomValue } from 'jotai';
@@ -15,7 +15,6 @@ const SampleList = () => {
   const [sampleList, setSampleList] = useState([]);
   const [filteredSamples, setFilteredSamples] = useState([]);
   const navigate = useNavigate();
-
   const [filterConditions, setFilterConditions] = useState({
     date: '',
     types: [],
@@ -23,6 +22,35 @@ const SampleList = () => {
     sizes: [],
     location: [],
   });
+
+  const [hasMore, setHasMore] = useState(true);
+  const elementRef = useRef(null);
+  let vpage = 1;
+
+  const onInterserction = (entries) => {
+    const firstEntry = entries[0];
+    if (firstEntry.isIntersecting && hasMore) {
+      fetchMoreItems();
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(onInterserction);
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [hasMore]);
+
+  useEffect(() => {
+    vpage = 1;
+    setSampleList([]);
+    setHasMore(true);
+  }, [filterConditions]);
 
   const handleFilter = (newConditions) => {
     setFilterConditions(newConditions);
@@ -32,10 +60,9 @@ const SampleList = () => {
     navigate('/sampleRegister');
   };
 
-  useEffect(() => {
-    console.log(filterConditions);
-    axios
-      .get(`${url}/sampleList`, {
+  const fetchMoreItems = async () => {
+    await axios
+      .get(`${url}/sampleList?page=${vpage}`, {
         params: {
           date: filterConditions.date,
           types: filterConditions.types,
@@ -49,14 +76,20 @@ const SampleList = () => {
         },
       })
       .then((res) => {
+        const allPage = res.data.allPage;
+        const resSampleList = res.data.SampleList;
+        if (vpage === allPage) {
+          setHasMore(false);
+        }
+        vpage = vpage + 1;
         console.log(res.data);
-        setSampleList([...res.data.sampleList]);
+        setSampleList((sample) => [...sample, ...resSampleList]);
       })
       .catch((error) => {
         console.error(error);
         setSampleList([]);
       });
-  }, [filterConditions]);
+  };
 
   return (
     <div className={styles.all}>
@@ -71,6 +104,11 @@ const SampleList = () => {
       </div>
       <div className={styles.cardList}>
         <Card sampleList={sampleList} />
+        {hasMore && (
+          <div ref={elementRef} style={{ textAlign: 'center' }}>
+            Load More List
+          </div>
+        )}
       </div>
       <TopButton />
     </div>

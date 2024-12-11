@@ -46,7 +46,7 @@ const Card = ({ interiorList }) => {
           <div className="wrap-title">
             <div className="title">
               <div className="nameWidth">{interior.companyName}</div>
-              <div style={{ marginRight: '5px' }}>
+              <div style={{ marginRight: '3px' }}>
                 {Array.isArray(interior.possibleLocation)
                   ? interior.possibleLocation.map((location, index) => (
                       <button key={index} id="loc">

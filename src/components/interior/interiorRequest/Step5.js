@@ -66,7 +66,7 @@ const Step5 = ({
           readOnly
         />
         <input
-          type="text"
+          type="number"
           className={styles.input3}
           placeholder="나머지 번호를 입력해주세요"
           value={phone}
