@@ -75,17 +75,39 @@ const MypageEstateOnestopAnswer = () => {
             </thead>
             <tbody>
               {data.map((item) => (
-                <tr key={item.answerNum} className={styles.rowWrap}>
+                <tr
+                  key={item.answerNum}
+                  className={styles.rowWrap}
+                  onClick={() => navigate(`/onestop/detail/${item.onestopNum}`)}
+                >
                   <td>{item.answerOnestopNum}</td>
                   <td>{item.title}</td>
-                  <td>{item.type}</td>
+                  <td>{formatEstateType(item.type)}</td>
                   <td>
-                    {item.address1} {item.address2}
+                    {`${processLocation(item.address1)} ${item.address2}`}
                   </td>
                   <td>
                     <span className={styles.writer}>
-                      <FaUserCircle color="#6D885D" size={30} />
-                      &nbsp;{item.username}
+                      {/* <img
+                        src={
+                          item.userProfileImage
+                            ? `data:image/png;base64, ${item.userProfileImage}`
+                            : ''
+                        }
+                        alt="사용자 프로필 이미지"
+                      />
+                      &nbsp;{item.nickname ? item.nickname : item.name} */}
+                      <div className={styles.profileImg}>
+                        <img
+                          src={
+                            item.userProfileImage
+                              ? `data:image/png;base64, ${item.userProfileImage}`
+                              : ''
+                          }
+                          alt="사용자 프로필 이미지"
+                        />
+                      </div>
+                      &nbsp;{item.nickname ? item.nickname : item.name}
                     </span>
                   </td>
                   <td>{formatDate(item.createdAt)}</td>
