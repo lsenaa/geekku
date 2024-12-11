@@ -14,15 +14,16 @@ import axios from 'axios';
 
 const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
   const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
-  const imageInput = useRef();
   const [user, setUser] = useAtom(userAtom);
   const [textCount, setTextCount] = useState(0);
   const [imageUrl, setImageUrl] = useState();
   const [selectedLoc, setSelectedLoc] = useState([]);
-  const [file, setFile] = useState(null); // 선택된 파일 상태
-  const [coverImage, setCoverImage] = useState(null);
+  const [file, setFile] = useState([]);
   const navigate = useNavigate();
   const [token, setToken] = useAtom(tokenAtom);
+  const [coverImage, setCoverImage] = useState(null); // 선택한 파일
+  const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지
+  const imageInput = useRef(null); // 파일 입력 참조
 
   const [interior, setInterior] = useState({
     companyName: '',
@@ -60,6 +61,26 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
       setTextCount(value.length);
     }
   };
+  const handleImageChange = (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setCoverImage(file); // 이미지 파일 저장
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); // 미리보기 이미지 표시
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // 이미지 제거 핸들러
+  const handleRemoveImage = () => {
+    setCoverImage(null); // 미리보기 제거
+  };
+  const onClickImageUpload = () => {
+    imageInput.current.click();
+  };
 
   useEffect(() => {
     axios
@@ -84,7 +105,24 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
       });
   }, [token]);
 
-  console.log(selectedLoc);
+  // 파일 선택 트리거
+  const imageUpdate = () => {
+    imageInput.current.click();
+  };
+
+  // 파일 선택 시 처리
+  const fileChange = (e) => {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setCoverImage(file); // 상태에 파일 저장
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); // 미리보기 설정
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -97,14 +135,13 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
     formData.append('possiblePart', interior.possiblePart);
     formData.append('recentCount', interior.recentCount);
     formData.append('repairDate', interior.repairDate);
-    formData.append('coverImg', interior.coverImg);
     selectedLoc.forEach((location) => {
       formData.append('possibleLocation', location);
     });
 
-    // if (coverImage != null) {
-    //   formData.append('file', coverImage);
-    // }
+    if (coverImage != null) {
+      formData.append('file', coverImage);
+    }
 
     await axiosInToken(token)
       .post(`${url}/company/interiorModify`, formData)
@@ -165,75 +202,6 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
       }));
     }
   };
-  useEffect(() => {
-    if (initialImage && !coverImage) {
-      setCoverImage(initialImage); // 초기 이미지 설정
-    }
-  }, [initialImage, coverImage]);
-  // 이미지 선택 핸들러
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCoverImage(reader.result); // Base64로 미리보기
-        setFile(file); // 선택된 파일 저장
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-  // 이미지 업로드 버튼 클릭
-  const onClickImageUpload = () => {
-    if (imageInput.current) {
-      imageInput.current.click();
-    }
-  };
-
-  // 이미지 제거 핸들러
-  const handleRemoveImage = () => {
-    setCoverImage(null); // 미리보기 제거
-    setFile(null); // 파일 상태 초기화
-  };
-
-  // 이미지 업로드 요청
-  const handleUploadImage = async () => {
-    if (!file) {
-      alert('이미지를 선택해주세요.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await axios.post(updateImageUrl, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      alert('이미지가 성공적으로 업데이트되었습니다.');
-      setCoverImage(response.data.coverImage); // 서버 응답의 이미지 경로
-    } catch (error) {
-      console.error('이미지 업로드 실패:', error);
-      alert('이미지 업로드 중 오류가 발생했습니다.');
-    }
-  };
-
-  // const handleCertificationFileChange = (e) => {
-  //   if (e.target.files.length > 0) {
-  //     const file = e.target.files[0];
-  //     setcoverImage(file);
-
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setInterior((prevInterior) => ({
-  //         ...prevInterior,
-  //         coverImagePreview: reader.result,
-  //       }));
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   return (
     <div className={styles.container}>
@@ -294,7 +262,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
                 value={interior.period}
                 onChange={edit}
               />
-              <p>년</p>
+              <p>개월</p>
             </div>
           </div>
         </div>
@@ -330,7 +298,6 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
             </div>
           </div>
         </div>
-
         <div className={styles.items}>
           <label>
             시공 가능 지역<span>*</span>
@@ -353,83 +320,27 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
           </div>
         </div>
         <div className={styles.upload}>
-          {coverImage ? (
-            <div>
-              <img
-                src={
-                  coverImage
-                    ? coverImage
-                    : interior.coverImage`data:image/png;base64,${interior.coverImage}`
-                }
-                alt="커버 이미지"
-              />
-              <div className={styles.imgCancelBtnWrap}>
-                <MdCancel
-                  size={30}
-                  className={styles.cancelBtn}
-                  onClick={handleRemoveImage}
-                />
-              </div>
-              <button onClick={handleUploadImage} className={styles.uploadBtn}>
-                이미지 저장
-              </button>
-            </div>
-          ) : (
-            <>
-              <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                ref={imageInput}
-                onChange={handleImageChange}
-              />
-              <button
-                type="button"
-                onClick={onClickImageUpload}
-                className={styles.addBtn}
-              >
-                추가하기
-              </button>
-            </>
-          )}
+          <div className={styles.imgCancelBtnWrap}>
+            <img
+              src={
+                previewImage || // 새로 업로드한 이미지
+                (interior.coverImage &&
+                  `data:image/png;base64,${interior.coverImage}`) // 기존 이미지
+              }
+              className="imageFile"
+              onClick={imageUpdate}
+              alt="커버 이미지"
+            />
+            <input
+              type="file"
+              id="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              ref={imageInput}
+              onChange={fileChange}
+            />
+          </div>
         </div>
-        {/* <div className={styles.upload}>
-          {coverImageStr ? (
-            <div>
-              <img
-                src={`data:image/png;base64,${interior.coverImageStr}`}
-                className={styles.imageFile}
-                alt="커버 이미지"
-              />
-              <div className={styles.imgCancelBtnWrap}>
-                <MdCancel
-                  size={30}
-                  className={styles.cancelBtn}
-                  onClick={handleRemoveImage}
-                />
-              </div>
-            </div>
-          ) : (
-            <>
-              <span>추가하기 버튼으로 커버사진을 업로드 해주세요.</span>
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                ref={imageInput}
-                onChange={handleImageChange}
-              />
-              <button
-                type="button"
-                onClick={onClickImageUpload}
-                className={styles.addBtn}
-              >
-                추가하기
-              </button>
-            </>
-          )}
-        </div> */}
       </section>
       <section>
         <h3>상세 설명</h3>

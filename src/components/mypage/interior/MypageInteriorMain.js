@@ -17,6 +17,9 @@ const MypageInteriorMain = () => {
   const location = useLocation();
   const interior = { ...location.state };
   const navigate = useNavigate();
+  const moveRegister = () => {
+    navigate('/interiorRegister');
+  };
 
   console.log('마이페이지 인테리어 메인 토큰 : ', token);
   const [myInterior, setMyInterior] = useState({
@@ -117,10 +120,18 @@ const MypageInteriorMain = () => {
           </tr>
         </tbody>
       </div>
+
       <div className={styles.btncontain}>
-        <Button01 size="small" onClick={clicked}>
-          <Link to={'/mypageInterior/modify'}>수정하기</Link>
-        </Button01>
+        {!user.regStatus && (
+          <button id="btn" onClick={moveRegister}>
+            등록하기
+          </button>
+        )}
+        {user.regStatus && (
+          <Button01 size="small" onClick={clicked}>
+            <Link to={'/mypageInterior/modify'}>수정하기</Link>
+          </Button01>
+        )}
       </div>
     </div>
   );

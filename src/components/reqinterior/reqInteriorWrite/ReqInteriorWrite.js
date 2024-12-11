@@ -52,7 +52,7 @@ const ReqInteriorWrite = () => {
     rentType: 'jeonse',
     size: 10,
     type: 'farmHouse',
-    workType: false,
+    workType: true,
   });
   const [workType, setWorkType] = useState('0'); // 0: 전체 시공, 1: 부분 시공
 

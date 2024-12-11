@@ -91,7 +91,7 @@ const ProfileInteriorAll = () => {
           <div className={styles.detailRow}>
             <p className={styles.detailTitle}>경력</p>
             <p className={styles.detailContent}>
-              {detailInfo.interiorDetail.period}년
+              {detailInfo.interiorDetail.period}개월
             </p>
           </div>
           <div className={styles.detailRow}>

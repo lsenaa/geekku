@@ -98,8 +98,12 @@ const MypageEstateHouseAnswer = () => {
                     <span className={styles.writer}>
                       <div className={styles.profileImg}>
                         <img
-                          src={`data:image/png;base64,${item.userProfileImage}`}
-                          alt="프로필이미지"
+                          src={
+                            item.userProfileImage
+                              ? `data:image/png;base64, ${item.userProfileImage}`
+                              : ''
+                          }
+                          alt="사용자 프로필 이미지"
                         />
                       </div>
                       &nbsp;{item.nickname ? item.nickname : item.name}

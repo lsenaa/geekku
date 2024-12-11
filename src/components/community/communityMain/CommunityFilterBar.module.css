@@ -19,7 +19,7 @@
 .boardTitle {
   font-size: 36px;
   color: #6d885d;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   margin-right: 20px;
   font-family: 'Santokki';
 }
@@ -34,7 +34,7 @@
 .filterBar {
   display: flex;
   gap: 10px;
-  padding: 100px 0 40px 0;
+  padding: 100px 0 50px 0; /* 50이었음 */
   background-color: #fffaf4;
 }
 
@@ -42,14 +42,14 @@
 .filterButton {
   height: 45px;
   width: 127px;
-  padding: 8px 12px;
+  padding: 0px 12px;
   background-color: #fffaf4;
   border: 1px solid #6d885d;
   border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
   color: #6d885d;
-  margin-top: 8px;
+  /* margin-top: 8px; */
   transition:
     background-color 0.3s ease,
     color 0.3s ease,
@@ -224,7 +224,6 @@
   animation: pulse 0.3s ease-in-out;
 }
 
-
 @keyframes fadeOut {
   0% {
     transform: scale(1);
@@ -240,3 +239,12 @@
   animation: fadeOut 0.3s ease-in-out;
 }
 
+.banner {
+  margin-bottom: 20px;
+}
+
+.bannerImage {
+  height: auto;
+  width: 1920px;
+  max-width: none;
+}

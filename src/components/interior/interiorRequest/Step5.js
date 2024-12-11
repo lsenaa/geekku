@@ -22,7 +22,7 @@ const Step5 = ({
       ...data,
       name,
       phone,
-      allowTime,
+      allowTime: '오전(9~12시)',
       content,
       interiorNum,
     };
