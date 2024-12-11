@@ -245,16 +245,16 @@
 
   &:last-child {
     border-bottom: none;
-  div {
-    flex-grow: 1; 
-  }
+    div {
+      flex-grow: 1;
+    }
 
-  div:last-child {
-    display: flex;
-    gap: 10px;
+    div:last-child {
+      display: flex;
+      gap: 10px;
+    }
   }
 }
-
 
 .notificationDot {
   color: #c6d695;
@@ -278,4 +278,3 @@
 .notificationItem button:active {
   transform: scale(0.95); /* 클릭 시 크기 감소 */
 }
-
