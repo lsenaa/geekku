@@ -460,15 +460,16 @@ const Header = ({ alarms = [] }) => {
             <button onClick={logout} className={styles.logoutBtn}>
               로그아웃
             </button>
-        </div>
-      ) : (
-        <button
-          onClick={() => (location.href = '/login')}
-          className={styles.btn}
-        >
-          로그인 | 회원가입
-        </button>
-      )}
+          </div>
+        ) : (
+          <button
+            onClick={() => (location.href = '/login')}
+            className={styles.btn}
+          >
+            로그인 | 회원가입
+          </button>
+        )}
+      </div>
     </header>
   );
 };
