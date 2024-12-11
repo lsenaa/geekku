@@ -11,7 +11,6 @@ const UseHandleTokens = ({ url, setToken, setUser }) => {
 
     if (token) {
       setToken(token);
-      //console.log('!!!!use handle tokens hook에서:', token);
 
       // 사용자 정보 가져오기
       axios
