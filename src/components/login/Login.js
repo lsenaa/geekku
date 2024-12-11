@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
-import { type } from '@testing-library/user-event/dist/type';
 import { Modal } from 'antd';
 import axios from 'axios';
 import UseHandleTokens from 'hook/useHandleTokens';
@@ -21,12 +20,18 @@ const Login = () => {
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
   const setAlarms = useSetAtom(alarmsAtom);
-  const fcmToken = useAtomValue(fcmTokenAtom);
+  const [fcmToken, setFcmToken] = useAtom(fcmTokenAtom);
   const role = isChecked ? 'company' : 'user';
   const navigate = useNavigate();
   const handleToggle = (checked) => {
     setIsChecked(checked);
   };
+
+  useEffect(() => {
+    setToken('');
+    setUser('');
+    setFcmToken('');
+  }, []);
 
   const edit = (e) => {
     setMember({ ...member, [e.target.name]: e.target.value });
