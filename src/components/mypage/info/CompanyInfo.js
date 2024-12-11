@@ -3,9 +3,9 @@ import styles2 from 'components/join/Join.module.scss';
 import plusIcon from 'assets/images/mypage/plusIcon.png';
 import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
 import axios from 'axios';
-import { url } from 'lib/axios';
+import { axiosInToken, url } from 'lib/axios';
 import { Modal } from 'antd';
-import { redirect } from 'react-router';
+import { redirect, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
@@ -21,6 +21,7 @@ const CompanyInfo = () => {
   const [certificationImage, setCertificationImage] = useState(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
+  const navigate = useNavigate();
 
   const edit = (e) => {
     const { name, value } = e.target;
@@ -75,51 +76,34 @@ const CompanyInfo = () => {
     if (profileImage != null) {
       formData.append('file', profileImage);
     }
+
     if (certificationImage != null) {
       formData.append('certificationFile', certificationImage);
     }
 
-    //전화번호 최종 검증
-    const phoneRegex = /^010-\d{4}-\d{4}$/;
-    if (!phoneRegex.test(myUser.phone)) {
-      Modal.info({
-        content: '휴대폰 번호를 다시입력해주세요.',
-      });
-      document.getElementById('phone').focus();
-      return;
-    }
-
-    // 이메일 유효성 확인
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(myUser.email)) {
-      Modal.info({
-        content: '유효한 이메일 형식을 입력해주세요.',
-      });
-      return;
-    }
-
-    axios
-      .post(`${url}/company/updateCompanyInfo`, formData, {
-        headers: {
-          Authorization: token,
-        },
-      })
+    axiosInToken(token)
+      .post(`${url}/company/updateCompanyInfo`, formData)
       .then((res) => {
-        //console.log('서버 응답 데이터 :', res.data);
+        if (res.headers.authorization !== null) {
+          setToken(res.headers.authorization);
+        }
         setUser(res.data.company);
         setMyUser(res.data.company);
         setToken(res.data.token);
         Modal.success({
           content: '회원정보가 수정되었습니다.',
         });
-        redirect('${url}/company/companyInfo');
+        redirect(`${url}/company/companyInfo`);
       })
       .catch((err) => {
-        console.error('회원 정보 수정 실패 :', err);
+        console.log('회원 정보 수정 실패');
         Modal.error({
           content: '회원 정보 수정에 실패했습니다.',
         });
-        redirect('${url}/company/companyInfo');
+        redirect(`${url}/company/companyInfo`);
+        if (err.response.status === 401) {
+          navigate('/login');
+        }
       });
   };
 
@@ -134,8 +118,8 @@ const CompanyInfo = () => {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUser((prevUser) => ({
-          ...prevUser,
+        setMyUser((prevMyUser) => ({
+          ...prevMyUser,
           profileImageStr: reader.result.split(',')[1],
         }));
       };
@@ -244,8 +228,8 @@ const CompanyInfo = () => {
             <input
               type="text"
               name="companyAddress"
-              onChange={edit}
               value={user.companyAddress}
+              onChange={edit}
               className={styles.input1}
             />
             <button
@@ -270,6 +254,7 @@ const CompanyInfo = () => {
               type="text"
               name="phone"
               id="phone"
+              placeholder={user.phone}
               onChange={edit}
               onBlur={handleBlur}
               value={myUser.phone}
@@ -287,11 +272,14 @@ const CompanyInfo = () => {
               name="email"
               onChange={edit}
               value={myUser.email}
+              placeholder={user.email}
               className={styles.input2}
             />
           </div>
           <div className={styles.inputGroup}>
-            <span>사업자등록번호</span>
+            <span>
+              사업자등록번호<b>*</b>
+            </span>
             <br />
             <input
               type="text"

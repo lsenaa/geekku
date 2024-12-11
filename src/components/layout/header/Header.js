@@ -37,6 +37,9 @@ const Header = ({ alarms = [] }) => {
   const [selectedAlarm, setSelectedAlarm] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // console.log('현재 user 상태 : ', user);
+  // console.log('현재 token 상태 : ', token);
+
   const openModal = (alarm) => {
     setSelectedAlarm(alarm);
     setIsModalOpen(true);
@@ -122,8 +125,6 @@ const Header = ({ alarms = [] }) => {
     setIsLogin(false);
     navigate('/');
   };
-
-  console.log('현재 user 상태 : ', user);
 
   const navigateToDetail = (type, detailPath) => {
     let path = '';
@@ -416,7 +417,10 @@ const Header = ({ alarms = [] }) => {
           </button>
         </div>
       ) : (
-        <button onClick={() => navigate('/Login')} className={styles.btn}>
+        <button
+          onClick={() => (location.href = '/login')}
+          className={styles.btn}
+        >
           로그인 | 회원가입
         </button>
       )}
