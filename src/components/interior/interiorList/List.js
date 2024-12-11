@@ -13,7 +13,7 @@ const List = ({ loc, setLoc }) => {
   const user = useAtomValue(userAtom);
   const [interiorList, setInteriorList] = useState([]);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1); //새로고침시 업데이트된 데이트를 반영못해서 useState 대신 let으로 선언
   const [hasMore, setHasMore] = useState(true);
   const elementRef = useRef(null);
   const moveRegister = () => {

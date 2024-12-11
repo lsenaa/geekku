@@ -1,9 +1,7 @@
 import { Link, useOutletContext } from 'react-router-dom';
 import styles from './ProfileInteriorReview.module.scss';
-import sampleImg from 'assets/images/interiorEx.png';
-import Button01 from 'components/commons/button/Button01';
 import { FaUserCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Filter from 'components/commons/filter/Filter';
 import { url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
@@ -19,14 +17,20 @@ const ProfileInteriorReview = () => {
     sizes: [],
     location: [],
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const elementRef = useRef(null);
+  const itemsPerPage = 9; // 한 페이지당 보여줄 항목 수
 
   const handleFilter = (newConditions) => {
     setFilterConditions(newConditions);
+    setCurrentPage(1); // 필터 변경 시 페이지 초기화
+    setHasMore(true);
   };
 
+  // 필터링 로직
   const filteredSamples = detailInfo.reviewDetail.filter((sample) => {
     return (
-      (filterConditions.date ? true : true) &&
       (filterConditions.types.length > 0
         ? filterConditions.types.includes(sample.type)
         : true) &&
@@ -42,6 +46,7 @@ const ProfileInteriorReview = () => {
     );
   });
 
+  // 날짜 정렬
   const sortedDateSample = filteredSamples.sort((a, b) => {
     if (filterConditions.date === 'latest') {
       return new Date(b.createdAt) - new Date(a.createdAt);
@@ -50,6 +55,40 @@ const ProfileInteriorReview = () => {
     }
     return 0;
   });
+
+  // 페이지네이션 처리
+  const paginatedSamples = sortedDateSample.slice(
+    0,
+    currentPage * itemsPerPage
+  );
+
+  const fetchMoreItems = () => {
+    if (paginatedSamples.length >= sortedDateSample.length) {
+      setHasMore(false); // 더 가져올 항목이 없으면 false
+      return;
+    }
+    setCurrentPage((prev) => prev + 1); // 페이지 증가
+  };
+
+  // 무한 스크롤 Intersection Observer
+  const onIntersection = (entries) => {
+    const firstEntry = entries[0];
+    if (firstEntry.isIntersecting && hasMore) {
+      fetchMoreItems();
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(onIntersection);
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [hasMore, sortedDateSample]);
 
   return (
     <div className={styles.container}>
@@ -60,7 +99,7 @@ const ProfileInteriorReview = () => {
         <Filter onFilter={handleFilter} />
       </ul>
       <ul className={styles.reviewWrap}>
-        {sortedDateSample.map((review, i) => (
+        {paginatedSamples.map((review, i) => (
           <li key={i}>
             <div className={styles.userWrap}>
               <FaUserCircle color="#6D885D" size={40} />
@@ -95,6 +134,7 @@ const ProfileInteriorReview = () => {
           </li>
         ))}
       </ul>
+      <div ref={elementRef} />
       <TopButton />
     </div>
   );

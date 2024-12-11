@@ -50,6 +50,7 @@ const SampleList = () => {
     vpage = 1;
     setSampleList([]);
     setHasMore(true);
+    // fetchMoreItems();
   }, [filterConditions]);
 
   const handleFilter = (newConditions) => {
@@ -61,6 +62,12 @@ const SampleList = () => {
   };
 
   const fetchMoreItems = async () => {
+    const currentConditions = { ...filterConditions }; // 최신 상태 복사
+    console.log(
+      'Current Filter Conditions in fetchMoreItems:',
+      currentConditions
+    ); // 디버깅
+    console.log('Filter Conditions:', filterConditions); // 필터 조건 로그
     await axios
       .get(`${url}/sampleList?page=${vpage}`, {
         params: {
@@ -77,13 +84,19 @@ const SampleList = () => {
       })
       .then((res) => {
         const allPage = res.data.allPage;
-        const resSampleList = res.data.SampleList;
-        if (vpage === allPage) {
-          setHasMore(false);
+        console.log('00000' + res.data);
+        console.log(res.data.sampleList);
+        console.log('1111111101111' + filterConditions.location);
+        if (Array.isArray(res.data.sampleList)) {
+          if (vpage === allPage) {
+            setHasMore(false);
+          }
+          vpage = vpage + 1;
+          setSampleList((sample) => [...sample, ...res.data.sampleList]);
+        } else {
+          console.error(res.data);
+          setSampleList([]);
         }
-        vpage = vpage + 1;
-        console.log(res.data);
-        setSampleList((sample) => [...sample, ...resSampleList]);
       })
       .catch((error) => {
         console.error(error);
