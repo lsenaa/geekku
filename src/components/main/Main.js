@@ -106,7 +106,7 @@ const Main = () => {
                       {estate.size2}㎡({estate.size1}평)
                     </p>
                   </div>
-                  <p>{estate.title}</p>
+                  <p className={styles.estateTitle}>{estate.title}</p>
                 </div>
               </Link>
             </li>

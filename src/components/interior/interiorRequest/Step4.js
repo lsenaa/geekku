@@ -1,6 +1,7 @@
 import styles from './Step4.module.scss';
 import ProgressBar from './ProgressBar';
 import { useState } from 'react';
+import { message } from 'antd';
 
 const Step4 = ({
   currentStep,
@@ -16,11 +17,14 @@ const Step4 = ({
     setSelectedSize(e.target.value);
     onDataChange({ size: e.target.value });
   };
-
+  const [messageApi, contextHolder] = message.useMessage();
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (!selectedSize) {
-      alert('공간의 평수를 선택해주세요.');
+    if (selectedSize === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '공간의 평수를 선택해주세요.',
+      });
       return;
     }
     nextStep();
@@ -88,6 +92,7 @@ const Step4 = ({
       <div className={styles.btn}>
         <button onClick={prevStep}>뒤로</button>
         <button onClick={handleNextStep} id={styles.nextBtn}>
+          {contextHolder}
           다음
         </button>
       </div>

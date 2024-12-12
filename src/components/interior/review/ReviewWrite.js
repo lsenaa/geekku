@@ -215,7 +215,9 @@ const ReviewWrite = () => {
               required
               value={review.type || ''}
             >
-              <option value="">주거형태선택</option>
+              <option value="" disabled>
+                주거형태선택
+              </option>
               <option value="농가주택">농가주택</option>
               <option value="전원주택">전원주택</option>
               <option value="아파트/빌라">아파트/빌라</option>
@@ -233,7 +235,9 @@ const ReviewWrite = () => {
               required
               value={review.style || ''}
             >
-              <option value="">스타일선택</option>
+              <option value="" disabled>
+                스타일선택
+              </option>
               <option value="모던">모던</option>
               <option value="우드">우드</option>
               <option value="내추럴">내추럴</option>

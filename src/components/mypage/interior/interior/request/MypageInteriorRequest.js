@@ -59,18 +59,20 @@ const MypageInteriorRequest = () => {
   return (
     <>
       {data.length === 0 ? (
-        <div className={styles.noListText}>작성한 방꾸 내역이 없습니다.</div>
+        <div style={{ textAlign: 'center' }}>
+          작성한 방꾸하기 답변내역이 없습니다.
+        </div>
       ) : (
         <>
           <table className={styles.customTable}>
             <colgroup>
               <col width="5%" />
-              <col width="40%" />
+              <col width="25%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="15%" />
               <col width="10%" />
-              <col width="15%" />
-              <col width="15%" />
-              <col width="15%" />
-              <col width="5%" />
             </colgroup>
             <thead>
               <tr>
@@ -86,15 +88,16 @@ const MypageInteriorRequest = () => {
             <tbody>
               {data.map((requestAll) => (
                 <tr
-                  key={requestAll.answerRequestAllNum}
+                  key={requestAll.answerAllNum}
                   className={styles.rowWrap}
                   onClick={() =>
                     navigate(`/onestop/detail/${requestAll.requestAllNum}`)
                   }
                 >
-                  <td>{requestAll.answerRequestAllNum}</td>
+                  <td>{requestAll.answerAllNum}</td>
                   <td>{requestAll.title}</td>
-                  <td>{formatEstateType(requestAll.type)}</td>
+                  <td>{requestAll.workType}</td>
+                  {/* <td>{formatEstateType(requestAll.type)}</td> */}
                   <td>
                     {`${processLocation(requestAll.address1)} ${requestAll.address2}`}
                   </td>
@@ -102,7 +105,12 @@ const MypageInteriorRequest = () => {
                     <span className={styles.writer}>
                       <div className={styles.profileImg}>
                         <img
-                          src={`data:image/png;base64,${requestAll.userProfileImage}`}
+                          src={
+                            requestAll.userProfileImage
+                              ? `data:image/png;base64, ${requestAll.userProfileImage}`
+                              : ''
+                          }
+                          alt="사용자 프로필 이미지"
                         />
                         &nbsp; &nbsp;{requestAll.nickname}
                       </div>

@@ -6,8 +6,7 @@ import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { axiosInToken, url } from 'lib/axios';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
-import { Modal } from 'antd';
-import TopButton from 'components/layout/topbutton/TopButton';
+import { message } from 'antd';
 
 const BookmarkCommunity = () => {
   const token = useAtomValue(tokenAtom);
@@ -15,6 +14,7 @@ const BookmarkCommunity = () => {
   const [bookmarkData, setBookmarkData] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     fetchData(page);
@@ -43,15 +43,21 @@ const BookmarkCommunity = () => {
       });
   };
 
-  const handleBookmark = (communityNum) => {
+  const handleBookmark = (communityNum, bookmarkCommunityNum) => {
     axiosInToken(token)
       .post(`/user/communityBookmark?communityNum=${communityNum}`)
       .then((res) => {
         if (res.data === '북마크가 비활성화되었습니다.') {
-          Modal.success({
-            content: '집들이 북마크가 해제되었습니다.',
+          messageApi.open({
+            type: 'success',
+            content: '북마크가 해제되었습니다.',
           });
-          fetchData(page);
+          setBookmarkData(
+            bookmarkData.filter(
+              (bookmark) =>
+                bookmark.bookmarkCommunityNum !== bookmarkCommunityNum
+            )
+          );
         }
       })
       .catch((err) => {
@@ -102,7 +108,10 @@ const BookmarkCommunity = () => {
                         onClick={(e) => {
                           e.stopPropagation;
                           e.preventDefault();
-                          handleBookmark(community.communityNum);
+                          handleBookmark(
+                            community.communityNum,
+                            community.bookmarkCommunityNum
+                          );
                         }}
                       />
                     </div>
@@ -114,7 +123,7 @@ const BookmarkCommunity = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
-      <TopButton />
+      {contextHolder}
     </>
   );
 };

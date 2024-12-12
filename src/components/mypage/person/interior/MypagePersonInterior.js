@@ -109,7 +109,7 @@ const MypagePersonInterior = () => {
                   className={styles.rowWrap}
                   key={all.requestAllNum}
                   onClick={() =>
-                    navigate(`/requestInterior/detail/${all.requestAllNum}`)
+                    navigate(`/interiorall/detail/${all.requestAllNum}`)
                   }
                 >
                   <td>{i + 1}</td>

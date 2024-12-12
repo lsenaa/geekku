@@ -30,7 +30,7 @@
 
     p {
       position: relative;
-      padding: 0 60px;
+      padding: 0 38px;
       margin-bottom: 30px;
 
       &::after {
@@ -39,7 +39,7 @@
         bottom: -10px;
         display: block;
         border-bottom: 1px solid $main-color;
-        width: 50%;
+        width: 70%;
       }
     }
   }

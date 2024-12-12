@@ -50,9 +50,3 @@ export const alarmsAtom = atomWithStorage(
   [],
   createJSONStorage(() => sessionStorage)
 );
-
-export const userNameAtom = atomWithStorage(
-  'username',
-  '',
-  createJSONStorage(() => sessionStorage)
-);

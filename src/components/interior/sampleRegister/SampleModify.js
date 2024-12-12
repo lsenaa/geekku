@@ -1,36 +1,51 @@
 import styles from './SampleRegister.module.scss';
-import { useRef, useState } from 'react';
-import '@toast-ui/editor/toastui-editor.css';
-import color from '@toast-ui/editor-plugin-color-syntax';
-import 'tui-color-picker/dist/tui-color-picker.css';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import { useEffect, useRef, useState } from 'react';
 import Button01 from 'components/commons/button/Button01';
 import { useLocation, useNavigate } from 'react-router';
 import { axiosInToken, url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
-import { tokenAtom, userAtom } from 'store/atoms';
+import { tokenAtom } from 'store/atoms';
 import { Modal } from 'antd';
 import ToastEditor from 'components/commons/ToastEditor';
 import axios from 'axios';
 import { MdCancel } from 'react-icons/md';
 
-const SampleRegister = () => {
+const SampleModify = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const token = useAtomValue(tokenAtom);
-  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const imageInput = useRef();
   const editorRef = useRef();
+  const area = ['경기', '인천', '충청', '강원', '전라', '경상', '제주'];
   const [content, setContent] = useState('');
+  const [coverImg, setCoverImg] = useState(null);
+  const [deleteImg, setDeleteImg] = useState(null);
   const [sample, setSample] = useState({
-    type: '농가주택',
-    style: '모던',
+    type: '',
+    style: '',
     size: '',
-    location: '경기',
+    location: '',
     title: '',
   });
-  const location = useLocation(); //props로 전달해주지 않았기때문에, location으로 불러온다.
-  const user = useAtomValue(userAtom);
-  const [coverImg, setCoverImg] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`${url}/sampleDetail/${location.state.sampleNum}`)
+      .then((res) => {
+        console.log(res.data);
+        setSample({ ...res.data.sampleInfo });
+        setCoverImg(res.data.sampleInfo.coverImage);
+
+        // 에디터 초기값 설정
+        if (editorRef.current) {
+          const editorInstance = editorRef.current.getInstance();
+          editorInstance.setHTML(res.data.sampleInfo.content || '');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setSample({ ...sample, [e.target.name]: e.target.value });
@@ -47,6 +62,7 @@ const SampleRegister = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setCoverImg(file);
     }
@@ -54,6 +70,7 @@ const SampleRegister = () => {
 
   // 이미지 제거 핸들러
   const handleRemoveImage = () => {
+    setDeleteImg(coverImg);
     setCoverImg(null);
   };
 
@@ -70,11 +87,11 @@ const SampleRegister = () => {
         callback(imageUrl);
       }
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -85,24 +102,27 @@ const SampleRegister = () => {
     formData.append('title', sample.title);
     formData.append('content', content);
     formData.append('coverImg', coverImg);
-    formData.append('companyId', user.companyId);
-    axiosInToken(token)
-      .post(`/company/interiorSampleRegister`, formData)
-      .then((res) => {
-        //console.log(res.data);
+    formData.append('deleteImg', deleteImg);
+
+    try {
+      const res = await axiosInToken(token).post(
+        `/company/interiorSampleUpdate/${sample.sampleNum}`,
+        formData
+      );
+      if (res.data) {
         Modal.success({
-          content: '시공사례 등록이 완료되었습니다.',
+          content: '시공사례 수정이 완료되었습니다.',
         });
         navigate(`/sampleDetail/${res.data}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className={styles.regDesign}>
-      <div className={styles.topText}>시공사례 등록하기</div>
+      <div className={styles.topText}>시공사례 수정하기</div>
       <div className={styles.title}>
         <h3>카테고리 선택</h3>
         <p>
@@ -120,6 +140,7 @@ const SampleRegister = () => {
               className={styles.customSelect}
               name="type"
               onChange={handleChange}
+              value={sample.type}
             >
               <option value="농가주택">농가주택</option>
               <option value="전원주택">전원주택</option>
@@ -134,6 +155,7 @@ const SampleRegister = () => {
               className={styles.customSelect}
               name="style"
               onChange={handleChange}
+              value={sample.style}
             >
               <option value="모던">모던</option>
               <option value="우드">우드</option>
@@ -188,7 +210,11 @@ const SampleRegister = () => {
                 onClick={handleRemoveImage}
               />
               <img
-                src={URL.createObjectURL(coverImg)}
+                src={
+                  coverImg instanceof File
+                    ? URL.createObjectURL(coverImg)
+                    : `${url}/sampleImage/${sample.coverImage}`
+                }
                 alt="커버 이미지"
                 className={styles.uploadImg}
               />
@@ -236,6 +262,7 @@ const SampleRegister = () => {
             height="800px"
             handleImage={handleImage}
             onChange={onChangeContent}
+            initialValue={content}
           />
         </div>
         <div>
@@ -244,13 +271,13 @@ const SampleRegister = () => {
             className={styles.submitBtn}
             onClick={handleSubmit}
           >
-            등록하기
+            수정하기
           </button>
           <Button01
             type="button"
             size="small"
             color="sub"
-            onClick={() => navigate('/sampleList')}
+            onClick={() => navigate(-1)}
           >
             취소하기
           </Button01>
@@ -260,4 +287,4 @@ const SampleRegister = () => {
   );
 };
 
-export default SampleRegister;
+export default SampleModify;
