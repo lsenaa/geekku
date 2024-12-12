@@ -6,14 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { useSetAtom, useAtom } from 'jotai';
-import {
-  userNameAtom,
-  alarmsAtom,
-  userAtom,
-  tokenAtom,
-  initUser,
-  fcmTokenAtom,
-} from 'store/atoms';
+import { alarmsAtom, userAtom, tokenAtom, initUser } from 'store/atoms';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { NavLink } from 'react-router-dom';
@@ -27,9 +20,7 @@ const Header = ({ alarms = [] }) => {
   const [write, setWrite] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const [username, setUserName] = useAtom(userNameAtom);
   const setAlarms = useSetAtom(alarmsAtom);
-  const setFcmToken = useSetAtom(fcmTokenAtom);
 
   const [selectedAlarm, setSelectedAlarm] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
