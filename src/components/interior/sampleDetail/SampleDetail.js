@@ -12,6 +12,7 @@ import { url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
 import { Viewer } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 const SampleDetail = () => {
   const [sampleInfo, setSampleInfo] = useState({});
@@ -20,9 +21,8 @@ const SampleDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const param = { id: user.userId, num: num };
     axios
-      .post(`${url}/sampleDetail`, param)
+      .get(`${url}/sampleDetail/${num}`)
       .then((res) => {
         console.log(res.data);
         setSampleInfo({ ...res.data.sampleInfo });
@@ -43,18 +43,34 @@ const SampleDetail = () => {
       <div className={styles.all}>
         <div className={styles.title}>{sampleInfo.title}</div>
         <div className={styles.contentWrap}>
-          <div className={styles.user}>
-            <div className={styles.profileImage}>
-              <img
-                src={`data:image/png;base64, ${sampleInfo.profileImage}`}
-                alt="유저아이콘"
-                style={{ height: '40px' }}
-              />
+          <div className={styles.userBtnWrap}>
+            <div className={styles.user}>
+              <div className={styles.profileImage}>
+                <img
+                  src={
+                    sampleInfo.profileImage &&
+                    `data:image/png;base64, ${sampleInfo.profileImage}`
+                  }
+                  alt="유저아이콘"
+                />
+              </div>
+              <div className={styles.nameInfo}>
+                <span id={styles.name}>{sampleInfo.companyName}</span>
+                <span id={styles.info}>{sampleInfo.intro}</span>
+              </div>
             </div>
-            <div className={styles.nameInfo}>
-              <span id={styles.name}>{sampleInfo.companyName}</span>
-              <span id={styles.info}>{sampleInfo.intro}</span>
-            </div>
+            {sampleInfo.companyId === user.companyId && (
+              <Button01
+                size="x-small"
+                onClick={() =>
+                  navigate('/sampleModify', {
+                    state: { sampleNum: sampleInfo.sampleNum },
+                  })
+                }
+              >
+                수정하기
+              </Button01>
+            )}
           </div>
           <div className={styles.type}>
             <div>

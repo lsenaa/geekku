@@ -67,6 +67,7 @@ import MypagePersonRequestInterior from 'components/mypage/person/interior/Mypag
 import InteriorRequest from 'components/interior/interiorRequest/InteriorRequest';
 import ReviewModify from 'components/interior/review/ReviewModify';
 import CommunityBoardEdit from 'components/community/communityWrite/CommunityBoardEdit';
+import SampleModify from 'components/interior/sampleRegister/SampleModify';
 
 const Router = () => {
   return (
@@ -87,6 +88,7 @@ const Router = () => {
       <Route path="/interiorRequest" element={<InteriorRequest />} />
       <Route path="/sampleDetail/:num" element={<SampleDetail />} />
       <Route path="/sampleRegister" element={<SampleRegister />} />
+      <Route path="/sampleModify" element={<SampleModify />} />
       <Route path="/interiorAnswer/:num" element={<InteriorAnswer />} />
       <Route path="/interiorReviewWrite" element={<ReviewWrite />} />
       <Route path="/interiorReviewModify" element={<ReviewModify />} />
