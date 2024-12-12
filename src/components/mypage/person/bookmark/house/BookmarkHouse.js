@@ -6,7 +6,7 @@ import { tokenAtom } from 'store/atoms';
 import { axiosInToken, url } from 'lib/axios';
 import { useEffect, useState } from 'react';
 import { formatEstateType, formatPrice } from 'utils/utils';
-import { Modal } from 'antd';
+import { message } from 'antd';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
 
 const BookmarkHouse = () => {
@@ -15,6 +15,7 @@ const BookmarkHouse = () => {
   const [bookmarkData, setBookmarkData] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     fetchData(page);
@@ -43,15 +44,20 @@ const BookmarkHouse = () => {
       });
   };
 
-  const handleBookmark = (estateNum) => {
+  const handleBookmark = (estateNum, bookmarkEstateNum) => {
     axiosInToken(token)
       .post(`/user/estateBookmark/${estateNum}`)
       .then((res) => {
         if (!res.data) {
-          Modal.success({
-            content: '매물 북마크가 해제되었습니다.',
+          messageApi.open({
+            type: 'success',
+            content: '북마크가 해제되었습니다.',
           });
-          fetchData(page);
+          setBookmarkData(
+            bookmarkData.filter(
+              (bookmark) => bookmark.bookmarkEstateNum !== bookmarkEstateNum
+            )
+          );
         }
       })
       .catch((err) => {
@@ -108,9 +114,11 @@ const BookmarkHouse = () => {
                         src={bookmarkImg}
                         alt="북마크 이미지"
                         onClick={(e) => {
-                          e.stopPropagation;
                           e.preventDefault();
-                          handleBookmark(estate.estateNum);
+                          handleBookmark(
+                            estate.estateNum,
+                            estate.bookmarkEstateNum
+                          );
                         }}
                       />
                     </div>
@@ -122,6 +130,7 @@ const BookmarkHouse = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
+      {contextHolder}
     </>
   );
 };

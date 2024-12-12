@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';
 import { axiosInToken } from 'lib/axios';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
-import { Modal } from 'antd';
+import { message } from 'antd';
 import { Link } from 'react-router-dom';
 
 const BookmarkInterior = () => {
@@ -14,6 +14,7 @@ const BookmarkInterior = () => {
   const [bookmarkData, setBookmarkData] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     fetchData(page);
@@ -40,15 +41,22 @@ const BookmarkInterior = () => {
       });
   };
 
-  const handleBookmark = (num) => {
+  const handleBookmark = (num, bookmarkInteriorNum) => {
     axiosInToken(token)
       .get(`/user/interiorBookmark/${num}`)
       .then((res) => {
+        console.log(res.data);
+
         if (!res.data) {
-          Modal.success({
-            content: '인테리어 업체 북마크가 해제되었습니다.',
+          messageApi.open({
+            type: 'success',
+            content: '북마크가 해제되었습니다.',
           });
-          fetchData(page);
+          setBookmarkData(
+            bookmarkData.filter(
+              (bookmark) => bookmark.bookmarkInteriorNum !== bookmarkInteriorNum
+            )
+          );
         }
       })
       .catch((err) => {
@@ -73,7 +81,7 @@ const BookmarkInterior = () => {
           <>
             {bookmarkData.map((interior, i) => (
               <li key={i}>
-                <Link to={`/profile/interior`}>
+                <Link to={`/profile/interior/${interior.interiorNum}`}>
                   <div className={styles.imgWrapper}>
                     <img
                       src={`data:image/png;base64, ${interior.interiorImageStr}`}
@@ -103,8 +111,11 @@ const BookmarkInterior = () => {
                         src={bookmarkImg}
                         alt="북마크 이미지"
                         onClick={(e) => {
-                          e.stopPropagation;
-                          handleBookmark(interior.interiorNum);
+                          e.preventDefault();
+                          handleBookmark(
+                            interior.interiorNum,
+                            interior.bookmarkInteriorNum
+                          );
                         }}
                       />
                     </div>
@@ -116,6 +127,7 @@ const BookmarkInterior = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
+      {contextHolder}
     </>
   );
 };
