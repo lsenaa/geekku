@@ -51,6 +51,8 @@ const ProfileInteriorReview = () => {
     return 0;
   });
 
+  console.log(sortedDateSample);
+
   return (
     <div className={styles.container}>
       <h3>
@@ -63,7 +65,15 @@ const ProfileInteriorReview = () => {
         {sortedDateSample.map((review, i) => (
           <li key={i}>
             <div className={styles.userWrap}>
-              <FaUserCircle color="#6D885D" size={40} />
+              <div className={styles.profileImg}>
+                <img
+                  src={
+                    review.profileImage &&
+                    `data:image/png;base64,${review.profileImage}`
+                  }
+                  alt="프로필 이미지"
+                />
+              </div>
               <p className={styles.username}>{review.name}</p>
               <p className={styles.createdAt}>{formatDate(review.createdAt)}</p>
             </div>
@@ -71,7 +81,7 @@ const ProfileInteriorReview = () => {
               {review.interiorDate && <li>{review.interiorDate}</li>}
               {review.type && <li>{review.type}</li>}
               {review.style && <li>{review.style}</li>}
-              {review.size && <li>{review.size}</li>}
+              {review.size && <li>{review.size}평</li>}
               {review.location && <li>{review.location}</li>}
             </ul>
             <div className={styles.reviewImgsWrap}>
