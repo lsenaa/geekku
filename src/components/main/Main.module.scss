@@ -181,6 +181,10 @@
   }
 }
 
+.estateTitle {
+  @include ellipse;
+}
+
 .communityTitle {
   font-weight: bold;
   font-size: 16px;
