@@ -368,7 +368,7 @@ const CommunityBoardDetail = () => {
         <div className={styles.detailsCard}>
           <div className={styles.detailsIcons}>
             <div className={styles.iconItem}>🏠 {post.type}</div>
-            <div className={styles.iconItem}>📐 {post.size}</div>
+            <div className={styles.iconItem}>📐 {post.size}평</div>
             <div className={styles.iconItem}>✏️ {post.style}</div>
             <div className={styles.iconItem}>👫 {post.familyType}</div>
           </div>
@@ -376,7 +376,7 @@ const CommunityBoardDetail = () => {
           <div className={styles.detailContent}>
             지역: {post.address1} {post.address2} &nbsp;&nbsp;|&nbsp;&nbsp;
             스타일: {post.style} &nbsp;&nbsp;|&nbsp;&nbsp; 예산: {post.money}
-            &nbsp;&nbsp; |&nbsp;&nbsp; 기간: {post.periodStartDate} ~{' '}
+            만원 &nbsp;&nbsp; |&nbsp;&nbsp; 기간: {post.periodStartDate} ~{' '}
             {post.periodEndDate}
           </div>
         </div>

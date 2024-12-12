@@ -1,6 +1,7 @@
 import styles from './Step3.module.scss';
 import ProgressBar from './ProgressBar';
 import { useState } from 'react';
+import { message } from 'antd';
 
 const Step3 = ({
   currentStep,
@@ -16,11 +17,14 @@ const Step3 = ({
     setSelectedCondition(e.target.value);
     onDataChange({ status: e.target.value });
   };
-
+  const [messageApi, contextHolder] = message.useMessage();
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (!selectedCondition) {
-      alert('공간의 상황을 선택해주세요.');
+    if (selectedCondition === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '공간의 상황을 선택해주세요.',
+      });
       return;
     }
     nextStep();
@@ -73,6 +77,7 @@ const Step3 = ({
       <div className={styles.btn}>
         <button onClick={prevStep}>뒤로</button>
         <button onClick={handleNextStep} id={styles.nextBtn}>
+          {contextHolder}
           다음
         </button>
       </div>
