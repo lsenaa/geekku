@@ -1,13 +1,11 @@
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import styles from './ProfileInteriorSample.module.scss';
-import sampleImg from 'assets/images/interiorEx.png';
 import Button01 from 'components/commons/button/Button01';
 import Filter from 'components/commons/filter/Filter';
 import { useState } from 'react';
 import { url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const ProfileInteriorSample = () => {
   const { detailInfo } = useOutletContext();
@@ -98,7 +96,6 @@ const ProfileInteriorSample = () => {
           </li>
         ))}
       </ul>
-      <TopButton />
     </div>
   );
 };

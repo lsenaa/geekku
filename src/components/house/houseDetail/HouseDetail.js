@@ -13,7 +13,6 @@ import {
   formatPrice,
   processLocation,
 } from 'utils/utils';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const HouseDetail = () => {
   let { num } = useParams();
@@ -148,7 +147,6 @@ const HouseDetail = () => {
       </div>
       {/* 답변 리스트 */}
       <HouseDetailAnswerList houseNum={house.houseNum} userId={house.userId} />
-      <TopButton />
     </div>
   );
 };

@@ -34,7 +34,7 @@ const MypageInteriorReview = () => {
   return (
     <>
       {reviewList.length === 0 ? (
-        <div className={styles.noListText}>작성된 후기 내역이 없습니다.</div>
+        <div style={{ textAlign: 'center' }}>작성된 후기 내역이 없습니다.</div>
       ) : (
         <>
           <table className={styles.customTable}>
