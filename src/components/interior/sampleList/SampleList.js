@@ -49,9 +49,11 @@ const SampleList = () => {
     vpage = 1;
     setSampleList([]);
     setHasMore(true);
+    // fetchMoreItems();
   }, [filterConditions]);
 
   const handleFilter = (newConditions) => {
+    console.log('new:' + newConditions);
     setFilterConditions(newConditions);
   };
 
@@ -76,13 +78,19 @@ const SampleList = () => {
       })
       .then((res) => {
         const allPage = res.data.allPage;
-        const resSampleList = res.data.SampleList;
-        if (vpage === allPage) {
-          setHasMore(false);
+        console.log('00000' + res.data);
+        console.log(res.data.sampleList);
+        console.log('1111111101111' + filterConditions.location);
+        if (Array.isArray(res.data.sampleList)) {
+          if (vpage === allPage) {
+            setHasMore(false);
+          }
+          vpage = vpage + 1;
+          setSampleList((sample) => [...sample, ...res.data.sampleList]);
+        } else {
+          console.error(res.data);
+          setSampleList([]);
         }
-        vpage = vpage + 1;
-        console.log(res.data);
-        setSampleList((sample) => [...sample, ...resSampleList]);
       })
       .catch((error) => {
         console.error(error);
