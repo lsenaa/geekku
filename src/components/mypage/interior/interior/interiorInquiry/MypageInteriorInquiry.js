@@ -79,7 +79,9 @@ const MypageInteriorInquiry = () => {
   return (
     <>
       {requestList.length === 0 ? (
-        <div className={styles.noListText}>작성한 방꾸 내역이 없습니다.</div>
+        <div style={{ textAlign: 'center' }}>
+          받은 인테리어 문의내역이 없습니다.
+        </div>
       ) : (
         <>
           <table className={styles.customTable}>
