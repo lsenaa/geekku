@@ -1,10 +1,11 @@
 import styles from './Step1.module.scss';
 import ProgressBar from './ProgressBar';
 import { useState } from 'react';
+import { message } from 'antd';
 
 const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
   const [selectedSchedule, setSelectedSchedule] = useState('');
-
+  const [messageApi, contextHolder] = message.useMessage();
   console.log(selectedSchedule);
   const handleRadioChange = (e) => {
     setSelectedSchedule(e.target.value);
@@ -13,8 +14,11 @@ const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
 
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (!selectedSchedule) {
-      alert('일정을 선택해주세요.');
+    if (selectedSchedule === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '일정을 선택해주세요.',
+      });
       return;
     }
     nextStep();
@@ -86,6 +90,7 @@ const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
       <div className={styles.btn}>
         <button>뒤로</button>
         <button onClick={handleNextStep} id={styles.nextBtn}>
+          {contextHolder}
           다음
         </button>
       </div>

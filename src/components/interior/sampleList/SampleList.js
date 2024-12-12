@@ -1,14 +1,13 @@
 import Filter from 'components/commons/filter/Filter';
 import styles from './Sample.module.scss';
 import Card from './Card';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import axios, { all } from 'axios';
+import axios from 'axios';
 import { url } from 'lib/axios';
 import qs from 'qs';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const SampleList = () => {
   const user = useAtomValue(userAtom);
@@ -118,7 +117,6 @@ const SampleList = () => {
           </div>
         )}
       </div>
-      <TopButton />
     </div>
   );
 };

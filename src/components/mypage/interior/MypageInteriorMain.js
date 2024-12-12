@@ -1,13 +1,12 @@
 import styles from './MypageInteriorMain.module.scss';
 import { Link } from 'react-router-dom';
 import Button01 from 'components/commons/button/Button01';
-import { Pagination } from 'antd';
 import { useLocation } from 'react-router';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { url } from 'lib/axios';
-import { useSetAtom, useAtom, useAtomValue } from 'jotai';
-import { userNameAtom, alarmsAtom, userAtom, tokenAtom } from 'store/atoms';
+import { useAtom } from 'jotai';
+import { userAtom, tokenAtom } from 'store/atoms';
 import { useEffect, useState } from 'react';
 
 const MypageInteriorMain = () => {
@@ -21,7 +20,6 @@ const MypageInteriorMain = () => {
     navigate('/interiorRegister');
   };
 
-  console.log('마이페이지 인테리어 메인 토큰 : ', token);
   const [myInterior, setMyInterior] = useState({
     intro: '',
     content: '',
@@ -42,7 +40,6 @@ const MypageInteriorMain = () => {
       .then((res) => {
         console.log('res.data :', res.data);
         setMyInterior(res.data);
-        console.log(myInterior.interior);
         setIsLoading(false);
       })
       .catch((err) => {

@@ -11,11 +11,13 @@
     border-radius: 10px;
     width: 31%;
     overflow: hidden;
+    position: relative;
   }
 
   .imgWrapper {
     width: 100%;
     height: 200px;
+    overflow: hidden;
 
     img {
       width: 100%;
@@ -23,44 +25,37 @@
       object-fit: cover;
     }
   }
-  .contentWrapper {
-    padding: 10px;
-    font-weight: bold;
+
+  .textWrapper {
+    padding: 16px;
+
+    .title {
+      @include ellipse;
+      font-weight: bold;
+    }
 
     .name {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-
-    .textWrapper {
-      @include flexrow;
-      justify-content: space-between;
-
-      .name {
-        font-weight: lighter;
-        font-size: 16px;
-      }
-
-      .locationWrap {
-        @include flexrow;
-
-        .loc {
-          font-size: 12px;
-          width: 40px;
-          padding: 8px 0;
-          background-color: $main-color;
-          color: white;
-          border-radius: 20px;
-          margin-left: 5px;
-          text-align: center;
-        }
-      }
+      color: #757575;
+      font-size: 16px;
+      margin-top: 10px;
     }
   }
-  .bookmarkWrap {
-    @include flexrow;
-    justify-content: space-between;
-    color: #757575;
+}
+
+.btnWrapper {
+  position: absolute;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    opacity: 1;
   }
 }

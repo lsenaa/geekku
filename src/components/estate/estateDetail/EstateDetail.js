@@ -2,7 +2,7 @@ import styles from './EstateDetail.module.scss';
 import bookmarkFalseImg from '../../../assets/images/bookmarkFalse.png';
 import bookmarkTrueImg from '../../../assets/images/bookmarkTrue.png';
 import { useEffect, useState } from 'react';
-import { Carousel, Modal } from 'antd';
+import { Carousel, message, Modal } from 'antd';
 import { formatEstateType, formatPrice } from 'utils/utils';
 import { axiosInToken, url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
@@ -15,6 +15,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
   const token = useAtomValue(tokenAtom);
   const [estate, setEstate] = useState({});
   const imgNumList = estateImageNums.split(',');
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     fetchData();
@@ -41,12 +42,13 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
       .post(`/user/estateBookmark/${estateNum}`)
       .then((res) => {
         if (res.data) {
-          Modal.success({
-            content: '매물 북마크가 완료되었습니다.',
+          messageApi.open({
+            type: 'success',
+            content: '북마크가 완료되었습니다.',
           });
         } else {
           Modal.success({
-            content: '매물 북마크가 해제되었습니다.',
+            content: '북마크가 해제되었습니다.',
           });
         }
         setBookmark(res.data);
@@ -91,7 +93,8 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
             <div className={styles.profileImg}>
               <img
                 src={
-                  `data:image/png;base64,${estate.companyProfileImage}` || ''
+                  estate.companyProfileImage &&
+                  `data:image/png;base64,${estate.companyProfileImage}`
                 }
                 alt="프로필이미지"
               />
@@ -159,6 +162,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           </tr>
         </tbody>
       </table>
+      {contextHolder}
     </div>
   );
 };

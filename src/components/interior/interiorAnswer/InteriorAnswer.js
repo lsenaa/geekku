@@ -57,11 +57,16 @@ const InteriorAnswer = () => {
             <p className={styles.upDate}>{formatDate(requestInfo.createdAt)}</p>
           </div>
         </div>
+
         <div className={styles.line}></div>
         <div className={styles.sectionWrap}>
           <div className={styles.semiTitle}>인테리어 조건 정보</div>
           <div className={styles.line}></div>
           <ul>
+            <li>
+              <span className={styles.category}>신청된 업체</span>
+              <span>{requestInfo.companyName}</span>
+            </li>
             <li>
               <span className={styles.category}>건물유형</span>
               <span>{requestInfo.type}</span>

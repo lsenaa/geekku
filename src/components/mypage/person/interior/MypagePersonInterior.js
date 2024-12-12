@@ -26,7 +26,7 @@ const MypagePersonInterior = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setInteriorAllList([...res.data.content]);
         setTotalCount(res.data.totalElements);
       })
@@ -58,7 +58,7 @@ const MypagePersonInterior = () => {
         axiosInToken(token)
           .post(`/user/interiorAllDelete/${requestAllNum}`)
           .then((res) => {
-            console.log(res);
+            //console.log(res);
             if (res.data) {
               Modal.success({
                 content: '방꾸 작성글이 삭제되었습니다.',
@@ -109,7 +109,7 @@ const MypagePersonInterior = () => {
                   className={styles.rowWrap}
                   key={all.requestAllNum}
                   onClick={() =>
-                    navigate(`/requestInterior/detail/${all.requestAllNum}`)
+                    navigate(`/interiorall/detail/${all.requestAllNum}`)
                   }
                 >
                   <td>{i + 1}</td>

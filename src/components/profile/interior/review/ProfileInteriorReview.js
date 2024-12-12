@@ -1,11 +1,9 @@
-import { Link, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import styles from './ProfileInteriorReview.module.scss';
-import { FaUserCircle } from 'react-icons/fa';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Filter from 'components/commons/filter/Filter';
 import { url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const ProfileInteriorReview = () => {
   const { detailInfo } = useOutletContext();
@@ -115,7 +113,15 @@ const ProfileInteriorReview = () => {
         {paginatedSamples.map((review, i) => (
           <li key={i}>
             <div className={styles.userWrap}>
-              <FaUserCircle color="#6D885D" size={40} />
+              <div className={styles.profileImg}>
+                <img
+                  src={
+                    review.profileImage &&
+                    `data:image/png;base64,${review.profileImage}`
+                  }
+                  alt="프로필 이미지"
+                />
+              </div>
               <p className={styles.username}>{review.name}</p>
               <p className={styles.createdAt}>{formatDate(review.createdAt)}</p>
             </div>
@@ -148,7 +154,6 @@ const ProfileInteriorReview = () => {
         ))}
       </ul>
       <div ref={elementRef} />
-      <TopButton />
     </div>
   );
 };

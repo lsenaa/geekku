@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 import { url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
 import { userAtom } from 'store/atoms';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const ProfileInteriorSample = () => {
   const { detailInfo } = useOutletContext();
@@ -139,8 +138,6 @@ const ProfileInteriorSample = () => {
         ))}
       </ul>
       {hasMore && <div ref={elementRef} style={{ height: '1px' }} />}{' '}
-      {/* 로딩 트리거 */}
-      <TopButton />
     </div>
   );
 };

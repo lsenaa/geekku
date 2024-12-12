@@ -1,6 +1,7 @@
 import styles from './Step2.module.scss';
 import ProgressBar from './ProgressBar';
 import { useState } from 'react';
+import { message } from 'antd';
 
 const Step2 = ({
   currentStep,
@@ -16,11 +17,14 @@ const Step2 = ({
     setSelectedType(e.target.value);
     onDataChange({ type: e.target.value });
   };
-
+  const [messageApi, contextHolder] = message.useMessage();
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (!selectedType) {
-      alert('시공할 공간의 종류를 선택해주세요.');
+    if (selectedType === '') {
+      messageApi.open({
+        type: 'warning',
+        content: '시공할 공간의 종류를 선택해주세요.',
+      });
       return;
     }
     nextStep();
@@ -70,6 +74,7 @@ const Step2 = ({
       <div className={styles.btn}>
         <button onClick={prevStep}>뒤로</button>
         <button onClick={handleNextStep} id={styles.nextBtn}>
+          {contextHolder}
           다음
         </button>
       </div>
