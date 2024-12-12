@@ -10,9 +10,8 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 import { url } from 'lib/axios';
 import { useAtomValue } from 'jotai';
-import { tokenAtom, userAtom } from 'store/atoms';
+import { userAtom } from 'store/atoms';
 import { Viewer } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 const SampleDetail = () => {
   const [sampleInfo, setSampleInfo] = useState({});

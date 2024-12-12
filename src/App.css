@@ -120,3 +120,7 @@
 .ant-pagination .ant-pagination-next .ant-pagination-item-link {
   border-radius: 50%;
 }
+
+.tui-editor-contents {
+  font-family: 'Noto Sans KR', Arial, sans-serif !important;
+}
