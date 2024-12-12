@@ -1,13 +1,9 @@
-import { Link, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import styles from './ProfileInteriorReview.module.scss';
-import sampleImg from 'assets/images/interiorEx.png';
-import Button01 from 'components/commons/button/Button01';
-import { FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import Filter from 'components/commons/filter/Filter';
 import { url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const ProfileInteriorReview = () => {
   const { detailInfo } = useOutletContext();
@@ -105,7 +101,6 @@ const ProfileInteriorReview = () => {
           </li>
         ))}
       </ul>
-      <TopButton />
     </div>
   );
 };

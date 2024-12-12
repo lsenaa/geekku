@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import TopButton from 'components/layout/topbutton/TopButton';
 import LocFilter from '../locFilter/LocFilter';
 import List from './List';
 
@@ -12,7 +11,6 @@ const CompanyMain = () => {
     >
       <LocFilter loc={loc} setLoc={setLoc} />
       <List loc={loc} setLoc={setLoc} />
-      <TopButton />
     </div>
   );
 };

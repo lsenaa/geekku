@@ -7,7 +7,6 @@ import { axiosInToken } from 'lib/axios';
 import useInfiniteScroll from 'hook/useInfiniteScroll';
 import { Modal } from 'antd';
 import { Link } from 'react-router-dom';
-import TopButton from 'components/layout/topbutton/TopButton';
 
 const BookmarkInterior = () => {
   const token = useAtomValue(tokenAtom);
@@ -24,8 +23,6 @@ const BookmarkInterior = () => {
     await axiosInToken(token)
       .get(`/user/mypagebookmarkInterior?page=${page}`)
       .then((res) => {
-        console.log(res.data);
-
         if (res.data.content.length === 0) {
           setHasMore(false);
         } else {
@@ -119,7 +116,6 @@ const BookmarkInterior = () => {
         )}
       </ul>
       {hasMore && <div ref={elementRef}></div>}
-      <TopButton />
     </>
   );
 };

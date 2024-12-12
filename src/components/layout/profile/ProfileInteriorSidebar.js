@@ -19,7 +19,6 @@ const ProfileInteriorSidebar = ({
     navigate('/interiorRequest', { state: interiorNum });
   };
   const user = useAtomValue(userAtom);
-  console.log(user.userId);
 
   return (
     <div className={styles.profile}>
