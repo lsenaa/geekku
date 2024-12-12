@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { Modal } from 'antd';
 
-export const CheckDoubleId = async (username, url) => {
+export const CheckDoubleId = async (username, url, messageApi) => {
   if (!username) {
-    Modal.info({
+    messageApi.open({
+      type: 'info',
       content: '아이디를 입력해주세요.',
     });
     return false;
@@ -14,18 +14,21 @@ export const CheckDoubleId = async (username, url) => {
       params: { username },
     });
     if (response.data === true) {
-      Modal.error({
+      messageApi.open({
+        type: 'error',
         content: '이미 사용중인 아이디입니다.',
       });
       return false;
     } else {
-      Modal.success({
+      messageApi.open({
+        type: 'success',
         content: '사용 가능한 아이디입니다.',
       });
       return true;
     }
   } catch (err) {
-    Modal.error({
+    messageApi.open({
+      type: 'error',
       content: '아이디 중복 확인 실패',
     });
     console.error(err);

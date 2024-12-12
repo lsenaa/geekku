@@ -9,13 +9,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { userAtom, tokenAtom, fcmTokenAtom, alarmsAtom } from 'store/atoms';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import axios from 'axios';
 import UseHandleTokens from 'hook/useHandleTokens';
 
 const Login = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [member, setMember] = useState({ username: '', password: '' });
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
@@ -38,8 +39,9 @@ const Login = () => {
   };
 
   const submit = () => {
-    if (!member.username || !member.password) {
-      Modal.error({
+    if (!member.username.trim() || !member.password.trim()) {
+      messageApi.open({
+        type: 'warning',
         content: '아이디와 비밀번호 모두 입력해주세요.',
       });
       return;
@@ -52,7 +54,7 @@ const Login = () => {
     axios
       .post(`${url}/login`, formData)
       .then((res) => {
-        console.log('로그인 성공 : ', res);
+        //console.log('로그인 성공 : ', res);
         const token = res.headers.authorization;
         setToken(token);
 
@@ -67,13 +69,15 @@ const Login = () => {
           })
           .then((res) => {
             setUser(res.data);
-            console.log(res.data);
+            //console.log(res.data);
             if (isChecked) {
               Modal.success({
+                type: 'success',
                 content: '[기업]사용자로 로그인 성공하였습니다.',
               });
             } else {
               Modal.success({
+                type: 'success',
                 content: '[개인]사용자로 로그인 성공하였습니다.',
               });
             }
@@ -108,7 +112,7 @@ const Login = () => {
                   )
                   .then((alarmResponse) => {
                     if (alarmResponse.data.length !== 0) {
-                      console.log(alarmResponse.data);
+                      //console.log(alarmResponse.data);
                       setAlarms(alarmResponse.data); // 알림 데이터 저장
                     }
                     // 로그인 완료 후 메인 화면으로 이동
@@ -126,13 +130,15 @@ const Login = () => {
           })
           .catch((err) => {
             console.error(`${isChecked ? '기업' : '개인'}정보 가져오기 실패`);
-            Modal.error({
+            messageApi.open({
+              type: 'error',
               content: `${isChecked ? '기업' : '개인'} 사용자가 없습니다`,
             });
           });
       })
       .catch((err) => {
-        Modal.error({
+        messageApi.open({
+          type: 'error',
           content: '로그인 실패',
         });
         console.error('로그인 실패 에러 : ', err.response);
@@ -181,6 +187,7 @@ const Login = () => {
         <br />
         <br />
         <button className={styles.button} onClick={submit}>
+          {contextHolder}
           로그인
         </button>
         <button

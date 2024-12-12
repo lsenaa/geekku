@@ -4,7 +4,7 @@ import plusIcon from 'assets/images/mypage/plusIcon.png';
 import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
 import axios from 'axios';
 import { axiosInToken, url } from 'lib/axios';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { redirect, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
@@ -21,15 +21,16 @@ const CompanyInfo = () => {
   const [certificationImage, setCertificationImage] = useState(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const edit = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      const formattedPhone = applyPhoneFormat(value);
+      const formattedPhone = applyPhoneFormat(value.replace(/[^0-9]/g, ''));
       setMyUser((prevMyUser) => ({
         ...prevMyUser,
-        [name]: formattedPhone || value,
+        [name]: formattedPhone,
       }));
       return;
     }
@@ -45,7 +46,8 @@ const CompanyInfo = () => {
     if (name === 'phone') {
       const phoneRegex = /^010-\d{4}-\d{4}$/;
       if (!phoneRegex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '휴대폰 번호를 다시 입력해주세요.',
         });
       }
@@ -55,7 +57,8 @@ const CompanyInfo = () => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!regex.test(value)) {
         if (!emailVaildated) {
-          Modal.info({
+          messageApi.open({
+            type: 'warning',
             content: '유효한 이메일 형식을 입력해주세요.',
           });
           setEmailValidated(false);
@@ -81,29 +84,46 @@ const CompanyInfo = () => {
       formData.append('certificationFile', certificationImage);
     }
 
+    //전화번호 최종 검증
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(myUser.phone)) {
+      messageApi.open({
+        type: 'warning',
+        content: '휴대폰 번호를 다시입력해주세요.',
+      });
+      document.getElementById('phone').focus();
+      return;
+    }
+
+    // 이메일 유효성 확인
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(myUser.email)) {
+      messageApi.open({
+        type: 'warning',
+        content: '유효한 이메일 형식을 입력해주세요.',
+      });
+      return;
+    }
+
     axiosInToken(token)
       .post(`${url}/company/updateCompanyInfo`, formData)
       .then((res) => {
-        if (res.headers.authorization !== null) {
-          setToken(res.headers.authorization);
-        }
         setUser(res.data.company);
         setMyUser(res.data.company);
         setToken(res.data.token);
         Modal.success({
+          type: 'success',
           content: '회원정보가 수정되었습니다.',
         });
         redirect(`${url}/company/companyInfo`);
       })
       .catch((err) => {
-        console.log('회원 정보 수정 실패');
+        console.error('회원 정보 수정 실패');
         Modal.error({
+          type: 'warning',
           content: '회원 정보 수정에 실패했습니다.',
         });
         redirect(`${url}/company/companyInfo`);
-        if (err.response.status === 401) {
-          navigate('/login');
-        }
       });
   };
 
@@ -156,6 +176,7 @@ const CompanyInfo = () => {
 
   return (
     <div className={styles.container}>
+      {contextHolder}
       <div className={styles.profileContent}>
         <div className={styles.profileForm}>
           <div className={styles.profileImg}>
@@ -315,6 +336,7 @@ const CompanyInfo = () => {
             </div>
           </div>
           <button className={styles.button} onClick={submit}>
+            {contextHolder}
             완료
           </button>
         </div>

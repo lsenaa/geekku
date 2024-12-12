@@ -6,7 +6,7 @@ import styles2 from './Join.module.scss';
 import JoinModal from './modals/JoinModal';
 import axios from 'axios';
 import { url } from 'lib/axios';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckDoubleId } from 'utils/CheckDoubleId';
@@ -35,8 +35,13 @@ const JoinCompany = () => {
   const [estateInfoChecked, setEstateInfoChecked] = useState(false);
   const [companyNumChecked, setCompanyNumChecked] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
-  const { agreements, handleCheckboxChange, validateAgreements } =
-    useAgreements();
+  const [messageApi, contextHolder] = message.useMessage();
+  const {
+    agreements,
+    handleCheckboxChange,
+    validateAgreements,
+    contextHolder: agreementsContextHolder,
+  } = useAgreements();
   const [preview, setPreview] = useState(null);
 
   const modalOpen = () => {
@@ -59,9 +64,14 @@ const JoinCompany = () => {
     if (name === 'ceoName') {
       const regex = /[^ㄱ-횡a-zA-Z\s]/;
       if (regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          ceoName: '',
+        }));
         return;
       }
     }
@@ -69,19 +79,24 @@ const JoinCompany = () => {
     if (name === 'username') {
       const regex = /^[a-zA-Z0-9]*$/;
       if (!regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '아이디는 영어와 숫자만 입력 가능합니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          username: '',
+        }));
         return;
       }
       setUsernameChecked(false);
     }
 
     if (name === 'phone') {
-      const formattedPhone = applyPhoneFormat(value);
+      const formattedPhone = applyPhoneFormat(value.replace(/[^0-9]/g, ''));
       setUser((prevUser) => ({
         ...prevUser,
-        [name]: formattedPhone || value,
+        [name]: formattedPhone,
       }));
       return;
     }
@@ -89,7 +104,18 @@ const JoinCompany = () => {
     if (name == 'companyNumber') {
       setCompanyNumChecked(false);
       const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 10) return;
+      if (cleaned.length > 10) {
+        messageApi.open({
+          type: 'warning',
+          content: '사업자 번호는 10자리 숫자로 입력해주세요.',
+        });
+        setUser((prevUser) => ({
+          ...prevUser,
+          companyNumber: '',
+        }));
+        return;
+      }
+
       setUser((prevUser) => ({
         ...prevUser,
         companyNumber: cleaned,
@@ -102,7 +128,7 @@ const JoinCompany = () => {
   };
 
   const handleCheckDoubleId = async () => {
-    const isAvailable = await CheckDoubleId(user.username, url);
+    const isAvailable = await CheckDoubleId(user.username, url, messageApi);
     setUsernameChecked(isAvailable);
   };
 
@@ -134,12 +160,13 @@ const JoinCompany = () => {
   const handleVerifyCompanyNumber = () => {
     const cleaned = user.companyNumber.replace(/\D+/g, '');
     if (cleaned.length !== 10) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '사업자 번호는 10자리 숫자로 입력해주세요.',
       });
       return;
     }
-    const isValied = verifyCompanyNum(cleaned, setUser);
+    const isValied = verifyCompanyNum(cleaned, setUser, messageApi);
     setCompanyNumChecked(true);
   };
 
@@ -148,7 +175,8 @@ const JoinCompany = () => {
     if (name === 'phone') {
       const phoneRegex = /^010-\d{4}-\d{4}$/;
       if (!phoneRegex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '휴대폰 번호를 다시 입력해주세요.',
         });
       }
@@ -159,7 +187,8 @@ const JoinCompany = () => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!regex.test(value)) {
         if (!emailVaildated) {
-          Modal.info({
+          messageApi.open({
+            type: 'warning',
             content: '유효한 이메일 형식을 입력해주세요.',
           });
           setEmailValidated(false);
@@ -175,17 +204,10 @@ const JoinCompany = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    // 필수 입력값 확인
-    if (!user.username || !user.password || !user.phone || !user.email) {
-      Modal.info({
-        content: '필수 항목을 모두 입력해주세요.',
-      });
-      return;
-    }
-
     // 아이디 중복확인
     if (!usernameChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '아이디 중복 확인을 눌러주세요.',
       });
       return;
@@ -198,7 +220,8 @@ const JoinCompany = () => {
 
     //사업자번호 체크버튼
     if (user.companyNumber && !companyNumChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '사업자번호 인증을 눌러주세요.',
       });
       return;
@@ -211,7 +234,8 @@ const JoinCompany = () => {
     //   return;
     // }
     if (user.password !== user.confirmPassword) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
       });
       return;
@@ -220,7 +244,8 @@ const JoinCompany = () => {
     //전화번호 최종 검증
     const phoneRegex = /^010-\d{4}-\d{4}$/;
     if (!phoneRegex.test(user.phone)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '휴대폰 번호를 다시입력해주세요.',
       });
       document.getElementById('phone').focus();
@@ -230,7 +255,8 @@ const JoinCompany = () => {
     // 이메일 유효성 최종 확인
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(user.email)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '유효한 이메일 형식을 입력해주세요.',
       });
       return;
@@ -238,8 +264,23 @@ const JoinCompany = () => {
 
     // 부동산 정보조회 여부 확인
     if (user.type === 'estate' && !estateInfoChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '부동산 정보를 조회해주세요.',
+      });
+      return;
+    }
+
+    // 필수 입력값 확인
+    if (
+      !user.username.trim() ||
+      !user.password.trim() ||
+      !user.phone.trim() ||
+      !user.email.trim()
+    ) {
+      messageApi.open({
+        type: 'warning',
+        content: '필수 항목을 모두 입력해주세요.',
       });
       return;
     }
@@ -270,12 +311,14 @@ const JoinCompany = () => {
         navigate('/login');
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
   return (
     <div className={styles.login}>
+      {contextHolder}
+      {agreementsContextHolder}
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
 
       <h3 className={styles2.title}>기업 회원가입</h3>
@@ -286,7 +329,7 @@ const JoinCompany = () => {
         </div>
         <div
           className={styles2.unCheckRadio}
-          onClick={() => navigate('/JoinInterior')}
+          onClick={() => navigate('/joinInterior')}
         >
           <img src={unCheckRadio} alt="언체크라디오" />
           <p>인테리어</p>
@@ -304,6 +347,7 @@ const JoinCompany = () => {
             type="text"
             name="username"
             id="username"
+            value={user.username}
             onChange={edit}
             placeholder="아이디를 입력해주세요."
             className={styles2.input1}
@@ -468,6 +512,7 @@ const JoinCompany = () => {
             className={styles2.checkButton}
             onClick={handleVerifyCompanyNumber}
             disabled={companyNumChecked}
+            {...contextHolder}
           >
             {companyNumChecked ? '확인 완료' : '인증'}
           </button>
@@ -525,6 +570,7 @@ const JoinCompany = () => {
       </div>
 
       <button className={styles2.button} onClick={submit}>
+        {contextHolder}
         회원가입
       </button>
     </div>
