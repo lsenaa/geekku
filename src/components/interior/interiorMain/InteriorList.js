@@ -64,20 +64,22 @@ const InteriorList = () => {
 
               <div className="wrap-title">
                 <div className="title">
-                  <span className="nameWidth">{interior.companyName}</span>
-                  {Array.isArray(interior.possibleLocation)
-                    ? interior.possibleLocation.map((location, index) => (
-                        <button key={index} id="loc">
-                          {location}
-                        </button>
-                      ))
-                    : interior.possibleLocation
-                        .split(',')
-                        .map((location, index) => (
+                  <div className="mainNameWidth">{interior.companyName}</div>
+                  <div style={{ marginRight: '3px', display: 'flex' }}>
+                    {Array.isArray(interior.possibleLocation)
+                      ? interior.possibleLocation.map((location, index) => (
                           <button key={index} id="loc">
-                            {location.trim()}
+                            {location}
                           </button>
-                        ))}
+                        ))
+                      : interior.possibleLocation
+                          .split(',')
+                          .map((location, index) => (
+                            <button key={index} id="loc">
+                              {location.trim()}
+                            </button>
+                          ))}
+                  </div>
                 </div>
                 <div className="title" id="possible">
                   {interior.possiblePart === false ? (

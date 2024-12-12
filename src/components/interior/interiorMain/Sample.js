@@ -63,7 +63,9 @@ const Sample = () => {
                 />
               </div>
               <div className="wrap-title">
-                <div className="title">{sample.title}</div>
+                <div className="sampleTitle" id="sampleTitle">
+                  {sample.title}
+                </div>
                 <div className="title" id="interiorName">
                   {sample.companyName}
                 </div>

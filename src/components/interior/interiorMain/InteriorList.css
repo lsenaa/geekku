@@ -50,6 +50,15 @@
 }
 .nameWidth {
   width: 130px;
+  height: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+.mainNameWidth {
+  width: 120px;
+  height: 17px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

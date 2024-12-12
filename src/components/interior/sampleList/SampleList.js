@@ -63,7 +63,6 @@ const SampleList = () => {
   };
 
   const fetchMoreItems = async () => {
-    console.log('Filter Conditions:', filterConditions); // 필터 조건 로그
     await axios
       .get(`${url}/sampleList?page=${vpage}`, {
         params: {

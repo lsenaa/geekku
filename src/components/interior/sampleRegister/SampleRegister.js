@@ -85,7 +85,7 @@ const SampleRegister = () => {
     formData.append('title', sample.title);
     formData.append('content', content);
     formData.append('coverImg', coverImg);
-    formData.append('interiorNum', location.state);
+    // formData.append('interiorNum', location.state);
     formData.append('companyId', user.companyId);
     axiosInToken(token)
       .post(`/company/interiorSampleRegister`, formData)

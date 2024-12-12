@@ -27,6 +27,12 @@
     padding: 10px;
     font-weight: bold;
 
+    .name {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
     .textWrapper {
       @include flexrow;
       justify-content: space-between;

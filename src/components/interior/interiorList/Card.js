@@ -21,7 +21,7 @@ const Card = ({ interiorList }) => {
       {interiorList.map((interior) => (
         <div
           className="card"
-          style={{ width: '384px', marginBottom: '50px' }}
+          style={{ width: '384px', marginBottom: '50px', marginRight: '16px' }}
           key={interior.interiorNum}
         >
           <Link
