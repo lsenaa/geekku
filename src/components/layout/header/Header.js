@@ -5,7 +5,7 @@ import { Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { useSetAtom, useAtom, useAtomValue } from 'jotai';
+import { useSetAtom, useAtom } from 'jotai';
 import {
   userNameAtom,
   alarmsAtom,
@@ -14,14 +14,9 @@ import {
   initUser,
   fcmTokenAtom,
 } from 'store/atoms';
-import { FaUserCircle } from 'react-icons/fa';
-import defaultImg from 'assets/images/usericon.png';
 import axios from 'axios';
-import { axiosInToken, url } from 'lib/axios';
+import { url } from 'lib/axios';
 import { NavLink } from 'react-router-dom';
-import { FaCheckCircle } from 'react-icons/fa';
-
-// Toast UI Viewer 관련 import
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
 
@@ -85,7 +80,9 @@ const Header = ({ alarms = [] }) => {
   ];
   const estateWrite = [{ name: '매물 등록하기', path: '/estate/write' }];
   const interiorWrite = [
-    { name: '시공업체 등록하기', path: '/interiorRegister' },
+    user.regStatus
+      ? { name: '시공업체 수정하기', path: '/mypageInterior/modify' }
+      : { name: '시공업체 등록하기', path: '/interiorRegister' },
     { name: '시공사례 등록하기', path: '/sampleRegister' },
   ];
 

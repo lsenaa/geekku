@@ -10,12 +10,12 @@ import { tokenAtom, userAtom } from 'store/atoms';
 import { message } from 'antd';
 
 const ProfileInterior = () => {
+  const { num } = useParams();
   const location = useLocation();
   const [bookmark, setBookmark] = useState(false);
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
   const [messageApi, contextHolder] = message.useMessage();
-
   const [detailInfo, setDetailInfo] = useState({
     sampleCount: 0,
     reviewCount: 0,
@@ -23,8 +23,6 @@ const ProfileInterior = () => {
     sampleDetail: [],
     reviewDetail: [],
   });
-  const { num } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const param = { id: user.userId, num: num };
@@ -82,7 +80,10 @@ const ProfileInterior = () => {
       {isAllowedPath && (
         <div className={styles.coverImgWrap}>
           <img
-            src={`data:image/png;base64,${detailInfo.interiorDetail.coverImage}`} //바이트 타입으로 저장돼서 변환해줘야함
+            src={
+              detailInfo.interiorDetail.coverImage &&
+              `data:image/png;base64,${detailInfo.interiorDetail.coverImage}`
+            }
             alt="인테리어업체 커버이미지"
           />
         </div>
