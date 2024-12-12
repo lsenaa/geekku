@@ -44,7 +44,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
   };
 
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
+    //console.log(date, dateString);
   };
 
   const edit = (e) => {
@@ -99,6 +99,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
             : [],
         });
         setSelectedLoc(interior.possibleLocation.split(','));
+        setTextCount(interior.content.length);
       })
       .catch((err) => {
         console.error('Error loading data', err);
@@ -126,7 +127,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log('interior', interior);
+    //console.log('interior', interior);
     let formData = new FormData();
     formData.append('intro', interior.intro);
     formData.append('content', interior.content);
@@ -146,7 +147,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
     await axiosInToken(token)
       .post(`${url}/company/interiorModify`, formData)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         if (res.data) {
           navigate(-1);
           Modal.success({
@@ -262,7 +263,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
                 value={interior.period}
                 onChange={edit}
               />
-              <p>개월</p>
+              <p>년</p>
             </div>
           </div>
         </div>
@@ -369,10 +370,10 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
           <div className={styles.textareaWrap}>
             <textarea
               minLength="5"
-              maxLength="1000"
+              maxLength="500"
               className={styles.detailTextarea}
               value={interior.content}
-              placeholder="상세 페이지에 노출되는 문구입니다. 1000자 이내로 작성해주세요."
+              placeholder="상세 페이지에 노출되는 문구입니다. 500자 이내로 작성해주세요."
               onChange={edit}
               name="content"
             />

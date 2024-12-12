@@ -68,12 +68,12 @@ const MypageInteriorOnestop = () => {
           <table className={styles.customTable}>
             <colgroup>
               <col width="5%" />
-              <col width="40%" />
+              <col width="25%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="15%" />
+              <col width="15%" />
               <col width="10%" />
-              <col width="15%" />
-              <col width="15%" />
-              <col width="15%" />
-              <col width="5%" />
             </colgroup>
             <thead>
               <tr>
@@ -105,7 +105,12 @@ const MypageInteriorOnestop = () => {
                     <span className={styles.writer}>
                       <div className={styles.profileImg}>
                         <img
-                          src={`data:image/png;base64,${onestop.userProfileImage}`}
+                          src={
+                            onestop.userProfileImage
+                              ? `data:image/png;base64, ${onestop.userProfileImage}`
+                              : ''
+                          }
+                          alt="사용자 프로필 이미지"
                         />
                         &nbsp; &nbsp;{onestop.nickname}
                       </div>
