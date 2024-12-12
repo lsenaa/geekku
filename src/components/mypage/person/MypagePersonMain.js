@@ -26,7 +26,7 @@ const MypagePerson = () => {
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -53,7 +53,7 @@ const MypagePerson = () => {
         axiosInToken(token)
           .post(`/user/houseDelete/${houseNum}`)
           .then((res) => {
-            console.log(res);
+            console.error(res);
             if (res.data) {
               Modal.success({
                 content: '집꾸 작성글이 삭제되었습니다.',
@@ -62,11 +62,11 @@ const MypagePerson = () => {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

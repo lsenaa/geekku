@@ -25,7 +25,7 @@ const OnestopDetailAnswerWrite = ({
   const onChangeContent = () => {
     const text = editorRef.current?.getInstance().getHTML(); // HTML로 읽어오기
     setContent(text === '<p><br><p>' ? '' : text);
-    console.log(onestopNum);
+    //console.log(onestopNum);
   };
   // 에디터 이미지 url 받아오기
   const handleImage = async (blob, callback) => {
@@ -40,7 +40,7 @@ const OnestopDetailAnswerWrite = ({
         callback(imageUrl);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -68,7 +68,7 @@ const OnestopDetailAnswerWrite = ({
     axiosInToken(token)
       .post(`/company/onestopAnswerWrite`, formData)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         Modal.success({
           content: '한번에꾸하기 답변이 등록되었습니다.',
           onOk: () => {
@@ -91,7 +91,7 @@ const OnestopDetailAnswerWrite = ({
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
   return (

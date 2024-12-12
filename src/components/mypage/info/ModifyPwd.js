@@ -2,7 +2,7 @@ import styles from '../../login/Login.module.scss';
 import axios from 'axios';
 import { axiosInToken, url } from 'lib/axios';
 import { useState } from 'react';
-import { Modal } from 'antd';
+import { message } from 'antd';
 import { useAtom } from 'jotai';
 import { userAtom, tokenAtom } from 'store/atoms';
 import { useNavigate } from 'react-router';
@@ -13,19 +13,22 @@ const ModifyPwd = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [user, setUser] = useAtom(userAtom);
   const [token, setToken] = useAtom(tokenAtom);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const navigate = useNavigate();
 
   const handleChangePassword = () => {
     if (newPassword == currentPassword) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '현재 비밀번호와 같은 비밀번호로 변경할 수 없습니다.',
       });
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
       });
       return;
@@ -39,10 +42,8 @@ const ModifyPwd = () => {
     axiosInToken(token)
       .post(typeEndPoint, { currentPassword, newPassword })
       .then((res) => {
-        if (res.headers.authorization !== null) {
-          setToken(res.headers.authorization);
-        }
-        Modal.success({
+        messageApi.open({
+          type: 'success',
           content: '비밀번호가 변경되었습니다.',
         });
         if (res.data.token) {
@@ -58,20 +59,17 @@ const ModifyPwd = () => {
       })
       .catch((err) => {
         if (err.response.status === 400) {
-          Modal.error({
+          messageApi.open({
+            type: 'warning',
             content: '현재 비밀번호가 일치하지 않습니다.',
           });
           return;
-        }
-        if (err.response.status === 401) {
-          setUser(null);
-          setToken(null);
-          navigate('/login');
         }
       });
   };
   return (
     <div className={styles.searchPwd}>
+      {contextHolder}
       {user.provider ? (
         <p>
           소셜 로그인 사용자는 비밀번호를 현재페이지에서 변경 할 수 없습니다.

@@ -3,7 +3,7 @@ import profileImgAdd from 'assets/images/mypage/profileImgAdd.png';
 import styles from './PersonInfo.module.scss';
 import axios from 'axios';
 import { axiosInToken, url } from 'lib/axios';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { redirect } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
@@ -20,6 +20,7 @@ const PersonInfo = () => {
   const [isSocial, setIsSocial] = useState(false);
   const [nicknameChecked, setNicknameChecked] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     setIsSocial(user.provider);
@@ -28,10 +29,10 @@ const PersonInfo = () => {
   const edit = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
-      const formattedPhone = applyPhoneFormat(value);
+      const formattedPhone = applyPhoneFormat(value.replace(/[^0-9]/g, ''));
       setMyUser((prevMyUser) => ({
         ...prevMyUser,
-        [name]: formattedPhone || value,
+        [name]: formattedPhone,
       }));
       return;
     }
@@ -39,9 +40,14 @@ const PersonInfo = () => {
     if (name === 'name') {
       const regex = /[^ㄱ-횡a-zA-Z\s]/;
       if (regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          name: '',
+        }));
         return;
       }
       setUser({ ...myUser, [name]: value });
@@ -63,7 +69,8 @@ const PersonInfo = () => {
     if (name === 'phone') {
       const phoneRegex = /^010-\d{4}-\d{4}$/;
       if (!phoneRegex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '휴대폰 번호를 다시 입력해주세요.',
         });
       }
@@ -73,7 +80,8 @@ const PersonInfo = () => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!regex.test(value)) {
         if (!emailVaildated) {
-          Modal.info({
+          messageApi.open({
+            type: 'warning',
             content: '유효한 이메일 형식을 입력해주세요.',
           });
           setEmailValidated(false);
@@ -98,7 +106,8 @@ const PersonInfo = () => {
 
     // 닉네임 중복확인
     if (myUser.nickname !== user.nickname && !nicknameChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '닉네임 중복 확인을 눌러주세요.',
       });
       return;
@@ -107,7 +116,8 @@ const PersonInfo = () => {
     //전화번호 최종 검증
     const phoneRegex = /^010-\d{4}-\d{4}$/;
     if (!phoneRegex.test(myUser.phone)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '휴대폰 번호를 다시입력해주세요.',
       });
       document.getElementById('phone').focus();
@@ -117,7 +127,8 @@ const PersonInfo = () => {
     // 이메일 유효성 확인
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(myUser.email)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '유효한 이메일 형식을 입력해주세요.',
       });
       return;
@@ -132,13 +143,15 @@ const PersonInfo = () => {
         setToken(res.data.token);
         setUser(res.data.user);
         Modal.success({
+          type: 'success',
           content: '회원정보가 수정되었습니다.',
         });
         redirect(`${url}/user/updateUserInfo`);
       })
       .catch((err) => {
-        console.log('회원 정보 수정 실패');
+        //console.log('회원 정보 수정 실패');
         Modal.error({
+          type: 'error',
           content: '회원 정보 수정에 실패했습니다.',
         });
         redirect(`${url}/user/updateUserInfo`);
@@ -146,12 +159,13 @@ const PersonInfo = () => {
   };
   const handleCheckNickname = async () => {
     if (myUser.nickname.length < 2 || myUser.nickname.length > 20) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '닉네임은 2자 이상 20자 이하로 입력해주세요.',
       });
       return;
     }
-    const isAvailable = await CheckNickname(myUser.nickname, url);
+    const isAvailable = await CheckNickname(myUser.nickname, url, messageApi);
     setNicknameChecked(isAvailable);
   };
 
@@ -174,6 +188,7 @@ const PersonInfo = () => {
 
   return (
     <div className={styles.container}>
+      {contextHolder}
       <div className={styles.profileContent}>
         <div className={styles.profileForm}>
           <div className={styles.profileImg}>

@@ -17,7 +17,7 @@ const InteriorAnswer = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-  console.log(requestInfo);
+  //console.log(requestInfo);
 
   const user = useAtomValue(userAtom);
   const token = useAtomValue(tokenAtom);
@@ -29,11 +29,11 @@ const InteriorAnswer = () => {
     axios
       .post(`${url}/requestDetail`, param)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setRequestInfo({ ...res.data.requestInfo });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, [user]);
 

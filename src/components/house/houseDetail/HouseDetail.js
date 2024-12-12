@@ -47,7 +47,7 @@ const HouseDetail = () => {
         setHouse({ ...res.data });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

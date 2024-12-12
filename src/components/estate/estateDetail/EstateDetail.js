@@ -28,12 +28,12 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
         userId: user.userId ? user.userId : undefined,
       })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setEstate({ ...res.data.estate });
         setBookmark(res.data.bookmark);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -54,7 +54,7 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
         setBookmark(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

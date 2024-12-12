@@ -60,7 +60,7 @@ const Filter = ({ onFilter }) => {
           : [...prev, e.target.value]
       );
     }
-    console.log(what);
+    //console.log(what);
   };
   const submitFilter = () => {
     const newConditions = {
@@ -70,7 +70,7 @@ const Filter = ({ onFilter }) => {
       sizes: selectedSizes,
       location: selectedLoc,
     };
-    console.log('test', newConditions);
+    //console.log('test', newConditions);
     onFilter(newConditions);
     handleCancel();
   };

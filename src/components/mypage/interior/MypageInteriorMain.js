@@ -20,6 +20,7 @@ const MypageInteriorMain = () => {
     navigate('/interiorRegister');
   };
 
+  //console.log('마이페이지 인테리어 메인 토큰 : ', token);
   const [myInterior, setMyInterior] = useState({
     intro: '',
     content: '',
@@ -38,12 +39,13 @@ const MypageInteriorMain = () => {
         },
       })
       .then((res) => {
-        console.log('res.data :', res.data);
+        //console.log('res.data :', res.data);
         setMyInterior(res.data);
+        //console.log(myInterior.interior);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setIsLoading(false);
       });
   }, [token]);

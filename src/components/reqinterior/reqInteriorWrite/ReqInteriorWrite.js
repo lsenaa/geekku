@@ -83,7 +83,7 @@ const ReqInteriorWrite = () => {
     }
   };
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
+    //console.log(date, dateString);
   };
   const handleSido = (e) => {
     const selectedSido = sido.find((si) => si.sido === e.target.value);
@@ -201,7 +201,7 @@ const ReqInteriorWrite = () => {
       })
       .catch((err) => {
         alert('등록오류');
-        console.log(err);
+        console.error(err);
       });
   };
   return (

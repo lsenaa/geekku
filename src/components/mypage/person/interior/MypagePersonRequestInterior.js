@@ -22,12 +22,12 @@ const MypagePersonRequestInterior = () => {
     axiosInToken(token)
       .get('/user/myPageUserInteriorRequestList')
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setRequestList([...res.data.content]);
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -62,11 +62,11 @@ const MypagePersonRequestInterior = () => {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

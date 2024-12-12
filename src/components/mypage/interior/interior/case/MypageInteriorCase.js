@@ -24,7 +24,7 @@ const MypageInteriorCase = () => {
     await axiosInToken(token)
       .get(`/company/myInteriorSampleList?page=${page}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
 
         if (res.data.estateList.length === 0) {
           setHasMore(false);
@@ -38,7 +38,7 @@ const MypageInteriorCase = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setHasMore(false);
       });
   };

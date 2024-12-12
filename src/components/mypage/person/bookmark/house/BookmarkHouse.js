@@ -25,7 +25,7 @@ const BookmarkHouse = () => {
     await axiosInToken(token)
       .get(`/user/mypagebookmarkEstate?page=${page}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
 
         if (res.data.content.length === 0) {
           setHasMore(false);
@@ -39,7 +39,7 @@ const BookmarkHouse = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setHasMore(false);
       });
   };
@@ -61,7 +61,7 @@ const BookmarkHouse = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

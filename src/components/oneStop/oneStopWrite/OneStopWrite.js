@@ -117,7 +117,7 @@ const OneStopWrite = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('제출');
+    //console.log('제출');
     // 입력값 검증
     if (onestop.type === '') {
       messageApi.open({
@@ -214,11 +214,11 @@ const OneStopWrite = () => {
         Modal.success({
           content: '한번에 꾸하기 등록이 완료되었습니다.',
         });
-        console.log(res.data);
+        //console.log(res.data);
         navigate(`/oneStop/detail/${res.data}`);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

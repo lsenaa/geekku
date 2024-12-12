@@ -156,7 +156,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
         }
       })
       .catch((err) => {
-        console.log('정보 수정 실패 ');
+        console.error('정보 수정 실패 ');
         Modal.error({
           content: '업체 정보 수정에 실패했습니다.',
         });

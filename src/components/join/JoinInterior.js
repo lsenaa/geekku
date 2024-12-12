@@ -5,7 +5,7 @@ import styles from '../login/Login.module.scss';
 import styles2 from './Join.module.scss';
 import axios from 'axios';
 import { url } from 'lib/axios';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckDoubleId } from 'utils/CheckDoubleId';
@@ -30,12 +30,17 @@ const JoinInterior = () => {
   });
 
   const [usernameChecked, setUsernameChecked] = useState(false);
-  const { agreements, handleCheckboxChange, validateAgreements } =
-    useAgreements();
   const [preview, setPreview] = useState(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [companyNumChecked, setCompanyNumChecked] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const {
+    agreements,
+    handleCheckboxChange,
+    validateAgreements,
+    contextHolder: agreementsContextHolder,
+  } = useAgreements();
 
   const edit = (e) => {
     const { name, value } = e.target;
@@ -47,9 +52,14 @@ const JoinInterior = () => {
     if (name === 'ceoName') {
       const regex = /[^ㄱ-횡a-zA-Z\s]/;
       if (regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          ceoName: '',
+        }));
         return;
       }
     }
@@ -57,19 +67,24 @@ const JoinInterior = () => {
     if (name === 'username') {
       const regex = /^[a-zA-Z0-9]*$/;
       if (!regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '아이디는 영어와 숫자만 입력 가능합니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          username: '',
+        }));
         return;
       }
       setUsernameChecked(false);
     }
 
     if (name === 'phone') {
-      const formattedPhone = applyPhoneFormat(value);
+      const formattedPhone = applyPhoneFormat(value.replace(/[^0-9]/g, ''));
       setUser((prevUser) => ({
         ...prevUser,
-        [name]: formattedPhone || value,
+        [name]: formattedPhone,
       }));
       return;
     }
@@ -77,7 +92,18 @@ const JoinInterior = () => {
     if (name === 'companyNumber') {
       setCompanyNumChecked(false);
       const cleaned = value.replace(/\D+/g, '');
-      if (cleaned.length > 10) return;
+      if (cleaned.length > 10) {
+        messageApi.open({
+          type: 'warning',
+          content: '사업자 번호는 10자리 숫자로 입력해주세요.',
+        });
+        setUser((prevUser) => ({
+          ...prevUser,
+          companyNumber: '',
+        }));
+        return;
+      }
+
       setUser((prevUser) => ({
         ...prevUser,
         companyNumber: cleaned,
@@ -90,7 +116,7 @@ const JoinInterior = () => {
   };
 
   const handleCheckDoubleId = async () => {
-    const isAvailable = await CheckDoubleId(user.username, url);
+    const isAvailable = await CheckDoubleId(user.username, url, messageApi);
     setUsernameChecked(isAvailable);
   };
 
@@ -105,8 +131,15 @@ const JoinInterior = () => {
   };
 
   const handleVerifyCompanyNumber = () => {
-    const formattedNum = formatCompanyNum(user.companyNumber);
-    verifyCompanyNum(user.companyNumber, setUser, user);
+    const cleaned = user.companyNumber.replace(/\D+/g, '');
+    if (cleaned.length !== 10) {
+      messageApi.open({
+        type: 'warning',
+        content: '사업자 번호는 10자리 숫자로 입력해주세요.',
+      });
+      return;
+    }
+    const isValied = verifyCompanyNum(cleaned, setUser, messageApi);
     setCompanyNumChecked(true);
   };
 
@@ -121,7 +154,8 @@ const JoinInterior = () => {
     if (name === 'phone') {
       const phoneRegex = /^010-\d{4}-\d{4}$/;
       if (!phoneRegex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '휴대폰 번호를 다시 입력해주세요.',
         });
       }
@@ -132,7 +166,8 @@ const JoinInterior = () => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!regex.test(value)) {
         if (!emailVaildated) {
-          Modal.info({
+          messageApi.open({
+            type: 'warning',
             content: '유효한 이메일 형식을 입력해주세요.',
           });
           setEmailValidated(false);
@@ -148,25 +183,10 @@ const JoinInterior = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    // 필수 입력값 확인
-    if (
-      !user.username ||
-      !user.password ||
-      !user.phone ||
-      !user.email ||
-      !user.companyNumber ||
-      !user.companyName ||
-      !user.ceoName
-    ) {
-      Modal.info({
-        content: '필수 항목을 모두 입력해주세요.',
-      });
-      return;
-    }
-
     // 아이디 중복확인
     if (!usernameChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '아이디 중복 확인을 눌러주세요.',
       });
       return;
@@ -179,7 +199,8 @@ const JoinInterior = () => {
 
     //사업자번호 체크버튼
     if (user.companyNumber && !companyNumChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '사업자번호 인증을 눌러주세요.',
       });
       return;
@@ -192,7 +213,8 @@ const JoinInterior = () => {
     //   return;
     // }
     if (user.password !== user.confirmPassword) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
       });
       return;
@@ -201,7 +223,8 @@ const JoinInterior = () => {
     //전화번호 최종 검증
     const phoneRegex = /^010-\d{4}-\d{4}$/;
     if (!phoneRegex.test(user.phone)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '휴대폰 번호를 다시입력해주세요.',
       });
       document.getElementById('phone').focus();
@@ -211,8 +234,26 @@ const JoinInterior = () => {
     // 이메일 유효성 최종 확인
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(user.email)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '유효한 이메일 형식을 입력해주세요.',
+      });
+      return;
+    }
+
+    // 필수 입력값 확인
+    if (
+      !user.username.trim() ||
+      !user.password.trim() ||
+      !user.phone.trim() ||
+      !user.email.trim() ||
+      !user.companyNumber.trim() ||
+      !user.companyName.trim() ||
+      !user.ceoName.trim()
+    ) {
+      messageApi.open({
+        type: 'warning',
+        content: '필수 항목을 모두 입력해주세요.',
       });
       return;
     }
@@ -237,17 +278,20 @@ const JoinInterior = () => {
       .post(`${url}/joinCompany`, formData)
       .then((res) => {
         Modal.success({
+          type: 'warning',
           content: '기업회원가입에 성공하였습니다.',
         });
         navigate('/login');
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
   return (
     <div className={styles.login}>
+      {contextHolder}
+      {agreementsContextHolder}
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
 
       <h3 className={styles2.title}>기업 회원가입</h3>
@@ -276,6 +320,7 @@ const JoinInterior = () => {
             type="text"
             name="username"
             id="username"
+            value={user.username}
             onChange={edit}
             placeholder="아이디를 입력해주세요."
             className={styles2.input1}
@@ -373,7 +418,7 @@ const JoinInterior = () => {
             id="companyNumber"
             onChange={edit}
             placeholder="숫자 10자리를 입력해주세요."
-            maxLength={13}
+            maxLength={10}
             className={styles2.input1}
             value={user.companyNumber}
           />
@@ -381,6 +426,7 @@ const JoinInterior = () => {
             className={styles2.checkButton}
             onClick={handleVerifyCompanyNumber}
             disabled={companyNumChecked}
+            {...contextHolder}
           >
             {companyNumChecked ? '확인 완료' : '인증'}
           </button>
@@ -394,6 +440,7 @@ const JoinInterior = () => {
             type="text"
             name="ceoName"
             id="ceoName"
+            value={user.ceoName}
             onChange={edit}
             placeholder=""
             className={styles2.input2}
@@ -491,6 +538,7 @@ const JoinInterior = () => {
       </div>
 
       <button className={styles2.button} onClick={submit}>
+        {contextHolder}
         회원가입
       </button>
     </div>

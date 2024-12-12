@@ -12,7 +12,7 @@ const Step3 = ({
 }) => {
   const [selectedCondition, setSelectedCondition] = useState('');
 
-  console.log(selectedCondition);
+  //console.log(selectedCondition);
   const handleRadioChange = (e) => {
     setSelectedCondition(e.target.value);
     onDataChange({ status: e.target.value });

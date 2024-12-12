@@ -8,7 +8,7 @@ import { useAgreements } from 'utils/Agreements';
 import { applyPhoneFormat } from 'utils/CheckPhoneNumber';
 
 import axios from 'axios';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -27,6 +27,7 @@ const JoinPerson = () => {
   const [nicknameChecked, setNicknameChecked] = useState(false);
   const [isPhonechecked, setIsPoneChecked] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const { agreements, handleCheckboxChange, validateAgreements } =
     useAgreements();
 
@@ -42,9 +43,14 @@ const JoinPerson = () => {
     if (name === 'name') {
       const regex = /[^ㄱ-횡a-zA-Z\s]/;
       if (regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '이름에는 숫자나 특수문자를 포함할 수 없습니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          name: '',
+        }));
         return;
       }
     }
@@ -52,9 +58,14 @@ const JoinPerson = () => {
     if (name === 'username') {
       const regex = /^[a-zA-Z0-9]*$/;
       if (!regex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '아이디는 영어와 숫자만 입력 가능합니다.',
         });
+        setUser((prevUser) => ({
+          ...prevUser,
+          username: '',
+        }));
         return;
       }
       setUsernameChecked(false);
@@ -65,10 +76,10 @@ const JoinPerson = () => {
     }
 
     if (name === 'phone') {
-      const formattedPhone = applyPhoneFormat(value);
+      const formattedPhone = applyPhoneFormat(value.replace(/[^0-9]/g, ''));
       setUser((prevUser) => ({
         ...prevUser,
-        [name]: formattedPhone || value,
+        phone: formattedPhone,
       }));
       return;
     }
@@ -78,17 +89,18 @@ const JoinPerson = () => {
 
   const handleCheckNickname = async () => {
     if (user.nickname.length < 2 || user.nickname.length > 20) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '닉네임은 2자 이상 20자 이하로 입력해주세요.',
       });
       return;
     }
-    const isAvailable = await CheckNickname(user.nickname, url);
+    const isAvailable = await CheckNickname(user.nickname, url, messageApi);
     setNicknameChecked(isAvailable);
   };
 
   const handleCheckDoubleId = async () => {
-    const isAvailable = await CheckDoubleId(user.username, url);
+    const isAvailable = await CheckDoubleId(user.username, url, messageApi);
     setUsernameChecked(isAvailable);
   };
 
@@ -97,7 +109,8 @@ const JoinPerson = () => {
     if (name === 'phone') {
       const phoneRegex = /^010-\d{4}-\d{4}$/;
       if (!phoneRegex.test(value)) {
-        Modal.info({
+        messageApi.open({
+          type: 'warning',
           content: '휴대폰 번호를 다시 입력해주세요.',
         });
       }
@@ -108,7 +121,8 @@ const JoinPerson = () => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!regex.test(value)) {
         if (!emailVaildated) {
-          Modal.info({
+          messageApi.open({
+            type: 'warning',
             content: '유효한 이메일 형식을 입력해주세요.',
           });
           setEmailValidated(false);
@@ -122,23 +136,10 @@ const JoinPerson = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    // 필수 입력값 확인
-    if (
-      !user.username ||
-      !user.name ||
-      !user.password ||
-      !user.phone ||
-      !user.email
-    ) {
-      Modal.info({
-        content: '필수 항목을 모두 입력해주세요.',
-      });
-      return;
-    }
-
     // 아이디 중복확인
     if (!usernameChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '아이디 중복 확인을 눌러주세요.',
       });
       return;
@@ -146,7 +147,8 @@ const JoinPerson = () => {
 
     // 닉네임 중복확인
     if (user.nickname && !nicknameChecked) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '닉네임 중복 확인을 눌러주세요.',
       });
       return;
@@ -160,7 +162,8 @@ const JoinPerson = () => {
     //전화번호 최종 검증
     const phoneRegex = /^010-\d{4}-\d{4}$/;
     if (!phoneRegex.test(user.phone)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '휴대폰 번호를 다시입력해주세요.',
       });
       document.getElementById('phone').focus();
@@ -174,7 +177,8 @@ const JoinPerson = () => {
     //   return;
     // }
     if (user.password !== user.confirmPassword) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
       });
       return;
@@ -183,8 +187,24 @@ const JoinPerson = () => {
     // 이메일 유효성 확인
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(user.email)) {
-      Modal.info({
+      messageApi.open({
+        type: 'warning',
         content: '유효한 이메일 형식을 입력해주세요.',
+      });
+      return;
+    }
+
+    // 필수 입력값 확인
+    if (
+      !user.username.trim() ||
+      !user.name.trim() ||
+      !user.password.trim() ||
+      !user.phone.trim() ||
+      !user.email.trim()
+    ) {
+      messageApi.open({
+        type: 'warning',
+        content: '필수 항목을 모두 입력해주세요.',
       });
       return;
     }
@@ -206,7 +226,7 @@ const JoinPerson = () => {
         navigate('/login');
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -227,6 +247,7 @@ const JoinPerson = () => {
             type="text"
             name="username"
             id="username"
+            value={user.username}
             onChange={edit}
             placeholder=" 아이디를 입력해주세요."
             className={styles2.input1}
@@ -235,6 +256,7 @@ const JoinPerson = () => {
             className={styles2.checkButton}
             onClick={handleCheckDoubleId}
             disabled={usernameChecked}
+            {...contextHolder}
           >
             {usernameChecked ? '확인 완료' : '중복 확인'}
           </button>
@@ -249,6 +271,7 @@ const JoinPerson = () => {
             type="text"
             name="name"
             id="name"
+            value={user.name}
             onChange={edit}
             className={styles2.input2}
           />
@@ -333,6 +356,7 @@ const JoinPerson = () => {
             className={styles2.checkButton}
             onClick={handleCheckNickname}
             disabled={nicknameChecked}
+            {...contextHolder}
           >
             {nicknameChecked ? '확인 완료' : '중복 확인'}
           </button>
@@ -368,6 +392,7 @@ const JoinPerson = () => {
       </div>
 
       <button className={styles2.button} onClick={submit}>
+        {contextHolder}
         회원가입
       </button>
     </div>

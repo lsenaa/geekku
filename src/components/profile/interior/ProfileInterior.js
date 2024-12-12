@@ -29,11 +29,25 @@ const ProfileInterior = () => {
     axios
       .post(`${url}/interiorDetail`, param)
       .then((res) => {
+        //console.log(res.data);
+        //console.log(res.data.bookmark);
+        // if (res.data.reviewDetail && Array.isArray(res.data.reviewDetail)) {
+        //   let resReview = res.data.reviewDetail;
+        //   console.log(resReview);
+        //   resReview.forEach((review) => {
+        //     if (review.imageNums) {
+        //       const imageNumList = review.imageNums.split(',').map(num);
+        //       console.log(imageNumList);
+        //     }
+        //   });
+        // } else {
+        //   console.error('오류');
+        // }
         setDetailInfo({ ...res.data });
         setBookmark(res.data.bookmark);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, [num]);
 
@@ -62,9 +76,11 @@ const ProfileInterior = () => {
         setBookmark(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
+
+  //console.log('Current path:', location.pathname); // 현재 경로 확인
 
   const allowedPaths = [
     `/profile/interior/${num}`,
@@ -75,6 +91,7 @@ const ProfileInterior = () => {
 
   const isAllowedPath = allowedPaths.includes(location.pathname);
 
+  //console.log(detailInfo);
   return (
     <>
       {isAllowedPath && (

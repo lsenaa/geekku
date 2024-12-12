@@ -22,6 +22,11 @@ const ProfileInteriorSample = () => {
     location: [],
   });
 
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/sampleRegister', { state: interiorNum });
+    //console.log(interiorNum);
+  };
   const elementRef = useRef(null);
   const itemsPerPage = 10; // 한 페이지당 보여줄 항목 수
   const user = useAtomValue(userAtom);

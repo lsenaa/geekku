@@ -51,7 +51,7 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -111,11 +111,11 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
               });
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

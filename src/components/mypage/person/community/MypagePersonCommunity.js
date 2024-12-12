@@ -26,7 +26,7 @@ const MypagePersonCommunity = () => {
           `${url}/personCommunities/${user.userId}`
         );
         setCommunityData(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       } catch (error) {
         console.error('커뮤니티 데이터를 불러오는 중 오류 발생:', error);
       }
@@ -69,7 +69,7 @@ const MypagePersonCommunity = () => {
         }
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

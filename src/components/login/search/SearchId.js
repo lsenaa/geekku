@@ -1,7 +1,7 @@
 import loginLogo from 'assets/images/login/loginLogo.png';
 import styles from '../Login.module.scss';
 import { url } from 'lib/axios';
-import { Modal, Spin } from 'antd';
+import { message, Modal, Spin } from 'antd';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { formatPhoneNumber } from 'utils/CheckPhoneNumber';
@@ -15,6 +15,7 @@ const SearchId = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const confirmClick = () => {
@@ -32,7 +33,10 @@ const SearchId = () => {
   //이메일 인증코드 보내기
   const sendEmail = () => {
     if (!email) {
-      Modal.error({ content: '이메일 주소를 입력하세오.' });
+      messageApi.open({
+        type: 'warning',
+        content: '이메일 주소를 입력하세요.',
+      });
       return;
     }
     setIsLoading(true);
@@ -50,8 +54,9 @@ const SearchId = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log('인증번호 발송 실패 : ', error);
-        Modal.error({
+        console.error('인증번호 발송 실패 : ', error);
+        messageApi.open({
+          type: 'warning',
           content: '인증번호 발송에 실패했습니다.',
         });
         setIsLoading(false);
@@ -61,7 +66,8 @@ const SearchId = () => {
   //휴대폰 인증코드 보내기
   const sendSms = () => {
     if (!phoneNumber) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '휴대폰 번호를 입력하세요.',
       });
       return;
@@ -82,8 +88,9 @@ const SearchId = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log('인증번호 발송 실패 : ', error);
-        Modal.error({
+        //console.log('인증번호 발송 실패 : ', error);
+        messageApi.open({
+          type: 'warning',
           content: '인증번호 발송에 실패했습니다.',
         });
         setIsLoading(false);
@@ -93,7 +100,8 @@ const SearchId = () => {
   //이메일 인증코드 확인
   const verifyEmail = () => {
     if (!email || !verificationCode) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '이메일과 인증번호를 입력하세요.',
       });
       return;
@@ -107,12 +115,13 @@ const SearchId = () => {
         },
       })
       .then((res) => {
-        console.log('인증번호 확인 성공 : ', res.data);
+        //console.log('인증번호 확인 성공 : ', res.data);
         getUserInfo(email);
       })
       .catch((error) => {
         console.error('인증번호 확인 실패 :', error);
-        Modal.error({
+        messageApi.open({
+          type: 'warning',
           content: '인증번호 확인에 실패했습니다.',
         });
       });
@@ -121,7 +130,8 @@ const SearchId = () => {
   // 휴대폰 인증 코드 확인
   const verifySms = () => {
     if (!phoneNumber || !verificationCode) {
-      Modal.error({
+      messageApi.open({
+        type: 'warning',
         content: '휴대폰 번호와 인증번호를 입력하세요.',
       });
       return;
@@ -136,12 +146,13 @@ const SearchId = () => {
       })
       .then((res) => {
         <Spin />;
-        console.log('인증번호 확인 성공 : ', res.data);
+        //console.log('인증번호 확인 성공 : ', res.data);
         getUserInfoByPhone(phoneNumber);
       })
       .catch((error) => {
         console.error('인증번호 확인 실패 :', error);
-        Modal.error({
+        messageApi.open({
+          type: 'warning',
           content: '인증번호 확인에 실패했습니다.',
         });
       });
@@ -165,14 +176,16 @@ const SearchId = () => {
           })
           .catch((error) => {
             console.error('회사 사용자 정보 조회 실패 : ', error);
-            Modal.error({
+            messageApi.open({
+              type: 'warning',
               content: '회사 사용자 정보 조회에 실패했습니다.',
             });
           });
       })
       .catch((error) => {
         console.error('사용자 정보 조회 실패 : ', error);
-        Modal.error({
+        messageApi.open({
+          type: 'warning',
           content: '사용자 정보 조회에 실패했습니다.',
         });
       });
@@ -196,14 +209,16 @@ const SearchId = () => {
           })
           .catch((error) => {
             console.error('회사 사용자 정보 조회 실패 : ', error);
-            Modal.error({
+            messageApi.open({
+              type: 'warning',
               content: '회사 사용자 정보 조회에 실패했습니다.',
             });
           });
       })
       .catch((error) => {
         console.error('사용자 정보 조회 실패 : ', error);
-        Modal.error({
+        messageApi.open({
+          type: 'warning',
           content: '사용자 정보 조회에 실패했습니다.',
         });
       });
@@ -218,6 +233,7 @@ const SearchId = () => {
 
   return (
     <div className={styles.login}>
+      {contextHolder}
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
       <h2 className={styles.title}>아이디 찾기</h2>
 

@@ -5,8 +5,8 @@ import { message } from 'antd';
 
 const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
   const [selectedSchedule, setSelectedSchedule] = useState('');
+  //console.log(selectedSchedule);
   const [messageApi, contextHolder] = message.useMessage();
-  console.log(selectedSchedule);
   const handleRadioChange = (e) => {
     setSelectedSchedule(e.target.value);
     onDataChange({ period: e.target.value });

@@ -45,7 +45,7 @@ const MypageEstateCard = ({ estate, onDelete }) => {
         }
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
 
@@ -97,7 +97,7 @@ const MypageEstateCard = ({ estate, onDelete }) => {
           size="x-small"
           color="sub"
           onClick={() => {
-            console.log(estate.estateNum);
+            //console.log(estate.estateNum);
             navigate(`/estate`, {
               state: { keyword: estate.jibunAddress },
             }); // 상세보기 네비게이션

@@ -31,7 +31,7 @@ const CommunityList = ({
     };
   }, [hasMore, isLoading, setPage]);
 
-  console.log(communityList);
+  //console.log(communityList);
 
   return (
     <div className={styles.postList}>

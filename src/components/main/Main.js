@@ -27,7 +27,7 @@ const Main = () => {
         setCommunityList(res.data.communityList);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

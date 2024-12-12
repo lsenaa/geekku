@@ -28,6 +28,8 @@ const ReviewWrite = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const fRef = useRef();
 
+  //console.log('토큰이 어디갔나 : ', token);
+
   const edit = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });
 
@@ -147,14 +149,14 @@ const ReviewWrite = () => {
     await axiosInToken(token)
       .post(`/user/interiorReviewWrite`, data)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         Modal.success({
           content: '인테리어 업체 리뷰등록이 완료되었습니다.',
         });
         navigate('/mypage/person/interior/review');
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         Modal.error({
           content: err.response.data
             ? err.response.data

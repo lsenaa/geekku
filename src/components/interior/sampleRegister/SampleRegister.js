@@ -70,7 +70,7 @@ const SampleRegister = () => {
         callback(imageUrl);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -89,14 +89,14 @@ const SampleRegister = () => {
     axiosInToken(token)
       .post(`/company/interiorSampleRegister`, formData)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         Modal.success({
           content: '시공사례 등록이 완료되었습니다.',
         });
         navigate(`/sampleDetail/${res.data}`);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

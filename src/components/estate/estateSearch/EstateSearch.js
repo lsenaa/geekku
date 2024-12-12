@@ -68,12 +68,12 @@ const EstateSearch = () => {
 
     try {
       const res = await axios.get(`${url}/estateList`, { params });
-      console.log(res.data);
+      //console.log(res.data);
 
       setEstateList([...res.data.estateList]);
       setTotalCount(res.data.pageInfo.totalCount);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

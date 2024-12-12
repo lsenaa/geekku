@@ -20,7 +20,7 @@ const UseHandleToken = ({ url, setToken, setUser }) => {
           headers: { Authorization: token },
         })
         .then((res) => {
-          console.log('User info received:', res.data);
+          //console.log('User info received:', res.data);
           setUser(res.data);
           navigate('/');
         })

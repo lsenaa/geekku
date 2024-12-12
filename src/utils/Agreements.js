@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Modal } from 'antd';
+import { message } from 'antd';
 
 export const useAgreements = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [agreements, setAgreements] = useState({
     ageConfirmed: false,
     termsAccepted: false,
@@ -14,13 +15,15 @@ export const useAgreements = () => {
 
   const validateAgreements = () => {
     if (!agreements.ageConfirmed) {
-      Modal.info({
+      messageApi.open({
+        type: 'info',
         content: '만 14세 이상임을 확인해주세요.',
       });
       return false;
     }
     if (!agreements.termsAccepted) {
-      Modal.info({
+      messageApi.open({
+        type: 'info',
         content: '이용약관 및 개인정보 수집에 동의해주세요.',
       });
       return false;
@@ -28,5 +31,10 @@ export const useAgreements = () => {
     return true;
   };
 
-  return { agreements, handleCheckboxChange, validateAgreements };
+  return {
+    agreements,
+    handleCheckboxChange,
+    validateAgreements,
+    contextHolder,
+  };
 };

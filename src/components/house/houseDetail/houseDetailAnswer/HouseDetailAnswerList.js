@@ -40,7 +40,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
     axios
       .get(`${url}/houseAnswerList/${houseNum}?page=${page}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
 
         if (res.data.houseAnswerList.length === 0) {
           setHasMore(false);
@@ -54,7 +54,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -97,7 +97,7 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
             axios
               .get(`${url}/houseAnswerList/${houseNum}?page=${page}`)
               .then((res) => {
-                console.log('Refetching current page data:', res.data);
+                //console.log('Refetching current page data:', res.data);
                 setHouseAnswerList((prev) => [
                   ...prev.slice(0, (page - 1) * 10), // 이전 페이지 데이터 유지
                   ...res.data.houseAnswerList,
@@ -106,11 +106,11 @@ const HouseDetailAnswerList = ({ houseNum, userId }) => {
               });
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

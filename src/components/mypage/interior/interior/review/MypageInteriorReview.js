@@ -23,12 +23,12 @@ const MypageInteriorReview = () => {
     axiosInToken(token)
       .get('/company/myInteriorReviewList')
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setReviewList([...res.data.interiorReviewList.content]);
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
   return (
