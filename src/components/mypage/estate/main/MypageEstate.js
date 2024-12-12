@@ -34,7 +34,7 @@ const MypageEstate = () => {
       setEstateList([...estateList, ...response.data.estateList]);
       setCurPage(response.data.pageInfo.curPage);
       setAllPage(response.data.pageInfo.allPage);
-      console.log(response.data.estateList);
+      //console.log(response.data.estateList);
       wait = false;
       setIsFetching(false);
     } catch (error) {
@@ -55,7 +55,7 @@ const MypageEstate = () => {
     }
   };
 
-  console.log(estateList);
+  //console.log(estateList);
 
   // **리스트에서 항목 제거**
   const removeEstateFromList = (estateNum) => {

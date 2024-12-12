@@ -36,7 +36,7 @@ const MypageEstateHouseAnswer = () => {
 
       setData(response.data.content);
       setTotalPages(response.data?.totalPages || 0);
-      console.log(response.data.content);
+      //console.log(response.data.content);
     } catch (error) {
       console.error('데이터를 가져오는 중 오류 발생:', error);
       setData([]);

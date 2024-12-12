@@ -24,7 +24,7 @@ const BookmarkCommunity = () => {
     await axiosInToken(token)
       .get(`/user/mypagebookmarkCommunity?page=${page}`)
       .then((res) => {
-        console.log(res.data.content);
+        //console.log(res.data.content);
 
         if (res.data.content.length === 0) {
           setHasMore(false);
@@ -38,7 +38,7 @@ const BookmarkCommunity = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setHasMore(false);
       });
   };
@@ -55,7 +55,7 @@ const BookmarkCommunity = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

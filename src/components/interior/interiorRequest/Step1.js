@@ -5,7 +5,7 @@ import { useState } from 'react';
 const Step1 = ({ currentStep, totalSteps, nextStep, onDataChange }) => {
   const [selectedSchedule, setSelectedSchedule] = useState('');
 
-  console.log(selectedSchedule);
+  //console.log(selectedSchedule);
   const handleRadioChange = (e) => {
     setSelectedSchedule(e.target.value);
     onDataChange({ period: e.target.value });

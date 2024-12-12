@@ -40,7 +40,7 @@ const MypageInteriorRequest = () => {
       // 데이터가 존재할 경우에만 상태 업데이트
       setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
       setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
-      console.log(response.data.content);
+      //console.log(response.data.content);
     } catch (error) {
       console.error('데이터를 가져오는 중 오류 발생:', error);
       setData([]);

@@ -11,7 +11,7 @@ const Step2 = ({
 }) => {
   const [selectedType, setSelectedType] = useState('');
 
-  console.log(selectedType);
+  //console.log(selectedType);
   const handleRadioChange = (e) => {
     setSelectedType(e.target.value);
     onDataChange({ type: e.target.value });

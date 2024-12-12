@@ -24,7 +24,7 @@ const Sample = () => {
     axios
       .get(`${url}/interiorMain`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setSampleList([...res.data.sampleList]);
       })
       .catch((error) => {

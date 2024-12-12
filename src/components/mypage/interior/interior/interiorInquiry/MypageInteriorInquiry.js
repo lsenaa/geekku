@@ -16,23 +16,23 @@ const MypageInteriorInquiry = () => {
   const [interiorNum, setInteriorNum] = useState(null);
   useEffect(() => {
     fetchData();
-    console.log('interior', interiorNum);
+    //console.log('interior', interiorNum);
   }, []);
-  console.log(requestList);
+  //console.log(requestList);
   const fetchData = () => {
     if (!token) {
-      console.log('Token is missing');
+      //console.log('Token is missing');
       return;
     }
     axiosInToken(token)
       .get(`${url}/company/myInteriorRequestList`)
       .then((res) => {
-        console.log('list', res.data.interiorRequestList.content);
+        //console.log('list', res.data.interiorRequestList.content);
         setRequestList([...res.data.interiorRequestList.content]);
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -67,11 +67,11 @@ const MypageInteriorInquiry = () => {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

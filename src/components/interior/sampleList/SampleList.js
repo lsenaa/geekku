@@ -82,7 +82,7 @@ const SampleList = () => {
           setHasMore(false);
         }
         vpage = vpage + 1;
-        console.log(res.data);
+        //console.log(res.data);
         setSampleList((sample) => [...sample, ...resSampleList]);
       })
       .catch((error) => {

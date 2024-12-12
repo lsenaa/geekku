@@ -33,10 +33,10 @@ const ProfileInterior = () => {
     axios
       .post(`${url}/interiorDetail`, param)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setDetailInfo({ ...res.data });
         setBookmark(res.data.bookmark);
-        console.log(res.data.bookmark);
+        //console.log(res.data.bookmark);
         // if (res.data.reviewDetail && Array.isArray(res.data.reviewDetail)) {
         //   let resReview = res.data.reviewDetail;
         //   console.log(resReview);
@@ -51,7 +51,7 @@ const ProfileInterior = () => {
         // }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, [num]);
 
@@ -78,11 +78,11 @@ const ProfileInterior = () => {
         setBookmark(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
-  console.log('Current path:', location.pathname); // 현재 경로 확인
+  //console.log('Current path:', location.pathname); // 현재 경로 확인
 
   const allowedPaths = [
     `/profile/interior/${num}`,
@@ -93,7 +93,7 @@ const ProfileInterior = () => {
 
   const isAllowedPath = allowedPaths.includes(location.pathname);
 
-  console.log(detailInfo);
+  //console.log(detailInfo);
   return (
     <>
       {isAllowedPath && (

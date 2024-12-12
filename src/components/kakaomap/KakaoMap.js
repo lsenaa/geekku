@@ -55,7 +55,7 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
           removeMarkers();
 
           if (!estateList || estateList.length === 0) {
-            console.log('No estates to create markers for');
+            //console.log('No estates to create markers for');
             return;
           }
 

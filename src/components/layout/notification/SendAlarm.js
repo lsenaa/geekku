@@ -1,6 +1,7 @@
 //알람 테스트용 코드
 import { Table, Input, Button, Label } from 'reactstrap';
 import { useState } from 'react';
+import { url } from 'lib/axios';
 import axios from 'axios';
 
 const SendAlarm = () => {
@@ -17,12 +18,12 @@ const SendAlarm = () => {
   };
   const sendAlarm = () => {
     axios
-      .post('http://localhost:8080/sendAlarm', alarm)
+      .post(`${url}/sendAlarm`, alarm)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
   return (

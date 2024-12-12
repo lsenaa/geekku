@@ -38,7 +38,7 @@ const ReqInteriorDetailAnswerWrite = ({
         callback(imageUrl);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -65,7 +65,7 @@ const ReqInteriorDetailAnswerWrite = ({
     axiosInToken(token)
       .post(`/company/interiorAnswerWrite`, formData)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         Modal.success({
           content: '방꾸미기 답변이 등록되었습니다.',
           onOk: () => {
@@ -88,7 +88,7 @@ const ReqInteriorDetailAnswerWrite = ({
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
   return (

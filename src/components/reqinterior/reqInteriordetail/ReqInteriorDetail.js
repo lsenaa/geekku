@@ -45,7 +45,7 @@ const ReqInteriorDetail = () => {
         setInteriorAll({ ...res.data });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

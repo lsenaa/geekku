@@ -11,7 +11,7 @@ const Step4 = ({
 }) => {
   const [selectedSize, setSelectedSize] = useState('');
 
-  console.log(selectedSize);
+  //console.log(selectedSize);
   const handleRadioChange = (e) => {
     setSelectedSize(e.target.value);
     onDataChange({ size: e.target.value });

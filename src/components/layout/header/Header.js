@@ -63,12 +63,12 @@ const Header = ({ alarms = [] }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
   useEffect(() => {
-    console.log(alarms);
+    //console.log(alarms);
     if (user && user.username) {
       setIsLogin(true);
     } else {

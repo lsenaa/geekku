@@ -37,7 +37,7 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
     axios
       .get(`${url}/onestopAnswerList/${onestopNum}?page=${page}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
 
         if (res.data.onestopAnswerList.length === 0) {
           setHasMore(false);
@@ -51,7 +51,7 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -102,7 +102,7 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
             axios
               .get(`${url}/onestopAnswerList/${onestopNum}?page=${page}`)
               .then((res) => {
-                console.log('Refetching current page data:', res.data);
+                //console.log('Refetching current page data:', res.data);
                 setOnestopAnswerList((prev) => [
                   ...prev.slice(0, (page - 1) * 10), // 이전 페이지 데이터 유지
                   ...res.data.onestopAnswerList,
@@ -111,11 +111,11 @@ const OnestopDetailAnswerList = ({ onestopNum, userId }) => {
               });
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

@@ -18,7 +18,7 @@ const UseHandleTokens = ({ url, setToken, setUser }) => {
           headers: { Authorization: token },
         })
         .then((res) => {
-          console.log('유저정보 받아옴:', res.data);
+          //console.log('유저정보 받아옴:', res.data);
           setUser(res.data);
           navigate('/');
         })

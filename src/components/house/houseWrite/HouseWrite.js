@@ -7,6 +7,7 @@ import { hangjungdong } from 'utils/hangjungdong';
 import { axiosInToken } from 'lib/axios';
 import { useAtom } from 'jotai';
 import { tokenAtom } from 'store/atoms';
+import { updateToken } from 'utils/updateToken';
 
 const HouseWrite = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const HouseWrite = () => {
   });
 
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
+    //console.log(date, dateString);
 
     if (house.requestState) {
       setHouse({ ...house, requestDate: '2000-01-01' });
@@ -211,16 +212,17 @@ const HouseWrite = () => {
     axiosInToken(token)
       .post(`/user/houseWrite`, formData)
       .then((res) => {
-        if (res.headers.authorization !== null) {
-          setToken(res.headers.authorization);
-        }
+        updateToken(res.headers.authorization, setToken);
         Modal.success({
           content: '집꾸 등록이 완료되었습니다.',
         });
         navigate(`/house/detail/${res.data}`);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+        if (err.response.status === 401) {
+          location.href = '/login';
+        }
       });
   };
 

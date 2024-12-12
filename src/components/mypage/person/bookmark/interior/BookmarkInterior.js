@@ -24,7 +24,7 @@ const BookmarkInterior = () => {
     await axiosInToken(token)
       .get(`/user/mypagebookmarkInterior?page=${page}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
 
         if (res.data.content.length === 0) {
           setHasMore(false);
@@ -38,7 +38,7 @@ const BookmarkInterior = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setHasMore(false);
       });
   };
@@ -55,7 +55,7 @@ const BookmarkInterior = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

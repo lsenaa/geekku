@@ -22,12 +22,12 @@ const MypagePersonOnestop = () => {
     axiosInToken(token)
       .get('/user/mypageUserOnestopList')
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setOnestopList([...res.data.content]);
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -54,7 +54,7 @@ const MypagePersonOnestop = () => {
         axiosInToken(token)
           .post(`/user/onestopDelete/${num}`)
           .then((res) => {
-            console.log(res);
+            //console.log(res);
             if (res.data) {
               Modal.success({
                 content: '한번에 꾸하기 작성글이 삭제되었습니다.',
@@ -63,11 +63,11 @@ const MypagePersonOnestop = () => {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        //console.log('Cancel');
       },
     });
   };

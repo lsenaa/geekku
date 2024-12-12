@@ -42,7 +42,7 @@ const HouseDetailAnswerWrite = ({
         callback(imageUrl);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -69,7 +69,7 @@ const HouseDetailAnswerWrite = ({
     axiosInToken(token)
       .post(`/company/houseAnswerWrite`, formData)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         Modal.success({
           content: '집꾸 답변이 등록되었습니다.',
           onOk: () => {
@@ -92,7 +92,7 @@ const HouseDetailAnswerWrite = ({
         });
       })
       .catch((err) => {
-        console.log(err.response.status);
+        console.error(err.response.status);
         if (err.response.status === 401) {
           navigate('/login');
         }

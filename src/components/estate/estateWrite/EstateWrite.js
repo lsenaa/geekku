@@ -47,7 +47,7 @@ const EstateWrite = () => {
 
   // 다음 주소 검색
   const handleComplete = (data) => {
-    console.log(data);
+    //console.log(data);
     setEstate({
       ...estate,
       address: data.address,
@@ -335,14 +335,14 @@ const EstateWrite = () => {
     axiosInToken(token)
       .post(`/company/estateWrite`, formData)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         Modal.success({
           content: '매물 등록이 완료되었습니다.',
         });
         navigate('/estate', { state: { keyword: estate.jibunAddress } });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

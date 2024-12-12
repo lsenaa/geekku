@@ -25,11 +25,11 @@ const SampleDetail = () => {
     axios
       .post(`${url}/sampleDetail`, param)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setSampleInfo({ ...res.data.sampleInfo });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, []);
 

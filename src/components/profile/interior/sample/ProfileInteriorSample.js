@@ -24,7 +24,7 @@ const ProfileInteriorSample = () => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate('/sampleRegister', { state: interiorNum });
-    console.log(interiorNum);
+    //console.log(interiorNum);
   };
 
   const user = useAtomValue(userAtom);

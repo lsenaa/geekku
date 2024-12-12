@@ -70,7 +70,7 @@ const CommunityBoardDetail = () => {
             console.error(res.data.commentList);
             setComments([]); // 기본값으로 빈 배열 설정
           }
-          console.log(res.data.commentList);
+          //console.log(res.data.commentList);
           if (user?.userId || user?.companyId) {
             setIsBookmarked(res.data.bookmark);
             setIsOwner(user.userId === res.data.communityDetail.userId);
@@ -80,7 +80,7 @@ const CommunityBoardDetail = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           setComments([]);
         });
     };
@@ -180,7 +180,7 @@ const CommunityBoardDetail = () => {
           }
         );
 
-        console.log('댓글 작성 응답 데이터:', response.data);
+        //console.log('댓글 작성 응답 데이터:', response.data);
 
         if (response.status === 201) {
           if (Array.isArray(response.data)) {
@@ -213,7 +213,7 @@ const CommunityBoardDetail = () => {
 
   // 댓글 삭제 핸들러
   const handleDeleteComment = (commentNum) => {
-    console.log('Deleting comment with Num:', commentNum);
+    //console.log('Deleting comment with Num:', commentNum);
     if (!commentNum) {
       message.error('유효하지 않은 댓글 번호입니다.');
       return;
@@ -252,7 +252,7 @@ const CommunityBoardDetail = () => {
   };
 
   const handleDeleteWithAnimation = (commentNum) => {
-    console.log('Triggering animation for commentNum:', commentNum);
+    //console.log('Triggering animation for commentNum:', commentNum);
     setDeletingComments((prev) => new Set(prev).add(commentNum));
     setTimeout(() => {
       setDeletingComments((prev) => {

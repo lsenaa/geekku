@@ -39,7 +39,7 @@ const InteriorRequest = () => {
   };
 
   const handleSubmit = async (submissionData) => {
-    console.log('제출 데이터:', submissionData);
+    //console.log('제출 데이터:', submissionData);
     await axiosInToken(token)
       .post(`/user/interiorRequest`, submissionData, {
         headers: {
@@ -47,14 +47,14 @@ const InteriorRequest = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         Modal.success({
           content: '해당 업체에 문의가 완료되었습니다.',
         });
         navigate(`/InteriorAnswer/${res.data}`);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

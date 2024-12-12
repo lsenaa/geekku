@@ -18,10 +18,10 @@ export async function registerServiceWorker() {
   await navigator.serviceWorker
     .register('/firebase-messaging-sw.js')
     .then((registration) => {
-      console.log('Service Worker 등록 성공:', registration);
+      //console.log('Service Worker 등록 성공:', registration);
     })
     .catch((error) => {
-      console.log('Service Worker 등록 실패:', error);
+      console.error('Service Worker 등록 실패:', error);
     });
 }
 
@@ -35,11 +35,11 @@ export function firebaseReqPermission(setFcmToken, setAlarm) {
       setFcmToken(token);
     })
     .catch(function (error) {
-      console.log('FCM ERROR : ', error);
+      console.error('FCM ERROR : ', error);
     });
 
   firebaseMessaging.onMessage((payload) => {
-    console.log(payload);
+    //console.log(payload);
     setAlarm({
       num: +payload.data.num,
       title: payload.data.message, //수정함 Notification -> data

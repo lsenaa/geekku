@@ -44,7 +44,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
   };
 
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
+    //console.log(date, dateString);
   };
 
   const edit = (e) => {
@@ -126,7 +126,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log('interior', interior);
+    //console.log('interior', interior);
     let formData = new FormData();
     formData.append('intro', interior.intro);
     formData.append('content', interior.content);
@@ -146,7 +146,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
     await axiosInToken(token)
       .post(`${url}/company/interiorModify`, formData)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         if (res.data) {
           navigate(-1);
           Modal.success({
@@ -155,7 +155,7 @@ const MypageInteriorModify = ({ initialImage, updateImageUrl }) => {
         }
       })
       .catch((err) => {
-        console.log('정보 수정 실패 ');
+        console.error('정보 수정 실패 ');
         Modal.error({
           content: '업체 정보 수정에 실패했습니다.',
         });

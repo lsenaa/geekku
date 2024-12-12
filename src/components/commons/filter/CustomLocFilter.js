@@ -30,7 +30,7 @@ const CustomLocFilter = ({ selectedLoc, setSelectedLoc }) => {
         return [...prev, category.name];
       }
     });
-    console.log(`Filtering: ${category}`);
+    //console.log(`Filtering: ${category}`);
   };
 
   return (

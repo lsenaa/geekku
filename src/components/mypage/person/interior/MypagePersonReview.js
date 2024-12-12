@@ -22,12 +22,12 @@ const MypagePersonReview = () => {
     axiosInToken(token)
       .get('/user/mypageUserReviewList')
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         setReviewList([...res.data.content]);
         setTotalCount(res.data.totalElements);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -62,11 +62,11 @@ const MypagePersonReview = () => {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       },
       onCancel: () => {
-        console.log('Cancel');
+        // console.log('Cancel');
       },
     });
   };

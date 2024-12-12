@@ -30,7 +30,7 @@ const MypageInteriorLayout = () => {
     useState(() => {
       setUser(user);
     });
-    console.log('마이페이지 인테리어 메인' + user);
+    //console.log('마이페이지 인테리어 메인' + user);
   };
   const isAllowedPath = allowedPaths.includes(location.pathname);
   return (

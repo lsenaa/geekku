@@ -40,7 +40,7 @@ const ReviewModify = () => {
     axiosInToken(token)
       .get(`/user/interiorReview/${reviewNum}`)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setReview({ ...res.data });
 
         if (res.data.imageNums && typeof res.data.imageNums === 'string') {
@@ -50,7 +50,7 @@ const ReviewModify = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -195,14 +195,14 @@ const ReviewModify = () => {
     await axiosInToken(token)
       .post(`/user/mypageUserReviewUpdate/${reviewNum}`, data)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         Modal.success({
           content: '인테리어 업체 리뷰수정이 완료되었습니다.',
         });
         navigate(-1);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
