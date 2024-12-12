@@ -40,7 +40,9 @@ const ProfileInteriorIntroduce = () => {
         </div>
       </div>
       <div className={styles.textWrap}>
-        <p>{detailInfo.interiorDetail.content}</p>
+        <p>
+          <pre>{detailInfo.interiorDetail.content}</pre>
+        </p>
       </div>
     </div>
   );
