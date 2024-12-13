@@ -10,7 +10,6 @@ import { userAtom } from 'store/atoms';
 const ProfileInteriorSample = () => {
   const { detailInfo } = useOutletContext();
   const { interiorNum } = useOutletContext();
-  const navigate = useNavigate();
 
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);

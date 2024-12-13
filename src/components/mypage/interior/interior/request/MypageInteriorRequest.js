@@ -39,6 +39,7 @@ const MypageInteriorRequest = () => {
       );
       // 데이터가 존재할 경우에만 상태 업데이트
       setData(response.data.content); // 데이터가 없으면 빈 배열로 처리
+
       setTotalPages(response.data?.totalPages || 0); // totalPages도 기본값 설정
       //console.log(response.data.content);
     } catch (error) {
@@ -91,12 +92,17 @@ const MypageInteriorRequest = () => {
                   key={requestAll.answerAllNum}
                   className={styles.rowWrap}
                   onClick={() =>
-                    navigate(`/onestop/detail/${requestAll.requestAllNum}`)
+                    navigate(`/interiorall/detail/${requestAll.requestAllNum}`)
                   }
                 >
-                  <td>{requestAll.answerAllNum}</td>
+                  <td>{requestAll.requestAllNum}</td>
                   <td>{requestAll.title}</td>
-                  <td>{requestAll.workType}</td>
+                  <td>
+                    <p>
+                      {requestAll.workType == 0 && '전체시공'}
+                      {requestAll.workType == 1 && '부분시공'}
+                    </p>
+                  </td>
                   {/* <td>{formatEstateType(requestAll.type)}</td> */}
                   <td>
                     {`${processLocation(requestAll.address1)} ${requestAll.address2}`}
@@ -112,8 +118,11 @@ const MypageInteriorRequest = () => {
                           }
                           alt="사용자 프로필 이미지"
                         />
-                        &nbsp; &nbsp;{requestAll.nickname}
                       </div>
+                      &nbsp;
+                      {requestAll.nickname
+                        ? requestAll.nickname
+                        : requestAll.name}
                     </span>
                   </td>
                   <td>{formatDate(requestAll.createdAt)}</td>
