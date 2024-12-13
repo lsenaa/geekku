@@ -10,7 +10,7 @@ import { userAtom } from 'store/atoms';
 const ProfileInteriorSample = () => {
   const { detailInfo } = useOutletContext();
   const { interiorNum } = useOutletContext();
-
+  const navigate = useNavigate();
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterConditions, setFilterConditions] = useState({
@@ -21,7 +21,6 @@ const ProfileInteriorSample = () => {
     location: [],
   });
 
-  const navigate = useNavigate();
   const handleClick = () => {
     navigate('/sampleRegister', { state: interiorNum });
     //console.log(interiorNum);

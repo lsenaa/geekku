@@ -15,6 +15,7 @@ const MypageInteriorLayout = () => {
     '/mypage/interior/info',
     '/mypage/interior/info/password',
   ];
+
   const isAllowedPath = allowedPaths.includes(location.pathname);
 
   return (
