@@ -95,7 +95,7 @@ const MypageInteriorOnestop = () => {
                     navigate(`/onestop/detail/${onestop.onestopNum}`)
                   }
                 >
-                  <td>{onestop.answerOnestopNum}</td>
+                  <td>{onestop.onestopNum}</td>
                   <td>{onestop.title}</td>
                   <td>{formatEstateType(onestop.type)}</td>
                   <td>
@@ -112,8 +112,8 @@ const MypageInteriorOnestop = () => {
                           }
                           alt="사용자 프로필 이미지"
                         />
-                        &nbsp; &nbsp;{onestop.nickname}
                       </div>
+                      &nbsp;{onestop.nickname ? onestop.nickname : onestop.name}
                     </span>
                   </td>
                   <td>{formatDate(onestop.createdAt)}</td>
