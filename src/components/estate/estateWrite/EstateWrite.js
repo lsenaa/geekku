@@ -185,7 +185,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (estate.roomCount === '') {
+    if (estate.type !== 'land' && estate.roomCount === '') {
       messageApi.open({
         type: 'warning',
         content: '방 개수를 입력해주세요',
@@ -220,7 +220,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (isManage && estate.managePrice === '') {
+    if (estate.type !== 'land' && isManage && estate.managePrice === '') {
       messageApi.open({
         type: 'warning',
         content: '관리비를 입력해주세요.',
@@ -228,7 +228,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (estate.availableDate === '') {
+    if (estate.type !== 'land' && estate.availableDate === '') {
       messageApi.open({
         type: 'warning',
         content: '입주 가능 일자를 선택해주세요.',
@@ -236,7 +236,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (estate.totalFloor === '') {
+    if (estate.type !== 'land' && estate.totalFloor === '') {
       messageApi.open({
         type: 'warning',
         content: '전체 층수를 입력해주세요.',
@@ -244,7 +244,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (estate.floor === '') {
+    if (estate.type !== 'land' && estate.floor === '') {
       messageApi.open({
         type: 'warning',
         content: '해당 층수를 입력해주세요.',
@@ -252,7 +252,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (estate.bathCount === '') {
+    if (estate.type !== 'land' && estate.bathCount === '') {
       messageApi.open({
         type: 'warning',
         content: '욕실 수를 입력해주세요.',
@@ -260,7 +260,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (isParking && estate.parking === '') {
+    if (estate.type !== 'land' && isParking && estate.parking === '') {
       messageApi.open({
         type: 'warning',
         content: '주차 가능 수를 입력해주세요.',
@@ -268,7 +268,7 @@ const EstateWrite = () => {
       return;
     }
 
-    if (estate.utility === '') {
+    if (estate.type !== 'land' && estate.utility === '') {
       messageApi.open({
         type: 'warning',
         content: '객실 시설을 입력해주세요.',

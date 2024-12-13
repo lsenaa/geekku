@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const url = 'http://localhost:8080';
+// export const url = 'http://localhost:8080';
+export const url = 'http://geekku.shop:8080';
 
 export const axiosInToken = (token) =>
   axios.create({
