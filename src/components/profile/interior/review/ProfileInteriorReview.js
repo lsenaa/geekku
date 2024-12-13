@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router-dom';
 import styles from './ProfileInteriorReview.module.scss';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Filter from 'components/commons/filter/Filter';
 import { url } from 'lib/axios';
 import { formatDate } from 'utils/utils';
