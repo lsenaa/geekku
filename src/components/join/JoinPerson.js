@@ -28,8 +28,12 @@ const JoinPerson = () => {
   const [isPhonechecked, setIsPoneChecked] = useState(false);
   const [emailVaildated, setEmailValidated] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const { agreements, handleCheckboxChange, validateAgreements } =
-    useAgreements();
+  const {
+    agreements,
+    handleCheckboxChange,
+    validateAgreements,
+    contextHolder: agreementsContextHolder,
+  } = useAgreements();
 
   const navigate = useNavigate();
 
@@ -232,8 +236,9 @@ const JoinPerson = () => {
 
   return (
     <div className={styles.login}>
+      {contextHolder}
+      {agreementsContextHolder}
       <img src={loginLogo} alt="로그인로고" className={styles.logo} />
-
       <h3 className={styles2.title}>개인 회원가입</h3>
       <hr className={styles.line} />
 
@@ -256,7 +261,6 @@ const JoinPerson = () => {
             className={styles2.checkButton}
             onClick={handleCheckDoubleId}
             disabled={usernameChecked}
-            {...contextHolder}
           >
             {usernameChecked ? '확인 완료' : '중복 확인'}
           </button>
@@ -356,7 +360,6 @@ const JoinPerson = () => {
             className={styles2.checkButton}
             onClick={handleCheckNickname}
             disabled={nicknameChecked}
-            {...contextHolder}
           >
             {nicknameChecked ? '확인 완료' : '중복 확인'}
           </button>
@@ -392,7 +395,6 @@ const JoinPerson = () => {
       </div>
 
       <button className={styles2.button} onClick={submit}>
-        {contextHolder}
         회원가입
       </button>
     </div>
