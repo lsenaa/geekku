@@ -12,8 +12,15 @@ const MypageInteriorInquiry = () => {
   const navigate = useNavigate();
   const token = useAtomValue(tokenAtom);
   const [requestList, setRequestList] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [totalCount, setTotalCount] = useState(0);
   const [interiorNum, setInteriorNum] = useState(null);
+  // 페이지 변경 처리
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
   useEffect(() => {
     fetchData();
     //console.log('interior', interiorNum);
@@ -88,7 +95,7 @@ const MypageInteriorInquiry = () => {
             <colgroup>
               <col width="5%" />
               <col width="40%" />
-              <col width="10%" />
+              <col width="15%" />
               <col width="15%" />
               <col width="15%" />
               <col width="15%" />
@@ -96,7 +103,7 @@ const MypageInteriorInquiry = () => {
             <thead>
               <tr>
                 <th>번호</th>
-                <th>제목</th>
+                <th>내용</th>
                 <th>시공종류</th>
                 <th>희망평수</th>
                 <th>작성 날짜</th>
@@ -114,20 +121,8 @@ const MypageInteriorInquiry = () => {
                 >
                   <td>{i + 1}</td>
                   <td>{request.content}</td>
-                  <td>
-                    {request.type === 1 && '농가주택'}
-                    {request.type === 2 && '아파트/빌라'}
-                    {request.type === 3 && '전원주택'}
-                    {request.type === 4 && '기타'}
-                  </td>
-                  <td>
-                    {request.size === 1 && '20평 이하'}
-                    {request.size === 2 && '20평 ~ 30평'}
-                    {request.size === 3 && '30평 ~ 40평'}
-                    {request.size === 4 && '40평 ~ 50평'}
-                    {request.size === 5 && '50평 이상'}
-                    {request.size === 6 && '기타'}
-                  </td>
+                  <td>{request.type}</td>
+                  <td>{request.size}</td>
                   <td>{formatDate(request.createdAt)}</td>
                   <td>
                     <Button01
@@ -144,7 +139,11 @@ const MypageInteriorInquiry = () => {
               ))}
             </tbody>
           </table>
-          <Pagination defaultCurrent={1} total={50} />
+          <Pagination
+            current={currentPage}
+            total={totalPages * 10} // 총 데이터 수에 맞게 수정
+            onChange={handlePageChange}
+          />
         </>
       )}
     </>

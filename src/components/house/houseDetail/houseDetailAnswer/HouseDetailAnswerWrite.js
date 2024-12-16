@@ -92,7 +92,8 @@ const HouseDetailAnswerWrite = ({
         });
       })
       .catch((err) => {
-        console.error(err.response.status);
+        // console.error(err.response.status);
+        console.error(err);
         if (err.response.status === 401) {
           navigate('/login');
         }
