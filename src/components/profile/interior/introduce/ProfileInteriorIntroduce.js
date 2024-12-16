@@ -1,6 +1,5 @@
 import { useOutletContext } from 'react-router';
 import styles from './ProfileInteriorIntroduce.module.scss';
-import introImg from 'assets/images/interiorIntroImg.png';
 
 const ProfileInteriorIntroduce = () => {
   const { detailInfo } = useOutletContext();

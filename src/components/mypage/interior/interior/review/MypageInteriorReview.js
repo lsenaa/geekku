@@ -1,7 +1,6 @@
 import Button01 from 'components/commons/button/Button01';
 import styles from './MypageInteriorReview.module.scss';
 import { Modal, Pagination } from 'antd';
-import reviewImg from 'assets/images/InteriorExam.jpg';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { tokenAtom } from 'store/atoms';

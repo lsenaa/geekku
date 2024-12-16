@@ -1,6 +1,5 @@
 import styles from './ReviewWrite.module.scss';
 import { useRef, useState } from 'react';
-import minus from '../../../assets/images/minus.png';
 import { axiosInToken } from 'lib/axios';
 import { useNavigate } from 'react-router';
 import { useAtomValue } from 'jotai';
@@ -27,8 +26,6 @@ const ReviewWrite = () => {
   const [textCount, setTextCount] = useState(0);
   const [messageApi, contextHolder] = message.useMessage();
   const fRef = useRef();
-
-  //console.log('토큰이 어디갔나 : ', token);
 
   const edit = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });

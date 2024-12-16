@@ -331,7 +331,7 @@ const CommunityBoardWrite = () => {
           </label>
           <div className={styles.inputTextWrap}>
             <input
-              type="number"
+              type="text"
               name="money"
               className={styles.formControl}
               onChange={handleChange}

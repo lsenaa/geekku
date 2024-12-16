@@ -1,5 +1,4 @@
 import styles from './ProfileInteriorAll.module.scss';
-import sampleImg from 'assets/images/InteriorExam.jpg';
 import { url } from 'lib/axios';
 import { IoIosArrowForward } from 'react-icons/io';
 import { Link, useOutletContext } from 'react-router-dom';

@@ -122,7 +122,9 @@ const ProfileInteriorReview = () => {
                   alt="프로필 이미지"
                 />
               </div>
-              <p className={styles.username}>{review.name}</p>
+              <p className={styles.username}>
+                {review.nickName ? review.nickName : review.name}
+              </p>
               <p className={styles.createdAt}>{formatDate(review.createdAt)}</p>
             </div>
             <ul className={styles.optionWrap}>

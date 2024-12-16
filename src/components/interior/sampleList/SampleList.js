@@ -78,9 +78,6 @@ const SampleList = () => {
       })
       .then((res) => {
         const allPage = res.data.allPage;
-        console.log('00000' + res.data);
-        console.log(res.data.sampleList);
-        console.log('1111111101111' + filterConditions.location);
         if (Array.isArray(res.data.sampleList)) {
           if (vpage === allPage) {
             setHasMore(false);
@@ -112,9 +109,7 @@ const SampleList = () => {
       <div className={styles.cardList}>
         <Card sampleList={sampleList} />
         {hasMore && (
-          <div ref={elementRef} style={{ textAlign: 'center' }}>
-            Load More List
-          </div>
+          <div ref={elementRef} style={{ textAlign: 'center' }}></div>
         )}
       </div>
     </div>

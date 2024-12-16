@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import style from './ProfilePerson.module.css';
-import userProfileImage from 'assets/images/person.jpg';
 import ProfilePersonCardList from 'components/profile/person/ProfilePersonCardList';
 import { Outlet, useParams } from 'react-router';
 import { FaUserCircle } from 'react-icons/fa';

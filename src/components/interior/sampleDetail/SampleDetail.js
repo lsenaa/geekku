@@ -36,7 +36,7 @@ const SampleDetail = () => {
     <div>
       <div className={styles.coverImgWrap}>
         <img
-          src={`${url}/sampleImage/${sampleInfo.coverImage}`}
+          src={`${url}/sampleImage/${sampleInfo?.coverImage}`}
           alt="커버사진"
         />
       </div>

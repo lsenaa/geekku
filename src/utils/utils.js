@@ -35,13 +35,13 @@ export const formatPrice = ({
   buyPrice,
 }) => {
   if (jeonsePrice) {
-    return `전세 ${jeonsePrice.toLocaleString()}`;
+    return `전세 ${jeonsePrice.toLocaleString()}만원`;
   }
   if (monthlyPrice) {
-    return `월세 ${depositPrice.toLocaleString()}/${monthlyPrice}`;
+    return `월세 ${depositPrice.toLocaleString()}/${monthlyPrice}만원`;
   }
   if (buyPrice) {
-    return `매매 ${buyPrice.toLocaleString()}`;
+    return `매매 ${buyPrice.toLocaleString()}만원`;
   }
 };
 
@@ -68,12 +68,7 @@ export const searchByKeyword = (keyword) => {
     const targetGuns = sigugun.filter((gun) => gun.sido === targetSido.sido);
 
     targetGuns.forEach((gun) => {
-      const targetDongs = dong.filter(
-        (d) => d.sigugun === gun.sigugun && d.sido === gun.sido // sido와 sigugun 모두 확인
-      );
-      targetDongs.forEach((d) => {
-        results.push(`${targetSido.codeNm} ${gun.codeNm} ${d.codeNm}`);
-      });
+      results.push(`${targetSido.codeNm} ${gun.codeNm}`);
     });
 
     return results.sort();
@@ -81,38 +76,14 @@ export const searchByKeyword = (keyword) => {
 
   // 2. 시군구로 검색
   const targetGuns = sigugun.filter((gun) => gun.codeNm.includes(keyword));
-  if (targetGuns.length) {
+  if (targetGuns) {
     targetGuns.forEach((gun) => {
       const targetSi = sido.find((si) => si.sido === gun.sido);
-      const targetDongs = dong.filter(
-        (d) => d.sigugun === gun.sigugun && d.sido === gun.sido
-      );
-
-      if (targetSi) {
-        targetDongs.forEach((d) => {
-          results.push(`${targetSi.codeNm} ${gun.codeNm} ${d.codeNm}`);
-        });
-      }
+      results.push(`${targetSi.codeNm} ${gun.codeNm}`);
     });
 
     return results.sort();
   }
-  // 3. 동 이름으로 검색
-  const targetDongs = dong.filter((d) => d.codeNm.includes(keyword));
-  if (targetDongs.length) {
-    targetDongs.forEach((d) => {
-      const targetGun = sigugun.find(
-        (gun) => gun.sigugun === d.sigugun && gun.sido === d.sido
-      );
-      const targetSi = sido.find((si) => si.sido === targetGun?.sido);
-
-      if (targetSi && targetGun) {
-        results.push(`${targetSi.codeNm} ${targetGun.codeNm} ${d.codeNm}`);
-      }
-    });
-  }
-
-  return results.sort();
 };
 
 export const processLocation = (location) => {
