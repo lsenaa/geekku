@@ -90,7 +90,7 @@ const KakaoMap = ({ estateList, currentLocation, keyword }) => {
                 }
               );
 
-              if (distance <= 10) {
+              if (distance <= 20) {
                 const estateMarker = new window.kakao.maps.Marker({
                   position: estateLatLng,
                   map: map,

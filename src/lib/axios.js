@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// export const url = 'http://localhost:8080';
-export const url = 'http://geekku.shop:8080';
+export const url = 'https://geekku.shop';
 
 export const axiosInToken = (token) =>
   axios.create({
@@ -10,4 +9,5 @@ export const axiosInToken = (token) =>
     headers: {
       Authorization: token,
     },
+    withCredentials: true,
   });

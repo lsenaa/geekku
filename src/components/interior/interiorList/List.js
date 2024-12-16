@@ -42,11 +42,9 @@ const List = ({ loc, setLoc }) => {
   }, [hasMore]);
 
   useEffect(() => {
-    // setPage(1);
     vpage = 1;
     setInteriorList([]);
     setHasMore(true);
-    // fetchMoreItems();
   }, [loc]);
 
   const fetchMoreItems = async () => {
@@ -79,11 +77,7 @@ const List = ({ loc, setLoc }) => {
         )}
       </div>
       <Card interiorList={interiorList} />
-      {hasMore && (
-        <div ref={elementRef} style={{ textAlign: 'center' }}>
-          Load More List
-        </div>
-      )}
+      {hasMore && <div ref={elementRef} style={{ textAlign: 'center' }}></div>}
     </div>
   );
 };

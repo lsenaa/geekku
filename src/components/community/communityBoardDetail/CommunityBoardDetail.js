@@ -12,6 +12,7 @@ import bookmarkFalse from 'assets/images/bookmarkFalse.png';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
 import { formatDate } from 'utils/utils';
+import Button01 from 'components/commons/button/Button01';
 
 const CommunityBoardDetail = () => {
   const [post, setPost] = useState(null);
@@ -384,6 +385,12 @@ const CommunityBoardDetail = () => {
         {/* 게시글 내용 */}
         <div className={styles.postContent}>
           <Viewer initialValue={post.content} />
+        </div>
+
+        <div className={styles.toListBtn}>
+          <Button01 size="x-small" onClick={() => navigate('/community')}>
+            목록으로
+          </Button01>
         </div>
 
         {/* 댓글 섹션 */}

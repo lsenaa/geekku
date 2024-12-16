@@ -32,7 +32,6 @@ const SampleModify = () => {
     axios
       .get(`${url}/sampleDetail/${location.state.sampleNum}`)
       .then((res) => {
-        console.log(res.data);
         setSample({ ...res.data.sampleInfo });
         setCoverImg(res.data.sampleInfo.coverImage);
 

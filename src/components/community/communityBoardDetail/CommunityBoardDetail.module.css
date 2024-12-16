@@ -92,8 +92,7 @@
 }
 
 .detailContent {
-  margin: 0 50px;
-  margin-bottom: 30px;
+  text-align: center;
 }
 
 .detailContent:last-of-type {
@@ -193,7 +192,9 @@
   padding: 6px 12px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s, transform 0.1s; 
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
 }
 
 .submitButton:hover {
@@ -225,7 +226,9 @@
   font-size: 16px;
   font-weight: bold;
   color: #888;
-  transition: background-color 0.3s, transform 0.1s;
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
 }
 
 .bookmarkedButton {
@@ -233,8 +236,8 @@
 }
 
 /* 호버효과 */
-.bookmarkButton:hover .bookmarkIcon{
-  background-color: #ececec; 
+.bookmarkButton:hover .bookmarkIcon {
+  background-color: #ececec;
 }
 /* 호버효과 */
 .bookmarkedButton:hover .bookmarkIcon {
@@ -278,18 +281,20 @@
 
 .deleteButton {
   margin-left: auto;
-  background-color: #cccccc; 
-  color: #ffffff; 
-  border: none; 
-  border-radius: 10px; 
-  padding: 5px 12px; 
-  cursor: pointer; 
-  transition: background-color 0.3s, transform 0.3s;
+  background-color: #cccccc;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
   font-size: 16px;
 }
 
 .deleteButton:hover {
-  background-color: #aaaaaa; 
+  background-color: #aaaaaa;
 }
 
 .deleteButton:active {
@@ -312,4 +317,8 @@
 
 .pop {
   animation: popIn 0.3s ease-in-out;
+}
+
+.toListBtn {
+  text-align: center;
 }

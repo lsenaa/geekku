@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import img from '../../../assets/images/interiorEx.png';
-import bookmark from '../../../assets/images/bookmark.png';
 import './Card.css';
 import { Link } from 'react-router-dom';
 import trueBookmark from '../../../assets/images/bookmarkTrue.png';

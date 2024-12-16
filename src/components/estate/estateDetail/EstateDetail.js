@@ -28,7 +28,6 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
         userId: user.userId ? user.userId : undefined,
       })
       .then((res) => {
-        //console.log(res.data);
         setEstate({ ...res.data.estate });
         setBookmark(res.data.bookmark);
       })
@@ -125,7 +124,9 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           <tr>
             <td className={styles.title}>층수(건물층)</td>
             <td className={styles.content}>
-              {estate.floor}층({estate.totalFloor}층)
+              {estate.floor
+                ? `${estate.floor}층 (${estate.totalFloor}층)`
+                : '없음'}
             </td>
             <td className={styles.title}>전용/공급면적</td>
             <td className={styles.content}>
@@ -134,9 +135,13 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
           </tr>
           <tr>
             <td className={styles.title}>방 수</td>
-            <td className={styles.content}>{estate.roomCount}개</td>
+            <td className={styles.content}>
+              {estate.roomCount ? `${estate.roomCount}개` : '없음'}
+            </td>
             <td className={styles.title}>욕실 수</td>
-            <td className={styles.content}>{estate.bathCount}개</td>
+            <td className={styles.content}>
+              {estate.bathCount ? `${estate.bathCount}개` : '없음'}
+            </td>
           </tr>
           <tr>
             <td className={styles.title}>주차</td>
@@ -145,13 +150,16 @@ const EstateDetail = ({ estateNum, estateImageNums }) => {
             </td>
             <td className={styles.title}>입주 가능일</td>
             <td className={styles.content}>
-              {estate.availableDate} {estate.availableState && '(협의 가능)'}
+              {estate.availableDate
+                ? `${estate.availableDate} ${estate.availableState && '(협의 가능)'}`
+                : '없음'}
+              {/* {estate.availableDate} {estate.availableState && '(협의 가능)'} */}
             </td>
           </tr>
           <tr>
             <td className={styles.title}>객실 시설</td>
             <td className={styles.longContent} colSpan="3">
-              {estate.utility}
+              {estate.utility ? estate.utility : '없음'}
             </td>
           </tr>
           <tr>

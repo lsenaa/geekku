@@ -20,8 +20,8 @@ const EstateSearch = () => {
   const [totalCount, setTotalCount] = useState(0);
   const searchResults = searchByKeyword(searchInput);
   const debouncedKeyword = useDebounce(keyword, 1000); //200ms로 설정된 debounce
-  const DEFAULT_KEYWORD = '경기도 광명시'; // 초기 키워드
-  const DEFAULT_COORDS = { latitude: 37.47832, longitude: 126.864303 }; // 초기 키워드  좌표
+  const DEFAULT_KEYWORD = '전라남도 순천시'; // 초기 키워드
+  const DEFAULT_COORDS = { latitude: 34.9506, longitude: 127.501 }; // 초기 키워드  좌표
 
   // 초기 마운트 시 mainKeyword 설정
   useEffect(() => {

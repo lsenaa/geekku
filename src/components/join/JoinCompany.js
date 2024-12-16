@@ -228,11 +228,11 @@ const JoinCompany = () => {
     }
 
     //비밀번호 검사
-    // const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    // if (!passwordRegex.test(user.password)) {
-    //   alert('영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.');
-    //   return;
-    // }
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(user.password)) {
+      alert('영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.');
+      return;
+    }
     if (user.password !== user.confirmPassword) {
       messageApi.open({
         type: 'warning',

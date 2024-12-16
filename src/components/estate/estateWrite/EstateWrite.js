@@ -7,13 +7,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MdCancel } from 'react-icons/md';
 import DaumPostcode from 'react-daum-postcode';
 import { axiosInToken } from 'lib/axios';
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { tokenAtom } from 'store/atoms';
+import { updateToken } from 'utils/updateToken';
 
 const EstateWrite = () => {
   const navigate = useNavigate();
   const imgRef = useRef();
-  const token = useAtomValue(tokenAtom);
+  const [token, setToken] = useAtom(tokenAtom);
   const [textCount, setTextCount] = useState(0);
   const [imgList, setImgList] = useState([]);
   const [isAddressOpen, setIsAddressOpen] = useState(false);
@@ -52,7 +53,7 @@ const EstateWrite = () => {
       ...estate,
       address: data.address,
       addressDetail: data.buildingName,
-      jibunAddress: `${data.sido} ${data.sigungu} ${data.hname}`,
+      jibunAddress: `${data.jibunAddress ? data.jibunAddress : data.autoJibunAddress}`,
     });
     onToggleAddress();
   };
@@ -335,7 +336,7 @@ const EstateWrite = () => {
     axiosInToken(token)
       .post(`/company/estateWrite`, formData)
       .then((res) => {
-        //console.log(res);
+        updateToken(res.headers.authorization, setToken);
         Modal.success({
           content: '매물 등록이 완료되었습니다.',
         });
