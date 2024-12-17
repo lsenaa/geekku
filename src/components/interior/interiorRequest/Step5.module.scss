@@ -1,0 +1,131 @@
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+
+  button {
+    font-weight: bold;
+    width: 105px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+  }
+  #nextBtn {
+    background-color: #c6d695;
+  }
+}
+.deco {
+  background-color: white;
+  width: 600px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  padding: 80px;
+  box-shadow: 4px 4px 4px 0 #757575;
+}
+.question {
+  font-size: 24px;
+  font-weight: bold;
+}
+.choice {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  color: #6b6969;
+}
+.input1 {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #6d885d;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
+}
+.input2 {
+  width: 20%;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-right: 10px;
+  text-align: center;
+  border: 1px solid #6d885d;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
+}
+.input3 {
+  width: 80%;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #6d885d;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
+}
+.phone {
+  margin-bottom: 40px;
+  display: flex;
+}
+.callback {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6b6969;
+  margin-bottom: 10px;
+}
+.callbackPick {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  padding: 6px;
+  font-size: 16px;
+  margin-bottom: 40px;
+  border: 1px solid #6d885d;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
+}
+.content {
+  width: 100%;
+  height: 227px;
+  border-radius: 10px;
+  resize: none;
+  padding: 10px;
+  margin-bottom: 40px;
+  border: 1px solid #6d885d;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
+}
+.procedure {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.procedure1 {
+  font-size: 17px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 14px;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}

@@ -1,0 +1,267 @@
+@import 'variables.scss';
+
+.regDesign {
+  @include formContainer;
+
+  li {
+    margin-bottom: 30px;
+  }
+
+  span {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+.topText {
+  font-weight: normal;
+  font-size: 40px;
+  font-family: 'Santokki';
+  text-align: center;
+}
+.midText {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+.title {
+  @include flexrow;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 40px;
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: bold;
+    span {
+      color: red;
+    }
+  }
+}
+
+.line {
+  background: $main-color;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+.formEdit {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+  label {
+    width: 140px;
+    font-weight: bold;
+    span {
+      color: red;
+    }
+  }
+}
+
+.inputTextWrap {
+  @include flexrow;
+  position: relative;
+
+  p {
+    position: absolute;
+    right: 10px;
+    font-size: 14px;
+  }
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  margin: 40px 0;
+  width: 100%;
+  height: 300px;
+  background-color: white;
+
+  span {
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: #777;
+  }
+}
+
+.imgCancelBtnWrap {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.cancelBtn {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 99;
+}
+
+.uploadImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.addBtn {
+  border: none;
+  background-color: #6d885d;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 20px auto;
+  width: 230px;
+  padding: 16px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.customSelect {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #6d885d;
+  width: 170px;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+  }
+}
+.checkboxGroup {
+  margin-right: 20px;
+  display: flex;
+
+  .customCheck {
+    accent-color: #6d885d;
+    padding: 20px;
+    width: 15px;
+    height: 15px;
+  }
+
+  label {
+    margin-right: 10px;
+    font-weight: normal;
+    width: initial;
+  }
+}
+
+.customLabel {
+  cursor: pointer;
+}
+
+.possiblePart {
+  .radioGroup {
+    margin-right: 20px;
+    font-weight: normal;
+    cursor: pointer;
+    width: initial;
+
+    input[type='radio'] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border: 1px solid $main-color;
+      border-radius: 50%;
+      outline: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    input[type='radio']:checked {
+      background-color: white;
+      border: 4px solid $main-color;
+      box-shadow: 0 0 0 1px $main-color;
+    }
+  }
+}
+
+.textSection {
+  span {
+    width: 100px;
+  }
+
+  .intro {
+    width: 860px;
+    height: 43px;
+    border: 1px solid #6d885d;
+    border-radius: 7px;
+    padding: 10px;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+}
+
+.textAreaWrap {
+  position: relative;
+  margin-bottom: 80px;
+
+  span {
+    width: 100px;
+  }
+
+  textarea {
+    border: 1px solid #6d885d;
+    border-radius: 10px;
+    width: 860px;
+    height: 200px;
+    padding: 16px;
+    resize: none;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(46, 139, 87, 0.5);
+    }
+  }
+  p {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    color: #757575;
+
+    .textCount {
+      font-weight: normal;
+    }
+  }
+}
+
+.btnWrap {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.submitBtn {
+  background-color: #6d885d;
+  color: white;
+  border-radius: 10px;
+  width: 130px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 0;
+  margin-right: 40px;
+}

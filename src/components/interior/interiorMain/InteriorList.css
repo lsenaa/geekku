@@ -1,0 +1,66 @@
+.card {
+  border: 1.5px solid #6d885d;
+  border-radius: 10px;
+}
+.interiorAll {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wrap-title {
+  padding: 20px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+#possible {
+  color: #757575;
+  margin-top: 8px;
+}
+#loc {
+  width: 53px;
+  height: 28px;
+  background-color: #6d885d;
+  pointer-events: none;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  margin-left: 18px;
+}
+#companyTop {
+  font-family: 'Santokki';
+  color: #6d885d;
+  font-size: 36px;
+  margin-top: 100px;
+  margin-left: 20px;
+  margin-bottom: 30px;
+}
+#more {
+  color: #6d885d;
+  margin-left: 1055px;
+  font-weight: bold;
+}
+.nameWidth {
+  width: 130px;
+  height: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+.mainNameWidth {
+  width: 120px;
+  height: 17px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}

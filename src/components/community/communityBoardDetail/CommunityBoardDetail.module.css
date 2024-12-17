@@ -1,0 +1,324 @@
+.postDetailContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 65px 0px;
+}
+
+.postImageContainer {
+  width: 100%;
+  max-width: 1920px;
+  height: 500px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.postImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.headerTitle {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0 75px;
+  line-height: 1.2;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.userSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 65px 40px 85px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.profileImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.username {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.editButton {
+  width: 130px;
+  height: 45px;
+  background-color: #6d885d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.detailsCard {
+  padding: 40px 40px;
+  border-radius: 10px;
+  border: 1px solid #1c1f1a;
+  margin: 0 75px 70px 75px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detailContent {
+  text-align: center;
+}
+
+.detailContent:last-of-type {
+  margin-bottom: 0;
+}
+
+.detailsIcons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.line {
+  margin: 30px 0;
+}
+
+.iconItem {
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.postContent {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  padding: 0 75px 50px 75px;
+}
+
+.commentsSection {
+  margin-top: 40px;
+  padding: 0 75px;
+  background-color: #fefaf4;
+  border-radius: 10px;
+}
+
+.comment {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #6d885d;
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+
+.commentHeader {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.commentUsername {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.commentDate {
+  font-size: 16px;
+  color: #888;
+  margin-left: 20px;
+}
+
+.commentContent {
+  min-height: 20px;
+  flex-grow: 1;
+  margin-top: 10px;
+  margin-left: 40px;
+}
+
+.commentInput {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.textArea {
+  width: 100%;
+  height: 150px;
+  flex-grow: 1;
+  resize: none;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.submitButton {
+  background-color: #c6d695;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
+}
+
+.submitButton:hover {
+  background-color: #a3b874;
+}
+
+.textArea::placeholder {
+  color: #888;
+}
+
+.commentOutput {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #fefaf4;
+  border-radius: 10px;
+}
+
+.bookmarkButton,
+.bookmarkedButton {
+  width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #888;
+  transition:
+    background-color 0.3s,
+    transform 0.1s;
+}
+
+.bookmarkedButton {
+  color: #6d885d;
+}
+
+/* 호버효과 */
+.bookmarkButton:hover .bookmarkIcon {
+  background-color: #ececec;
+}
+/* 호버효과 */
+.bookmarkedButton:hover .bookmarkIcon {
+  background-color: #c6d695;
+}
+
+.bookmarkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f4f4f4;
+}
+
+.bookmarkedButton .bookmarkIcon {
+  background-color: #d7e8c7;
+}
+
+.bookmarkIcon img {
+  width: 50px;
+  height: 50px;
+}
+
+.bookmarkText {
+  color: #888;
+}
+
+.bookmarkedButton .bookmarkText {
+  color: #6d885d;
+}
+
+.commentHeader {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.deleteButton {
+  margin-left: auto;
+  background-color: #cccccc;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+  font-size: 16px;
+}
+
+.deleteButton:hover {
+  background-color: #aaaaaa;
+}
+
+.deleteButton:active {
+  transform: scale(0.9);
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop {
+  animation: popIn 0.3s ease-in-out;
+}
+
+.toListBtn {
+  text-align: center;
+}

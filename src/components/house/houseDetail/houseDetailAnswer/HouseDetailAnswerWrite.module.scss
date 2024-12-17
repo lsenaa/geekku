@@ -1,0 +1,85 @@
+@import '../../../../variables.scss';
+
+.modalContainer {
+  padding: 40px;
+}
+
+.profile {
+  @include flexrow;
+  margin-bottom: 16px;
+
+  .profileImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  p {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  .createdAt {
+    font-weight: normal;
+    color: #757575;
+    margin: 0 20px;
+  }
+
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 4px 12px;
+    color: #757575;
+  }
+}
+
+.phoneAddWrap {
+  .phone,
+  .address {
+    @include flexrow;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 14px;
+
+    &:first-child {
+      width: 60px;
+    }
+    &:last-of-type {
+      font-weight: normal;
+      color: #757575;
+    }
+  }
+}
+
+.answerTitle {
+  padding: 8px 25px;
+  width: 100%;
+  border: 1px solid #dadde6;
+  margin: 20px 0;
+  &:focus {
+    outline: none;
+  }
+}
+
+.editorContent {
+  margin-bottom: 40px;
+}
+
+.btnWrap {
+  @include flexrow;
+  justify-content: center;
+
+  button {
+    &:first-child {
+      margin-right: 40px;
+    }
+  }
+}

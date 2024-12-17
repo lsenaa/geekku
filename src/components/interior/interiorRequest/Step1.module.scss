@@ -1,0 +1,68 @@
+.deco {
+  background-color: white;
+  width: 600px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  padding: 80px;
+  box-shadow: 4px 4px 4px 0 #757575;
+}
+.question {
+  font-size: 24px;
+  font-weight: bold;
+}
+.choice {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 50px;
+}
+.scheduleForm {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  label {
+    font-size: 16px;
+    margin-top: 40px;
+    cursor: pointer;
+  }
+  input {
+    margin-right: 20px;
+    accent-color: #6d885d;
+  }
+}
+
+.info {
+  background-color: #f0f6dc;
+  border-radius: 5px;
+  padding: 25px;
+  margin-top: 40px;
+
+  div {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+
+  button {
+    font-weight: bold;
+    width: 105px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+  }
+  #nextBtn {
+    background-color: #c6d695;
+  }
+}

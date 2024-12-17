@@ -1,0 +1,46 @@
+@import 'variables.scss';
+
+.profile {
+  @include border;
+  width: calc((1200px - 40px) * 0.25);
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  text-align: center;
+
+  .nameWrap {
+    @include flexrow;
+    justify-content: space-between;
+
+    p {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    img {
+      cursor: pointer;
+    }
+  }
+
+  .line {
+    height: 1px;
+    color: $main-color;
+  }
+
+  .profileDetail {
+    margin: 20px 0;
+
+    p {
+      position: relative;
+      padding: 0 38px;
+      margin-bottom: 30px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        display: block;
+        border-bottom: 1px solid $main-color;
+        width: 70%;
+      }
+    }
+  }
+}

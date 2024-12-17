@@ -1,0 +1,226 @@
+@import '../../variables.scss';
+
+.container {
+  background-color: $body-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner {
+  width: 100%;
+  height: 617px;
+  background-image: url(../../assets/images/mainBanner.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-family: $sub-font;
+    font-size: 64px;
+    color: white;
+  }
+}
+
+.searchWrapper {
+  width: 500px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  position: relative;
+
+  input {
+    border: none;
+    outline: none;
+    margin-left: 16px;
+    font-family: $sub-font;
+    width: 100%;
+    padding: 16px 0;
+    color: #555555;
+  }
+}
+
+.searchList {
+  z-index: 99;
+  min-height: 40px;
+  max-height: 220px;
+  width: 500px;
+  background-color: white;
+  border-width: 0px 1px 1px;
+  border: 1px solid white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 4px 0px;
+  overflow-y: auto;
+  position: absolute;
+  border-radius: 20px;
+  top: 60px;
+  right: 0;
+  padding: 8px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #9da996;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  li {
+    @include flexrow;
+    height: 40px;
+    padding-right: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #f6f6f6;
+    }
+
+    p {
+      margin-left: 8px;
+    }
+  }
+}
+
+.estateWrapper {
+  margin: 80px 0;
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-family: $sub-font;
+    font-size: 32px;
+    color: $main-color;
+    text-align: center;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+
+    li {
+      border: 1px solid $main-color;
+      border-radius: 10px;
+      width: calc(1151px / 3);
+      overflow: hidden;
+      margin-right: 24px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      .price {
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.more {
+  margin: 20px 0;
+
+  a {
+    color: $main-color;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.imgWrapper {
+  width: 100%;
+  height: 200px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.textWrapper {
+  padding: 16px;
+}
+
+.type {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.locSizeWrapper {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+
+  p {
+    &:first-child {
+      padding-right: 8px;
+      border-right: 1px solid $main-color;
+    }
+
+    &:nth-child(2) {
+      margin-left: 8px;
+    }
+  }
+}
+
+.estateTitle {
+  @include ellipse;
+  line-height: 1.2;
+}
+
+.communityTitle {
+  font-weight: bold;
+  font-size: 16px;
+  @include ellipse;
+  margin-bottom: 8px;
+}
+
+.profileViewWrap {
+  @include flexrow;
+  justify-content: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+
+  .profileImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  p {
+    margin-left: 8px;
+  }
+}
+
+.viewCount {
+  color: #555555;
+}

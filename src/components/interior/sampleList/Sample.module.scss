@@ -1,0 +1,37 @@
+.title {
+  font-family: 'Santokki';
+  font-size: 36px;
+  color: #6d885d;
+  margin-top: 100px;
+}
+.midBar {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+.all {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 269px);
+}
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px 20px;
+  margin-bottom: 50px;
+}
+#regBtn {
+  width: 130px;
+  height: 44px;
+  font-weight: bold;
+  border-radius: 10px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  background-color: #6d885d;
+}

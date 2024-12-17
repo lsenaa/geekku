@@ -1,0 +1,92 @@
+@import 'variables.scss';
+
+.contentWrap {
+  width: 100%;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.nameInfo {
+  display: flex;
+
+  span {
+    margin-top: -3px;
+    margin-bottom: 3px;
+  }
+}
+#name {
+  font-size: 16px;
+  margin: 0 10px;
+}
+.upDate {
+  color: #abaaaa;
+  margin-left: 20px;
+}
+.line {
+  background: #6d885d;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+.all {
+  width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  li {
+    display: flex;
+    margin-bottom: 40px;
+  }
+
+  button {
+    width: 130px;
+    height: 44px;
+    border-radius: 10px;
+    color: white;
+    background-color: #6d885d;
+    border: none;
+    font-weight: bold;
+    margin-bottom: 100px;
+  }
+}
+.title {
+  font-size: 40px;
+  font-family: 'Santokki';
+  margin-bottom: 90px;
+  margin-top: 80px;
+}
+.semiTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.category {
+  font-weight: bold;
+  width: 140px;
+}
+.contentDeco {
+  display: flex;
+  margin-bottom: 80px;
+}
+.sectionWrap {
+  margin-top: 40px;
+}
+
+.profileImage {
+  @include profileImg;
+}
+
+.content {
+  width: 950px;
+  height: 200px;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #6d885d;
+  outline: none;
+}

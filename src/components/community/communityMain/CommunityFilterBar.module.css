@@ -1,0 +1,251 @@
+/* 필터 컨테이너 설정 */
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fffaf4;
+}
+
+/* 헤더 영역 */
+.filterHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* 제목 스타일 */
+.boardTitle {
+  font-size: 36px;
+  color: #6d885d;
+  /* margin-top: 10px; */
+  margin-right: 20px;
+  font-family: 'Santokki';
+}
+
+/* 총 개수 스타일 */
+.totalCount {
+  font-size: 16px;
+  color: #6d885d;
+}
+
+/* 필터 버튼 바 */
+.filterBar {
+  display: flex;
+  gap: 10px;
+  padding: 100px 0 50px 0; /* 50이었음 */
+  background-color: #fffaf4;
+}
+
+/* 필터 버튼 스타일 */
+.filterButton {
+  height: 45px;
+  width: 127px;
+  padding: 0px 12px;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6d885d;
+  /* margin-top: 8px; */
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    border-radius 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: #c6d695;
+  color: white;
+  border-color: #c6d695;
+  border-width: 1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+/* 드롭다운 */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #c6d695;
+  padding: 10px;
+  z-index: 10;
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* max-height: 0; */
+  overflow: hidden;
+  border-radius: 25px;
+  transition:
+    transform 0.3s ease-in-out,
+    max-height 0.3s ease-in-out;
+}
+
+.dropdown div {
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
+}
+
+.dropdown div:hover {
+  background-color: #a2b88f;
+  transform: scale(1.05);
+}
+
+.dropdown div:active {
+  transform: scale(0.95);
+  background-color: #8da07a;
+}
+
+.filterButtonWrapper:hover .dropdown {
+  max-height: 500px;
+  border-radius: 0 0 25px 25px;
+  transition: border-radius 0.3s ease-in-out;
+}
+
+.filterButtonWrapper:hover .dropdown:hover {
+  border-radius: 25px;
+  transition: border-radius 0.3s ease-in-out;
+}
+
+.filterButtonWrapper {
+  position: relative;
+}
+
+/* 등록 버튼 스타일 */
+.registerButton {
+  padding: 10px 20px;
+  background-color: #6d885d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: auto;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+/* .registerButton:hover {
+  background-color: #5a734c;
+  transform: scale(1.025);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+} */
+
+.registerButton:active {
+  transform: scale(0.9);
+  background-color: #4e5d3e;
+}
+
+/* 필터 태그 */
+.filterTag {
+  background: #c6d695;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  animation: popIn 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.filterTag.fade-out {
+  opacity: 0; /* 즉시 투명하게 */
+  transition: opacity 0.1s ease-in-out; /* 딜레이를 0.1초로 축소 */
+}
+
+/* 필터 제거 버튼 */
+.filterRemoveButton {
+  background: none;
+  border: none;
+  color: #6d885d;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 초기화 버튼 */
+.resetButton {
+  background: #6d885d;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop {
+  animation: popIn 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: #a2b88f;
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: #c6d695;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #c6d695;
+  }
+}
+
+.update {
+  animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes fadeOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+.remove {
+  animation: fadeOut 0.3s ease-in-out;
+}
+
+.banner {
+  margin-bottom: 20px;
+}
+
+.bannerImage {
+  height: auto;
+  width: 1920px;
+  max-width: none;
+}

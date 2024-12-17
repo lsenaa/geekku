@@ -1,0 +1,19 @@
+#filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 992px;
+  height: 336px;
+}
+#sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Santokki';
+  cursor: pointer;
+}
+.filterA {
+  display: flex;
+  justify-content: center;
+}

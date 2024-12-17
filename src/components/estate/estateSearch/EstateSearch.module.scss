@@ -1,0 +1,133 @@
+@import '../../../variables.scss';
+
+.container {
+  height: auto;
+  min-height: calc(100vh - 269px);
+  display: flex;
+  flex-direction: column;
+}
+
+.topWrapper {
+  @include flexrow;
+  margin: 30px 0;
+  padding-left: 35px;
+}
+
+.typeSelect {
+  @include flexrow;
+
+  li {
+    margin-right: 24px;
+    font-family: $sub-font;
+    color: #a6a6a6;
+    cursor: pointer;
+    position: relative;
+
+    &:after {
+      display: block;
+      content: '';
+      width: 100%;
+      transform: scaleX(0);
+      transition: transform 250ms ease-in-out;
+    }
+    &:hover {
+      color: $main-color;
+      &:after {
+        content: '';
+        width: 100%;
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        border-top: 2px solid $main-color;
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .selected {
+    color: $main-color;
+
+    &:after {
+      content: '';
+      width: 100%;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      border-top: 2px solid $main-color;
+      transform: scaleX(1);
+    }
+  }
+}
+
+.searchWrapper {
+  @include flexrow;
+  position: relative;
+
+  input {
+    @include border;
+    outline: none;
+    padding: 8px 16px;
+  }
+  button {
+    background-color: $main-color;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 8px;
+    margin-left: 8px;
+  }
+
+  .searchList {
+    z-index: 99;
+    min-height: 40px;
+    max-height: 220px;
+    width: 268px;
+    background-color: white;
+    border-width: 0px 1px 1px;
+    border: 1px solid white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 4px 0px;
+    overflow-y: auto;
+    position: absolute;
+    border-radius: 20px;
+    top: 45px;
+    padding: 8px;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #9da996;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+
+    li {
+      @include flexrow;
+      height: 40px;
+      padding-right: 10px;
+      padding-left: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: #f6f6f6;
+      }
+
+      p {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.bodyWrapper {
+  @include flexrow;
+
+  .noEstate {
+    width: 40%;
+    text-align: center;
+  }
+}

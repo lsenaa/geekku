@@ -1,0 +1,105 @@
+@import '../../../../variables.scss';
+
+.container {
+  margin-top: 40px;
+
+  .topWrap {
+    @include flexrow;
+    justify-content: space-between;
+  }
+
+  .iconTextWrap {
+    @include flexrow;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 8px;
+  }
+}
+
+.answerList {
+  &:last-child {
+    hr {
+      height: 0;
+    }
+  }
+}
+
+.line {
+  background: $main-color;
+  height: 1px;
+  border: 0;
+  margin: 20px 0;
+}
+
+.preview {
+  @include flexrow;
+  justify-content: space-between;
+  cursor: pointer;
+
+  .profile {
+    @include flexrow;
+    width: 25%;
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .profileImg {
+    @include profileImg;
+  }
+
+  .profileDateWrap {
+    margin: 0 10px;
+  }
+
+  .createdAt {
+    font-weight: normal;
+    color: #757575;
+    margin-top: 8px;
+    font-size: 14px;
+    width: 100px;
+  }
+
+  .deleteBtn {
+    border: none;
+    border-radius: 10px;
+    padding: 4px 12px;
+    width: 60px;
+    color: #757575;
+  }
+}
+
+.phoneAddWrap {
+  margin-top: 10px;
+  .phone,
+  .address {
+    @include flexrow;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 14px;
+
+    &:first-child {
+      width: 60px;
+    }
+    &:last-of-type {
+      font-weight: normal;
+      color: #757575;
+    }
+  }
+}
+
+.title {
+  margin: 16px 0;
+  width: 65%;
+}
+
+.editorContent {
+  margin-top: 16px;
+}

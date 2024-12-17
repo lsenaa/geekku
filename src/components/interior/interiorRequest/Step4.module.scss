@@ -1,0 +1,46 @@
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+
+  button {
+    font-weight: bold;
+    width: 105px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+  }
+  #nextBtn {
+    background-color: #c6d695;
+  }
+}
+.deco {
+  background-color: white;
+  width: 600px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  padding: 80px;
+  box-shadow: 4px 4px 4px 0 #757575;
+}
+.question {
+  font-size: 24px;
+  font-weight: bold;
+}
+.sizeForm {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  label {
+    font-size: 16px;
+    margin-top: 40px;
+    cursor: pointer;
+  }
+
+  input {
+    margin-right: 20px;
+    accent-color: #6d885d;
+  }
+}

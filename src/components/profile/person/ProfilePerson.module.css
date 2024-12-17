@@ -1,0 +1,128 @@
+/* PersonProfilePage.module.css */
+
+.profilePage {
+  width: 1200px;
+  margin: 100px auto;
+  display: flex;
+  gap: 40px;
+  padding: 40px 0;
+  background-color: #fffaf4;
+  padding-bottom: 150px; /* 임시용 */
+}
+
+.userInfoCard {
+  width: 283px;
+  height: 336px;
+  background-color: #fffaf4;
+  border: 1px solid #6d885d;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.profileImage {
+  width: 117px;
+  height: 117px;
+  border-radius: 50%;
+  background-color: #6d885d;
+  margin: 0 auto 15px;
+}
+
+.username {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.5;
+}
+
+.userId,
+.userEmail {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.separator {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #6d885d;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6d885d;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.houseListContainer {
+  flex-grow: 1;
+  width: calc((1200px - 40px) * 0.8);
+}
+
+.houseListHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.houseListTitle {
+  font-size: 24px;
+  color: #6d885d;
+  font-family: 'Santokki';
+}
+
+.houseListViewAll {
+  color: #6d885d;
+  text-align: right;
+}
+
+/* profile 카드 */
+.profile {
+  width: calc((1200px - 40px) * 0.2);
+  border: 1px solid #6d885d;
+  border-radius: 10px;
+  padding: 20px 20px;
+  text-align: center;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.6);
+  max-height: 300px;
+}
+
+.profile h4 {
+  color: #6d885d;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 16px;
+}
+
+.profile p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.profile hr {
+  height: 1px;
+  background-color: #6d885d;
+  margin: 20px;
+}
+
+.sidebar li {
+  margin-bottom: 20px;
+}
+
+.sidebar:last-of-type {
+  margin-bottom: 0;
+}
+
+.sidebar a {
+  color: #757575;
+}
+
+.active {
+  a {
+    color: #6d885d;
+    font-weight: bold;
+  }
+}
