@@ -7,7 +7,7 @@ const InteriorMain = () => {
   return (
     <div
       style={{
-        minHeight: 'calc(100vh - 200px)',
+        minHeight: 'calc(100vh - 269px)',
       }}
     >
       <InteriorBar />

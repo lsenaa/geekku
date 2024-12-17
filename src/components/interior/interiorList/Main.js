@@ -7,7 +7,12 @@ const CompanyMain = () => {
 
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      style={{
+        minHeight: 'calc(100vh - 269px)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
       <LocFilter loc={loc} setLoc={setLoc} />
       <List loc={loc} setLoc={setLoc} />

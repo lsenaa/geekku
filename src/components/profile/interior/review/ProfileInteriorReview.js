@@ -135,21 +135,12 @@ const ProfileInteriorReview = () => {
               {review.location && <li>{review.location}</li>}
             </ul>
             <div className={styles.reviewImgsWrap}>
-              <div className={styles.imgWrap}>
-                {review.imageNums.length !== 0 &&
-                  review.imageNums.split(',').map((fn) => (
-                    <img
-                      key={fn}
-                      src={`${url}/reviewImage/${fn}`}
-                      alt="리뷰 이미지"
-                      style={{
-                        width: '124px',
-                        height: '124px',
-                        marginRight: '20px',
-                      }}
-                    />
-                  ))}
-              </div>
+              {review.imageNums.length !== 0 &&
+                review.imageNums.split(',').map((fn) => (
+                  <div className={styles.imgWrap} key={fn}>
+                    <img src={`${url}/reviewImage/${fn}`} alt="리뷰 이미지" />
+                  </div>
+                ))}
             </div>
             <p>{review.content}</p>
           </li>

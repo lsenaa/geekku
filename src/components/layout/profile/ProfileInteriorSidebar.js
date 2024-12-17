@@ -39,9 +39,11 @@ const ProfileInteriorSidebar = ({
         <p>사용자 리뷰 {detailInfo.reviewCount}건</p>
         <p>{detailInfo.interiorDetail.intro}</p>
       </div>
-      <Button01 size="x-small" onClick={handleClick}>
-        문의하기
-      </Button01>
+      {user.type === 'user' && (
+        <Button01 size="x-small" onClick={handleClick}>
+          문의하기
+        </Button01>
+      )}
     </div>
   );
 };

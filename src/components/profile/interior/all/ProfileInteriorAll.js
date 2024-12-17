@@ -21,21 +21,24 @@ const ProfileInteriorAll = () => {
           </Link>
         </div>
         <ul className={styles.sampleWrap}>
-          {detailInfo.sampleDetail.map((sample, i) => (
-            <li key={i}>
-              <Link to={`/sampleDetail/${sample.sampleNum}`}>
-                <div className={styles.sampleImgWrap}>
-                  <img
-                    src={`${url}/sampleImage/${sample.coverImage}`}
-                    alt="시공사례 이미지"
-                  />
-                </div>
-                <div className={styles.textWrap}>
-                  <p>{sample.title}</p>
-                </div>
-              </Link>
-            </li>
-          ))}
+          {detailInfo.sampleDetail
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, 3)
+            .map((sample, i) => (
+              <li key={i}>
+                <Link to={`/sampleDetail/${sample.sampleNum}`}>
+                  <div className={styles.sampleImgWrap}>
+                    <img
+                      src={`${url}/sampleImage/${sample.coverImage}`}
+                      alt="시공사례 이미지"
+                    />
+                  </div>
+                  <div className={styles.textWrap}>
+                    <p>{sample.title}</p>
+                  </div>
+                </Link>
+              </li>
+            ))}
         </ul>
       </section>
       <section className={styles.section}>
@@ -54,10 +57,10 @@ const ProfileInteriorAll = () => {
             .slice(0, 2)
             .map((review, i) => (
               <li key={i}>
-                <Link to={'/'}>
+                <Link to={`/profile/interior/${num}/review`}>
                   <div className={styles.reviewImgWrap}>
                     <img
-                      src={`${url}/reviewImage/${review.imageNums[0]}`}
+                      src={`${url}/reviewImage/${review.imageNums.split(',')[0]}`}
                       alt="리뷰 이미지"
                     />
                   </div>

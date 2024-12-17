@@ -107,7 +107,7 @@ const HouseDetail = () => {
                 monthlyPrice: house.monthlyPrice,
                 depositPrice: house.depositPrice,
                 buyPrice: house.buyPrice,
-              }) + ' 만원'}
+              })}
             </p>
           </div>
         </div>

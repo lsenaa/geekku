@@ -6,10 +6,8 @@ $sub-font: 'Santokki';
 @mixin container {
   width: 1200px;
   margin: 0 auto;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 269px);
   padding: 100px 0;
-  // padding-left: 50px;
-  // padding-right: 50px;
 
   h2 {
     font-size: 40px;
@@ -21,7 +19,7 @@ $sub-font: 'Santokki';
 @mixin formContainer {
   width: 1000px;
   margin: 0 auto;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 269px);
   padding: 100px 0;
 
   h2 {
